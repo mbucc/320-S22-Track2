@@ -1,3 +1,5 @@
+/* This is a module CSS, which will be used on one single module rather than everything. */
+
 .container {
   padding: 0 2rem;
 }

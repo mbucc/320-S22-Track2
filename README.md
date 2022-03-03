@@ -6,11 +6,13 @@
 
 # Indigo Sample Code Base
 
+**IMPORTANT: This branch is for sample only and will never merge into main.**
+
+**IMPORTANT: Front-end code base should be located in a sub-directory under the root directory. This is just a sample code base for front-end so we do not make separate folder for that.**
+
+**NOTE:** This is a sample code base! It is NOT intended to be used in production. We are going to create a production code base soon. So please do not make any real progress in this code base because it may be deleted in the future.
+
 This is a sample code base powered by [Next.js](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [Material UI](https://mui.com/), and [Eslint](https://eslint.org).
-
-**IMPORTANT:** This is a sample code base! It is NOT intended to be used in production. We are going to create a production code base soon. So please do not make any real progress in this code base because it may be deleted in the future.
-
-**This branch is for sample only and will never merge into main.**
 
 Here are some instructions for you to install it locally, test it, and play with it.
 

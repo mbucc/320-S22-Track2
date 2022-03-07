@@ -6,7 +6,7 @@
 
 # Indigo Sample Code Base
 
-**IMPORTANT: This branch is for sample only and will never merge into main.**
+**IMPORTANT: This branch is for the front-end sample code base.**
 
 **IMPORTANT: Front-end code base should be located in a sub-directory under the root directory. This is just a sample code base for front-end so we do not make separate folder for that.**
 
@@ -15,10 +15,6 @@
 This is a sample code base powered by [Next.js](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [Material UI](https://mui.com/), and [Eslint](https://eslint.org).
 
 Here are some instructions for you to install it locally, test it, and play with it.
-
-## Attentions
-
-After investigation, I find out that the customization of MUI is not friendly to class-based styles. They can work together, but customizing MUI still requires classic CSS, which may confuse team members on using different ways to make styles in different places. Therefore, I believe that even though we may lose some great advantages, using pure MUI without Tailwind makes more sense if we want to stick with MUI.
 
 ## Prerequisites
 
@@ -77,8 +73,6 @@ To learn more about Next.js, take a look at the following resources:
 - [React Documentation](https://reactjs.org/docs/getting-started.html) - get familiar with React because `Next.js` is built upon React.
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [TailwindCSS Documentation](https://tailwindcss.com) - check the basic knowledge of TailwindCSS, and search the keyword when you want to make something (e.g. font, color, background, hover, dark mode, etc).
-- [Integrate TailwindCSS with MUI](https://mui.com/guides/interoperability/#tailwind-css) - learn how to integrate TailwindCSS with MUI.
 
 You do not need to read them all though. An efficient way is to check them when you need to.
 

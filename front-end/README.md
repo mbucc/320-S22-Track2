@@ -1,18 +1,8 @@
-<p align="center">
-<br/>
-<img src="https://imagedelivery.net/Dr98IMl5gQ9tPkFM5JRcng/3f122976-1740-4118-e824-001f99f55c00/public" width="320"/>
-<br/>
-</p>
+# Front-End Code Base
 
-# Indigo Sample Code Base
+**IMPORTANT: This branch is for the front-end code base.**
 
-**IMPORTANT: This branch is for the front-end sample code base.**
-
-**IMPORTANT: Front-end code base should be located in a sub-directory under the root directory. This is just a sample code base for front-end so we do not make separate folder for that.**
-
-**NOTE:** This is a sample code base! It is NOT intended to be used in production. We are going to create a production code base soon. So please do not make any real progress in this code base because it may be deleted in the future.
-
-This is a sample code base powered by [Next.js](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [Material UI](https://mui.com/), and [Eslint](https://eslint.org).
+**IMPORTANT: For everyone working on the front-end in Track 2, you can use this code base and the instructions below to install on local machine**
 
 Here are some instructions for you to install it locally, test it, and play with it.
 

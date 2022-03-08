@@ -8,23 +8,38 @@ import {
     Chart,
     SplineSeries,
     Tooltip,
+    ArgumentScale,
 } from '@devexpress/dx-react-chart-material-ui';
 import { EventTracker, HoverState } from '@devexpress/dx-react-chart';
 
 const data = [
-    { time: 1, logs: 20 },
-    { time: 2, logs: 10 },
-    { time: 3, logs: 30 },
-    { time: 4, logs: 125 },
-    { time: 5, logs: 10 },
-    { time: 6, logs: 30 },
-    { time: 7, logs: 20 },
-    { time: 8, logs: 450 },
-    { time: 9, logs: 560 },
+    { time: '13:00', logs: 20 },
+    { time: '13:06', logs: 10 },
+    { time: '13:12', logs: 30 },
+    { time: '13:18', logs: 125 },
+    { time: '13:24', logs: 10 },
+    { time: '13:30', logs: 30 },
+    { time: '13:36', logs: 20 },
+    { time: '13:42', logs: 450 },
+    { time: '13:48', logs: 560 },
 ];
 
 export default function Timeline(props) {
     const [hover, changeHover] = useState(null);
+    const [tooltipTarget, changeTooltip] = useState(null);
+
+    // const TooltipContent = (props) => {
+    //     return (
+    //         <div>
+    //             <Tooltip.Content
+    //                 text={props.targetItem.logs}
+    //             />
+    //             <Tooltip.Content
+    //                 text={props.targetItem.time}
+    //             />
+    //         </div>
+    //     )
+    // }
 
     return (
         <Grid container direction='column'>
@@ -55,15 +70,16 @@ export default function Timeline(props) {
                         valueField='logs'
                         argumentField='time'
                     />
-                    <ArgumentAxis />
+                    <ArgumentAxis /> 
                     <EventTracker />
                     <HoverState
                         hover={hover}
                         onHoverChange={changeHover}
                     />
                     <Tooltip
-                        visible={hover}
-                        closeOnOutsideClick={false}
+                        targetItem={tooltipTarget}
+                        onTargetItemChange={changeTooltip}
+                        // contentComponent={TooltipContent}
                     >
                     </Tooltip>
                 </Chart>

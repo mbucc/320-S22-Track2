@@ -8,27 +8,25 @@ import Timeline from './Timeline'
 
 export default function Timelines() {
     return (
-        <div>
-            <Paper elevation={3}>
-                <Box p={1}>
-                    <Grid container direction='column' spacing={2}>
-                        <Grid item>
-                            <Typography variant='h5' gutterBottom component='div'>
-                                Timelines
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Timeline title='Total Logs' />
-                        </Grid>
-                        <Grid item>
-                            <Timeline title='Total Errors' />
-                        </Grid>
-                        <Grid item>
-                            <Timeline title='Total Warnings' />
-                        </Grid>
+        <Paper elevation={3}>
+            <Box p={5}>
+                <Grid container direction='column' spacing={2}>
+                    <Grid item>
+                        <Typography variant='h5' gutterBottom component='div'>
+                            Timelines
+                        </Typography>
                     </Grid>
-                </Box>
-            </Paper>
-        </div>
+                    <Grid item>
+                        <Timeline title='Total Logs' />
+                    </Grid>
+                    <Grid item>
+                        <Timeline title='Total Errors' />
+                    </Grid>
+                    <Grid item>
+                        <Timeline title='Total Warnings' />
+                    </Grid>
+                </Grid>
+            </Box>
+        </Paper>
     )
 }

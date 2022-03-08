@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Grid';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {
     ArgumentAxis,
@@ -29,23 +28,39 @@ export default function Timeline(props) {
 
     return (
         <Grid container direction='column'>
-            <Grid item>
-                <Typography variant='subtitel1' gutterBottom component='div'>
-                    {props.title}
-                </Typography>
-                <Typography variant='h5' gutterBottom component='div'>
-                    25000
-                </Typography>
+            <Grid
+                container
+                item
+                justifyContent="space-between"
+                alignItems="flex-start"
+            >
+                <Grid item>
+                    <Typography variant='subtitel1' gutterBottom component='div'>
+                        {props.title}
+                    </Typography>
+                    <Typography variant='h5' gutterBottom component='div'>
+                        25000
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <Button variant="text" onClick={() => console.log("open log events")}>See More</Button>
+                </Grid>
             </Grid>
             <Grid item>
                 <Chart
                     data={data}
                     height={100}
                 >
-                    <SplineSeries valueField='logs' argumentField='time' />
+                    <SplineSeries
+                        valueField='logs'
+                        argumentField='time'
+                    />
                     <ArgumentAxis />
                     <EventTracker />
-                    <HoverState hover={hover} onHoverChange={changeHover} />
+                    <HoverState
+                        hover={hover}
+                        onHoverChange={changeHover}
+                    />
                     <Tooltip
                         visible={hover}
                         closeOnOutsideClick={false}

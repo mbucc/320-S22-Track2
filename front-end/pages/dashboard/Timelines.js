@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 
 import Timeline from './Timeline'
 
-export default function Timelines() {
+export default function Timelines(props) {
     return (
         <Paper elevation={3}>
             <Box p={5}>
@@ -17,13 +17,13 @@ export default function Timelines() {
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Timeline title='Total Logs' />
+                        <Timeline title='Total Logs'/>
                     </Grid>
                     <Grid item>
-                        <Timeline title='Total Errors' />
+                        <Timeline title='Total Errors'/>
                     </Grid>
                     <Grid item>
-                        <Timeline title='Total Warnings' />
+                        <Timeline title='Total Warnings'/>
                     </Grid>
                 </Grid>
             </Box>

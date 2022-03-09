@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@devexpress/dx-react-chart": "^3.0.2",
+    "@devexpress/dx-react-chart-material-ui": "^3.0.2",
+    "@devexpress/dx-react-core": "^3.0.2",
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.4.4",

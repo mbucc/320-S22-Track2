@@ -4,11 +4,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {
     ArgumentAxis,
-    ValueAxis,
     Chart,
     SplineSeries,
     Tooltip,
-    ArgumentScale,
 } from '@devexpress/dx-react-chart-material-ui';
 import { EventTracker, HoverState } from '@devexpress/dx-react-chart';
 

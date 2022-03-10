@@ -9,18 +9,46 @@ const sampleEAIDomains = [
             name: 'Business Process 1001',
             activities: [
               {
+                id: '1',
+                severity: 'info',
+                sampleContent: 'An info activity',
+              },
+              {
+                id: '2',
+                severity: 'warning',
+                sampleContent: 'A warning activity',
+              },
+              {
+                id: '3',
+                severity: 'success',
+                sampleContent: 'A successful activity!',
+              },
+              {
+                id: '4',
+                severity: 'error',
+                sampleContent: 'An error activity!',
+              },
+            ],
+          },
+          {
+            name: 'Business Process 1002',
+            activities: [
+              {
+                id: '5',
                 severity: 'info',
                 sampleContent: 'Activity 1',
               },
             ],
           },
           {
-            name: 'Business Process 1002',
-            severity: 'success',
-          },
-          {
             name: 'Business Process 1003',
-            severity: 'warning',
+            activities: [
+              {
+                id: '6',
+                severity: 'info',
+                sampleContent: 'Activity 1',
+              },
+            ],
           },
         ],
       },

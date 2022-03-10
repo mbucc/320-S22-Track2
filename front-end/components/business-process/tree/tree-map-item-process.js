@@ -86,7 +86,7 @@ const BPTreeMapBusinessProcess = ({process, children}) => {
           paddingLeft: 20,
         }}
       >
-        {children ? children(process.children || []) : null}
+        {children ? children(process.activities || []) : null}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import BPTreeMapPublishingDomain from './tree-map-item-publishing';
 import BPTreeMapBusinessProcess from './tree-map-item-process';
 import {sampleEAIDomains} from '../../../utils/business-process/sample-data';
 import {BPTextButton} from '../common/button';
+import BPTreeMapActivityEntry from "./tree-map-item-activity";
 
 const BPTreeMapComponent = ({onChange}) => {
   return (
@@ -61,7 +62,11 @@ const BPTreeMapComponent = ({onChange}) => {
                 {(publishingDomains) => publishingDomains.map((pubDomain) => (
                   <BPTreeMapPublishingDomain domain={pubDomain} key={pubDomain.name}>
                     {(businessProcesses) => businessProcesses.map((process) => (
-                      <BPTreeMapBusinessProcess process={process} key={process.name}/>
+                      <BPTreeMapBusinessProcess process={process} key={process.name}>
+                        {(activities) => activities.map((activity) => (
+                          <BPTreeMapActivityEntry activity={activity} key={activity.id}/>
+                        ))}
+                      </BPTreeMapBusinessProcess>
                     ))}
                   </BPTreeMapPublishingDomain>
                 ))}

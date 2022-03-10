@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {Button, TextField} from '@mui/material';
 import BPTextInput from '../common/text-input';
-import {DateTimePicker, LocalizationProvider} from '@mui/lab';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 const BPActivityFilterComponent = ({onChange}) => {
   const [startDate, setStartDate] = useState(null);

@@ -1,7 +1,37 @@
 import React, {useState} from 'react';
 import Image from 'next/image';
 
-import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
+import {BPColors, BPDimens} from '../../../utils/business-process/standards';
+
+const BPActivitySeverity = {
+  info: '/business-process/icons/severity-icons-info.svg',
+  warning: '/business-process/icons/severity-icons-warning.svg',
+  error: '/business-process/icons/severity-icons-error.svg',
+  success: '/business-process/icons/severity-icons-success.svg',
+};
+
+const getColorBySeverity = (severity) => {
+  switch (severity) {
+    case 'success':
+      return '#22c55e';
+    case 'info':
+      return '#3b82f6';
+    case 'error':
+      return '#ef4444';
+    case 'warning':
+      return '#eab308';
+  }
+};
+
+const BPActivitySeverityIcon = ({severity}) => {
+  return (
+    <Image
+      width={18}
+      height={18}
+      src={BPActivitySeverity[severity]}
+    />
+  );
+};
 
 const BPTreeMapActivityEntry = ({activity, children}) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,17 +64,12 @@ const BPTreeMapActivityEntry = ({activity, children}) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
           marginLeft: 10,
           marginRight: 10,
+          color: '#888',
         }}
       >
-        <Image
-          src={'/business-process/icons/caret-right.svg'}
-          width={20}
-          height={20}
-          objectFit={'contain'}
-        />
+        <BPActivitySeverityIcon severity={activity.severity} />
       </div>
 
       {/* Content */}
@@ -61,9 +86,13 @@ const BPTreeMapActivityEntry = ({activity, children}) => {
         }}
       >
         <p
-          style={BPStandards.mapSubEntryTitle}
+          style={{
+            fontSize: 15,
+            fontWeight: '500',
+            color: getColorBySeverity(activity.severity),
+          }}
         >
-          {process.name}
+          {activity.sampleContent}
         </p>
       </div>
     </div>

@@ -1,10 +1,10 @@
-package cafebabe.backend.server;
+package com.clog.Clog;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApplicationTests {
+class ClogApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -8,11 +8,11 @@
 		<version>2.6.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>cafebabe</groupId>
-	<artifactId>backend.server</artifactId>
+	<groupId>com.clog</groupId>
+	<artifactId>Clog</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>backend.server</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Clog</name>
+	<description>CLOG Monitor BackEnd</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -27,8 +27,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>

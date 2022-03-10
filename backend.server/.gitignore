@@ -13,6 +13,9 @@ target/
 .springBeans
 .sts4-cache
 
+#Remove Application.properties
+application.properties
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

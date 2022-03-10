@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {Button, TextField} from '@mui/material';
-import {DateTimePicker, LocalizationProvider} from '@mui/lab';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import BPTextInput from '../common/text-input';
 
 const BPTreeFilterComponent = ({onChange}) => {

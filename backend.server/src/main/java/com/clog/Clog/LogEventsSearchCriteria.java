@@ -12,14 +12,14 @@ public class LogEventsSearchCriteria {
     private String process;
     private String[] categories;
     private String[] priorities;
-    private String severities;
+    private String[] severities;
 
     //TODO Make severities because they need a range
     
-    public String getSeverities() {
+    public String[] getSeverities() {
         return severities;
     }
-    public void setSeverities(String severities) {
+    public void setSeverities(String[] severities) {
         this.severities = severities;
     }
     public Timestamp getStartTime() {

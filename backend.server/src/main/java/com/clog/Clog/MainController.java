@@ -20,13 +20,13 @@ public class MainController {
     @Autowired
     private LogDetailRepository logRepo;
     @GetMapping(path="/logDetail")
-    public @ResponseBody List<LogDetail> getAllLogDetails(@RequestParam String id) {
-        return logRepo.findAll();
+    public @ResponseBody Optional<LogDetail> getAllLogDetails(@RequestParam String id) {
+        return logRepo.findById(id);
     }
     @GetMapping(path="/logEvents")
     public @ResponseBody List<LogDetail> getLogEvents(@RequestParam String businessDomain, @RequestParam String eaiDomain, @RequestParam String startTime,
     @RequestParam String endTime,@RequestParam String businessSubDomain,@RequestParam String process, @RequestParam String[] priorities, @RequestParam String[] categories,
-    @RequestParam String severities, @RequestParam String application) {
+    @RequestParam String[] severities, @RequestParam String application) {
         LogEventsSearchCriteria filt = new LogEventsSearchCriteria();
         filt.setBusinessDomain(businessDomain);
         filt.setEaiDomain(eaiDomain);

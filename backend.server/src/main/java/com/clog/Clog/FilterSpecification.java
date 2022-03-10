@@ -43,16 +43,50 @@ public class FilterSpecification implements Specification<LogDetail> {
         }
         if(!filter.getProcess().equals("All")) {
 
-            returnVal = cb.and(cb.equal(root.get("process_id"),filter.getProcess()),returnVal);
+            returnVal = cb.and(cb.equal(root.get("component"),filter.getProcess()),returnVal);
         }
         if(!filter.getEaiDomain().equals("All")) {
 
             returnVal = cb.and(cb.equal(root.get("eai_domain"),filter.getEaiDomain()),returnVal);
         }
-        returnVal = cb.and(cb.between(root.get("severity"), 10, 11),returnVal);
         //TODO Severity, Type, and Priority
-
+        Predicate sevPredicate = null;
+        SeverityMap getCrit = new SeverityMap();
+        for (String x : filter.getSeverities()) {
+            
+            int[] range = getCrit.getRange(x);
+            if(sevPredicate == null) {
+                sevPredicate = cb.between(root.get("severity"), range[0], range[1]);
+            }
+            else {
+                sevPredicate = cb.or(cb.between(root.get("severity"), range[0], range[1]), sevPredicate);
+            }
+        }
+        returnVal = cb.and(returnVal,sevPredicate);
+        Predicate categoryPredicate = null;
+        for (String x : filter.getCategories()) {
+            if (categoryPredicate == null) {
+                categoryPredicate = cb.equal(root.get("category_name"), x);
+            }
+            else {
+                categoryPredicate = cb.or(cb.equal(root.get("category_name"), x), categoryPredicate);
+            }
+        }
+        returnVal = cb.and(categoryPredicate, returnVal);
+        Predicate prioPredicate = null;
+        PriorityMap prioMap = new PriorityMap();
+        for (String x: filter.getPriorities()) {
+            if(prioPredicate == null) {
+                prioPredicate = cb.equal(root.get("priority"), prioMap.get(x));
+            }
+            else {
+                prioPredicate = cb.or(cb.equal(root.get("priority"), prioMap.get(x)),prioPredicate);
+            }
+            
+        }
+        returnVal = cb.and(prioPredicate, returnVal);
         return returnVal;
+        
     }
     
 }

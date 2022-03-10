@@ -16,8 +16,7 @@ export default function Domain(props) {
 
   return (
     <div style={dropdownStyle}>
-        <FormControl size="medium">
-            <InputLabel> EAI Domain </InputLabel>
+            <InputLabel > EAI Domain </InputLabel>
             <Select value={dropdownValue} onChange={handleOnChange} >
                 <MenuItem value={"All"}> {"All"}</MenuItem>
                {props.options.map((e, i)=>{
@@ -26,7 +25,6 @@ export default function Domain(props) {
                    )
                })}
             </Select>
-        </FormControl>
 
     </div>
   )

@@ -13,7 +13,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-public class FilterSpecification implements Specification<LogDetail> {
+public class FilterSpecification implements Specification<LogEvent> {
     private LogEventsSearchCriteria filter;
     public FilterSpecification(LogEventsSearchCriteria logeven) {
         super();
@@ -21,7 +21,7 @@ public class FilterSpecification implements Specification<LogDetail> {
         
     }
     @Override
-    public Predicate toPredicate(Root<LogDetail> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+    public Predicate toPredicate(Root<LogEvent> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
         // TODO Auto-generated method stub
         //Begin with range of dates possible
         System.out.println(root.get("creation_time").toString());

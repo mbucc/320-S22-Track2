@@ -19,12 +19,14 @@ import ch.qos.logback.core.filter.Filter;
 public class MainController {
     @Autowired
     private LogDetailRepository logRepo;
+    @Autowired
+    private LogEventRepository logEventRepo;
     @GetMapping(path="/logDetail")
     public @ResponseBody Optional<LogDetail> getAllLogDetails(@RequestParam String id) {
         return logRepo.findById(id);
     }
     @GetMapping(path="/logEvents")
-    public @ResponseBody List<LogDetail> getLogEvents(@RequestParam String businessDomain, @RequestParam String eaiDomain, @RequestParam String startTime,
+    public @ResponseBody List<LogEvent> getLogEvents(@RequestParam String businessDomain, @RequestParam String eaiDomain, @RequestParam String startTime,
     @RequestParam String endTime,@RequestParam String businessSubDomain,@RequestParam String process, @RequestParam String[] priorities, @RequestParam String[] categories,
     @RequestParam String[] severities, @RequestParam String application) {
         LogEventsSearchCriteria filt = new LogEventsSearchCriteria();
@@ -39,7 +41,7 @@ public class MainController {
         filt.setSeverities(severities);
         filt.setApplication(application);
         FilterSpecification test = new FilterSpecification(filt);
-        return logRepo.findAll(test);
+        return logEventRepo.findAll(test);
         //return businessDomain + eaiDomain + " " + startTime + endTime +" " + businessSubDomain + " " + process;
     }
 }

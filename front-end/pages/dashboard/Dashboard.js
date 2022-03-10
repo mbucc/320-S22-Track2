@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import DonutCharts from './donutchart'
 
 export default function Dashboard(props) {
-    
+
     return (
         <Box mx={10} my={5}>
             <Grid container direction="column">
@@ -15,12 +15,14 @@ export default function Dashboard(props) {
                 <Grid item>
                     {/* counts */}
                 </Grid>
-                <Grid container item direction="row" spacing={20}>
+                <Grid container item direction="row" spacing={5}>
                     <Grid item xs={7}>
                         <DonutCharts />
                     </Grid>
                     <Grid item xs={5}>
-                        <Timelines/>
+                        <Box>
+                            <Timelines />
+                        </Box>
                     </Grid>
                 </Grid>
             </Grid>

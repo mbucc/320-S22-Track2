@@ -1,5 +1,8 @@
 package com.clog.Clog;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +28,7 @@ public class LogDetail {
     private String component;
     private String severity;
     private String priority;
-    private String creation_time;
+    private Timestamp creation_time;
     private String reasoning_scope;
     private String process_id;
     private String category_name;
@@ -109,10 +112,10 @@ public class LogDetail {
     public void setPriority(String priority) {
         this.priority = priority;
     }
-    public String getCreation_time() {
+    public Timestamp getCreation_time() {
         return creation_time;
     }
-    public void setCreation_time(String creation_time) {
+    public void setCreation_time(Timestamp creation_time) {
         this.creation_time = creation_time;
     }
     public String getReasoning_scope() {

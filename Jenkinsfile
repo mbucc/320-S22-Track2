@@ -8,7 +8,7 @@ pipeline {
             }
         }
         stage('Build') {
-            setps {
+            steps {
                 git "https://github.com/david-fisher/320-S22-Track2.git"
                 sh "ls"
             }

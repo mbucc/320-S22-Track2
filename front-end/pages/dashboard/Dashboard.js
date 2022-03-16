@@ -55,6 +55,7 @@ export default function Dashboard(props) {
             <Box px={10} py={5} sx={{ height: '100%'}}>
                 <Grid container direction='column' height={'100%'} spacing={3}>
                     <Grid item xs={1}>
+                        {/* replace Paper block with header component */}
                         <Paper elevation={3}>
                             <Box px={2} pt={4}>
                                 <Typography variant="h5" gutterBottom component="div">
@@ -64,6 +65,7 @@ export default function Dashboard(props) {
                         </Paper>
                     </Grid>
                     <Grid item xs={1}>
+                        {/* replace Grid block with Counts component */}
                         <Grid container direction='row' spacing={2}>
                             <Grid item xs={3}>
                                 <Paper elevation={3}>

@@ -55,20 +55,6 @@ export default function Dashboard(props) {
             <Box px={10} py={5} sx={{ height: '100%'}}>
                 <Grid container direction='column' height={'100%'} spacing={3}>
                     <Grid item xs={1}>
-                        {/* <Grid item xs={1}>
-                <b>Hello, Chris</b>
-            </Grid>
-            <Grid item xs={10}>
-            </Grid>
-            <Grid item xs={1}>
-                <Dropdown>
-                    <Option value="Last hour" />
-                    <Option selected value="Last day" />
-                    <Option value="Last week" />
-                    <Option value="Last month" />
-                    <Option value="Last year" />
-                </Dropdown>
-            </Grid> */}
                         <Paper elevation={3}>
                             <Box px={2} pt={4}>
                                 <Typography variant="h5" gutterBottom component="div">
@@ -116,23 +102,14 @@ export default function Dashboard(props) {
                                 </Paper>
                             </Grid>
                         </Grid>
-                        {/* counts */}
-                        {/* <Box>
-                            <Paper>
-                                counts
-                            </Paper>
-                        </Box> */}
-
                     </Grid>
                     <Grid item>
                         <Grid container item direction="row" spacing={5}>
                             <Grid item xs={7}>
                                 <DonutCharts />
-                                {/* <Paper>donut</Paper> */}
                             </Grid>
                             <Grid item xs={5}>
                                 <Timelines />
-                                {/* <Paper>timeline</Paper> */}
                             </Grid>
                         </Grid>
 

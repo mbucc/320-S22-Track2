@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {
     ArgumentAxis,
@@ -10,17 +11,8 @@ import {
 } from '@devexpress/dx-react-chart-material-ui';
 import { EventTracker, HoverState } from '@devexpress/dx-react-chart';
 
-const data = [
-    { time: '13:00', logs: 20 },
-    { time: '13:06', logs: 10 },
-    { time: '13:12', logs: 30 },
-    { time: '13:18', logs: 125 },
-    { time: '13:24', logs: 10 },
-    { time: '13:30', logs: 30 },
-    { time: '13:36', logs: 20 },
-    { time: '13:42', logs: 450 },
-    { time: '13:48', logs: 560 },
-];
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 export default function Timeline(props) {
     const [hover, changeHover] = useState(null);
@@ -39,6 +31,18 @@ export default function Timeline(props) {
     //     )
     // }
 
+    const data = [
+        { time: '13:00', logs: 20 },
+        { time: '13:06', logs: 10 },
+        { time: '13:12', logs: 30 },
+        { time: '13:18', logs: 125 },
+        { time: '13:24', logs: 10 },
+        { time: '13:30', logs: 30 },
+        { time: '13:36', logs: 20 },
+        { time: '13:42', logs: 450 },
+        { time: '13:48', logs: 560 },
+    ];
+
     return (
         <Grid container direction='column'>
             <Grid
@@ -52,7 +56,7 @@ export default function Timeline(props) {
                         {props.title}
                     </Typography>
                     <Typography variant='h5' gutterBottom component='div'>
-                        25000
+                        {props.total}
                     </Typography>
                 </Grid>
                 <Grid item>
@@ -60,9 +64,47 @@ export default function Timeline(props) {
                 </Grid>
             </Grid>
             <Grid item>
+                {/* <Box>
+                    <Line
+                        data={{
+                            labels: props.labels,
+                            datasets: [
+                                {
+                                    label: '# logs',
+                                    data: props.values,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    tension: 0.3,
+                                    hoverBorderWidth: 10
+                                }
+                            ]
+                        }}
+                        options={{
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    grid: {
+                                        display: false
+                                    }
+                                },
+                                y: {
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            }
+                        }}
+                    />
+                </Box> */}
                 <Chart
                     data={data}
-                    height={100}
+                    height={'100'}
                 >
                     <SplineSeries
                         valueField='logs'

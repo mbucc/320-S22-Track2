@@ -9,7 +9,7 @@ public class SeverityMap {
         severMap.put("error", new int[]{50,Integer.MAX_VALUE});
         severMap.put("info", new int[]{10,29});
         severMap.put("info", new int[]{30,49});
-        
+        severMap.put("success", new int[]{0,9});
     }
     public int[] getRange(String input) {
         return severMap.get(input);

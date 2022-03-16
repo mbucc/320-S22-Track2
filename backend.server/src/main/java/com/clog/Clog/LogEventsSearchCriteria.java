@@ -13,9 +13,7 @@ public class LogEventsSearchCriteria {
     private String[] categories;
     private String[] priorities;
     private String[] severities;
-
-    //TODO Make severities because they need a range
-    
+  
     public String[] getSeverities() {
         return severities;
     }

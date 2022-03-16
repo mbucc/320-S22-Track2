@@ -5,51 +5,8 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import DonutCharts from './donutchart'
 import Typography from '@mui/material/Typography';
-import { useState, useEffect } from 'react';
-
-// import { Dropdown, Option } from "./Dropdown";
-
-// function getWindowDimensions() {
-//     const { innerWidth: width, innerHeight: height } = window;
-//     return {
-//         width,
-//         height
-//     };
-// }
-
-// function useWindowDimensions() {
-//     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
-
-//     useEffect(() => {
-//         function handleResize() {
-//             setWindowDimensions(getWindowDimensions());
-//         }
-
-//         window.addEventListener('resize', handleResize);
-//         return () => window.removeEventListener('resize', handleResize);
-//     }, []);
-
-//     return windowDimensions;
-// }
 
 export default function Dashboard(props) {
-    // const { height, width } = useWindowDimensions();
-    // console.log(height)
-    // const [dimensions, setDimensions] = React.useState({
-    //     height: window ? window.innerHeight : 0,
-    //     width: window ? window.innerWidth: 0
-    // })
-    // React.useEffect(() => {
-    //     function handleResize() {
-    //         setDimensions({
-    //             height: window.innerHeight,
-    //             width: window.innerWidth
-    //         })
-
-    //     }
-
-    //     window.addEventListener('resize', handleResize)
-    // })
     return (
         <div className='dashboard'>
             <Box px={10} py={5} sx={{ height: '100%'}}>

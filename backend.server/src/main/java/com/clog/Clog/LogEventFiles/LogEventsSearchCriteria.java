@@ -1,4 +1,4 @@
-package com.clog.Clog;
+package com.clog.Clog.LogEventFiles;
 
 import java.sql.Timestamp;
 

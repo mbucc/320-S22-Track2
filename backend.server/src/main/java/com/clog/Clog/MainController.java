@@ -2,6 +2,14 @@ package com.clog.Clog;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.clog.Clog.LogDetailFiles.LogDetail;
+import com.clog.Clog.LogDetailFiles.LogDetailRepository;
+import com.clog.Clog.LogEventFiles.LogEvent;
+import com.clog.Clog.LogEventFiles.LogEventFilterSpecification;
+import com.clog.Clog.LogEventFiles.LogEventRepository;
+import com.clog.Clog.LogEventFiles.LogEventsSearchCriteria;
+
 import java.sql.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -40,7 +48,7 @@ public class MainController {
         filt.setCategories(categories);
         filt.setSeverities(severities);
         filt.setApplication(application);
-        FilterSpecification test = new FilterSpecification(filt);
+        LogEventFilterSpecification test = new LogEventFilterSpecification(filt);
         return logEventRepo.findAll(test);
         //return businessDomain + eaiDomain + " " + startTime + endTime +" " + businessSubDomain + " " + process;
     }

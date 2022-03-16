@@ -1,4 +1,4 @@
-package com.clog.Clog;
+package com.clog.Clog.LogEventFiles;
 
 import java.io.Console;
 import java.sql.Date;
@@ -11,11 +11,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import com.clog.Clog.PriorityMap;
+import com.clog.Clog.SeverityMap;
+
 import org.springframework.data.jpa.domain.Specification;
 
-public class FilterSpecification implements Specification<LogEvent> {
+public class LogEventFilterSpecification implements Specification<LogEvent> {
     private LogEventsSearchCriteria filter;
-    public FilterSpecification(LogEventsSearchCriteria logeven) {
+    public LogEventFilterSpecification(LogEventsSearchCriteria logeven) {
         super();
         this.filter = logeven;
         

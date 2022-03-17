@@ -1,9 +1,12 @@
 import React from 'react'
-
+import { Checkbox, FormGroup, FormControlLabel, InputLabel } from '@mui/material'
 export default function Severity(props) {
 
     const labelStyle= {
         marginRight: "10px"
+    }
+    const checkboxFormStyle = {
+        display: "inline-block",
     }
 
     const errorOnChange = ()=> { props.setCheckboxes((checkbox) =>{return {...checkbox, error: !checkbox.error} })}
@@ -12,24 +15,14 @@ export default function Severity(props) {
     const successOnChange = ()=> {props.setCheckboxes((checkbox) =>{return {...checkbox, success: !checkbox.success} })}
 
   return (
-    <div>
-         <h5> Severity:</h5>
-            <label style={labelStyle}>
-                Error
-                <input type="checkbox" name="Error" checked={props.checkboxes.error} onChange={errorOnChange} />
-            </label>
-            <label style={labelStyle}>
-                Warning
-                <input type="checkbox" name="Warning" checked={props.checkboxes.warning} onChange={warningOnChange} />
-            </label>
-            <label style={labelStyle}>
-                Info
-                <input type="checkbox" name="Info" checked={props.checkboxes.info} onChange={infoOnChange} />
-            </label>
-            <label style={labelStyle}>
-                Success
-                <input type="checkbox" name="Success" checked={props.checkboxes.success} onChange={successOnChange}/>
-            </label>
+    <div >
+        <FormGroup style = {checkboxFormStyle}>
+            <InputLabel> Severity</InputLabel>
+            <FormControlLabel control={<Checkbox checked={props.checkboxes.error} onChange={errorOnChange} />} label="Error" />
+            <FormControlLabel control={<Checkbox checked={props.checkboxes.warning} onChange={warningOnChange} />} label="Warning" />
+            <FormControlLabel control={<Checkbox checked={props.checkboxes.info} onChange={infoOnChange} />} label="Info" />
+            <FormControlLabel control={<Checkbox checked={props.checkboxes.success} onChange={successOnChange} />} label="Success" />
+        </FormGroup>
     </div>
   )
 }

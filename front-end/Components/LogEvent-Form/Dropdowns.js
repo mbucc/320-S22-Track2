@@ -1,22 +1,24 @@
 import React, {useState} from 'react'
 import { FormControl, Select, MenuItem, InputLabel } from '@mui/material'
 
-export default function Domain(props) {
+export default function Dropdowns(props) {
 
   const [dropdownValue, setDropdownValue] = useState("All")
 
   const dropdownStyle = {
-      marginTop: "80px"
+      marginTop: "20px",
+      marginRight: "20px"
+
   }
 
   const handleOnChange = (event)=>{
     setDropdownValue(event.target.value)
-    props.setDomains((domain)=>{ return {...domain, [props.name]: event.target.value}});
+    props.setOptions((option)=>{ return {...option, [props.name]: event.target.value}});
   }
 
   return (
     <div style={dropdownStyle}>
-            <InputLabel > EAI Domain </InputLabel>
+            <InputLabel > {props.name} </InputLabel>
             <Select value={dropdownValue} onChange={handleOnChange} >
                 <MenuItem value={"All"}> {"All"}</MenuItem>
                {props.options.map((e, i)=>{

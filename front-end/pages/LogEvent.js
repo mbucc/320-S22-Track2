@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import Form from "../Components/LogEvent-Form/Form.js"
 import LETable from '../Components/LogEvent-Form/LETable.js';
+import { Typography } from '@mui/material';
 
 export default function LogEvent() {
     const mockData  = [
@@ -26,7 +27,7 @@ export default function LogEvent() {
 
   return (
     <div>
-        <h1>Log Events</h1>
+        <Typography variant = "h1" style = {{backgroundColor: "lightblue"}}>Log Events</Typography>
         <Form mockData={mockData} setData={setData}/>
         <LETable data = {data}/>
     </div>

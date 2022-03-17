@@ -3,7 +3,7 @@ import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {Button} from '@mui/material';
 import {BPDomainSelector} from '../common/domain-selector';
 import {BPSeveritySelector} from '../common/severity-selector';
-import {BusinessProcessSample, EAIDomainSample} from '../../../utils/business-process/sample-data';
+import {BusinessDomainSample} from '../../../utils/business-process/sample-data';
 
 const BPActivityFilterComponent = ({onChange}) => {
   return (
@@ -68,9 +68,9 @@ const BPActivityFilterComponent = ({onChange}) => {
         }}
       >
         <BPDomainSelector
-          label={'Business Process'}
-          searchPlaceholder={'Search a business process'}
-          list={BusinessProcessSample}
+          label={'Business Domain'}
+          searchPlaceholder={'Search a business domain'}
+          list={BusinessDomainSample}
         />
 
         <BPSeveritySelector

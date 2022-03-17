@@ -32,6 +32,19 @@ const BPColors = {
     800: '#166534',
     900: '#14532d',
   },
+
+  success: '#22c55e',
+  successSecondary: '#86efac',
+  successLight: '#f0fdf4',
+  info: '#3b82f6',
+  infoSecondary: '#bfdbfe',
+  infoLight: '#eff6ff',
+  warning: '#f59e0b',
+  warningSecondary: '#fde68a',
+  warningLight: '#fffbeb',
+  error: '#ef4444',
+  errorSecondary: '#fecaca',
+  errorLight: '#fef2f2',
 };
 
 const BPDimens = {

@@ -13,13 +13,13 @@ const BPActivitySeverity = {
 const getColorBySeverity = (severity) => {
   switch (severity) {
     case 'success':
-      return '#22c55e';
+      return BPColors.success;
     case 'info':
-      return '#3b82f6';
-    case 'error':
-      return '#ef4444';
+      return BPColors.info;
     case 'warning':
-      return '#eab308';
+      return BPColors.warning;
+    case 'error':
+      return BPColors.error;
   }
 };
 

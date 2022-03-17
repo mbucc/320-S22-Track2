@@ -5,7 +5,8 @@ import BPTreeMapPublishingDomain from './tree-map-item-publishing';
 import BPTreeMapBusinessProcess from './tree-map-item-process';
 import {sampleEAIDomains} from '../../../utils/business-process/sample-data';
 import {BPTextButton} from '../common/button';
-import BPTreeMapActivityEntry from "./tree-map-item-activity";
+
+import BPTreeMapActivityEntry from './tree-map-item-activity';
 
 const BPTreeMapComponent = ({onChange}) => {
   return (

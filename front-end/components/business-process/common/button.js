@@ -19,6 +19,26 @@ const BPTextButton = ({children, ...props}) => {
   );
 };
 
+const BPButton = ({children, ...props}) => {
+  return (
+    <Button
+      size={'small'}
+      sx={{
+        color: 'white',
+        borderRadius: 999,
+        backgroundColor: '#22c55e',
+        '&:hover': {
+          backgroundColor: '#16a34a',
+        },
+      }}
+      {...props}
+    >
+      {children}
+    </Button>
+  );
+};
+
 export {
   BPTextButton,
+  BPButton,
 };

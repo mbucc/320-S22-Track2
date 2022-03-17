@@ -16,7 +16,7 @@ export const BPCheckbox = ({checkboxProps, children, contentColor = BPColors.gra
         cursor: 'default',
         columnGap: 6,
         userSelect: 'none',
-        opacity: isChecked || isHovered ? 1 : 0.80,
+        opacity: isChecked || isHovered ? 1 : 0.90,
         color: contentColor,
         transition: 'all 0.2s ease-in-out',
       }}

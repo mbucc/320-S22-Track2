@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
-import {Button, TextField} from '@mui/material';
-import BPTextInput from '../common/text-input';
+import {Button} from '@mui/material';
+import {BPDomainSelector} from '../common/domain-selector';
+import {BPSeveritySelector} from '../common/severity-selector';
+import {BusinessProcessSample, EAIDomainSample} from '../../../utils/business-process/sample-data';
 
 const BPActivityFilterComponent = ({onChange}) => {
-  const [startDate, setStartDate] = useState(null);
-
   return (
     <div
       style={{
@@ -67,11 +67,13 @@ const BPActivityFilterComponent = ({onChange}) => {
           rowGap: 17,
         }}
       >
-        <BPTextInput
-          label={'Business Domain'}
+        <BPDomainSelector
+          label={'Business Process'}
+          searchPlaceholder={'Search a business process'}
+          list={BusinessProcessSample}
         />
 
-        <BPTextInput
+        <BPSeveritySelector
           label={'Severity'}
         />
       </div>

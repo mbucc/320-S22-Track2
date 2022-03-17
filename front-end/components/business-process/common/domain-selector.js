@@ -5,9 +5,11 @@ import BPTextInput from './text-input';
 
 import {ClickAwayListener, Popper} from '@mui/material';
 import {BPDomainSelectorItem} from './domain-selector-item';
+import {BPTextButton} from "./button";
 
 export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}) => {
-  const [value, setValue] = useState('');
+  const [displayValue, setDisplayValue] = useState('');
+  const [selectedList, setSelectedList] = useState([]);
   const [searchInputValue, setSearchInputValue] = useState('');
 
   const [resultList, setResultList] = useState(list);
@@ -25,12 +27,25 @@ export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}
   useEffect(() => {
     if (searchInputValue.length > 0) {
       setResultList(
-          list.filter((item) => item.name.toLowerCase().includes(searchInputValue.toLowerCase()))
+          list.filter((item) => item.toLowerCase().includes(searchInputValue.toLowerCase()))
       );
     } else {
       setResultList(list);
     }
   }, [searchInputValue]);
+
+  useEffect(() => {
+    if (selectedList.length > 0) {
+      setDisplayValue(
+          list.filter((item) => selectedList.includes(item)).join(', ')
+      );
+    } else {
+      setDisplayValue('All');
+    }
+    if (onChange) {
+      onChange(selectedList);
+    }
+  }, [selectedList]);
 
   return (
     <div
@@ -48,7 +63,7 @@ export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}
             boxRef={(ref) => {
               boxRef.current = ref;
             }}
-            value={value}
+            value={displayValue}
             onClick={() => setIsOpen(!isOpen)}
             disableInput={true}
             boxStyle={{
@@ -86,7 +101,9 @@ export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}
                 border: BPStandards.border,
                 overflow: 'hidden',
                 backgroundColor: 'white',
-                padding: 8,
+                paddingTop: 8,
+                paddingLeft: 8,
+                paddingRight: 8,
                 boxShadow: '0px 20px 50px 0px rgba(0,0,0,0.10)',
                 marginTop: 6,
                 marginBottom: 6,
@@ -109,24 +126,41 @@ export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}
               <div
                 style={{
                   width: '100%',
-                  maxHeight: '45vh',
+                  maxHeight: '40vh',
                   overflowY: 'auto',
                   overflowX: 'hidden',
                   paddingTop: resultList.length > 0 ? 6 : 0,
+                  paddingBottom: 8,
                 }}
               >
+                <BPDomainSelectorItem
+                  item={'All'}
+                  selected={selectedList.length === 0 || selectedList.includes('All')}
+                  onClick={() => {
+                    if (selectedList.length !== 0) {
+                      setSelectedList([]);
+                    }
+                  }}
+                  style={{
+                    display: resultList.length > 0 ? 'flex' : 'none',
+                  }}
+                />
                 {resultList.map((item) => (
                   <BPDomainSelectorItem
-                    key={item.id}
+                    key={item}
                     item={item}
+                    selected={selectedList.includes(item)}
                     onClick={() => {
-                      setValue(item.name);
-                      if (onChange) {
-                        onChange(item);
+                      if (selectedList.includes(item)) {
+                        setSelectedList(selectedList.filter(
+                            (selectedItem) => selectedItem !== item
+                        ));
+                      } else {
+                        const newSelectedList = [...selectedList, item];
+                        setSelectedList(list.filter(
+                            (selectedItem) => newSelectedList.includes(selectedItem)
+                        ));
                       }
-                      setIsOpen(false);
-                      // Clean up the search field after every selection.
-                      setSearchInputValue('');
                     }}
                   />
                 ))}

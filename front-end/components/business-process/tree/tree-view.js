@@ -1,6 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeView from '@mui/lab/TreeView';
@@ -21,7 +19,9 @@ const findExpandable = (tree) => {
     }
     return result
 }
-    
+let data = sampleEAIDomains
+const _expandable = findExpandable(data)
+
 const renderTree = (nodes) => (
     <TreeItem key={nodes.name} nodeId={nodes.name} label={nodes.name}
     sx={{
@@ -49,7 +49,7 @@ export default function ControlledTreeView() {
     const handleExpandClick = () => {
         setExpanded((oldExpanded) =>
 
-            oldExpanded.length === 0 ? findExpandable(sampleEAIDomains) : []
+            oldExpanded.length === 0 ? _expandable : []
         );
     };
 

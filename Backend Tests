@@ -10,9 +10,11 @@ public void testSettersAndGetters() {
   logDet.setBusiness_domain("domainA");
   assert logDet.getBusiness_domain().equals("domainA");
   #continue for each class field within the LogDetail class
+  }
 
 **Log Detail Repository (320-S22-Track2/backend.server/src/main/java/com/clog/Clog/LogDetailFiles/LogDetailRepository.java)**
 #insert tests here
+
 
 ***Log Event Files:***
 **Log Event (320-S22-Track2/backend.server/src/main/java/com/clog/Clog/LogEventFiles/LogEvent.java)**
@@ -24,6 +26,41 @@ public void testSettersAndGetters() {
   logDet.setBusiness_domain("domainA");
   assert logDet.getBusiness_domain().equals("domainA");
   #continue for each class field within the LogEvent class
+  }
+
+**Log Event Filter Specification (320-S22-Track2/backend.server/src/main/java/com/clog/Clog/LogEventFiles/LogEventFilterSpecification.java)**
+#test toPredicate for all possiblities
+#insert other tests here
+
+**Log Event Repository (320-S22-Track2/backend.server/src/main/java/com/clog/Clog/LogEventFiles/LogEventRepository.java)**
+#insert tests here
+
+**Log Event Search Criteria (320-S22-Track2/backend.server/src/main/java/com/clog/Clog/LogEventFiles/LogEventsSearchCriteria.java)**
+@Test
+public void testSettersAndGetters() {
+  LogEventsSearchCriteria logESC = new LogEventsSearchCriteria();
+  logESC.setSeverities(["sever1", "sever2"]);
+  assert logESC.getSeverities[0].equals("sever1");
+  assert logESC.getSeverities[1].equals("sever2");
+  logESC.setStartTime(new Timestamp(25000));
+  assert logESC.getStartTime() == 25000;
+  #continue for each class field within the LogEventsSearchCriteria class
+  }
+
+
+***Main Controller (320-S22-Track2/backend.server/src/main/java/com/clog/Clog/MainController.java)***
+#insert tests here
+
+
+***Priority Map Class (320-S22-Track2/backend.server/src/main/java/com/clog/Clog/PriorityMap.java)***
+#test get here or in other section
+#insert tests here
+
+
+***Severity Map Class (320-S22-Track2/backend.server/src/main/java/com/clog/Clog/SeverityMap.java)***
+#test getRange here or in other section
+#insert tests here
+
 
 ***General Initial Testing Outline:***
 **Database Connection**

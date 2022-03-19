@@ -1,1 +1,26 @@
+***Backend Tests***
 
+
+
+
+***General Initial Outline:***
+**Database Connection**
+#Is connection established and configured from all ISO New England Application Adapters to data sink?
+#Is connection established and configured from data sink to MySQL database?
+#Is the call to the MySQL database being formulated correctly to access data correctly?
+#Is the API call to get the data from the data sink correctly retrieving the data?
+#Is all data being returned correctly from MySQL database to Spring Boot server?
+**Front End Connection**
+#Is connection established and valid for all necessary functionality from the Landing View to the Spring Boot server?
+#Is all data being processed and piped correctly from Spring Boot server to the Landing View?
+#Is connection established and valid for all necessary functionality from the Log View to the Spring Boot server?
+#Is all data being processed and piped correctly from Spring Boot server to the Log View?
+#Is connection established and valid for all necessary functionality from the Business Process View to the Spring Boot server?
+#Is all data being processed and piped correctly from Spring Boot server to the Business Process View?
+**Capacity and Speed**
+#Is data available on the Log View in an appropriate time constraint?
+#Is data available on the Landing View in an appropriate time constraint?
+#Is data available on the Business Process View in an appropriate time constraint?
+#Are all logs being pushed from database to frontend in an appropriate time constraint?
+**Correctness**
+#Is all data stored and transferred correctly to the frontend?

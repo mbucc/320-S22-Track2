@@ -1,9 +1,31 @@
-Backend Tests
+***Backend Tests***
 
+***Log Detail Files:***
+**Log Detail (320-S22-Track2/backend.server/src/main/java/com/clog/Clog/LogDetailFiles/LogDetail.java)**
+@Test
+public void testSettersAndGetters() {
+  LogDetail logDet = new LogDetail();
+  logDet.setGlobal_instance_id("12345");
+  assert logDet.getGlobal_instance_id().equals("12345");
+  logDet.setBusiness_domain("domainA");
+  assert logDet.getBusiness_domain().equals("domainA");
+  #continue for each class field within the LogDetail class
 
+**Log Detail Repository (320-S22-Track2/backend.server/src/main/java/com/clog/Clog/LogDetailFiles/LogDetailRepository.java)**
+#insert tests here
 
+***Log Event Files:***
+**Log Event (320-S22-Track2/backend.server/src/main/java/com/clog/Clog/LogEventFiles/LogEvent.java)**
+@Test
+public void testSettersAndGetters() {
+  LogEvent logEv = new LogEvent();
+  logDet.setGlobal_instance_id("12345");
+  assert logDet.getGlobal_instance_id().equals("12345");
+  logDet.setBusiness_domain("domainA");
+  assert logDet.getBusiness_domain().equals("domainA");
+  #continue for each class field within the LogEvent class
 
-***General Initial Outline:***
+***General Initial Testing Outline:***
 **Database Connection**
 #Is connection established and configured from all ISO New England Application Adapters to data sink?
 #Is connection established and configured from data sink to MySQL database?

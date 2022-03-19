@@ -25,7 +25,7 @@ const _expandable = findExpandable(data)
 const renderTree = (nodes) => (
     <TreeItem key={nodes.name} nodeId={nodes.name} label={nodes.name}
     sx={{
-        backgroundColor:  BPColors.gray[30],
+        backgroundColor: nodes.name.startsWith('Business Process') ? BPColors.green[50] : BPColors.gray[30],
           "&:hover": {
             backgroundColor: BPColors.gray[70],
             }
@@ -107,7 +107,7 @@ export default function ControlledTreeView() {
                     onNodeToggle={handleToggle}
                     multiSelect
                 >
-                    {sampleEAIDomains.map((nodes) => renderTree(nodes))}
+                    {data.map((nodes) => renderTree(nodes))}
                 </TreeView>
             </div>
         </div>

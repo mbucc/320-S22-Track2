@@ -6,8 +6,37 @@ import TreeItem from '@mui/lab/TreeItem';
 import {BPTextButton} from '../common/button';
 import {sampleEAIDomains} from '../../../utils/business-process/sample-data';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
+import Image from 'next/image';
 
+const BPActivitySeverity = {
+  info: '/business-process/icons/severity-icons-info.svg',
+  warning: '/business-process/icons/severity-icons-warning.svg',
+  error: '/business-process/icons/severity-icons-error.svg',
+  success: '/business-process/icons/severity-icons-success.svg',
+};
 
+const getColorBySeverity = (severity) => {
+  switch (severity) {
+    case 'success':
+      return BPColors.success;
+    case 'info':
+      return BPColors.info;
+    case 'warning':
+      return BPColors.warning;
+    case 'error':
+      return BPColors.error;
+  }
+};
+
+const BPActivitySeverityIcon = ({severity}) => {
+  return (
+    <Image
+      width={18}
+      height={18}
+      src={BPActivitySeverity[severity]}
+    />
+  );
+};
 const findExpandable = (tree) => {
   const result = [];
   const stack = [...tree];
@@ -26,12 +55,14 @@ const findExpandable = (tree) => {
 const contextMenu = (e, source) => console.log( source + 'rightclick');
 
 const renderLog = (log) =>(
-  <TreeItem key={log.id} nodeId={log.id} label={log.severity} sx={{
-    backgroundColor: log.severity == 'info' ? BPColors.green[50] : BPColors.gray[30],
-    '&:hover': {
-      backgroundColor: BPColors.gray[70],
-    },
-  }}>
+  <TreeItem key={log.id} nodeId={log.id} icon = {<BPActivitySeverityIcon severity={log.severity} />}
+    label={log.severity} sx={{
+      backgroundColor: log.severity == 'info' ? BPColors.green[50] : BPColors.gray[30],
+      '&:hover': {
+        backgroundColor: BPColors.gray[70],
+      },
+    }}>
+
   </TreeItem>
 );
 const renderTree = (nodes) => (

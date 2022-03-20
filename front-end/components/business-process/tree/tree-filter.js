@@ -4,7 +4,7 @@ import {Button} from '@mui/material';
 import BPTextInput from '../common/text-input';
 import {BPDatePicker} from '../common/date-picker';
 import {BPDomainSelector} from '../common/domain-selector';
-import {EAIDomainSample, PublishingBusinessDomainSample} from "../../../utils/business-process/sample-data";
+import {EAIDomainSample, PublishingBusinessDomainSample} from '../../../utils/business-process/sample-data';
 
 const BPTreeFilterComponent = ({onChange}) => {
   const [startDate, setStartDate] = useState(null);

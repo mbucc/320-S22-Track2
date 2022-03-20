@@ -1,7 +1,7 @@
 import React from 'react';
-import {BPColors} from "../../../utils/business-process/standards";
-import BPActivityFilterComponent from "./activity-filter";
-import BPActivityTableComponent from "./activity-table";
+import {BPColors} from '../../../utils/business-process/standards';
+import BPActivityFilterComponent from './activity-filter';
+import BPActivityTableComponent from './activity-table';
 
 const BPActivityView = ({
   onChange,

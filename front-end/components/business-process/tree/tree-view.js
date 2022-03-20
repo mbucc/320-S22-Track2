@@ -7,6 +7,8 @@ import { BPTextButton } from '../common/button';
 import { sampleEAIDomains } from '../../../utils/business-process/sample-data';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 
+
+
 const findExpandable = (tree) => {
     const result = [];
     const stack = [...tree];
@@ -19,11 +21,9 @@ const findExpandable = (tree) => {
     }
     return result
 }
-let data = sampleEAIDomains
-const _expandable = findExpandable(data)
-
+const contextMenu = (e,source) => console.log( source + 'rightclick')
 const renderTree = (nodes) => (
-    <TreeItem key={nodes.name} nodeId={nodes.name} label={nodes.name}
+    <TreeItem key={nodes.name} nodeId={nodes.name} label={nodes.name} onContextMenu={(e) => contextMenu(e,nodes.name)}
     sx={{
         backgroundColor: nodes.name.startsWith('Business Process') ? BPColors.green[50] : BPColors.gray[30],
           "&:hover": {
@@ -38,9 +38,13 @@ const renderTree = (nodes) => (
     </TreeItem>
 );
 
+const data = sampleEAIDomains
+const _expandable = findExpandable(data)
+
 export default function ControlledTreeView() {
     const [expanded, setExpanded] = React.useState([]);
 
+    
 
     const handleToggle = (event, nodeIds) => {
         setExpanded(nodeIds);
@@ -53,7 +57,9 @@ export default function ControlledTreeView() {
         );
     };
 
-
+    const handleRightClick = () =>{
+        console.log('hello')
+    }
     return (
         <div
             style={{
@@ -107,7 +113,9 @@ export default function ControlledTreeView() {
                     onNodeToggle={handleToggle}
                     multiSelect
                 >
-                    {data.map((nodes) => renderTree(nodes))}
+                    {
+                        data.map((nodes) => renderTree(nodes))
+                    }
                 </TreeView>
             </div>
         </div>

@@ -95,7 +95,7 @@ export const sampleEAIDomains = [
     name: 'EAI Domain 3',
     children: [
       {
-        name: 'Publishing Business Domain 1 from EAI 2',
+        name: 'Publishing Business Domain 1 from EAI 3',
         children: [
           {
             name: 'Business Process 3001',

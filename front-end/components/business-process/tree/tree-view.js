@@ -18,14 +18,27 @@ const findExpandable = (tree) => {
             result.push(node.name)
             node.children.forEach(n => stack.push(n))
         }
+        if(Array.isArray(node.activities)){
+            result.push(node.name)
+        }
     }
     return result
 }
 const contextMenu = (e,source) => console.log( source + 'rightclick')
+
+const renderLog = (log) =>(
+    <TreeItem key={log.id} nodeId={log.id} label={log.severity} sx={{
+        backgroundColor: log.severity == 'info' ? BPColors.green[50] : BPColors.gray[30],
+          "&:hover": {
+            backgroundColor: BPColors.gray[70],
+            }
+    }}>
+    </TreeItem>
+);
 const renderTree = (nodes) => (
     <TreeItem key={nodes.name} nodeId={nodes.name} label={nodes.name} onContextMenu={(e) => contextMenu(e,nodes.name)}
     sx={{
-        backgroundColor: nodes.name.startsWith('Business Process') ? BPColors.green[50] : BPColors.gray[30],
+        backgroundColor: BPColors.gray[30],
           "&:hover": {
             backgroundColor: BPColors.gray[70],
             }
@@ -34,7 +47,7 @@ const renderTree = (nodes) => (
         {
             Array.isArray(nodes.children)
                 ? nodes.children.map((node) => renderTree(node))
-                : null}
+                : Array.isArray(nodes.activities) ? nodes.activities.map(log => renderLog(log)) : null}
     </TreeItem>
 );
 

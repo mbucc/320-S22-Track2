@@ -8,6 +8,8 @@ import {sampleEAIDomains} from '../../../utils/business-process/sample-data';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import Image from 'next/image';
 
+const contextMenu = (e, source) => console.log( source + 'rightclick');
+
 const getColorBySeverity = (severity) => {
   switch (severity) {
     case 'success':
@@ -54,7 +56,6 @@ const findExpandable = (tree) => {
   return result;
 };
 
-const contextMenu = (e, source) => console.log( source + 'rightclick');
 
 // Reusable EAI domain tree item style.
 const rootTreeStyle = {
@@ -112,7 +113,7 @@ const renderEAIDomains = (nodes) => (
     {
       Array.isArray(nodes.children) ?
         nodes.children.map((node) => renderPublishingBusinessDomains(node)) :
-        <></>
+        null
     }
   </TreeItem>
 );
@@ -128,7 +129,7 @@ const renderPublishingBusinessDomains = (nodes) => (
     {
       Array.isArray(nodes.children) ?
         nodes.children.map((node) => renderBusinessProcesses(node)) :
-        <></>
+        null
     }
   </TreeItem>
 );
@@ -144,7 +145,7 @@ const renderBusinessProcesses = (nodes) => (
     {
       Array.isArray(nodes.activities) ?
         nodes.activities.map((log) => renderBusinessProcessInstances(log)) :
-        <></>
+        null
     }
   </TreeItem>
 );

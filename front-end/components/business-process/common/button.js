@@ -4,6 +4,7 @@ import {Button} from '@mui/material';
 const BPTextButton = ({children, ...props}) => {
   return (
     <Button
+      onClick={props.onClick}
       variant="text"
       sx={{
         borderRadius: 999,

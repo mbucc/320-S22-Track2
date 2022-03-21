@@ -60,7 +60,7 @@ const findExpandable = (tree) => {
 // Reusable EAI domain tree item style.
 const rootTreeStyle = {
   backgroundColor: BPColors.transparent,
-  borderRadius: '12px',
+  borderRadius: BPDimens.treeRadius,
   marginBottom: '10px',
   '&:hover': {
     backgroundColor: BPColors.gray[70] + '4f',
@@ -68,7 +68,7 @@ const rootTreeStyle = {
   '& > .MuiTreeItem-content': {
     minHeight: 40,
     backgroundColor: BPColors.gray[30],
-    borderRadius: '12px',
+    borderRadius: BPDimens.treeRadius,
     border: BPStandards.border,
     '&:hover': {
       backgroundColor: BPColors.gray[100],
@@ -85,14 +85,14 @@ const rootTreeStyle = {
 // Reusable publishing domain and business process tree item style.
 const subTreeStyle = {
   backgroundColor: BPColors.transparent,
-  borderRadius: '12px',
+  borderRadius: BPDimens.treeRadius,
   marginTop: '1px',
   '&:hover': {
     backgroundColor: BPColors.gray[70] + '4f',
   },
   '& > .MuiTreeItem-content': {
-    minHeight: 35,
-    borderRadius: '12px',
+    minHeight: 34,
+    borderRadius: BPDimens.treeRadius,
     '&:hover': {
       backgroundColor: BPColors.gray[100],
     },
@@ -155,19 +155,21 @@ const renderBusinessProcessInstances = (log) =>(
     key={log.id}
     nodeId={log.id}
     icon={<BPActivitySeverityIcon severity={log.severity}/>}
-    label={log.severity}
+    label={log.sampleContent}
     sx={{
-      borderRadius: '12px',
+      marginTop: '1px',
+      borderRadius: BPDimens.treeRadius,
       color: getColorBySeverity(log.severity),
       backgroundColor: BPColors.transparent,
       '&:hover': {
         backgroundColor: BPColors.gray[100],
       },
       '& > .MuiTreeItem-content': {
-        minHeight: 32,
-        padding: '0px 15px',
+        minHeight: 34,
+        borderRadius: BPDimens.treeRadius,
+        padding: '0px 13px',
         '&.Mui-focused, &.Mui-selected, &.Mui-focused.Mui-selected': {
-          backgroundColor: BPColors.transparent,
+          backgroundColor: BPColors.gray[100],
           '&:hover': {
             backgroundColor: BPColors.transparent,
           },

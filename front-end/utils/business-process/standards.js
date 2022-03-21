@@ -54,6 +54,7 @@ const BPDimens = {
 
   smallRadius: 6,
   cornerRadius: 12,
+  treeRadius: '7px',
 
   toolbarHeight: 58,
 };

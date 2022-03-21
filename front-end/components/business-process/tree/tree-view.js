@@ -8,13 +8,6 @@ import {sampleEAIDomains} from '../../../utils/business-process/sample-data';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import Image from 'next/image';
 
-const BPActivitySeverity = {
-  info: '/business-process/icons/severity-icons-info.svg',
-  warning: '/business-process/icons/severity-icons-warning.svg',
-  error: '/business-process/icons/severity-icons-error.svg',
-  success: '/business-process/icons/severity-icons-success.svg',
-};
-
 const getColorBySeverity = (severity) => {
   switch (severity) {
     case 'success':
@@ -28,15 +21,23 @@ const getColorBySeverity = (severity) => {
   }
 };
 
+const BPActivitySeverityIcons = {
+  info: '/business-process/icons/severity-icons-info.svg',
+  warning: '/business-process/icons/severity-icons-warning.svg',
+  error: '/business-process/icons/severity-icons-error.svg',
+  success: '/business-process/icons/severity-icons-success.svg',
+};
+
 const BPActivitySeverityIcon = ({severity}) => {
   return (
     <Image
       width={18}
       height={18}
-      src={BPActivitySeverity[severity]}
+      src={BPActivitySeverityIcons[severity]}
     />
   );
 };
+
 const findExpandable = (tree) => {
   const result = [];
   const stack = [...tree];
@@ -52,39 +53,142 @@ const findExpandable = (tree) => {
   }
   return result;
 };
+
 const contextMenu = (e, source) => console.log( source + 'rightclick');
 
-const renderLog = (log) =>(
-  <TreeItem key={log.id} nodeId={log.id} icon = {<BPActivitySeverityIcon severity={log.severity} />}
-    label={log.severity} sx={{
-      backgroundColor: log.severity == 'info' ? BPColors.green[50] : BPColors.gray[30],
+// Reusable EAI domain tree item style.
+const rootTreeStyle = {
+  backgroundColor: BPColors.transparent,
+  borderRadius: '12px',
+  marginBottom: '10px',
+  '&:hover': {
+    backgroundColor: BPColors.gray[70] + '4f',
+  },
+  '& > .MuiTreeItem-content': {
+    minHeight: 40,
+    backgroundColor: BPColors.gray[30],
+    borderRadius: '12px',
+    border: BPStandards.border,
+    '&:hover': {
+      backgroundColor: BPColors.gray[100],
+    },
+    '&.Mui-focused, &.Mui-selected, &.Mui-focused.Mui-selected': {
+      backgroundColor: BPColors.gray[70],
       '&:hover': {
-        backgroundColor: BPColors.gray[70],
+        backgroundColor: BPColors.gray[100],
       },
-    }}>
+    },
+  },
+};
 
-  </TreeItem>
-);
-const renderTree = (nodes) => (
-  <TreeItem key={nodes.name} nodeId={nodes.name} label={nodes.name} onContextMenu={(e) => contextMenu(e, nodes.name)}
-    sx={{
-      backgroundColor: BPColors.gray[30],
-      '&:hover': {
-        backgroundColor: BPColors.gray[70],
-      },
-    }}
+// Reusable publishing domain and business process tree item style.
+const subTreeStyle = {
+  backgroundColor: BPColors.transparent,
+  borderRadius: '12px',
+  marginTop: '1px',
+  '&:hover': {
+    backgroundColor: BPColors.gray[70] + '4f',
+  },
+  '& > .MuiTreeItem-content': {
+    minHeight: 35,
+    borderRadius: '12px',
+    '&:hover': {
+      backgroundColor: BPColors.gray[100],
+    },
+    '&.Mui-focused, &.Mui-selected, &.Mui-focused.Mui-selected': {
+      backgroundColor: BPColors.gray[100],
+    },
+  },
+};
+
+const renderEAIDomains = (nodes) => (
+  <TreeItem
+    key={nodes.name}
+    nodeId={nodes.name}
+    label={nodes.name}
+    onContextMenu={(e) => contextMenu(e, nodes.name)}
+    sx={rootTreeStyle}
   >
     {
-            Array.isArray(nodes.children) ?
-                nodes.children.map((node) => renderTree(node)) :
-                Array.isArray(nodes.activities) ? nodes.activities.map((log) => renderLog(log)) : null}
+      Array.isArray(nodes.children) ?
+        nodes.children.map((node) => renderPublishingBusinessDomains(node)) :
+        <></>
+    }
   </TreeItem>
+);
+
+const renderPublishingBusinessDomains = (nodes) => (
+  <TreeItem
+    key={nodes.name}
+    nodeId={nodes.name}
+    label={nodes.name}
+    onContextMenu={(e) => contextMenu(e, nodes.name)}
+    sx={subTreeStyle}
+  >
+    {
+      Array.isArray(nodes.children) ?
+        nodes.children.map((node) => renderBusinessProcesses(node)) :
+        <></>
+    }
+  </TreeItem>
+);
+
+const renderBusinessProcesses = (nodes) => (
+  <TreeItem
+    key={nodes.name}
+    nodeId={nodes.name}
+    label={nodes.name}
+    onContextMenu={(e) => contextMenu(e, nodes.name)}
+    sx={subTreeStyle}
+  >
+    {
+      Array.isArray(nodes.activities) ?
+        nodes.activities.map((log) => renderBusinessProcessInstances(log)) :
+        <></>
+    }
+  </TreeItem>
+);
+
+const renderBusinessProcessInstances = (log) =>(
+  <TreeItem
+    key={log.id}
+    nodeId={log.id}
+    icon={<BPActivitySeverityIcon severity={log.severity}/>}
+    label={log.severity}
+    sx={{
+      borderRadius: '12px',
+      color: getColorBySeverity(log.severity),
+      backgroundColor: BPColors.transparent,
+      '&:hover': {
+        backgroundColor: BPColors.gray[100],
+      },
+      '& > .MuiTreeItem-content': {
+        minHeight: 32,
+        padding: '0px 15px',
+        '&.Mui-focused, &.Mui-selected, &.Mui-focused.Mui-selected': {
+          backgroundColor: BPColors.transparent,
+          '&:hover': {
+            backgroundColor: BPColors.transparent,
+          },
+        },
+        '&:hover': {
+          backgroundColor: BPColors.transparent,
+        },
+      },
+    }}
+  />
 );
 
 const data = sampleEAIDomains;
 const _expandable = findExpandable(data);
 
-export default function ControlledTreeView() {
+/**
+ * The hierarchy tree view component of business process view.
+ * @param {Object} props - The props passed to the component.
+ * @param {Object} props.onChange - The callback function when the tree view is changed.
+ * @return {JSX.Element} - The generated tree view component.
+ */
+export default function BPTreeComponent({onChange}) {
   const [expanded, setExpanded] = React.useState([]);
 
   const handleToggle = (event, nodeIds) => {
@@ -93,14 +197,10 @@ export default function ControlledTreeView() {
 
   const handleExpandClick = () => {
     setExpanded((oldExpanded) =>
-
-            oldExpanded.length === 0 ? _expandable : []
+      oldExpanded.length === 0 ? _expandable : []
     );
   };
 
-  const handleRightClick = () =>{
-    console.log('hello');
-  };
   return (
     <div
       style={{
@@ -127,7 +227,11 @@ export default function ControlledTreeView() {
           columnGap: 2,
         }}
       >
-        <BPTextButton onClick={handleExpandClick}>{expanded.length === 0 ? 'Expand All' : 'Collapse All'}</BPTextButton>
+        <BPTextButton
+          onClick={handleExpandClick}
+        >
+          {expanded.length === 0 ? 'Expand All' : 'Collapse All'}
+        </BPTextButton>
       </div>
 
       {/* Tree Map */}
@@ -155,11 +259,10 @@ export default function ControlledTreeView() {
           multiSelect
         >
           {
-            data.map((nodes) => renderTree(nodes))
+            data.map((nodes) => renderEAIDomains(nodes))
           }
         </TreeView>
       </div>
     </div>
-
   );
 }

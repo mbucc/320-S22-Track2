@@ -1,5 +1,5 @@
 import React from 'react';
-import BPTreeMapComponent from './tree-map';
+import BPTreeComponent from './tree-view';
 import {BPColors} from '../../../utils/business-process/standards';
 import BPTreeFilterComponent from './tree-filter';
 
@@ -41,7 +41,7 @@ const BPTreeView = ({
           justifyContent: 'center',
         }}
       >
-        <BPTreeMapComponent />
+        <BPTreeComponent />
       </div>
     </div>
   );

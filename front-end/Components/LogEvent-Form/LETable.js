@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
 import { TablePagination } from '@mui/material';
-import { InvertColors } from '@mui/icons-material';
 
 {/* LogEvent Table component with pagination. */}
 

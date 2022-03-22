@@ -73,6 +73,9 @@ const BPStandards = {
     fontSize: 15,
     fontWeight: '400',
   },
+
+  shadow: '0px 20px 50px 0px rgba(0,0,0,0.10)',
+  menuShadow: '0px 16px 40px 0px rgba(0,0,0,0.10)',
 };
 
 export {

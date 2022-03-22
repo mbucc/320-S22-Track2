@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
+import { Table, TableHead, TableBody, TableRow, TableCell, Typography } from '@mui/material';
 import { TablePagination } from '@mui/material';
 
 {/* LogEvent Table component with pagination. */}
@@ -7,7 +7,8 @@ import { TablePagination } from '@mui/material';
 export default function LETable(props) {
 
     const tableStyle = {
-        marginTop: "80px",
+        marginTop: "20px",
+        width: "inherit"
     }
 
     {/* states for the table */}
@@ -25,8 +26,11 @@ export default function LETable(props) {
     
 
   return (
-      <div style={tableStyle}>
-        <Table>
+      <div>
+        <Typography variant = "h6">
+            Results
+        </Typography>
+        <Table style={tableStyle}>
             <TableHead >
                 <TableRow>
                     <TableCell >Severity</TableCell> 
@@ -59,8 +63,6 @@ export default function LETable(props) {
                     )
                 })}
             </TableBody>
-
-
         </Table>
         <TablePagination
             count = {props.data.length}

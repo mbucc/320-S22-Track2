@@ -4,6 +4,7 @@ import React from 'react'
 import { useState } from 'react'
 
 export default function Header() {
+  
   /* state for the popover component. Popover will anchor to the element in anchor */
   const [anchor, setAnchor] = useState(null);
 
@@ -16,7 +17,11 @@ export default function Header() {
     setAnchor(e.currentTarget)
   }
 
-  const handleClose = (e) =>{
+  /**
+   * handles closing of popover menu
+   */
+
+  const handleClose = () =>{
     setAnchor(null)
   }
 

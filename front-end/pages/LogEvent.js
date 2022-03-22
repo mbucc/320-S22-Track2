@@ -2,12 +2,19 @@ import React, {useState} from 'react'
 import Form from "../Components/LogEvent-Form/Form.js"
 import LETable from '../Components/LogEvent-Form/LETable.js';
 import Header from '../Components/LogEvent-Form/Header.js';
-import { Typography } from '@mui/material';
+import { Container } from '@mui/material';
 
 export default function LogEvent() {
-    {/** just some code to generate a big set of mock data */}
+    /* just some code to generate a big set of mock data */
     const mockData  = [];
-    for(let i = 0; i < 10000; i++){
+
+    const formContainerStyle = {
+      border: "thin solid lightgray",
+      margin: "20px", 
+      padding: "20px",
+      width: "fit-content"
+    }
+    for(let i = 0; i < 1000; i++){
       let severity = "N/A", date = `1/${i%30}/${2022 + (Math.floor(i / 2022))}`, ps = "Update Costumer", app = "CRM", activity = "Activity", priority = "N/A", category = "N/A", eai = "N/A";
       switch(i%4){
         case(0): category = "heartbeat"; break;
@@ -62,8 +69,13 @@ export default function LogEvent() {
   return (
     <div>
         <Header /> 
-        <Form mockData={mockData} setData={setData}/>
-        <LETable data = {data}/>
+        <Container style = {formContainerStyle}>
+          <Form mockData={mockData} setData={setData}/>
+        </Container> 
+        <Container style = {formContainerStyle}>
+          <LETable data = {data}/>
+        </Container>
+        
     </div>
   )
 }

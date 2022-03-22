@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Severity from './Severity.js'
 import Dropdowns from './Dropdowns'
-import { Button } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 
 export default function Form(props) {
     const [severityCheckboxes, setSeverityCheckboxes] = useState({"error": false, "warning":false, "info": false, "success": false})
@@ -12,13 +12,13 @@ export default function Form(props) {
 
     const [processServices, setProcessServices] = useState({"Process/Service": "All"})
 
-    {/* options for dropdown fields. Will eventually be queries to the database */}
+    /* options for dropdown fields. Will eventually be queries to the database */
     const EAIOptions = ["EAI Domain 1", "EAI Domain 2", "EAI Domain 3", "EAI Domain 4"]
     const applicationOptions = ["CRM"]
     const processServiceOptions = ["Update Costumer"]
 
     const formStyle = {
-        marginTop:  "50px",
+        marginTop:  "20px",
         marginLeft: "20px", 
         display: "flex",
         flexDirection: "column"
@@ -54,6 +54,9 @@ export default function Form(props) {
 
   return (
     <div>
+        <Typography variant = "h6">
+            Filters
+        </Typography>
         <form style={formStyle} onSubmit={applyHandler}>
             <Severity checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} />
             <div style = {dropdownStyle}>

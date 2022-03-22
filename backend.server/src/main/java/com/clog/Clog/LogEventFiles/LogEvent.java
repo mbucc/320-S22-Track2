@@ -22,7 +22,7 @@ public class LogEvent {
     private String application;
     private String event_context;
     private String component;
-    private String severity;
+    private int severity;
     private String priority;
     private Timestamp creation_time;
     private String category_name;
@@ -82,10 +82,10 @@ public class LogEvent {
     public void setComponent(String component) {
         this.component = component;
     }
-    public String getSeverity() {
+    public int getSeverity() {
         return severity;
     }
-    public void setSeverity(String severity) {
+    public void setSeverity(int severity) {
         this.severity = severity;
     }
     public String getPriority() {

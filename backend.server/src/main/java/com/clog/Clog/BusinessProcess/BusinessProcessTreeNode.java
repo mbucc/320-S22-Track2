@@ -7,10 +7,10 @@ public class BusinessProcessTreeNode {
     private String key2_app_context_name;
     private String key2_app_context_value;
     private String eai_transaction_id;
-    private String severity;
+    private int severity;
     public BusinessProcessTreeNode(String name, String key1_app_context_name,
      String key1_app_context_value, String key2_app_context_name, 
-     String key2_app_context_value, String eai_transaction_id, String severity) {
+     String key2_app_context_value, String eai_transaction_id, int severity) {
         this.name = name;
         this.key1_app_context_name = key1_app_context_name;
         this.key1_app_context_value = key1_app_context_value;
@@ -20,11 +20,11 @@ public class BusinessProcessTreeNode {
         this.severity = severity;
     }
 
-    public String getSeverity() {
+    public int getSeverity() {
         return severity;
     }
 
-    public void setSeverity(String severity) {
+    public void setSeverity(int severity) {
         this.severity = severity;
     }
 

@@ -65,7 +65,8 @@ public class MainController {
     }
     @GetMapping(path="/test")
     public @ResponseBody Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getBusinessTree() {
-
+        //TODO Create specification
+        
         List<EAIdomain> test =  busTree.findAll();
         BusinessProcessTreeMap wtf = new BusinessProcessTreeMap();
         for(EAIdomain x : test) {

@@ -3,6 +3,8 @@ package com.clog.Clog;
 import java.util.List;
 import java.util.Optional;
 
+import com.clog.Clog.BusinessProcess.BusinessTreeRepository;
+import com.clog.Clog.BusinessProcess.EAIdomain;
 import com.clog.Clog.LogDetailFiles.LogDetail;
 import com.clog.Clog.LogDetailFiles.LogDetailRepository;
 import com.clog.Clog.LogEventFiles.LogEvent;
@@ -29,6 +31,8 @@ public class MainController {
     private LogDetailRepository logRepo;
     @Autowired
     private LogEventRepository logEventRepo;
+    @Autowired
+    private BusinessTreeRepository busTree;
     @GetMapping(path="/logDetail")
     public @ResponseBody Optional<LogDetail> getAllLogDetails(@RequestParam String id) {
         return logRepo.findById(id);
@@ -51,5 +55,10 @@ public class MainController {
         LogEventFilterSpecification test = new LogEventFilterSpecification(filt);
         return logEventRepo.findAll(test);
         //return businessDomain + eaiDomain + " " + startTime + endTime +" " + businessSubDomain + " " + process;
+    }
+    @GetMapping(path="/test")
+    public @ResponseBody List<EAIdomain> getBusinessTree(){
+        System.out.println(busTree.findAll());
+        return busTree.findAll();
     }
 }

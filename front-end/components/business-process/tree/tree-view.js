@@ -210,7 +210,7 @@ export default function BPTreeComponent({onChange}) {
           '&.Mui-focused, &.Mui-selected, &.Mui-focused.Mui-selected': {
             backgroundColor: BPColors.gray[100],
             '&:hover': {
-              backgroundColor: BPColors.transparent,
+              backgroundColor: BPColors.gray[150],
             },
           },
           '&:hover': {
@@ -281,7 +281,10 @@ export default function BPTreeComponent({onChange}) {
             data.map((nodes) => renderEAIDomains(nodes))
           }
         </TreeView>
-        <TreeContextMenu contextMenu={contextMenu} handleClose={handleClose}/>
+        <TreeContextMenu
+          contextMenu={contextMenu}
+          handleClose={handleClose}
+        />
       </div>
     </div>
   );

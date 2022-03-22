@@ -268,6 +268,7 @@ export default function BPTreeComponent({onChange}) {
           overflowY: 'scroll',
           rowGap: 14,
         }}
+        onContextMenu={e => e.preventDefault()}
       >
         <TreeView
           aria-label="controlled"

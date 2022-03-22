@@ -27,7 +27,6 @@ public class LogEventFilterSpecification implements Specification<LogEvent> {
     public Predicate toPredicate(Root<LogEvent> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
         // TODO Auto-generated method stub
         //Begin with range of dates possible
-        System.out.println(root.get("creation_time").toString());
         Predicate returnVal = cb.between(root.<Timestamp>get("creation_time"),filter.getEndTime(),filter.getStartTime());
     //  returnVal = cb.and(returnVal,cb.greaterThanOrEqualTo(root.get("creation_time"), filter.getEndTime()));
         

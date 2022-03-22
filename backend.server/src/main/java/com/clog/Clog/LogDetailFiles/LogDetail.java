@@ -34,6 +34,7 @@ public class LogDetail {
     private String category_name;
     private String activity;
     private String msg;
+    
     public String getGlobal_instance_id() {
         return global_instance_id;
     }

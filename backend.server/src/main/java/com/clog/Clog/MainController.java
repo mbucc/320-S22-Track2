@@ -1,8 +1,12 @@
 package com.clog.Clog;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import com.clog.Clog.BusinessProcess.BusinessProcessTreeMap;
+import com.clog.Clog.BusinessProcess.BusinessProcessTreeNode;
 import com.clog.Clog.BusinessProcess.BusinessTreeRepository;
 import com.clog.Clog.BusinessProcess.EAIdomain;
 import com.clog.Clog.LogDetailFiles.LogDetail;
@@ -27,12 +31,15 @@ import ch.qos.logback.core.filter.Filter;
 @Controller
 @RequestMapping(path="/clog")
 public class MainController {
+
     @Autowired
     private LogDetailRepository logRepo;
     @Autowired
     private LogEventRepository logEventRepo;
     @Autowired
     private BusinessTreeRepository busTree;
+
+
     @GetMapping(path="/logDetail")
     public @ResponseBody Optional<LogDetail> getAllLogDetails(@RequestParam String id) {
         return logRepo.findById(id);
@@ -57,8 +64,13 @@ public class MainController {
         //return businessDomain + eaiDomain + " " + startTime + endTime +" " + businessSubDomain + " " + process;
     }
     @GetMapping(path="/test")
-    public @ResponseBody List<EAIdomain> getBusinessTree(){
-        System.out.println(busTree.findAll());
-        return busTree.findAll();
+    public @ResponseBody Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getBusinessTree() {
+
+        List<EAIdomain> test =  busTree.findAll();
+        BusinessProcessTreeMap wtf = new BusinessProcessTreeMap();
+        for(EAIdomain x : test) {
+            wtf.addObj(x);
+        }
+        return wtf.getMap();
     }
 }

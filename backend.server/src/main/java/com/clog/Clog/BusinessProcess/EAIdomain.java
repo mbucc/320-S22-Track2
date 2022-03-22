@@ -8,10 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name= "BUSINESS_PROCESS_LOG_T")
@@ -22,12 +19,18 @@ public class EAIdomain {
     private String eai_domain;
     private Timestamp eai_transaction_create_time;
     private String publishing_business_domain;
+    private String business_process;
     private String key1_app_context_name;
     private String key1_app_context_value;
     private String key2_app_context_name;
     private String key2_app_context_value;
     private String global_instance_id;
-
+    public String getBusiness_process() {
+        return business_process;
+    }
+    public void setBusiness_process(String business_process) {
+        this.business_process = business_process;
+    }
 
     public String getKey1_app_context_name() {
         return key1_app_context_name;

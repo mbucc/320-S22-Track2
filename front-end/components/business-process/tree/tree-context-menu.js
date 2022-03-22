@@ -17,6 +17,7 @@ export default function TreeContextMenu(props) {
       <MenuItem onClick={props.handleClose}>Expand Children</MenuItem>
       <MenuItem onClick={props.handleClose}>Collapse Children</MenuItem>
       <MenuItem onClick={props.handleClose}>View Detail</MenuItem>
+      <MenuItem onClick={props.handleClose}>{props.contextMenu !== null ? props.contextMenu.source : null}</MenuItem>
     </Menu>
   );
 }

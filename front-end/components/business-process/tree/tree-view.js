@@ -115,12 +115,14 @@ export default function BPTreeComponent({onChange}) {
   const [contextMenu, setContextMenu] = React.useState(null);
 
   const handleContextMenu = (event, source) => {
+    event.stopPropagation();
     event.preventDefault();
     setContextMenu(
       contextMenu === null ?
         {
           mouseX: event.clientX - 2,
           mouseY: event.clientY - 4,
+          source: source,
         } :
         null,
     );

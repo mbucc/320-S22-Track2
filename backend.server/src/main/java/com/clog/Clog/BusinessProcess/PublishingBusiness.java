@@ -7,9 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.clog.Clog.LogEventFiles.LogEvent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name= "BUSINESS_PROCESS_LOG_T")
@@ -19,7 +22,18 @@ public class PublishingBusiness {
     private String eai_transaction_id;
     private String publishing_business_domain;
     private String business_process;
+    @OneToOne
+    @JoinColumn(name = "global_instance_id")
+    private LogEvent log;
     
+    public LogEvent getLog() {
+        return log;
+    }
+
+    public void setLog(LogEvent log) {
+        this.log = log;
+    }
+
     public String getEai_transaction_id() {
         return eai_transaction_id;
     }

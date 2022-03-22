@@ -28,9 +28,6 @@ public class LogEventFilterSpecification implements Specification<LogEvent> {
         // TODO Auto-generated method stub
         //Begin with range of dates possible
         Predicate returnVal = cb.between(root.<Timestamp>get("creation_time"),filter.getEndTime(),filter.getStartTime());
-    //  returnVal = cb.and(returnVal,cb.greaterThanOrEqualTo(root.get("creation_time"), filter.getEndTime()));
-        
-        //For all the ones that can be all only add filter if its not
         if(!filter.getBusinessDomain().equals("All")) {
       
             returnVal = cb.and(cb.equal(root.get("business_domain"),filter.getBusinessDomain()),returnVal);
@@ -51,7 +48,6 @@ public class LogEventFilterSpecification implements Specification<LogEvent> {
 
             returnVal = cb.and(cb.equal(root.get("eai_domain"),filter.getEaiDomain()),returnVal);
         }
-        //TODO Severity, Type, and Priority
         Predicate sevPredicate = null;
         SeverityMap getCrit = new SeverityMap();
         for (String x : filter.getSeverities()) {

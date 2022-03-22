@@ -1,14 +1,17 @@
 package com.clog.Clog.BusinessProcess;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.clog.Clog.LogEventFiles.LogEvent;
 
 @Entity
 @Table(name= "BUSINESS_PROCESS_LOG_T")
@@ -24,7 +27,18 @@ public class EAIdomain {
     private String key1_app_context_value;
     private String key2_app_context_name;
     private String key2_app_context_value;
-    private String global_instance_id;
+    
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="global_instance_id")
+    private LogEvent log;
+    
+    public LogEvent getLog() {
+        return log;
+    }
+
+    public void setLog(LogEvent log) {
+        this.log = log;
+    }
     public String getBusiness_process() {
         return business_process;
     }
@@ -56,12 +70,7 @@ public class EAIdomain {
     public void setKey2_app_context_value(String key2_app_context_value) {
         this.key2_app_context_value = key2_app_context_value;
     }
-    public String getGlobal_instance_id() {
-        return global_instance_id;
-    }
-    public void setGlobal_instance_id(String global_instance_id) {
-        this.global_instance_id = global_instance_id;
-    }
+
 
 
     public String getEai_domain() {

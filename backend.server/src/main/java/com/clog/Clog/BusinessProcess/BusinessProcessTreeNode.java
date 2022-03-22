@@ -7,13 +7,25 @@ public class BusinessProcessTreeNode {
     private String key2_app_context_name;
     private String key2_app_context_value;
     private String eai_transaction_id;
-    public BusinessProcessTreeNode(String name, String key1_app_context_name, String key1_app_context_value, String key2_app_context_name, String key2_app_context_value, String eai_transaction_id) {
+    private String severity;
+    public BusinessProcessTreeNode(String name, String key1_app_context_name,
+     String key1_app_context_value, String key2_app_context_name, 
+     String key2_app_context_value, String eai_transaction_id, String severity) {
         this.name = name;
         this.key1_app_context_name = key1_app_context_name;
         this.key1_app_context_value = key1_app_context_value;
         this.key2_app_context_name = key2_app_context_name;
         this.key2_app_context_value = key2_app_context_value;
         this.eai_transaction_id = eai_transaction_id;
+        this.severity = severity;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
     }
 
     public String getEai_transaction_id() {

@@ -20,6 +20,9 @@ git checkout cafebabe_dev
  4. In this file enter your username and password for the Code apes database
  3. Rename this file to `application.properties` 
  4. Then move this file from `320-S22-Track2/backend.server/src/main/resource/templates` to `320-S22-Track2/backend.server/src/main/resource`
+ 5. Navigate to `320-S22-Track2/backend.server/src/main/java/com/clog/Clog`
+ 6. Then open the MainController.java file 
+ 7. Running this file will get the springboot server running no your local machine
 
 <h2>Use these URL's to ensure yout spring boot it running </h2>
 

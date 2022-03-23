@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
-import Severity from './Severity.js'
 import Dropdowns from './Dropdowns'
 import { Button, Typography } from '@mui/material'
+import FormCheckbox from './FormCheckbox.js'
+
 
 export default function Form(props) {
-    const [severityCheckboxes, setSeverityCheckboxes] = useState({"error": false, "warning":false, "info": false, "success": false})
+    const [severityCheckboxes, setSeverityCheckboxes] = useState({"Error": false, "Warning":false, "Info": false, "Success": false})
 
     const [domains, setDomains] = useState({"EAI Domain": "All"})
 
@@ -58,13 +59,14 @@ export default function Form(props) {
             Filters
         </Typography>
         <form style={formStyle} onSubmit={applyHandler}>
-            <Severity checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} />
+            <FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} />
             <div style = {dropdownStyle}>
                 <Dropdowns options={EAIOptions} setOptions={setDomains} name={"EAI Domain"} ></Dropdowns>
                 <Dropdowns options={applicationOptions} setOptions={setApplications} name={"Application"} ></Dropdowns>
                 <Dropdowns options={processServiceOptions} setOptions={setProcessServices} name={"Process/Service"} ></Dropdowns>
             </div>
             <Button type="submit" style = {buttonStyle}>Apply</Button>
+            <br />
         </form>
     </div>
   )

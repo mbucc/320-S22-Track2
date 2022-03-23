@@ -24,10 +24,10 @@ export default function LogEvent() {
         case(4): category = "start"; break;
       };
       switch(i%4){
-        case(0): severity = "error"; eai = "EAI Domain 1"; break;
-        case(1): severity = "warning"; eai = "EAI Domain 2"; break;
-        case(2): severity = "info"; eai = "EAI Domain 3"; break;
-        case(3): severity = "success"; eai = "EAI Domain 4"; break;
+        case(0): severity = "Error"; eai = "EAI Domain 1"; break;
+        case(1): severity = "Warning"; eai = "EAI Domain 2"; break;
+        case(2): severity = "Info"; eai = "EAI Domain 3"; break;
+        case(3): severity = "Success"; eai = "EAI Domain 4"; break;
       };
       switch(i%3){
         case(0): priority = "high"; break;

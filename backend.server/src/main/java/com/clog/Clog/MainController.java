@@ -70,19 +70,20 @@ public class MainController {
     public @ResponseBody Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getBusinessTree(
         @RequestParam String startTime, @RequestParam String endTime, @RequestParam String[] eaiDomain, @RequestParam String[] publishingBusinessDomain) {
         businessTreeFilter filt = new businessTreeFilter();
+        System.out.println("test");
         filt.setStartTime(Timestamp.valueOf(startTime));
         filt.setEndTime(Timestamp.valueOf(endTime));
         filt.setEaiDomain(eaiDomain);
         filt.setPublishingBusinessDomain(publishingBusinessDomain);
         
      
-        //TODO Create specification
         businessTreeSpecification spec = new businessTreeSpecification(filt);
         List<EAIdomain> test =  busTree.findAll(spec);
         BusinessProcessTreeMap returnMap = new BusinessProcessTreeMap();
         for(EAIdomain x : test) {
             returnMap.addObj(x);
         }
+        
         return returnMap.getMap();
     }
 }

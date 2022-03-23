@@ -70,6 +70,7 @@ public class MainController {
         List<EAIdomain> test =  busTree.findAll();
         BusinessProcessTreeMap wtf = new BusinessProcessTreeMap();
         for(EAIdomain x : test) {
+            System.out.println(x.getEai_domain() + " " + x.getEai_transaction_id());
             wtf.addObj(x);
         }
         return wtf.getMap();

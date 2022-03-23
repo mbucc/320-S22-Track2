@@ -18,6 +18,7 @@ import com.clog.Clog.LogEventFiles.LogEvent;
 public class EAIdomain {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    private String global_instance_id;
     private String eai_transaction_id;
     private String eai_domain;
     private Timestamp eai_transaction_create_time;

@@ -12,9 +12,13 @@ public class BusinessProcessTreeMap {
     }
     public void addObj(EAIdomain treeEntry) {
         //If EAI in top level map
+        int sev = -1;
+        if(treeEntry.getLog() != null) {
+            sev = treeEntry.getLog().getSeverity();
+        }
         BusinessProcessTreeNode toAddNode = new BusinessProcessTreeNode(treeEntry.getBusiness_process(), treeEntry.getKey1_app_context_name(), 
         treeEntry.getKey1_app_context_value(), treeEntry.getKey2_app_context_name(),
-         treeEntry.getKey2_app_context_value(), treeEntry.getEai_transaction_id(), treeEntry.getLog().getSeverity());
+         treeEntry.getKey2_app_context_value(), treeEntry.getEai_transaction_id(), sev);
         if(eai_domainTopLevel.containsKey(treeEntry.getEai_domain())) {
             Map<String, Map<String, List<BusinessProcessTreeNode>>> EaiMap = eai_domainTopLevel.get(treeEntry.getEai_domain());
             //Check if publishing business Domain is in EAI map

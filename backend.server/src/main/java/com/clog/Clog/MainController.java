@@ -9,6 +9,9 @@ import com.clog.Clog.BusinessProcess.BusinessProcessTreeMap;
 import com.clog.Clog.BusinessProcess.BusinessProcessTreeNode;
 import com.clog.Clog.BusinessProcess.BusinessTreeRepository;
 import com.clog.Clog.BusinessProcess.EAIdomain;
+import com.clog.Clog.BusinessProcess.PublishingBusiness;
+import com.clog.Clog.BusinessProcess.businessTreeFilter;
+import com.clog.Clog.BusinessProcess.businessTreeSpecification;
 import com.clog.Clog.LogDetailFiles.LogDetail;
 import com.clog.Clog.LogDetailFiles.LogDetailRepository;
 import com.clog.Clog.LogEventFiles.LogEvent;
@@ -63,16 +66,23 @@ public class MainController {
         return logEventRepo.findAll(test);
         //return businessDomain + eaiDomain + " " + startTime + endTime +" " + businessSubDomain + " " + process;
     }
-    @GetMapping(path="/test")
-    public @ResponseBody Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getBusinessTree() {
-        //TODO Create specification
+    @GetMapping(path="/businessProcessTree")
+    public @ResponseBody Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getBusinessTree(
+        @RequestParam String startTime, @RequestParam String endTime, @RequestParam String[] eaiDomain, @RequestParam String[] publishingBusinessDomain) {
+        businessTreeFilter filt = new businessTreeFilter();
+        filt.setStartTime(Timestamp.valueOf(startTime));
+        filt.setEndTime(Timestamp.valueOf(endTime));
+        filt.setEaiDomain(eaiDomain);
+        filt.setPublishingBusinessDomain(publishingBusinessDomain);
         
-        List<EAIdomain> test =  busTree.findAll();
-        BusinessProcessTreeMap wtf = new BusinessProcessTreeMap();
+     
+        //TODO Create specification
+        businessTreeSpecification spec = new businessTreeSpecification(filt);
+        List<EAIdomain> test =  busTree.findAll(spec);
+        BusinessProcessTreeMap returnMap = new BusinessProcessTreeMap();
         for(EAIdomain x : test) {
-            System.out.println(x.getEai_domain() + " " + x.getEai_transaction_id());
-            wtf.addObj(x);
+            returnMap.addObj(x);
         }
-        return wtf.getMap();
+        return returnMap.getMap();
     }
 }

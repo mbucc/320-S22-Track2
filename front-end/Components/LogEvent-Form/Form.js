@@ -7,17 +7,16 @@ import FormCheckbox from './FormCheckbox.js'
 export default function Form(props) {
     const [severityCheckboxes, setSeverityCheckboxes] = useState({"Error": false, "Warning":false, "Info": false, "Success": false})
 
-    const [domains, setDomains] = useState({"EAI Domain": "All"})
-
-    const [applications, setApplications] = useState({"Application": "All"})
-
-    const [processServices, setProcessServices] = useState({"Process/Service": "All"})
+    const [dropdownValues, setDropdownValues] = useState({"EAI Domain": "All", "Application": "All", "Process/Service": "All", "Business Domain": "All", "Business SubDomain": "All"})
 
     /* options for dropdown fields. Will eventually be queries to the database */
     const EAIOptions = ["EAI Domain 1", "EAI Domain 2", "EAI Domain 3", "EAI Domain 4"]
     const applicationOptions = ["CRM"]
     const processServiceOptions = ["Update Costumer"]
+    const BusinessDomainOptions = ["Business Domain 1", "Business Domain 2"]
+    const BusinessSubDomOptions = ["Business SubDomain 1", "Business SubDomain 2"]
 
+    console.log(dropdownValues["Business SubDomain"])
     const formStyle = {
         marginTop:  "20px",
         marginLeft: "20px", 
@@ -39,10 +38,12 @@ export default function Form(props) {
     {/* returns true if a given piece of data in the grid has properties specified by current filters */}
     const filterData = (e, objKeys)=>{
         let severityFilter = objKeys.includes(e.severity)
-        let domainFilter = domains["EAI Domain"] === "All" ? true : e["EAI Domain"] === domains["EAI Domain"]
-        let applicationFilter = applications["Application"] === "All" ? true : e["Application"] === applications["Application"]
-        let processServiceFilter = processServices["Process/Service"] === "All" ? true : e["Process/Service"] === processServices["Process/Service"]
-        return severityFilter && domainFilter && applicationFilter && processServiceFilter
+        let domainFilter = dropdownValues["EAI Domain"] === "All" ? true : e["EAI Domain"] === dropdownValues["EAI Domain"]
+        let applicationFilter = dropdownValues["Application"] === "All" ? true : e["Application"] === dropdownValues["Application"]
+        let processServiceFilter = dropdownValues["Process/Service"] === "All" ? true : e["Process/Service"] === dropdownValues["Process/Service"]
+        let BDFilter = dropdownValues["Business Domain"] === "All"? true : e["Business Domain"] === dropdownValues["Business Domain"]
+        let BSDFilter = dropdownValues["Business SubDomain"] === "All"? true : e["Business SubDomain"] === dropdownValues["Business SubDomain"]
+        return severityFilter && domainFilter && applicationFilter && processServiceFilter && BDFilter && BSDFilter
     }
 
     const applyHandler = (event)=> {
@@ -61,9 +62,11 @@ export default function Form(props) {
         <form style={formStyle} onSubmit={applyHandler}>
             <FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} />
             <div style = {dropdownStyle}>
-                <Dropdowns options={EAIOptions} setOptions={setDomains} name={"EAI Domain"} ></Dropdowns>
-                <Dropdowns options={applicationOptions} setOptions={setApplications} name={"Application"} ></Dropdowns>
-                <Dropdowns options={processServiceOptions} setOptions={setProcessServices} name={"Process/Service"} ></Dropdowns>
+                <Dropdowns options={EAIOptions} setOptions={setDropdownValues} name={"EAI Domain"} ></Dropdowns>
+                <Dropdowns options={applicationOptions} setOptions={setDropdownValues} name={"Application"} ></Dropdowns>
+                <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} name={"Process/Service"} ></Dropdowns>
+                <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} name={"Business Domain"} ></Dropdowns>
+                <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} name={"Business SubDomain"} ></Dropdowns>
             </div>
             <Button type="submit" style = {buttonStyle}>Apply</Button>
             <br />

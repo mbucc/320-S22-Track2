@@ -41,6 +41,8 @@ export default function LETable(props) {
                     <TableCell >Process/Service</TableCell>
                     <TableCell >Activity</TableCell>
                     <TableCell >EAI Domain</TableCell>
+                    <TableCell> Business Domain </TableCell>
+                    <TableCell> Business SubDomain </TableCell>
                     <TableCell >Log Event</TableCell>
                 </TableRow>
             </TableHead>
@@ -58,6 +60,8 @@ export default function LETable(props) {
                             <TableCell>{e["Process/Service"]}</TableCell>
                             <TableCell>{e["Activity"]}</TableCell>
                             <TableCell>{e["EAI Domain"]}</TableCell>
+                            <TableCell>{e["Business Domain"]}</TableCell>
+                            <TableCell>{e["Business SubDomain"]}</TableCell>
                             <TableCell>{e["Log Event"]}</TableCell>
                         </TableRow>
                     )

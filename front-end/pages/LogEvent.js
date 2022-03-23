@@ -15,7 +15,7 @@ export default function LogEvent() {
       width: "fit-content"
     }
     for(let i = 0; i < 1000; i++){
-      let severity = "N/A", date = `1/${i%30}/${2022 + (Math.floor(i / 2022))}`, ps = "Update Costumer", app = "CRM", activity = "Activity", priority = "N/A", category = "N/A", eai = "N/A";
+      let severity = "N/A", date = `1/${i%30}/${2022 + (Math.floor(i / 2022))}`, ps = "Update Costumer", app = "CRM", activity = "Activity", priority = "N/A", category = "N/A", eai = "N/A", BD = "N/A", BSD = "N/A";
       switch(i%4){
         case(0): category = "heartbeat"; break;
         case(1): category = "stop"; break;
@@ -24,10 +24,10 @@ export default function LogEvent() {
         case(4): category = "start"; break;
       };
       switch(i%4){
-        case(0): severity = "Error"; eai = "EAI Domain 1"; break;
-        case(1): severity = "Warning"; eai = "EAI Domain 2"; break;
-        case(2): severity = "Info"; eai = "EAI Domain 3"; break;
-        case(3): severity = "Success"; eai = "EAI Domain 4"; break;
+        case(0): severity = "Error"; eai = "EAI Domain 1"; BD = "Business Domain 1"; BSD = "Business SubDomain 1"; break;
+        case(1): severity = "Warning"; eai = "EAI Domain 2"; BD = "Business Domain 2"; BSD = "Business SubDomain 2"; break;
+        case(2): severity = "Info"; eai = "EAI Domain 3"; BD = "Business Domain 1"; BSD = "Business SubDomain 1"; break;
+        case(3): severity = "Success"; eai = "EAI Domain 4"; BD = "Business Domain 2"; BSD = "Business SubDomain 2"; break;
       };
       switch(i%3){
         case(0): priority = "high"; break;
@@ -43,7 +43,9 @@ export default function LogEvent() {
         "Log Event": "detail",
         "priority": priority,
         "category": category,
-        "EAI Domain": eai
+        "EAI Domain": eai,
+        "Business Domain": BD,
+        "Business SubDomain": BSD
       });
     };
         {/*{"severity": "error", "Created Date": "3/2/2022", "Process/Service": "Update Costumer", "Application": "CRM", "Activity": "Activity", "Log Event": "Detail", "priority": "high", "category": "start", "EAI Domain": "EAI Domain 1" },

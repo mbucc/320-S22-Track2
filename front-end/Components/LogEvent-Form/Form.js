@@ -16,7 +16,6 @@ export default function Form(props) {
     const BusinessDomainOptions = ["Business Domain 1", "Business Domain 2"]
     const BusinessSubDomOptions = ["Business SubDomain 1", "Business SubDomain 2"]
 
-    console.log(dropdownValues["Business SubDomain"])
     const formStyle = {
         marginTop:  "20px",
         marginLeft: "20px", 

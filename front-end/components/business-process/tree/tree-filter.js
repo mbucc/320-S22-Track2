@@ -6,10 +6,10 @@ import {BPDatePicker} from '../common/date-picker';
 import {BPDomainSelector} from '../common/domain-selector';
 import {EAIDomainSample, PublishingBusinessDomainSample} from '../../../utils/business-process/sample-data';
 
-const BPTreeFilterComponent = ({onChange}) => {
+const BPTreeFilterComponent = (props) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-
+   
   return (
     <div
       style={{
@@ -43,6 +43,7 @@ const BPTreeFilterComponent = ({onChange}) => {
         </p>
         <Button
           size={'small'}
+          onClick={props.setFilter}
           sx={{
             color: 'white',
             borderRadius: 999,

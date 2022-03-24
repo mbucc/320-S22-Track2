@@ -1,10 +1,12 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
 import {BPTextButton} from '../common/button';
-import {sampleEAIDomains} from '../../../utils/business-process/sample-data';
+import AlertDialog from '../common/dialog'
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import Image from 'next/image';
 import TreeContextMenu from './tree-context-menu';
@@ -101,8 +103,6 @@ const subTreeStyle = {
   },
 };
 
-const data = sampleEAIDomains;
-const _expandable = findExpandable(data);
 
 /**
  * The hierarchy tree view component of business process view.
@@ -110,9 +110,18 @@ const _expandable = findExpandable(data);
  * @param {Object} props.onChange - The callback function when the tree view is changed.
  * @return {JSX.Element} - The generated tree view component.
  */
-export default function BPTreeComponent({onChange}) {
-  const [expanded, setExpanded] = React.useState([]);
-  const [contextMenu, setContextMenu] = React.useState(null);
+export default function BPTreeComponent(props) {
+  const [expanded, setExpanded] = useState([]);
+  const [expandable, setExpandable] = useState([]);
+  const [contextMenu, setContextMenu] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  // const data = sampleEAIDomains;
+  // const data = props.data;
+  useEffect(() => {
+    setExpandable(findExpandable(props.data));
+  },[props.data]);
+
 
   const handleContextMenu = (event, source) => {
     event.stopPropagation();
@@ -137,9 +146,19 @@ export default function BPTreeComponent({onChange}) {
 
   const handleExpandClick = () => {
     setExpanded((oldExpanded) =>
-            oldExpanded.length === 0 ? _expandable : []
+            oldExpanded.length === 0 ? expandable : []
     );
   };
+
+  const handleOpenDialog = () => {
+    handleClose()
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   // For now, needs to be put here to pass in handleContextMenu
   const renderEAIDomains = (nodes) => (
     <TreeItem
@@ -279,10 +298,11 @@ export default function BPTreeComponent({onChange}) {
           multiSelect
         >
           {
-            data.map((nodes) => renderEAIDomains(nodes))
+            props.data.map((nodes) => renderEAIDomains(nodes))
           }
         </TreeView>
-        <TreeContextMenu contextMenu={contextMenu} handleClose={handleClose}/>
+        <TreeContextMenu contextMenu={contextMenu} handleClose={handleClose} handleOpenDialog={handleOpenDialog}/>
+        <AlertDialog openDialog={openDialog} handleCloseDialog={handleCloseDialog}/>
       </div>
     </div>
   );

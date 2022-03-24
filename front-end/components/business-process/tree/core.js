@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import BPTreeComponent from './tree-view';
 import {BPColors} from '../../../utils/business-process/standards';
 import BPTreeFilterComponent from './tree-filter';
+import sampleEAIDomains from '../../../utils/business-process/sample-data';
 
 const BPTreeView = ({
   onChange,
 }) => {
+  const [data,setData] = useState(sampleEAIDomains) //TODO: change this to effect once we have fetch working
+  const setFilter = () =>{
+    setData(sampleEAIDomains)
+  }
+
   return (
     <div
       style={{
@@ -16,7 +22,7 @@ const BPTreeView = ({
       }}
     >
       {/* Filter Section */}
-      <BPTreeFilterComponent/>
+      <BPTreeFilterComponent setFilter={setFilter}/>
 
       {/* Divider */}
       <div
@@ -41,7 +47,7 @@ const BPTreeView = ({
           justifyContent: 'center',
         }}
       >
-        <BPTreeComponent />
+        <BPTreeComponent data={data}/>
       </div>
     </div>
   );

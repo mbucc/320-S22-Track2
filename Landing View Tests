@@ -5,9 +5,33 @@
 public void testDonutChartValues() {
   let testDatabaseVal= {[10, 10, 10, 10, 30]}; 
   #need to pull the values from database instead
-  let donutchartValues= {[ 10, 20, 30, 30]}; 
+  let donutchartValues= {[ 10, 10, 10, 10, 30]}; 
   #need to pull the values from the donutchart in the Dashboard
   assert testDatabaseVal.equals(donutchartValues); 
+  }
+  
+ ***Timeline Details:***
+**Timeline Graph and Count Display(320-S22-Track2/front-end/pages/dashboard/Timelines.js)**
+@Test
+public void testTimelineGraphValues() {
+  let testDatabaseLogCount= 25000; 
+  #need to pull the values from database instead
+  let timelineLogCount= 25000; 
+  #need to pull the values from Timeline
+  assert testDatabaseLogCount.equals(timelineLogCount);
+  
+  let testDatabaseErrorCount= 5000; 
+  #need to pull the values from database instead
+  let timelineErrorCount= 5000; 
+  #need to pull the values from Timeline
+  assert testDatabaseErrorCount.equals(timelineErrorCount);
+  
+  let testDatabaseWarningCount= 25000; 
+  #need to pull the values from database instead
+  let timelineWarningCount= 25000; 
+  #need to pull the values from Timeline
+  assert testDatabaseWaningCount.equals(timelineWarningCount);
+  
   }
   
  

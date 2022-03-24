@@ -48,7 +48,10 @@ export default function Form(props) {
 
     const applyHandler = (event)=> {
         event.preventDefault()
-        let objKeys = Object.keys(severityCheckboxes).filter((e)=> severityCheckboxes[e]).filter((f)=> priorityCheckboxes[f])
+         let severityKeys = Object.keys(severityCheckboxes).filter((e)=> severityCheckboxes[e])
+         let priorityKeys = Object.keys(priorityCheckboxes).filter((e)=> priorityCheckboxes[e])
+         let objKeys = severityKeys.concat(priorityKeys)
+
         let filteredData = props.mockData.filter((e) => filterData(e, objKeys))
         
         props.setData(filteredData)

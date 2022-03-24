@@ -30,9 +30,9 @@ export default function LogEvent() {
         case(3): severity = "Success"; eai = "EAI Domain 4"; BD = "Business Domain 2"; BSD = "Business SubDomain 2"; break;
       };
       switch(i%3){
-        case(0): priority = "high"; break;
-        case(1): priority = "medium"; break;
-        case(2): priority = "low"; break;
+        case(0): priority = "High"; break;
+        case(1): priority = "Medium"; break;
+        case(2): priority = "Low"; break;
       };
       mockData.push({
         "severity": severity,

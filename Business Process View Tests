@@ -1,1 +1,26 @@
+***Business Process View Testing Outline:***
 
+**Connection**
+  #Is there a connection between the view and the database?
+  #Are the drop downs and filters creating the correct querries?
+  #Are the querries correctly searching the database?
+  #Is the correct information being recieved from the database?
+
+**Domain Expansion Window**
+  #Are all the domains shown?
+  #Are all the sub directories listed?
+  #Are the directories shown in their correct location?
+  #Are the logs in the subdirectories correct?
+  #Are the directories expanding and collapsing correctly?
+  #Does all the data display correctly?
+
+**Data Log Window**
+  #Is the data being properly displayed?
+  #Is the view updated to show most recent search/data?
+  #Are all the fields filled and displaying the corerrect data?
+  #Is the amount of errors and data correct?
+  #Is the data displayed the the correct data for the search?
+  #Do the logs successfully refresh?
+  #Do the filters correctly filter the data?
+  #Does the ordering correctly order the data?
+  

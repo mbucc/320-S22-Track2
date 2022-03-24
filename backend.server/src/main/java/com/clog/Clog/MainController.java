@@ -9,7 +9,7 @@ import com.clog.Clog.BusinessProcess.BusinessProcessTreeMap;
 import com.clog.Clog.BusinessProcess.BusinessProcessTreeNode;
 import com.clog.Clog.BusinessProcess.BusinessTreeRepository;
 import com.clog.Clog.BusinessProcess.EAIdomain;
-import com.clog.Clog.BusinessProcess.PublishingBusiness;
+
 import com.clog.Clog.BusinessProcess.businessTreeFilter;
 import com.clog.Clog.BusinessProcess.businessTreeSpecification;
 import com.clog.Clog.LogDetailFiles.LogDetail;
@@ -70,7 +70,6 @@ public class MainController {
     public @ResponseBody Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getBusinessTree(
         @RequestParam String startTime, @RequestParam String endTime, @RequestParam String[] eaiDomain, @RequestParam String[] publishingBusinessDomain) {
         businessTreeFilter filt = new businessTreeFilter();
-        System.out.println("test");
         filt.setStartTime(Timestamp.valueOf(startTime));
         filt.setEndTime(Timestamp.valueOf(endTime));
         filt.setEaiDomain(eaiDomain);
@@ -85,5 +84,12 @@ public class MainController {
         }
         
         return returnMap.getMap();
+    }
+    @GetMapping(path="/businessProcessGrid")
+    public @ResponseBody List<LogEvent> getBusinessProcessGrid(
+    @RequestParam String eai_transaction_id, @RequestParam String[] severities, @RequestParam String[] businessDomainList
+    ){
+        return null;
+
     }
 }

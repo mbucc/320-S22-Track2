@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.clog.Clog.BusinessProcess.BusinessGridFilter;
+import com.clog.Clog.BusinessProcess.BusinessGridSpecification;
 import com.clog.Clog.BusinessProcess.BusinessProcessTreeMap;
 import com.clog.Clog.BusinessProcess.BusinessProcessTreeNode;
 import com.clog.Clog.BusinessProcess.BusinessTreeRepository;
@@ -87,9 +89,14 @@ public class MainController {
     }
     @GetMapping(path="/businessProcessGrid")
     public @ResponseBody List<LogEvent> getBusinessProcessGrid(
-    @RequestParam String eai_transaction_id, @RequestParam String[] severities, @RequestParam String[] businessDomainList
-    ){
-        return null;
+    @RequestParam String eai_transaction_id, @RequestParam String[] severities, @RequestParam String[] businessDomainList)
+    {
+        BusinessGridFilter businessFilter = new BusinessGridFilter();
+        businessFilter.setEai_transaction_id(eai_transaction_id);
+        businessFilter.setBusinessDomainList(businessDomainList);
+        businessFilter.setSeverities(severities);
+        BusinessGridSpecification businessGridSpec = new BusinessGridSpecification(businessFilter);
+        return logEventRepo.findAll(businessGridSpec);
 
     }
 }

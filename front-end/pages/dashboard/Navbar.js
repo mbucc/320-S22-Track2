@@ -11,7 +11,7 @@ import Tab from '@mui/material/Tab';
 function Navbar(props) {
   return (
     <>
-      <AppBar position='fixed'>
+      <AppBar position='fixed' color='primary'> 
         <Container maxWidth='100%'>
           <Toolbar maxWidth='100%'>
             <Typography variant='h6' noWrap component='div' sx={{mr: 5}}>

@@ -1,4 +1,4 @@
-import { Doughnut } from 'react-chartjs-2';
+import {Doughnut} from 'react-chartjs-2';
 import 'chart.js/auto';
 
 function DonutChartComponent(props) {
@@ -25,8 +25,8 @@ function DonutChartComponent(props) {
         maintainAspectRatio: true,
         onClick: (event, element) => {
           if (element.length > 0) {
-            props.onClickFunc("Click");
-            props.onClickFunc(props.labels[element[0].index])
+            props.onClickFunc('Click');
+            props.onClickFunc(props.labels[element[0].index]);
           }
         },
         plugins: {
@@ -35,9 +35,9 @@ function DonutChartComponent(props) {
           },
           title: {
             display: true,
-            text: props.title
-          }
-        }
+            text: props.title,
+          },
+        },
       }}
 
     />

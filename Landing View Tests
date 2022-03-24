@@ -1,9 +1,19 @@
+
+***Donut Chart Display:***
+**Donut Chart Deatils (320-S22-Track2/front-end/pages/dashboard/donutchart.js)**
+@Test
+public void testDonutChartValues() {
+  let testDatabaseVal= {[10, 10, 10, 10, 30]}; 
+  #need to pull the values from database instead
+  let donutchartValues= {[ 10, 20, 30, 30]}; 
+  #need to pull the values from the donutchart in the Dashboard
+  assert testDatabaseVal.equals(donutchartValues); 
+  }
+  
+ 
+  
+
 ***General Initial Testing Outline:***
-**Database Connection**
-#Is connection established and configured from all ISO New England Application Adapters to data sink?
-#Is connection established and configured from data sink to MySQL database?
-#Is the call to the MySQL database being formulated correctly to access data correctly?
-#Is the API call to get the data from the data sink correctly retrieving the data?
 
 **Front End Connection**
 #Is the navigation buttons to the the different views (ie. Log View, Business Process View) working?
@@ -16,5 +26,12 @@
 #Is connection established and valid for all necessary functionality from the Landing View to the Spring Boot server?
 #Is all data being processed and piped correctly from Spring Boot server to the Landing View?
 #Is data available on the Landing View in an appropriate time constraint?
+
+**Database Connection**
+#Is connection established and configured from all ISO New England Application Adapters to data sink?
+#Is connection established and configured from data sink to MySQL database?
+#Is the call to the MySQL database being formulated correctly to access data correctly?
+#Is the API call to get the data from the data sink correctly retrieving the data?
+
 **Correctness**
 #Is all data stored and transferred correctly to the frontend?

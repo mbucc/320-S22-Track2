@@ -6,7 +6,7 @@ import FormCheckbox from './FormCheckbox.js'
 
 export default function Form(props) {
     const [severityCheckboxes, setSeverityCheckboxes] = useState({"Error": false, "Warning":false, "Info": false, "Success": false})
-
+    const [priorityCheckboxes, setPriorityCheckboxes] = useState({"Low": false, "Medium":false, "High": false})
     const [dropdownValues, setDropdownValues] = useState({"EAI Domain": "All", "Application": "All", "Process/Service": "All", "Business Domain": "All", "Business SubDomain": "All"})
 
     /* options for dropdown fields. Will eventually be queries to the database */
@@ -37,17 +37,18 @@ export default function Form(props) {
     {/* returns true if a given piece of data in the grid has properties specified by current filters */}
     const filterData = (e, objKeys)=>{
         let severityFilter = objKeys.includes(e.severity)
+        let priorityFilter = objKeys.includes(e.priority)
         let domainFilter = dropdownValues["EAI Domain"] === "All" ? true : e["EAI Domain"] === dropdownValues["EAI Domain"]
         let applicationFilter = dropdownValues["Application"] === "All" ? true : e["Application"] === dropdownValues["Application"]
         let processServiceFilter = dropdownValues["Process/Service"] === "All" ? true : e["Process/Service"] === dropdownValues["Process/Service"]
         let BDFilter = dropdownValues["Business Domain"] === "All"? true : e["Business Domain"] === dropdownValues["Business Domain"]
         let BSDFilter = dropdownValues["Business SubDomain"] === "All"? true : e["Business SubDomain"] === dropdownValues["Business SubDomain"]
-        return severityFilter && domainFilter && applicationFilter && processServiceFilter && BDFilter && BSDFilter
+        return severityFilter && priorityFilter && domainFilter && applicationFilter && processServiceFilter && BDFilter && BSDFilter
     }
 
     const applyHandler = (event)=> {
         event.preventDefault()
-        let objKeys = Object.keys(severityCheckboxes).filter((e)=> severityCheckboxes[e])
+        let objKeys = Object.keys(severityCheckboxes).filter((e)=> severityCheckboxes[e]).filter((f)=> priorityCheckboxes[f])
         let filteredData = props.mockData.filter((e) => filterData(e, objKeys))
         
         props.setData(filteredData)
@@ -60,6 +61,7 @@ export default function Form(props) {
         </Typography>
         <form style={formStyle} onSubmit={applyHandler}>
             <FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} />
+            <FormCheckbox name="Priority" checkboxes={priorityCheckboxes} setCheckboxes={setPriorityCheckboxes} />
             <div style = {dropdownStyle}>
                 <Dropdowns options={EAIOptions} setOptions={setDropdownValues} name={"EAI Domain"} ></Dropdowns>
                 <Dropdowns options={applicationOptions} setOptions={setDropdownValues} name={"Application"} ></Dropdowns>

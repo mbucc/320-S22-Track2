@@ -10,6 +10,17 @@ and then push
 }
 
 
+public void testForms() {
+let testFormStyle {[20, 20, 'flex', 'column']};
+let testDropDownStyle {['flex', 'row']};
+let testButtonStyle {['20', '100', 'solid']};
+assert testFormStyle.equals(form.formstyle);
+
+
+
+
+
+
 
 
 

@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import BPTreeComponent from './tree-view';
 import {BPColors} from '../../../utils/business-process/standards';
 import BPTreeFilterComponent from './tree-filter';
-import sampleEAIDomains from '../../../utils/business-process/sample-data';
+import {sampleEAIDomains} from '../../../utils/business-process/sample-data';
 
 const BPTreeView = ({
   onChange,

@@ -7,8 +7,7 @@ import {BPTextButton} from '../common/button';
 import {sampleEAIDomains} from '../../../utils/business-process/sample-data';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import renderBusinessProcessInstances from './tree-item-log';
-
-const contextMenu = (e, source) => console.log( source + 'rightclick');
+import TreeContextMenu from './tree-context-menu'
 
 const findExpandable = (tree) => {
   const result = [];
@@ -209,37 +208,6 @@ export default function BPTreeComponent({onChange}) {
     </TreeItem>
   );
 
-  const renderBusinessProcessInstances = (log) =>(
-    <TreeItem
-      key={log.id}
-      nodeId={log.id}
-      icon={<BPActivitySeverityIcon severity={log.severity}/>}
-      label={log.sampleContent}
-      sx={{
-        marginTop: '1px',
-        borderRadius: BPDimens.treeRadius,
-        color: getColorBySeverity(log.severity),
-        backgroundColor: BPColors.transparent,
-        '&:hover': {
-          backgroundColor: BPColors.gray[100],
-        },
-        '& > .MuiTreeItem-content': {
-          minHeight: 34,
-          borderRadius: BPDimens.treeRadius,
-          padding: '0px 13px',
-          '&.Mui-focused, &.Mui-selected, &.Mui-focused.Mui-selected': {
-            backgroundColor: BPColors.gray[100],
-            '&:hover': {
-              backgroundColor: BPColors.gray[150],
-            },
-          },
-          '&:hover': {
-            backgroundColor: BPColors.transparent,
-          },
-        },
-      }}
-    />
-  );
   return (
     <div
       style={{

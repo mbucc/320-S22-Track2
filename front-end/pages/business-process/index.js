@@ -47,7 +47,7 @@ const BPIndex = () => {
           style={{
             width: '100%',
             height: '55%',
-            maxHeight: 'calc(55vh - 36px)',
+            maxHeight: 'calc(55vh - 37px)',
             flexShrink: 1,
             flexGrow: 0,
             backgroundColor: '#ffffff',
@@ -70,7 +70,7 @@ const BPIndex = () => {
           style={{
             width: '100%',
             height: '45%',
-            maxHeight: 'calc(45vh - 36px)',
+            maxHeight: 'calc(45vh - 37px)',
             flexShrink: 1,
             flexGrow: 0,
             backgroundColor: '#ffffff',

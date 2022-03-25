@@ -132,17 +132,114 @@ const _expandable = findExpandable(data);
  */
 export default function BPTreeComponent({onChange}) {
   const [expanded, setExpanded] = React.useState([]);
+  const [contextMenu, setContextMenu] = React.useState(null);
 
+  const handleContextMenu = (event, source) => {
+    event.stopPropagation();
+    event.preventDefault();
+    setContextMenu(
+      contextMenu === null ?
+        {
+          mouseX: event.clientX - 2,
+          mouseY: event.clientY - 4,
+          source: source,
+        } :
+        null,
+    );
+  };
+
+  const handleClose = () => {
+    setContextMenu(null);
+  };
   const handleToggle = (event, nodeIds) => {
     setExpanded(nodeIds);
   };
 
   const handleExpandClick = () => {
     setExpanded((oldExpanded) =>
-      oldExpanded.length === 0 ? _expandable : []
+            oldExpanded.length === 0 ? _expandable : []
     );
   };
+  // For now, needs to be put here to pass in handleContextMenu
+  const renderEAIDomains = (nodes) => (
+    <TreeItem
+      key={nodes.name}
+      nodeId={nodes.name}
+      label={nodes.name}
+      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      sx={rootTreeStyle}
+    >
+      {
+        Array.isArray(nodes.children) ?
+          nodes.children.map((node) => renderPublishingBusinessDomains(node)) :
+          null
+      }
+    </TreeItem>
+  );
 
+  const renderPublishingBusinessDomains = (nodes) => (
+    <TreeItem
+      key={nodes.name}
+      nodeId={nodes.name}
+      label={nodes.name}
+      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      sx={subTreeStyle}
+    >
+      {
+        Array.isArray(nodes.children) ?
+          nodes.children.map((node) => renderBusinessProcesses(node)) :
+          null
+      }
+    </TreeItem>
+  );
+
+  const renderBusinessProcesses = (nodes) => (
+    <TreeItem
+      key={nodes.name}
+      nodeId={nodes.name}
+      label={nodes.name}
+      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      sx={subTreeStyle}
+    >
+      {
+        Array.isArray(nodes.activities) ?
+          nodes.activities.map((log) => renderBusinessProcessInstances(log)) :
+          null
+      }
+    </TreeItem>
+  );
+
+  const renderBusinessProcessInstances = (log) =>(
+    <TreeItem
+      key={log.id}
+      nodeId={log.id}
+      icon={<BPActivitySeverityIcon severity={log.severity}/>}
+      label={log.sampleContent}
+      sx={{
+        marginTop: '1px',
+        borderRadius: BPDimens.treeRadius,
+        color: getColorBySeverity(log.severity),
+        backgroundColor: BPColors.transparent,
+        '&:hover': {
+          backgroundColor: BPColors.gray[100],
+        },
+        '& > .MuiTreeItem-content': {
+          minHeight: 34,
+          borderRadius: BPDimens.treeRadius,
+          padding: '0px 13px',
+          '&.Mui-focused, &.Mui-selected, &.Mui-focused.Mui-selected': {
+            backgroundColor: BPColors.gray[100],
+            '&:hover': {
+              backgroundColor: BPColors.gray[150],
+            },
+          },
+          '&:hover': {
+            backgroundColor: BPColors.transparent,
+          },
+        },
+      }}
+    />
+  );
   return (
     <div
       style={{
@@ -204,7 +301,11 @@ export default function BPTreeComponent({onChange}) {
             data.map((nodes) => renderEAIDomains(nodes))
           }
         </TreeView>
+        <TreeContextMenu
+          contextMenu={contextMenu}
+          handleClose={handleClose}
+        />
       </div>
     </div>
   );
-}
+};

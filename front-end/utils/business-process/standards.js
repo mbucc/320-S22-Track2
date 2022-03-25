@@ -10,6 +10,7 @@ const BPColors = {
     50: '#fafbfb',
     70: '#f7f8f8',
     100: '#f3f4f6',
+    150: '#ebedf0',
     200: '#e5e7eb',
     300: '#d1d5db',
     400: '#9ca3af',
@@ -72,6 +73,9 @@ const BPStandards = {
     fontSize: 15,
     fontWeight: '400',
   },
+
+  shadow: '0px 20px 50px 0px rgba(0,0,0,0.10)',
+  menuShadow: '0px 16px 40px 0px rgba(0,0,0,0.10)',
 };
 
 export {

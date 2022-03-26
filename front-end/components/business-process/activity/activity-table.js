@@ -65,10 +65,11 @@ const BPTableRootStructure = styled.div`
     }
     
     .table-header-sorter {
-      &:hover > div > .table-header-sorter-icon {
+      &:hover > .table-header-sorter-icon {
+        transform: scale(1.05);
         color: ${BPColors.black} !important;
       }
-      &:active > div > .table-header-sorter-icon {
+      &:active > .table-header-sorter-icon {
         transform: scale(0.85);
       }
     }
@@ -92,25 +93,32 @@ const BPTableRootStructure = styled.div`
       }
 
       .resizer {
-        display: inline-block;
-        background: ${BPColors.gray[200]};
-        width: 2.5px;
-        height: 16.5px;
-        border-radius: 999px;
+        width: 8px;
+        height: 20px;
         position: absolute;
         right: 0;
         top: 50%;
         transform: translateY(-50%);
         transition: all 0.15s ease-in-out;
         z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         // Prevents from scrolling while dragging on touch devices.
         touch-action: none;
         
-        &:hover {
+        & > .table-resizer-handle {
+          width: 2.5px;
+          height: 16.5px;
+          border-radius: 999px;
+          background: ${BPColors.gray[200]};
+        }
+        
+        &:hover > .table-resizer-handle {
           background: ${BPColors.gray[500]};
         }
 
-        &.isResizing {
+        &.isResizing > .table-resizer-handle {
           background: ${BPColors.gray[800]};
         }
       }
@@ -183,16 +191,19 @@ export default function BPTableComponent({columns, data}) {
               {headerGroup.headers.map((column) => (
                 // eslint-disable-next-line react/jsx-key
                 <div
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className="th table-header-sorter"
+                  {...column.getHeaderProps()}
+                  className="th"
                 >
                   <div
+                    className="table-header-sorter"
+                    {...column.getSortByToggleProps()}
                     style={{
                       display: 'flex',
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'flex-start',
                       columnGap: '7px',
+                      cursor: 'pointer',
                     }}
                   >
                     {column.render('Header')}
@@ -221,7 +232,9 @@ export default function BPTableComponent({columns, data}) {
                     className={`resizer ${
                       column.isResizing ? 'isResizing' : ''
                     }`}
-                  />
+                  >
+                    <div className="table-resizer-handle" />
+                  </div>
                 </div>
               ))}
             </div>

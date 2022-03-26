@@ -18,18 +18,18 @@ export default function Timeline(props) {
     const [hover, changeHover] = useState(null);
     const [tooltipTarget, changeTooltip] = useState(null);
 
-    // const TooltipContent = (props) => {
-    //     return (
-    //         <div>
-    //             <Tooltip.Content
-    //                 text={props.targetItem.logs}
-    //             />
-    //             <Tooltip.Content
-    //                 text={props.targetItem.time}
-    //             />
-    //         </div>
-    //     )
-    // }
+    const TooltipContent = (props) => {
+        return (
+            <div>
+                <Tooltip.Content
+                    text={props.targetItem.logs}
+                />
+                <Tooltip.Content
+                    text={props.targetItem.time}
+                />
+            </div>
+        )
+    }
 
     const data = [
         { time: '13:00', logs: 20 },
@@ -64,7 +64,7 @@ export default function Timeline(props) {
                 </Grid>
             </Grid>
             <Grid item>
-                {/* <Box>
+                {/* <div style={{height:'10vh', width: '30vw', position:"relative"}}>
                     <Line
                         data={{
                             labels: props.labels,
@@ -101,7 +101,7 @@ export default function Timeline(props) {
                             }
                         }}
                     />
-                </Box> */}
+                </div> */}
                 <Chart
                     data={data}
                     height={'100'}

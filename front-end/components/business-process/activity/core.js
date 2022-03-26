@@ -39,9 +39,28 @@ const BPActivityView = ({
           },
         },
         {
-          Header: 'Info',
-          accessor: 'info',
-          width: 600,
+          Header: 'Log Event Created Date',
+          accessor: 'logEventCreatedDate',
+          minWidth: 220,
+          width: 350,
+        },
+        {
+          Header: 'Business Domain',
+          accessor: 'businessDomain',
+          minWidth: 200,
+          width: 300,
+        },
+        {
+          Header: 'Application',
+          accessor: 'application',
+          minWidth: 180,
+          width: 300,
+        },
+        {
+          Header: 'Activity',
+          accessor: 'activity',
+          minWidth: 180,
+          width: 300,
         },
       ],
       []

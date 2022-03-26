@@ -1,10 +1,11 @@
 import React, {useEffect, useMemo, useState} from 'react';
 
 // WebStorm doesn't understand ES6 imports and throw a warning of "cannot resolve 'useTable'". It seems working.
-import {useTable, useBlockLayout, useResizeColumns} from 'react-table';
+import {useTable, useBlockLayout, useSortBy, useResizeColumns} from 'react-table';
 
 import styled from 'styled-components';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
+import {IconArrowsSort, IconSortAscending, IconSortDescending, IconSwitchVertical} from "@tabler/icons";
 
 /**
  * The root component for the activity table.
@@ -61,6 +62,21 @@ const BPTableRootStructure = styled.div`
       margin: 0 10px;
       background-color: ${BPColors.gray[100]};
       opacity: 90%;
+    }
+    
+    .table-header-sorter {
+      &:hover > div > .table-header-sorter-icon {
+        color: ${BPColors.black} !important;
+      }
+      &:active > div > .table-header-sorter-icon {
+        transform: scale(0.85);
+      }
+    }
+    
+    .table-header-sorter-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .th,
@@ -139,7 +155,8 @@ export default function BPTableComponent({columns, data}) {
         autoResetResize: false,
       },
       useBlockLayout,
-      useResizeColumns
+      useResizeColumns,
+      useSortBy,
   );
 
   // Rehydrate the table right when the component mounts.
@@ -165,8 +182,39 @@ export default function BPTableComponent({columns, data}) {
             <div {...headerGroup.getHeaderGroupProps()} className="tr">
               {headerGroup.headers.map((column) => (
                 // eslint-disable-next-line react/jsx-key
-                <div {...column.getHeaderProps()} className="th">
-                  {column.render('Header')}
+                <div
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  className="th table-header-sorter"
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      columnGap: '7px',
+                    }}
+                  >
+                    {column.render('Header')}
+                    <div
+                      className="table-header-sorter-icon"
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        color: column.isSorted ? BPColors.black : BPColors.gray[300],
+                        transition: 'all 0.12s ease-in-out',
+                      }}
+                    >
+                      {
+                        column.isSorted ? (
+                            column.isSortedDesc ?
+                              <IconSortDescending width={21} height={21}/> :
+                              <IconSortAscending width={21} height={21}/>
+                          ) :
+                          <IconArrowsSort width={19} height={19}/>
+                      }
+                    </div>
+                  </div>
                   {/* Use column.getResizerProps to hook up the events correctly */}
                   <div
                     {...column.getResizerProps()}

@@ -5,7 +5,7 @@ import BPTableComponent from './activity-table';
 import {
   BPActivitySeverityIcon,
   getColorBySeverity,
-  getNameBySeverityAccessor
+  getNameBySeverityAccessor,
 } from '../../../utils/business-process/severity';
 
 const BPActivityView = ({
@@ -16,6 +16,7 @@ const BPActivityView = ({
         {
           Header: 'Severity',
           accessor: 'severity',
+          minWidth: 140,
           width: 140,
           Cell: ({row}) => {
             const data = row.original;
@@ -41,25 +42,25 @@ const BPActivityView = ({
         {
           Header: 'Log Event Created Date',
           accessor: 'logEventCreatedDate',
-          minWidth: 220,
+          minWidth: 270,
           width: 350,
         },
         {
           Header: 'Business Domain',
           accessor: 'businessDomain',
-          minWidth: 200,
+          minWidth: 230,
           width: 300,
         },
         {
           Header: 'Application',
           accessor: 'application',
-          minWidth: 180,
+          minWidth: 200,
           width: 300,
         },
         {
           Header: 'Activity',
           accessor: 'activity',
-          minWidth: 180,
+          minWidth: 200,
           width: 300,
         },
       ],

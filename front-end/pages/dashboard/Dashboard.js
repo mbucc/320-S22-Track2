@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import DonutCharts from './donutchart';
 import Typography from '@mui/material/Typography';
-import Navbar from './Navbar';
 
 export default function Dashboard(props) {
   const [timeframe, setTimeframe] = useState(1) // (in hours)
@@ -13,11 +12,8 @@ export default function Dashboard(props) {
 
   return (
     <div className='dashboard'>
-      <Box px={10} py={5} sx={{ height: '100%' }}>
+      <Box mt={8} px={10} py={5} sx={{ height: '100%' }}>
         <Grid container direction='column' height={'100%'} spacing={3}>
-          <Grid container direction='row' item xs={1} height={'100%'}>
-            <Navbar />
-          </Grid>
           <Grid item xs={1}>
             {/* replace Paper block with header component */}
             <Paper elevation={3}>

@@ -1,11 +1,11 @@
 import React, {useEffect, useMemo, useState} from 'react';
 
-// WebStorm doesn't understand ES6 imports and throw a warning of "cannot resolve 'useTable'". It seems working.
+// WebStorm doesn't understand the imports from react-table and throw warnings like "cannot resolve 'useTable'". It works though.
 import {useTable, useBlockLayout, useSortBy, useResizeColumns} from 'react-table';
 
 import styled from 'styled-components';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
-import {IconArrowsSort, IconSortAscending, IconSortDescending, IconSwitchVertical} from "@tabler/icons";
+import {IconArrowsSort, IconSortAscending, IconSortDescending} from '@tabler/icons';
 
 /**
  * The root component for the activity table.
@@ -110,6 +110,7 @@ const BPTableRootStructure = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+        
         // Prevents from scrolling while dragging on touch devices.
         touch-action: none;
         

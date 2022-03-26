@@ -7,7 +7,7 @@ import {BPTextButton} from '../common/button';
 import {sampleEAIDomains} from '../../../utils/business-process/sample-data';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import renderBusinessProcessInstances from './tree-item-log';
-import TreeContextMenu from './tree-context-menu'
+import TreeContextMenu from './tree-context-menu';
 
 const findExpandable = (tree) => {
   const result = [];
@@ -70,55 +70,6 @@ const subTreeStyle = {
     },
   },
 };
-
-const renderEAIDomains = (nodes) => (
-  <TreeItem
-    key={nodes.name}
-    nodeId={nodes.name}
-    label={nodes.name}
-    onContextMenu={(e) => contextMenu(e, nodes.name)}
-    sx={rootTreeStyle}
-  >
-    {
-      Array.isArray(nodes.children) ?
-        nodes.children.map((node) => renderPublishingBusinessDomains(node)) :
-        null
-    }
-  </TreeItem>
-);
-
-const renderPublishingBusinessDomains = (nodes) => (
-  <TreeItem
-    key={nodes.name}
-    nodeId={nodes.name}
-    label={nodes.name}
-    onContextMenu={(e) => contextMenu(e, nodes.name)}
-    sx={subTreeStyle}
-  >
-    {
-      Array.isArray(nodes.children) ?
-        nodes.children.map((node) => renderBusinessProcesses(node)) :
-        null
-    }
-  </TreeItem>
-);
-
-const renderBusinessProcesses = (nodes) => (
-  <TreeItem
-    key={nodes.name}
-    nodeId={nodes.name}
-    label={nodes.name}
-    onContextMenu={(e) => contextMenu(e, nodes.name)}
-    sx={subTreeStyle}
-  >
-    {
-      Array.isArray(nodes.activities) ?
-        nodes.activities.map((log) => renderBusinessProcessInstances(log)) :
-        null
-    }
-  </TreeItem>
-);
-
 
 const data = sampleEAIDomains;
 const _expandable = findExpandable(data);

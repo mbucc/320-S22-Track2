@@ -16,7 +16,7 @@ const BPActivityView = ({
         {
           Header: 'Severity',
           accessor: 'severity',
-          minWidth: 140,
+          minWidth: 126,
           width: 140,
           Cell: ({row}) => {
             const data = row.original;
@@ -42,26 +42,26 @@ const BPActivityView = ({
         {
           Header: 'Log Event Created Date',
           accessor: 'logEventCreatedDate',
-          minWidth: 270,
-          width: 350,
+          minWidth: 240,
+          width: 290,
         },
         {
           Header: 'Business Domain',
           accessor: 'businessDomain',
-          minWidth: 230,
-          width: 300,
+          minWidth: 190,
+          width: 260,
         },
         {
           Header: 'Application',
           accessor: 'application',
-          minWidth: 200,
-          width: 300,
+          minWidth: 150,
+          width: 260,
         },
         {
           Header: 'Activity',
           accessor: 'activity',
-          minWidth: 200,
-          width: 300,
+          minWidth: 125,
+          width: 260,
         },
       ],
       []

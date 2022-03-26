@@ -24,6 +24,8 @@ const BPTableRootStructure = styled.div`
     border: 0;
     
     .table-header {
+      min-width: 100%;
+      width: max-content;
       height: ${BPDimens.toolbarHeight}px;
       border-bottom: ${BPStandards.border};
       padding-left: 12px;
@@ -38,13 +40,17 @@ const BPTableRootStructure = styled.div`
     }
 
     .table-body {
+      display: flex;
+      flex-direction: column;
       padding-bottom: 40px;
       padding-left: 12px;
       padding-right: 12px;
     }
     
     .table-line {
-      width: 100%;
+      flex: 1;
+      min-width: 100%;
+      width: max-content;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -65,8 +71,8 @@ const BPTableRootStructure = styled.div`
     }
     
     .table-header-sorter {
+      padding: 8px 0;
       &:hover > .table-header-sorter-icon {
-        transform: scale(1.05);
         color: ${BPColors.black} !important;
       }
       &:active > .table-header-sorter-icon {
@@ -246,7 +252,7 @@ export default function BPTableComponent({columns, data}) {
             prepareRow(row);
             return (
               // eslint-disable-next-line react/jsx-key
-              <div key={i} className="table-line">
+              <div key={row.getRowProps().key} className="table-line">
                 <div {...row.getRowProps()} className="tr">
                   {row.cells.map((cell) => {
                     return (

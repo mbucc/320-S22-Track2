@@ -203,10 +203,10 @@ export default function BPTreeComponent({onChange}) {
           flexDirection: 'column',
           alignItems: 'left',
           justifyContent: 'flex-start',
-          padding: 20,
-          overflowY: 'scroll',
-          rowGap: 14,
+          overflowX: 'hidden',
+          overflowY: 'auto',
         }}
+        onContextMenu={(e) => e.preventDefault()} // Disable the default context menu on BPTreeView.
       >
         <TreeView
           aria-label="controlled"
@@ -214,6 +214,9 @@ export default function BPTreeComponent({onChange}) {
           defaultExpandIcon={<ChevronRightIcon />}
           expanded={expanded}
           onNodeToggle={handleToggle}
+          sx={{
+            padding: '20px 20px',
+          }}
           multiSelect
         >
           {

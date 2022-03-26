@@ -11,10 +11,14 @@ export default function Home() {
   const [loggedIn, setLogin] = useState(true)
   const [display, setDisplay] = useState(0) //0, 1, 2 (dashboard, business process, log events)   
   const bpFilters = null
-  const logeventFilters = null
+  const logEventFilters = null
 
   // function to pass into Navbar to handle tab clicking and changing the displayed view
   const toggleNav = (event, tab) => {
+    if (tab == 0) {
+      bpFilters = null
+      logEventFilters = null
+    }
     setDisplay(tab);
   };
 
@@ -24,7 +28,8 @@ export default function Home() {
   * Sets display to business process and passes filters into component view
   */
   const toggleBP = (filters) => {
-    
+    bpFilters = null
+    setDisplay(1)
   }
 
   /*
@@ -33,7 +38,8 @@ export default function Home() {
   * Sets display to log events and passes filters into component view
   */
   const toggleLogEvents = (filters) => {
-
+    logEventFilters = null
+    setDisplay(2)
   }
 
   if (loggedIn) {

@@ -1,16 +1,25 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Image from 'next/image';
 import TreeItem from '@mui/lab/TreeItem';
 
 import {BPColors, BPDimens} from '../../../utils/business-process/standards';
 
-const BPActivitySeverity = {
+/**
+ * Associated severity icons.
+ * @type {{success: string, warning: string, error: string, info: string}}
+ */
+const BPActivitySeverityIcons = {
   info: '/business-process/icons/severity-icons-info.svg',
   warning: '/business-process/icons/severity-icons-warning.svg',
   error: '/business-process/icons/severity-icons-error.svg',
   success: '/business-process/icons/severity-icons-success.svg',
 };
 
+/**
+ * Get the severity color by given severity.
+ * @param {string} severity - The severity of the activity.
+ * @return {string} - The color string.
+ */
 const getColorBySeverity = (severity) => {
   switch (severity) {
     case 'success':
@@ -24,12 +33,17 @@ const getColorBySeverity = (severity) => {
   }
 };
 
+/**
+ * The severity icon component.
+ * @param {string} severity - The severity of the activity.
+ * @return {JSX.Element} - The severity icon component.
+ */
 const BPActivitySeverityIcon = ({severity}) => {
   return (
     <Image
       width={18}
       height={18}
-      src={BPActivitySeverity[severity]}
+      src={BPActivitySeverityIcons[severity]}
     />
   );
 };
@@ -65,4 +79,5 @@ const renderBusinessProcessInstances = (log) =>(
     }}
   />
 );
+
 export default renderBusinessProcessInstances;

@@ -1,5 +1,5 @@
-import DonutChartComponent from "./donutchartcomponent"
-import styles from "../../styles/Dashboard.module.css"
+import DonutChartComponent from './donutchartcomponent';
+import styles from '../../styles/Dashboard.module.css';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -31,14 +31,13 @@ function DonutCharts(props) {
         </div>
       </Box>
     </Paper>
-  )
+  );
 }
 
 function onClickFunc(label, value) {
-  console.log(label)
+  console.log(label);
 }
 
 export default DonutCharts;
-
 
 

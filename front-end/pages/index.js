@@ -1,5 +1,5 @@
-import Dashboard from './dashboard/Dashboard'
 import React, { useState } from 'react'
+import Dashboard from './dashboard/Dashboard';
 
 /**
  * The home page of the website.

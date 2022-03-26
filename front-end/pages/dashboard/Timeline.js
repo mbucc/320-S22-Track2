@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {
-    ArgumentAxis,
-    Chart,
-    SplineSeries,
-    Tooltip,
+  ArgumentAxis,
+  Chart,
+  SplineSeries,
+  Tooltip,
 } from '@devexpress/dx-react-chart-material-ui';
-import { EventTracker, HoverState } from '@devexpress/dx-react-chart';
+import {EventTracker, HoverState} from '@devexpress/dx-react-chart';
 
-import { Line } from 'react-chartjs-2';
+import {Line} from 'react-chartjs-2';
 import 'chart.js/auto';
 
 export default function Timeline(props) {
-    const [hover, changeHover] = useState(null);
-    const [tooltipTarget, changeTooltip] = useState(null);
+  const [hover, changeHover] = useState(null);
+  const [tooltipTarget, changeTooltip] = useState(null);
 
     const TooltipContent = (props) => {
         return (
@@ -31,17 +31,17 @@ export default function Timeline(props) {
         )
     }
 
-    const data = [
-        { time: '13:00', logs: 20 },
-        { time: '13:06', logs: 10 },
-        { time: '13:12', logs: 30 },
-        { time: '13:18', logs: 125 },
-        { time: '13:24', logs: 10 },
-        { time: '13:30', logs: 30 },
-        { time: '13:36', logs: 20 },
-        { time: '13:42', logs: 450 },
-        { time: '13:48', logs: 560 },
-    ];
+  const data = [
+    {time: '13:00', logs: 20},
+    {time: '13:06', logs: 10},
+    {time: '13:12', logs: 30},
+    {time: '13:18', logs: 125},
+    {time: '13:24', logs: 10},
+    {time: '13:30', logs: 30},
+    {time: '13:36', logs: 20},
+    {time: '13:42', logs: 450},
+    {time: '13:48', logs: 560},
+  ];
 
     return (
         <Grid container direction='column'>

@@ -1,0 +1,28 @@
+/* Here is a global CSS, where styles are going apply to everything in our project. */
+
+/**
+These are necessary import to use TailwindCSS.
+We decide to not import @tailwind yet because using a single UI framework could be better.
+
+If you want to comment out the import, you can delete the next three lines or use `Ctrl/Command`(win/macos) + `/` to command them out.
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}

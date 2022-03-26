@@ -3,9 +3,17 @@ import BPTreeComponent from './tree-view';
 import {BPColors} from '../../../utils/business-process/standards';
 import BPTreeFilterComponent from './tree-filter';
 
+import {useLPSession} from '@taci-tech/launchpad-js';
+import {BPLaunchpad} from '../../../utils/business-process/launchpad/core';
+
 const BPTreeView = ({
-  onChange,
+  onChange, // TODO: When an entry is selected, this function is called with the selected entry.
 }) => {
+  const {
+    data,
+    setData,
+  } = useLPSession(BPLaunchpad.tree.getMap());
+
   return (
     <div
       style={{
@@ -16,7 +24,11 @@ const BPTreeView = ({
       }}
     >
       {/* Filter Section */}
-      <BPTreeFilterComponent/>
+      <BPTreeFilterComponent
+        onChange={(filter) => {
+          setData(filter);
+        }}
+      />
 
       {/* Divider */}
       <div
@@ -28,7 +40,6 @@ const BPTreeView = ({
       />
 
       {/* Map Section */}
-
       <div
         style={{
           width: '100%',
@@ -41,7 +52,7 @@ const BPTreeView = ({
           justifyContent: 'center',
         }}
       >
-        <BPTreeComponent />
+        <BPTreeComponent data={data}/>
       </div>
     </div>
   );

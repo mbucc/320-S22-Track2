@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {Button} from '@mui/material';
-import BPTextInput from '../common/text-input';
 import {BPDatePicker} from '../common/date-picker';
 import {BPDomainSelector} from '../common/domain-selector';
 import {EAIDomainSample, PublishingBusinessDomainSample} from '../../../utils/business-process/sample-data';
@@ -9,6 +8,17 @@ import {EAIDomainSample, PublishingBusinessDomainSample} from '../../../utils/bu
 const BPTreeFilterComponent = ({onChange}) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [eaiDomains, setEAIDomains] = useState([]);
+  const [publishingBusinessDomains, setPublishingBusinessDomains] = useState([]);
+
+  const onApplyClick = () => {
+    onChange({
+      startDate,
+      endDate,
+      eaiDomains,
+      publishingBusinessDomains,
+    });
+  };
 
   return (
     <div
@@ -52,6 +62,7 @@ const BPTreeFilterComponent = ({onChange}) => {
               backgroundColor: '#16a34a',
             },
           }}
+          onClick={onApplyClick}
         >
           Apply
         </Button>
@@ -83,12 +94,14 @@ const BPTreeFilterComponent = ({onChange}) => {
           label={'EAI Domain'}
           searchPlaceholder={'Search an EAI domain'}
           list={EAIDomainSample}
+          onChange={(value) => setEAIDomains(value)}
         />
 
         <BPDomainSelector
           label={'Publishing Business Domain'}
           searchPlaceholder={'Search a publishing domain'}
           list={PublishingBusinessDomainSample}
+          onChange={(value) => setPublishingBusinessDomains(value)}
         />
       </div>
     </div>

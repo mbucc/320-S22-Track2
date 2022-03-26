@@ -30,8 +30,10 @@ const BPTableRootStructure = styled.div`
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 500;
+      cursor: default;
+      user-select: none;
     }
 
     .table-body {
@@ -154,7 +156,7 @@ export default function BPTableComponent({columns, data}) {
           style={{
             position: 'sticky',
             top: 0,
-            zIndex: 9999,
+            zIndex: 99,
             background: BPColors.white,
           }}
         >

@@ -5,10 +5,9 @@ pipeline {
         stage('Build') {
             steps {
                 // Get some code from a GitHub repository
-//                 git 'https://github.com/david-fisher/320-S22-Track2.git'
-                script{
-                    "ls -l".execute().text
-                }
+                 git 'https://github.com/david-fisher/320-S22-Track2.git'
+                 git pull
+                 git checkout main
                 
                 // Run Maven on a Unix agent.
                 //sh "mvn -Dmaven.test.failure.ignore=true clean package"

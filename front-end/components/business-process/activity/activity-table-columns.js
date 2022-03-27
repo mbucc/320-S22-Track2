@@ -16,6 +16,7 @@ export const useBPActivityTableColumns = () => {
           accessor: 'severity',
           minWidth: 126,
           width: 140,
+          sortDescFirst: true,
           Cell: ({row}) => {
             const data = row.original;
             return (
@@ -42,6 +43,7 @@ export const useBPActivityTableColumns = () => {
           accessor: 'logEventCreatedDate',
           minWidth: 240,
           width: 265,
+          sortDescFirst: true,
           Cell: ({row}) => {
             const data = row.original;
             return (
@@ -65,18 +67,21 @@ export const useBPActivityTableColumns = () => {
           accessor: 'businessDomain',
           minWidth: 190,
           width: 220,
+          sortDescFirst: true,
         },
         {
           Header: 'Application',
           accessor: 'application',
           minWidth: 150,
           width: 210,
+          sortDescFirst: true,
         },
         {
           Header: 'Activity',
           accessor: 'activity',
           minWidth: 125,
           width: 240,
+          sortDescFirst: true,
         },
       ],
       []

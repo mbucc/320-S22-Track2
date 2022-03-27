@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Get some code from a GitHub repository
-                git 'https://github.com/david-fisher/320-S22-Track2.git'
+//                 git 'https://github.com/david-fisher/320-S22-Track2.git'
                 script{
                     "ls -l".execute().text
                 }

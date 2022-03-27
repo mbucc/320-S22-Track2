@@ -39,3 +39,40 @@ export const getTreeMap = () => {
     },
   };
 };
+
+export const getEAIDomainList = () => {
+  return {
+    onStart: () => [],
+    onMount: ({setState}) => {
+      const list = sampleEAIDomains.map((domain) => {
+        return domain.name;
+      });
+      setState(list);
+    },
+  };
+};
+
+export const getPublishingBusinessDomainList = () => {
+  return {
+    onStart: () => [],
+    onMount: ({setState}) => {
+      const list = [];
+      sampleEAIDomains.forEach((domain) => {
+        domain.children?.forEach((child) => {
+          list.push(child.name);
+        });
+      });
+      setState(list);
+    },
+    onOverride: ({setState, newValue}) => {
+      newValue = newValue || [];
+      let result = [];
+      sampleEAIDomains.forEach((domain) => {
+        if (newValue.includes(domain.name)) {
+          result = result.concat(domain.children || []);
+        }
+      });
+      setState(result);
+    },
+  };
+};

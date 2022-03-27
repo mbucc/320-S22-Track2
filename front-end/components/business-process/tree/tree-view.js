@@ -6,38 +6,8 @@ import TreeItem from '@mui/lab/TreeItem';
 import {BPTextButton} from '../common/button';
 import {sampleEAIDomains} from '../../../utils/business-process/sample-data';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
-import Image from 'next/image';
+import renderBusinessProcessInstances from './tree-item-log';
 import TreeContextMenu from './tree-context-menu';
-
-const getColorBySeverity = (severity) => {
-  switch (severity) {
-    case 'success':
-      return BPColors.success;
-    case 'info':
-      return BPColors.info;
-    case 'warning':
-      return BPColors.warning;
-    case 'error':
-      return BPColors.error;
-  }
-};
-
-const BPActivitySeverityIcons = {
-  info: '/business-process/icons/severity-icons-info.svg',
-  warning: '/business-process/icons/severity-icons-warning.svg',
-  error: '/business-process/icons/severity-icons-error.svg',
-  success: '/business-process/icons/severity-icons-success.svg',
-};
-
-const BPActivitySeverityIcon = ({severity}) => {
-  return (
-    <Image
-      width={18}
-      height={18}
-      src={BPActivitySeverityIcons[severity]}
-    />
-  );
-};
 
 const findExpandable = (tree) => {
   const result = [];
@@ -189,37 +159,6 @@ export default function BPTreeComponent({onChange}) {
     </TreeItem>
   );
 
-  const renderBusinessProcessInstances = (log) =>(
-    <TreeItem
-      key={log.id}
-      nodeId={log.id}
-      icon={<BPActivitySeverityIcon severity={log.severity}/>}
-      label={log.sampleContent}
-      sx={{
-        marginTop: '1px',
-        borderRadius: BPDimens.treeRadius,
-        color: getColorBySeverity(log.severity),
-        backgroundColor: BPColors.transparent,
-        '&:hover': {
-          backgroundColor: BPColors.gray[100],
-        },
-        '& > .MuiTreeItem-content': {
-          minHeight: 34,
-          borderRadius: BPDimens.treeRadius,
-          padding: '0px 13px',
-          '&.Mui-focused, &.Mui-selected, &.Mui-focused.Mui-selected': {
-            backgroundColor: BPColors.gray[100],
-            '&:hover': {
-              backgroundColor: BPColors.transparent,
-            },
-          },
-          '&:hover': {
-            backgroundColor: BPColors.transparent,
-          },
-        },
-      }}
-    />
-  );
   return (
     <div
       style={{
@@ -264,10 +203,10 @@ export default function BPTreeComponent({onChange}) {
           flexDirection: 'column',
           alignItems: 'left',
           justifyContent: 'flex-start',
-          padding: 20,
-          overflowY: 'scroll',
-          rowGap: 14,
+          overflowX: 'hidden',
+          overflowY: 'auto',
         }}
+        onContextMenu={(e) => e.preventDefault()} // Disable the default context menu on BPTreeView.
       >
         <TreeView
           aria-label="controlled"
@@ -275,13 +214,19 @@ export default function BPTreeComponent({onChange}) {
           defaultExpandIcon={<ChevronRightIcon />}
           expanded={expanded}
           onNodeToggle={handleToggle}
+          sx={{
+            padding: '20px 20px',
+          }}
           multiSelect
         >
           {
             data.map((nodes) => renderEAIDomains(nodes))
           }
         </TreeView>
-        <TreeContextMenu contextMenu={contextMenu} handleClose={handleClose}/>
+        <TreeContextMenu
+          contextMenu={contextMenu}
+          handleClose={handleClose}
+        />
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ export const getActivityGrid = () => {
                   // Check if children's names have the newValue.
                   const hasChild = businessProcess.activities.find(
                       // TODO: In the future, the fetching should be based on the EAI transaction ID per documentation.
-                      (child) => child.name === newValue
+                      (businessProcessInstance) => businessProcessInstance.id === newValue
                   );
                   if (hasChild && result.length === 0) {
                     result = result.concat(businessProcess.activities);

@@ -98,7 +98,7 @@ export const sampleEAIDomains = [
         name: 'Publishing Business Domain 2 from EAI 1',
         children: [
           {
-            name: 'Business Process 1004',
+            name: 'Business Process 1004 (no activity available yet)',
           },
         ],
       },
@@ -106,7 +106,7 @@ export const sampleEAIDomains = [
         name: 'Publishing Business Domain 3 from EAI 1',
         children: [
           {
-            name: 'Business Process 1005',
+            name: 'Business Process 1005 (no activity available yet)',
           },
         ],
       },
@@ -119,7 +119,7 @@ export const sampleEAIDomains = [
         name: 'Publishing Business Domain 1 from EAI 2',
         children: [
           {
-            name: 'Business Process 2001',
+            name: 'Business Process 2001 (no activity available yet)',
           },
         ],
       },
@@ -127,7 +127,7 @@ export const sampleEAIDomains = [
         name: 'Publishing Business Domain 2 from EAI 2',
         children: [
           {
-            name: 'Business Process 2002',
+            name: 'Business Process 2002 (no activity available yet)',
           },
         ],
       },
@@ -140,33 +140,12 @@ export const sampleEAIDomains = [
         name: 'Publishing Business Domain 1 from EAI 3',
         children: [
           {
-            name: 'Business Process 3001',
+            name: 'Business Process 3001 (no activity available yet)',
           },
         ],
       },
     ],
   },
-];
-
-export const EAIDomainSample = [
-  'EAI Domain 1',
-  'EAI Domain 2',
-  'EAI Domain 3',
-];
-
-export const PublishingBusinessDomainSample = [
-  'Publishing Business Domain 1',
-  'Publishing Business Domain 2',
-  'Publishing Business Domain 3',
-  'Publishing Business Domain 4',
-  'Publishing Business Domain 5',
-  'Publishing Business Domain 6',
-  'Publishing Business Domain 7',
-  'Publishing Business Domain 8',
-  'Publishing Business Domain 9',
-  'Publishing Business Domain 10',
-  'Publishing Business Domain 11',
-  'Publishing Business Domain 12',
 ];
 
 export const BusinessDomainSample = [

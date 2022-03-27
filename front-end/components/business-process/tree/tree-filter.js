@@ -3,9 +3,9 @@ import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {Button} from '@mui/material';
 import {BPDatePicker} from '../common/date-picker';
 import {BPDomainSelector} from '../common/domain-selector';
-import {EAIDomainSample, PublishingBusinessDomainSample} from '../../../utils/business-process/sample-data';
-import {useLPSession} from "@taci-tech/launchpad-js";
-import {BPLaunchpad} from "../../../utils/business-process/launchpad/core";
+
+import {useLPSession} from '@taci-tech/launchpad-js';
+import {BPLaunchpad} from '../../../utils/business-process/launchpad/core';
 
 const BPTreeFilterComponent = ({onChange}) => {
   const [startDate, setStartDate] = useState(null);
@@ -34,10 +34,6 @@ const BPTreeFilterComponent = ({onChange}) => {
   useEffect(() => {
     setSelectedEAIDomains(eaiDomains);
   }, [eaiDomains]);
-
-  useEffect(() => {
-    console.log('eaiDomainList', eaiDomainList);
-  }, [eaiDomainList]);
 
   return (
     <div

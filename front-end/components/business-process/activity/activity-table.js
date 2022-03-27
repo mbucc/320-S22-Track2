@@ -105,7 +105,6 @@ const BPTableRootStructure = styled.div`
         right: 0;
         top: 50%;
         transform: translateY(-50%);
-        transition: all 0.15s ease-in-out;
         z-index: 1;
         display: flex;
         align-items: center;
@@ -119,6 +118,7 @@ const BPTableRootStructure = styled.div`
           height: 16.5px;
           border-radius: 999px;
           background: ${BPColors.gray[200]};
+          transition: all 0.14s ease-in-out;
         }
         
         &:hover > .table-resizer-handle {

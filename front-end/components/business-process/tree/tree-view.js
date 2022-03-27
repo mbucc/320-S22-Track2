@@ -73,7 +73,7 @@ const subTreeStyle = {
 /**
  * The hierarchy tree view component of business process view.
  * @param {Object} props - The props passed to the component.
- * @param {Object} props.onChange - The callback function when the tree view is changed.
+ * @param {function} props.onChange - The callback function when the tree view is changed.
  * @return {JSX.Element} - The generated tree view component.
  */
 export default function BPTreeComponent({data: dataProp, onChange}) {
@@ -157,7 +157,11 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
     >
       {
         Array.isArray(nodes.activities) ?
-          nodes.activities.map((log) => renderBusinessProcessInstances(log)) :
+          nodes.activities.map((log) => renderBusinessProcessInstances(log, (log) => {
+            if (onChange) {
+              onChange(log);
+            }
+          })) :
           null
       }
     </TreeItem>

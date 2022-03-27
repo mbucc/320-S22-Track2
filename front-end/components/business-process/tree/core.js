@@ -7,7 +7,7 @@ import {useLPSession} from '@taci-tech/launchpad-js';
 import {BPLaunchpad} from '../../../utils/business-process/launchpad/core';
 
 const BPTreeView = ({
-  onChange, // TODO: When an entry is selected, this function is called with the selected entry.
+  onChange,
 }) => {
   const {
     data,
@@ -52,7 +52,11 @@ const BPTreeView = ({
           justifyContent: 'center',
         }}
       >
-        <BPTreeComponent data={data}/>
+        <BPTreeComponent data={data} onChange={(log) => {
+          if (onChange && log) {
+            onChange(log.id); // TODO: Will be changed based on the property name in API.
+          }
+        }}/>
       </div>
     </div>
   );

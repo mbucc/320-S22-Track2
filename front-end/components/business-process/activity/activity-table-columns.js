@@ -1,9 +1,12 @@
 import React, {useMemo} from 'react';
+
 import {
   BPActivitySeverityIcon,
-  getColorBySeverity,
-  getNameBySeverityAccessor,
+  getColorBySeverityValue,
+  getNameBySeverityValue,
 } from '../../../utils/business-process/severity';
+
+import {getDateStringByValue} from '../../../utils/business-process/date-options';
 
 export const useBPActivityTableColumns = () => {
   const columnsMemo = useMemo(
@@ -25,11 +28,11 @@ export const useBPActivityTableColumns = () => {
                   columnGap: '0.5rem',
                   fontSize: '1.0rem',
                   fontWeight: '500',
-                  color: getColorBySeverity(data.severity),
+                  color: getColorBySeverityValue(data.severity),
                 }}
               >
                 <BPActivitySeverityIcon severity={data.severity}/>
-                {getNameBySeverityAccessor(data.severity)}
+                {getNameBySeverityValue(data.severity)}
               </div>
             );
           },
@@ -38,25 +41,42 @@ export const useBPActivityTableColumns = () => {
           Header: 'Log Event Created Date',
           accessor: 'logEventCreatedDate',
           minWidth: 240,
-          width: 290,
+          width: 265,
+          Cell: ({row}) => {
+            const data = row.original;
+            return (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  fontSize: '1.0rem',
+                  fontWeight: '400',
+                }}
+              >
+                {getDateStringByValue(data.logEventCreatedDate)}
+              </div>
+            );
+          },
         },
         {
           Header: 'Business Domain',
           accessor: 'businessDomain',
           minWidth: 190,
-          width: 260,
+          width: 220,
         },
         {
           Header: 'Application',
           accessor: 'application',
           minWidth: 150,
-          width: 260,
+          width: 210,
         },
         {
           Header: 'Activity',
           accessor: 'activity',
           minWidth: 125,
-          width: 260,
+          width: 240,
         },
       ],
       []

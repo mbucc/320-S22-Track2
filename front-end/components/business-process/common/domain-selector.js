@@ -34,7 +34,7 @@ export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}
     } else {
       setResultList(list);
     }
-  }, [searchInputValue]);
+  }, [searchInputValue, list]);
 
   useEffect(() => {
     if (selectedList.length > 0) {

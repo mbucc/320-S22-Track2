@@ -11,7 +11,6 @@ export const getTreeMap = () => {
       setState(sampleEAIDomains);
     },
     onOverride: ({setState, newValue}) => {
-      setState(sampleEAIDomains);
       newValue = newValue || {
         eaiDomains: undefined,
         publishingBusinessDomains: undefined,
@@ -28,10 +27,11 @@ export const getTreeMap = () => {
 
       if (newValue.publishingBusinessDomains && newValue.publishingBusinessDomains.length > 0) {
         result = result.map((domain) => {
-          domain.children = domain.children.filter((child) => {
+          const newDomain = {...domain};
+          newDomain.children = newDomain.children.filter((child) => {
             return newValue.publishingBusinessDomains.includes(child.name);
           });
-          return domain;
+          return newDomain;
         });
       }
 
@@ -68,8 +68,8 @@ export const getPublishingBusinessDomainList = () => {
       newValue = newValue || [];
       let result = [];
       sampleEAIDomains.forEach((domain) => {
-        if (newValue.includes(domain.name)) {
-          result = result.concat(domain.children || []);
+        if (newValue.length === 0 || newValue.includes(domain.name)) {
+          result = result.concat(domain.children.map((publishingBusinessDomain) => publishingBusinessDomain.name) || []);
         }
       });
       setState(result);

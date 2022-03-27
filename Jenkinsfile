@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Get code from branch to test
-                git branch: 'code-Apes-tests', url: 'https://github.com/david-fisher/320-S22-Track2.git'
+                git branch: 'codeApes-tests', url: 'https://github.com/david-fisher/320-S22-Track2.git'
                 
                 //sh "mvn -Dmaven.test.failure.ignore=true clean package"
 

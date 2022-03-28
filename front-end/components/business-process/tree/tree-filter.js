@@ -73,10 +73,19 @@ const BPTreeFilterComponent = ({onChange}) => {
       >
         <BPDatePicker
           label={'Start Date'}
+          callBack={(e)=> {
+            startDate = e;
+            // console.log(startDate);
+          }}
+          baseDate = {new Date()}
         />
 
         <BPDatePicker
           label={'End Date'}
+          callBack={(e)=> {
+            endDate = e;
+          }}
+          baseDate = {startDate}
         />
 
         <BPDomainSelector

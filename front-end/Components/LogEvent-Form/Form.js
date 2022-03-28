@@ -1,7 +1,9 @@
 import React, {useState} from 'react'
 import Dropdowns from './Dropdowns'
 import { Button, Typography } from '@mui/material'
+import FormDates from './FormDates.js'
 import FormCheckbox from './FormCheckbox.js'
+import moment from 'moment'
 
 
 export default function Form(props) {
@@ -9,6 +11,7 @@ export default function Form(props) {
     const [priorityCheckboxes, setPriorityCheckboxes] = useState({"Low": false, "Medium":false, "High": false})
     const [categoryCheckboxes, setCategoryCheckboxes] = useState({"Heartbeat": false, "Stop": false, "Status": false, "Security": false, "Start": false})
     const [dropdownValues, setDropdownValues] = useState({"EAI Domain": "All", "Application": "All", "Process/Service": "All", "Business Domain": "All", "Business SubDomain": "All"})
+    const [fromToDates, setFromToDates] = useState({"From": "2022-01-01", "To": "2022-01-31"})
 
     /* options for dropdown fields. Will eventually be queries to the database */
     const EAIOptions = ["EAI Domain 1", "EAI Domain 2", "EAI Domain 3", "EAI Domain 4"]
@@ -37,6 +40,12 @@ export default function Form(props) {
     
     {/* returns true if a given piece of data in the grid has properties specified by current filters */}
     const filterData = (e, objKeys)=>{
+
+        const compareDate = moment(e["Created Date"]);
+        const startDate = moment(fromToDates["From"]);
+        const endDate = moment(fromToDates["To"]);
+        const dateFilter = compareDate.isBetween(startDate, endDate, undefined, '[]') // '[]' means inclusive on the left and right
+
         let severityFilter = objKeys.includes(e.severity)
         let priorityFilter = objKeys.includes(e.priority)
         let categoryFilter = objKeys.includes(e.category)
@@ -45,12 +54,13 @@ export default function Form(props) {
         let processServiceFilter = dropdownValues["Process/Service"] === "All" ? true : e["Process/Service"] === dropdownValues["Process/Service"]
         let BDFilter = dropdownValues["Business Domain"] === "All"? true : e["Business Domain"] === dropdownValues["Business Domain"]
         let BSDFilter = dropdownValues["Business SubDomain"] === "All"? true : e["Business SubDomain"] === dropdownValues["Business SubDomain"]
-        return severityFilter && priorityFilter && domainFilter && applicationFilter && processServiceFilter && BDFilter && BSDFilter && categoryFilter
+
+        return dateFilter && severityFilter && priorityFilter && domainFilter && applicationFilter && processServiceFilter && BDFilter && BSDFilter && categoryFilter
     }
 
     const applyHandler = (event)=> {
         event.preventDefault()
-         let severityKeys = Object.keys(severityCheckboxes).filter((e)=> severityCheckboxes[e])
+         let severityKeys = Object.keys(severityCheckboxes).filter((e) => severityCheckboxes[e])
          let priorityKeys = Object.keys(priorityCheckboxes).filter((e)=> priorityCheckboxes[e])
          let categoryKeys = Object.keys(categoryCheckboxes).filter((e)=> categoryCheckboxes[e])
          let objKeys = severityKeys.concat(priorityKeys).concat(categoryKeys)
@@ -66,6 +76,7 @@ export default function Form(props) {
             Filters
         </Typography>
         <form style={formStyle} onSubmit={applyHandler}>
+            <FormDates name="From / To Dates" fromToDates={fromToDates} setFromToDates={setFromToDates} />
             <FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} />
             <FormCheckbox name="Priority" checkboxes={priorityCheckboxes} setCheckboxes={setPriorityCheckboxes} />
             <FormCheckbox name="Category" checkboxes={categoryCheckboxes} setCheckboxes={setCategoryCheckboxes} />

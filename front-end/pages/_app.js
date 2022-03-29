@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import './business-process/style.css'
 
 import {StyledEngineProvider} from '@mui/material';
 

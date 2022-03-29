@@ -110,7 +110,7 @@ const BPTreeFilterComponent = ({onChange}) => {
           onChange={(newDate)=> {
             setEndDate(newDate);
           }}
-          baseDate={startDate || new Date()}
+          baseDate={startDate}
         />
 
         <BPDomainSelector

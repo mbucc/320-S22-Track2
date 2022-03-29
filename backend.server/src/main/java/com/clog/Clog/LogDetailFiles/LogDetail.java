@@ -1,6 +1,5 @@
 package com.clog.Clog.LogDetailFiles;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;

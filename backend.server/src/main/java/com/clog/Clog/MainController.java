@@ -62,7 +62,6 @@ public class MainController {
         filt.setApplication(application);
         LogEventFilterSpecification test = new LogEventFilterSpecification(filt);
         return logEventRepo.findAll(test);
-        //return businessDomain + eaiDomain + " " + startTime + endTime +" " + businessSubDomain + " " + process;
     }
     @GetMapping(path="/businessProcessTree")
     public @ResponseBody Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getBusinessTree(
@@ -72,15 +71,12 @@ public class MainController {
         filt.setEndTime(Timestamp.valueOf(endTime));
         filt.setEaiDomain(eaiDomain);
         filt.setPublishingBusinessDomain(publishingBusinessDomain);
-        
-     
         businessTreeSpecification spec = new businessTreeSpecification(filt);
         List<EAIdomain> test =  busTree.findAll(spec);
         BusinessProcessTreeMap returnMap = new BusinessProcessTreeMap();
         for(EAIdomain x : test) {
             returnMap.addObj(x);
         }
-        
         return returnMap.getMap();
     }
     @GetMapping(path="/businessProcessGrid")

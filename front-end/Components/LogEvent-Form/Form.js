@@ -11,7 +11,7 @@ export default function Form(props) {
     const [priorityCheckboxes, setPriorityCheckboxes] = useState({"Low": false, "Medium":false, "High": false})
     const [categoryCheckboxes, setCategoryCheckboxes] = useState({"Heartbeat": false, "Stop": false, "Status": false, "Security": false, "Start": false})
     const [dropdownValues, setDropdownValues] = useState({"EAI Domain": "All", "Application": "All", "Process/Service": "All", "Business Domain": "All", "Business SubDomain": "All"})
-    const [fromToDates, setFromToDates] = useState({"From": "2022-01-01", "To": "2022-01-31"})
+    const [fromToDates, setFromToDates] = useState({"From": "2022-01-01 00:00:00", "To": "2022-01-31 00:00:00"})
 
     /* options for dropdown fields. Will eventually be queries to the database */
     const EAIOptions = ["EAI Domain 1", "EAI Domain 2", "EAI Domain 3", "EAI Domain 4"]
@@ -36,6 +36,11 @@ export default function Form(props) {
         marginTop: "20px",
         width: "100px",
         border: "solid"
+    }
+
+    const checkboxesStyle = {
+        display: "flex",
+        flexDirection: "row"
     }
     
     {/* returns true if a given piece of data in the grid has properties specified by current filters */}
@@ -70,22 +75,28 @@ export default function Form(props) {
         props.setData(filteredData)
     }
 
+    
+
   return (
     <div>
         <Typography variant = "h6">
             Filters
         </Typography>
         <form style={formStyle} onSubmit={applyHandler}>
-            <FormDates name="From / To Dates" fromToDates={fromToDates} setFromToDates={setFromToDates} />
-            <FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} />
-            <FormCheckbox name="Priority" checkboxes={priorityCheckboxes} setCheckboxes={setPriorityCheckboxes} />
-            <FormCheckbox name="Category" checkboxes={categoryCheckboxes} setCheckboxes={setCategoryCheckboxes} />
-            <div style = {dropdownStyle}>
-                <Dropdowns options={EAIOptions} setOptions={setDropdownValues} name={"EAI Domain"} ></Dropdowns>
-                <Dropdowns options={applicationOptions} setOptions={setDropdownValues} name={"Application"} ></Dropdowns>
-                <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} name={"Process/Service"} ></Dropdowns>
-                <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} name={"Business Domain"} ></Dropdowns>
-                <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} name={"Business SubDomain"} ></Dropdowns>
+            <div>
+                <FormDates name="From / To Dates" fromToDates={fromToDates} setFromToDates={setFromToDates} />
+                <div style = {dropdownStyle}>
+                    <Dropdowns options={EAIOptions} setOptions={setDropdownValues} name={"EAI Domain"} ></Dropdowns>
+                    <Dropdowns options={applicationOptions} setOptions={setDropdownValues} name={"Application"} ></Dropdowns>
+                    <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} name={"Process/Service"} ></Dropdowns>
+                    <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} name={"Business Domain"} ></Dropdowns>
+                    <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} name={"Business SubDomain"} ></Dropdowns>
+                </div>
+            </div>
+            <div style = {checkboxesStyle}>
+                <FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} />
+                <FormCheckbox name="Priority" checkboxes={priorityCheckboxes} setCheckboxes={setPriorityCheckboxes} />
+                <FormCheckbox name="Category" checkboxes={categoryCheckboxes} setCheckboxes={setCategoryCheckboxes} />
             </div>
             <Button type="submit" style = {buttonStyle}>Apply</Button>
             <br />

@@ -1,5 +1,7 @@
 import React from 'react'
-import { Checkbox } from '@mui/material'
+import { Checkbox, Container } from '@mui/material'
+import { Button } from '@mui/material'
+import { FormControlLabel } from '@mui/material'
 
 export default function FormCheckbox(props) {
 
@@ -7,23 +9,59 @@ export default function FormCheckbox(props) {
       marginRight: "10px"
     }
 
+    const checkAllStyle = {
+      display: "flex",
+      flexDirection: "row"
+    }
+    
+    const formContainerStyle = {
+      border: "thin solid lightgray",
+      borderRadius: "4px",
+      margin: "10px 5px 0px", 
+      padding: "10px 10px",
+      width: "fit-content"
+    }
+    
+
     const handleOnChange = (event)=>{
-        props.setCheckboxes((checkbox)=> {return {...checkbox, [event.target.name]: !checkbox[event.target.name]}})
+        console.log(event)
+        props.setCheckboxes((checkbox)=> {
+          return {...checkbox, [event.target.name]: !checkbox[event.target.name]}
+        })
     }
 
+    const selectAll = (isSelected, event)=>{
+        let objKeys = Object.keys(props.checkboxes);
+        objKeys.forEach((name)=>{
+          props.setCheckboxes((checkboxes)=>{
+            return{...checkboxes, [name]: isSelected}})
+        })
+    }
+
+    const checkAll = (event) => selectAll(true, event)
+    const unCheckAll = (event) => selectAll(false, event)
     
 
   return (
     <div>
-         <h4> {props.name}:</h4>
+      <Container style = {formContainerStyle}>
+         <h4> {props.name}:</h4> 
         {Object.keys(props.checkboxes).map((e)=>{
            return(
-             <label style={labelStyle} key={e}>
-              {e}
-              <Checkbox name={e} onChange={handleOnChange} />
-            </label>
+
+             <FormControlLabel 
+              label = {e}
+              style={labelStyle} 
+              control = {<Checkbox name={e} onChange={handleOnChange} checked={props.checkboxes[e]} />} 
+             />
+              
           )
          })}
+         <div style = {checkAllStyle}>
+          <Button onClick={checkAll}>Check All</Button>
+          <Button onClick={unCheckAll}>Uncheck All</Button>
+         </div>
+      </Container>
     </div>
   )
 }

@@ -20,7 +20,7 @@ export default function FormDates(props) {
                     name="From"
                     id="from-date"
                     label="From"
-                    type="date"
+                    type="datetime-local"
                     defaultValue={props.fromToDates.From}
                     sx={{ width: 250 }}
                     InputLabelProps={{
@@ -32,7 +32,7 @@ export default function FormDates(props) {
                     name="To"
                     id="to-date"
                     label="To"
-                    type="date"
+                    type="datetime-local"
                     defaultValue={props.fromToDates.To}
                     sx={{ width: 250 }}
                     InputLabelProps={{

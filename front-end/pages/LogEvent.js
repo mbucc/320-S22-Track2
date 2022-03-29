@@ -16,7 +16,7 @@ export default function LogEvent() {
       width: "fit-content"
     }
     for(let i = 0; i < 1000; i++){
-      let severity = "N/A", date = `1/${(i%30) + 1}/${2022 + (Math.floor(i / 2022))}`, ps = "Update Costumer", app = "CRM", activity = "Activity", priority = "N/A", category = "N/A", eai = "N/A", BD = "", BSD = "";
+      let severity = "N/A", date = `1/${(i%30) + 1}/${2022 + (Math.floor(i / 2022))} 0${i%10}:00:00`, ps = "Update Costumer", app = "CRM", activity = "Activity", priority = "N/A", category = "N/A", eai = "N/A", BD = "", BSD = "";
       switch(i%5){
         case(0): category = "Heartbeat"; break;
         case(1): category = "Stop"; break;

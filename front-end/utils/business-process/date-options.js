@@ -10,6 +10,13 @@ export const dateOptions = {
   timeZoneName: undefined,
 };
 
+export const getDateStringByValue = (value) => {
+  if (value) {
+    return new Date(value).toLocaleString('en-US', dateOptions);
+  }
+  return new Date().toLocaleString('en-US', dateOptions);
+};
+
 export const isValidDateFormat = (date) => {
   // Use regular expression to check if date is valid as en-US format.
   const regex = /^\d{1,2}\/\d{1,2}\/\d{4}$/;

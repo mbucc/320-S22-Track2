@@ -1,3 +1,4 @@
+import React, {useState} from 'react';
 import Head from 'next/head';
 import BPTreeView from '../../components/business-process/tree/core';
 import BPActivityView from '../../components/business-process/activity/core';
@@ -5,6 +6,8 @@ import {BPColors, BPStandards} from '../../utils/business-process/standards';
 
 
 const BPIndex = () => {
+  const [selectedTransactionID, setSelectedTransactionID] = useState(null);
+
   return (
     <div
       style={{
@@ -53,7 +56,9 @@ const BPIndex = () => {
             backgroundColor: '#ffffff',
           }}
         >
-          <BPTreeView />
+          <BPTreeView onChange={(id) => {
+            setSelectedTransactionID(id);
+          }}/>
         </div>
 
         {/* RootView Divider */}
@@ -76,7 +81,7 @@ const BPIndex = () => {
             backgroundColor: '#ffffff',
           }}
         >
-          <BPActivityView />
+          <BPActivityView selectedTransaction={selectedTransactionID}/>
         </div>
       </div>
     </div>

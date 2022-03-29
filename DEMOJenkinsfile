@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                // Get code from branch to test
+                // This git command is using the Jenkins plugin. "git" here acts like "git checkout"
+                git branch: 'codeApes-tests', url: 'https://github.com/david-fisher/320-S22-Track2.git'
+                
+                script{
+                    if (fileExists('RejectIfExists')) {
+                        error("RejectIfExists exists. Therefore, failure.")
+                    } else {
+                        echo("All is fine")
+                    }
+                }
+
+            }
+        }
+    }
+    
+}

@@ -1,14 +1,39 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {Button} from '@mui/material';
-import BPTextInput from '../common/text-input';
 import {BPDatePicker} from '../common/date-picker';
 import {BPDomainSelector} from '../common/domain-selector';
-import {EAIDomainSample, PublishingBusinessDomainSample} from '../../../utils/business-process/sample-data';
+
+import {useLPSession} from '@taci-tech/launchpad-js';
+import {BPLaunchpad} from '../../../utils/business-process/launchpad/core';
 
 const BPTreeFilterComponent = ({onChange}) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [eaiDomains, setEAIDomains] = useState([]);
+  const [publishingBusinessDomains, setPublishingBusinessDomains] = useState([]);
+
+  const onApplyClick = () => {
+    onChange({
+      startDate,
+      endDate,
+      eaiDomains,
+      publishingBusinessDomains,
+    });
+  };
+
+  const {
+    data: eaiDomainList,
+  } = useLPSession(BPLaunchpad.tree.getEAIDomainList());
+
+  const {
+    data: publishingBusinessDomainList,
+    setData: setSelectedEAIDomains,
+  } = useLPSession(BPLaunchpad.tree.getPublishingBusinessDomainList());
+
+  useEffect(() => {
+    setSelectedEAIDomains(eaiDomains);
+  }, [eaiDomains]);
 
   return (
     <div
@@ -52,6 +77,7 @@ const BPTreeFilterComponent = ({onChange}) => {
               backgroundColor: '#16a34a',
             },
           }}
+          onClick={onApplyClick}
         >
           Apply
         </Button>
@@ -90,13 +116,15 @@ const BPTreeFilterComponent = ({onChange}) => {
         <BPDomainSelector
           label={'EAI Domain'}
           searchPlaceholder={'Search an EAI domain'}
-          list={EAIDomainSample}
+          list={eaiDomainList}
+          onChange={(value) => setEAIDomains(value)}
         />
 
         <BPDomainSelector
           label={'Publishing Business Domain'}
           searchPlaceholder={'Search a publishing domain'}
-          list={PublishingBusinessDomainSample}
+          list={publishingBusinessDomainList}
+          onChange={(value) => setPublishingBusinessDomains(value)}
         />
       </div>
     </div>

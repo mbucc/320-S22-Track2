@@ -5,7 +5,6 @@ import BPTextInput from './text-input';
 
 import {ClickAwayListener, Popper} from '@mui/material';
 import {BPDomainSelectorItem} from './domain-selector-item';
-import {BPTextButton} from './button';
 
 export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}) => {
   const [displayValue, setDisplayValue] = useState('');
@@ -34,7 +33,7 @@ export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}
     } else {
       setResultList(list);
     }
-  }, [searchInputValue]);
+  }, [searchInputValue, list]);
 
   useEffect(() => {
     if (selectedList.length > 0) {

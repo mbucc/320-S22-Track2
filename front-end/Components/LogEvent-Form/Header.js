@@ -1,29 +1,32 @@
-import { Button, AppBar, IconButton, Popover, Toolbar, Typography, MenuList, MenuItem, Link } from '@mui/material'
-import { Menu } from '@mui/icons-material'
-import React from 'react'
-import { useState } from 'react'
+import {Button, AppBar, IconButton, Popover, Toolbar, Typography, MenuList, MenuItem, Link} from '@mui/material';
+import {Menu} from '@mui/icons-material';
+import React from 'react';
+import {useState} from 'react';
 
+/**
+ *
+ * @return {JSX.Element}
+ */
 export default function Header() {
-  
   /* state for the popover component. Popover will anchor to the element in anchor */
   const [anchor, setAnchor] = useState(null);
 
   /**
-   * 
+   *
    * @param e click event from clicking on IconButton
    */
 
   const openPopover = (e) => {
-    setAnchor(e.currentTarget)
-  }
+    setAnchor(e.currentTarget);
+  };
 
   /**
    * handles closing of popover menu
    */
 
   const handleClose = () =>{
-    setAnchor(null)
-  }
+    setAnchor(null);
+  };
 
   return (
     <div>
@@ -32,19 +35,19 @@ export default function Header() {
           <IconButton onClick={openPopover}>
             <Menu />
           </IconButton>
-          <Popover 
-          open = {Boolean(anchor)}
-          anchorEl = {anchor}
-          onClose = {handleClose}
-          anchorOrigin = {{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
-          transformOrigin = {{
-            vertical: "top",
-            horizontal: "left"
-          }}>
-            
+          <Popover
+            open = {Boolean(anchor)}
+            anchorEl = {anchor}
+            onClose = {handleClose}
+            anchorOrigin = {{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin = {{
+              vertical: 'top',
+              horizontal: 'left',
+            }}>
+
             <MenuList>
               <MenuItem>
                 <Button>
@@ -71,5 +74,5 @@ export default function Header() {
         </Toolbar>
       </AppBar>
     </div>
-  )
+  );
 }

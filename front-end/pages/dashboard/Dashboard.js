@@ -71,7 +71,7 @@ export default function Dashboard(props) {
                 <DonutCharts />
               </Grid>
               <Grid item xs={5}>
-                <Timelines />
+                <Timelines setFilters={props.onLogEventsClick}/>
               </Grid>
             </Grid>
 

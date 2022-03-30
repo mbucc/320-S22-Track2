@@ -51,7 +51,7 @@ export default function Home() {
         {/* <NavBar onChange={toggleNav} />*/}
         <Grid item height={'100%'}>
           {display == 0
-            ? <Dashboard onBPClick={toggleBP} onClick={toggleLogEvents} />
+            ? <Dashboard onBPClick={toggleBP} onLogEventsClick={toggleLogEvents} onClick={toggleLogEvents} />
             : display == 1
               ? <div>Business Process</div>
               : <div>Log Events</div>

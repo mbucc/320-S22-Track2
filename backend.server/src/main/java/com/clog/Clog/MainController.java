@@ -1,9 +1,12 @@
 package com.clog.Clog;
 
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import com.clog.Clog.BusinessProcess.BusinessGridFilter;
 import com.clog.Clog.BusinessProcess.BusinessGridSpecification;
@@ -90,5 +93,18 @@ public class MainController {
         BusinessGridSpecification businessGridSpec = new BusinessGridSpecification(businessFilter);
         return logEventRepo.findAll(businessGridSpec);
 
+    }
+    @GetMapping(path="/test")
+    public @ResponseBody List<Timestamp> getBusinessProcessGrid() {
+        List<Timestamp> testObj = new ArrayList<Timestamp>();
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis((1)));
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(startTime);
+        while(cal.getTime().before(currentTime)) {
+            cal.add(Calendar.MINUTE, 15);
+            testObj.add(new Timestamp(cal.getTimeInMillis()));
+        }
+        return testObj;
     }
 }

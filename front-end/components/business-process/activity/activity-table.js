@@ -188,7 +188,7 @@ export default function BPTableComponent({columns, data}) {
           style={{
             position: 'sticky',
             top: 0,
-            zIndex: 99,
+            zIndex: 89, // In order to be on top of the scrollbar but below the adjustable frame.
             background: BPColors.white,
           }}
         >

@@ -21,7 +21,8 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-table": "^7.7.0",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "react-split": "^2.0.14"
   },
   "devDependencies": {
     "eslint": "^8.10.0",

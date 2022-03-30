@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react';
 import Dashboard from './dashboard/Dashboard';
 import Navbar from './dashboard/Navbar';
 import Grid from '@mui/material/Grid';
@@ -8,16 +8,16 @@ import Grid from '@mui/material/Grid';
  * @return {JSX.Element}
  */
 export default function Home() {
-  const [loggedIn, setLogin] = useState(true)
-  const [display, setDisplay] = useState(0) //0, 1, 2 (dashboard, business process, log events)   
-  const bpFilters = null
-  const logEventFilters = null
+  const [loggedIn, setLogin] = useState(true);
+  const [display, setDisplay] = useState(0); // 0, 1, 2 (dashboard, business process, log events)
+  const bpFilters = null;
+  const logEventFilters = null;
 
   // function to pass into Navbar to handle tab clicking and changing the displayed view
   const toggleNav = (event, tab) => {
     if (tab == 0) {
-      bpFilters = null
-      logEventFilters = null
+      bpFilters = null;
+      logEventFilters = null;
     }
     setDisplay(tab);
   };
@@ -28,9 +28,9 @@ export default function Home() {
   * Sets display to business process and passes filters into component view
   */
   const toggleBP = (filters) => {
-    bpFilters = null
-    setDisplay(1)
-  }
+    bpFilters = null;
+    setDisplay(1);
+  };
 
   /*
   * Function to be called by clickable components in Dashboard
@@ -38,17 +38,16 @@ export default function Home() {
   * Sets display to log events and passes filters into component view
   */
   const toggleLogEvents = (filters) => {
-    logEventFilters = null
-    setDisplay(2)
-  }
+    logEventFilters = null;
+    setDisplay(2);
+  };
 
   if (loggedIn) {
     return (
       <Grid container direction='column'>
         <Grid item height={'100%'}>
-          <Navbar />
+          <Navbar toggleNav={toggleNav} display={display} />
         </Grid>
-        {/* <NavBar onChange={toggleNav} />*/}
         <Grid item height={'100%'}>
           {display == 0
             ? <Dashboard onBPClick={toggleBP} onLogEventsClick={toggleLogEvents} onClick={toggleLogEvents} />
@@ -58,9 +57,9 @@ export default function Home() {
           }
         </Grid>
       </Grid>
-    )
+    );
   }
   return (
     <div>Login</div>
-  )
+  );
 }

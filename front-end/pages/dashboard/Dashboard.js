@@ -12,7 +12,7 @@ export default function Dashboard(props) {
 
   return (
     <div className='dashboard'>
-      <Box mt={8} px={10} py={5} sx={{ height: '100%' }}>
+      <Box px={10} py={5} sx={{ height: '100%' }}>
         <Grid container direction='column' height={'100%'} spacing={3}>
           <Grid item xs={1}>
             {/* replace Paper block with header component */}

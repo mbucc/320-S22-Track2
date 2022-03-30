@@ -80,44 +80,6 @@ export default function Timeline(props) {
                     >
                     </Tooltip>
                 </Chart>
-                {/* <div style={{height:'10vh', width: '30vw', position:"relative"}}>
-                    <Line
-                        data={{
-                            labels: props.labels,
-                            datasets: [
-                                {
-                                    label: '# logs',
-                                    data: props.values,
-                                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                                    borderColor: 'rgba(54, 162, 235, 1)',
-                                    tension: 0.3,
-                                    hoverBorderWidth: 10
-                                }
-                            ]
-                        }}
-                        options={{
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                x: {
-                                    grid: {
-                                        display: false
-                                    }
-                                },
-                                y: {
-                                    grid: {
-                                        display: false
-                                    }
-                                }
-                            },
-                            plugins: {
-                                legend: {
-                                    display: false
-                                }
-                            }
-                        }}
-                    />
-                </div> */}
             </Grid>
         </Grid>
     )

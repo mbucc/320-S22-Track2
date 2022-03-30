@@ -68,15 +68,24 @@ public class MainController {
     }
     @GetMapping(path="/businessProcessTree")
     public @ResponseBody Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getBusinessTree(
-        @RequestParam String startTime, @RequestParam String endTime, @RequestParam String[] eaiDomain, @RequestParam String[] publishingBusinessDomain) {
+    @RequestParam String startTime, 
+    @RequestParam String endTime, 
+    @RequestParam String[] eaiDomain, 
+    @RequestParam String[] publishingBusinessDomain) {
+
         businessTreeFilter filt = new businessTreeFilter();
+
         filt.setStartTime(Timestamp.valueOf(startTime));
         filt.setEndTime(Timestamp.valueOf(endTime));
         filt.setEaiDomain(eaiDomain);
         filt.setPublishingBusinessDomain(publishingBusinessDomain);
+
         businessTreeSpecification spec = new businessTreeSpecification(filt);
+
         List<EAIdomain> test =  busTree.findAll(spec);
+
         BusinessProcessTreeMap returnMap = new BusinessProcessTreeMap();
+        
         for(EAIdomain x : test) {
             returnMap.addObj(x);
         }
@@ -84,23 +93,31 @@ public class MainController {
     }
     @GetMapping(path="/businessProcessGrid")
     public @ResponseBody List<LogEvent> getBusinessProcessGrid(
-    @RequestParam String eai_transaction_id, @RequestParam String[] severities, @RequestParam String[] businessDomain)
+    @RequestParam String eai_transaction_id, 
+    @RequestParam String[] severities, 
+    @RequestParam String[] businessDomain)
     {
         BusinessGridFilter businessFilter = new BusinessGridFilter();
+
         businessFilter.setEai_transaction_id(eai_transaction_id);
         businessFilter.setBusinessDomainList(businessDomain);
         businessFilter.setSeverities(severities);
+
         BusinessGridSpecification businessGridSpec = new BusinessGridSpecification(businessFilter);
+
         return logEventRepo.findAll(businessGridSpec);
 
     }
     @GetMapping(path="/test")
     public @ResponseBody List<Timestamp> getBusinessProcessGrid() {
         List<Timestamp> testObj = new ArrayList<Timestamp>();
+        
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis((1)));
+        
         Calendar cal = Calendar.getInstance();
         cal.setTime(startTime);
+       
         while(cal.getTime().before(currentTime)) {
             cal.add(Calendar.MINUTE, 15);
             testObj.add(new Timestamp(cal.getTimeInMillis()));

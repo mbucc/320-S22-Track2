@@ -14,7 +14,7 @@
         component = "Publish_Customer_Update"
         severity = "10"
         priority = "10"
-        creation_time = "01-JAN-22 12.45.03.480000 AM"
+        creation_time = "2020-12-12 01:24:23"
         reasoning_scope = "INTERNAL"
         process_id = "1212"
         category_name = "ReportSituation"

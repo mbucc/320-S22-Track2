@@ -28,7 +28,7 @@ export default function Home() {
   * Sets display to business process and passes filters into component view
   */
   const toggleBP = (filters) => {
-    bpFilters = null;
+    bpFilters = filters;
     setDisplay(1);
   };
 
@@ -38,7 +38,7 @@ export default function Home() {
   * Sets display to log events and passes filters into component view
   */
   const toggleLogEvents = (filters) => {
-    logEventFilters = null;
+    logEventFilters = filters;
     setDisplay(2);
   };
 

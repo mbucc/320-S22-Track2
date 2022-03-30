@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import Link from 'next/link'
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography } from '@mui/material';
 import { TablePagination } from '@mui/material';
 
@@ -62,7 +63,7 @@ export default function LETable(props) {
                             <TableCell>{e["EAI Domain"]}</TableCell>
                             <TableCell>{e["Business Domain"]}</TableCell>
                             <TableCell>{e["Business SubDomain"]}</TableCell>
-                            <TableCell>{e["Log Event"]}</TableCell>
+                            <TableCell> <Link href={`/log-detail/${e.id}`} >{e["Log Event"]}</Link></TableCell>
                         </TableRow>
                     )
                 })}

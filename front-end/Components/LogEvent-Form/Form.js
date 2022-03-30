@@ -45,15 +45,18 @@ export default function Form(props) {
     
     {/* returns true if a given piece of data in the grid has properties specified by current filters */}
     const filterData = (e, objKeys)=>{
-
+        //Date filters
         const compareDate = moment(e["Created Date"]);
         const startDate = moment(fromToDates["From"]);
         const endDate = moment(fromToDates["To"]);
         const dateFilter = compareDate.isBetween(startDate, endDate, undefined, '[]') // '[]' means inclusive on the left and right
 
+        //Checkbox filters
         let severityFilter = objKeys.includes(e.severity)
         let priorityFilter = objKeys.includes(e.priority)
         let categoryFilter = objKeys.includes(e.category)
+
+        //Dropdowwn filters
         let domainFilter = dropdownValues["EAI Domain"] === "All" ? true : e["EAI Domain"] === dropdownValues["EAI Domain"]
         let applicationFilter = dropdownValues["Application"] === "All" ? true : e["Application"] === dropdownValues["Application"]
         let processServiceFilter = dropdownValues["Process/Service"] === "All" ? true : e["Process/Service"] === dropdownValues["Process/Service"]

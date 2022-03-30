@@ -46,10 +46,10 @@ export default function FormCheckbox(props) {
     <div>
       <Container style = {formContainerStyle}>
          <h4> {props.name}:</h4> 
-        {Object.keys(props.checkboxes).map((e)=>{
+        {Object.keys(props.checkboxes).map((e, i)=>{
            return(
 
-             <FormControlLabel 
+             <FormControlLabel key={i}
               label = {e}
               style={labelStyle} 
               control = {<Checkbox name={e} onChange={handleOnChange} checked={props.checkboxes[e]} />} 

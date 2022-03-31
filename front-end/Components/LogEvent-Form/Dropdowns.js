@@ -25,7 +25,11 @@ export default function Dropdowns(props) {
   return (
     <div style={dropdownStyle}>
       <InputLabel > {props.name} </InputLabel>
-      <Select value={dropdownValue} onChange={handleOnChange} >
+      <Select
+        value={dropdownValue}
+        onChange={handleOnChange}
+        data-testid={props.testid}
+      >
         <MenuItem value={'All'}> {'All'}</MenuItem>
         {props.options.map((e, i)=>{
           return (

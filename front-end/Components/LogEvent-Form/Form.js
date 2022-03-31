@@ -20,7 +20,7 @@ export default function Form(props) {
   /* options for dropdown fields. Will eventually be queries to the database */
   const EAIOptions = ['EAI Domain 1', 'EAI Domain 2', 'EAI Domain 3', 'EAI Domain 4'];
   const applicationOptions = ['CRM'];
-  const processServiceOptions = ['Update Costumer'];
+  const processServiceOptions = ['Update Customer'];
   const BusinessDomainOptions = ['Business Domain 1', 'Business Domain 2'];
   const BusinessSubDomOptions = ['Business SubDomain 1', 'Business SubDomain 2'];
 
@@ -88,11 +88,11 @@ export default function Form(props) {
         <div>
           <FormDates name="From / To Dates" fromToDates={fromToDates} setFromToDates={setFromToDates} />
           <div style = {dropdownStyle}>
-            <Dropdowns options={EAIOptions} setOptions={setDropdownValues} name={'EAI Domain'} ></Dropdowns>
-            <Dropdowns options={applicationOptions} setOptions={setDropdownValues} name={'Application'} ></Dropdowns>
-            <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} name={'Process/Service'} ></Dropdowns>
-            <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} name={'Business Domain'} ></Dropdowns>
-            <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} name={'Business SubDomain'} ></Dropdowns>
+            <Dropdowns options={EAIOptions} setOptions={setDropdownValues} name={'EAI Domain'} testid={'dropdown-eai'}></Dropdowns>
+            <Dropdowns options={applicationOptions} setOptions={setDropdownValues} name={'Application'} testid={'dropdown-app'}></Dropdowns>
+            <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} name={'Process/Service'} testid={'dropdown-ps'}></Dropdowns>
+            <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} name={'Business Domain'} testid={'dropdown-bd'}></Dropdowns>
+            <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} name={'Business SubDomain'} testid={'dropdown-bsd'}></Dropdowns>
           </div>
         </div>
         <div style = {checkboxesStyle}>

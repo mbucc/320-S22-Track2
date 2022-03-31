@@ -20,7 +20,7 @@ export default function LogEvent() {
     width: 'fit-content',
   };
   for (let i = 0; i < 1000; i++) {
-    let severity = 'N/A'; const date = `1/${(i%30) + 1}/${2022 + (Math.floor(i / 2022))} 0${i%10}:00:00`; const ps = 'Update Costumer'; const app = 'CRM'; const activity = 'Activity'; let priority = 'N/A'; let category = 'N/A'; let eai = 'N/A'; let BD = ''; let BSD = '';
+    let severity = 'N/A'; const date = `1/${(i%30) + 1}/${2022 + (Math.floor(i / 2022))} 0${i%10}:00:00`; const ps = 'Update Customer'; const app = 'CRM'; const activity = 'Activity'; let priority = 'N/A'; let category = 'N/A'; let eai = 'N/A'; let BD = ''; let BSD = '';
     switch (i%5) {
       case (0): category = 'Heartbeat'; break;
       case (1): category = 'Stop'; break;

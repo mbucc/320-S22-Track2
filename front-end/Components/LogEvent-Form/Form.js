@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import Dropdowns from './Dropdowns'
 import { Button, Typography } from '@mui/material'
 import FormDates from './FormDates.js'
@@ -12,6 +12,8 @@ export default function Form(props) {
     const [categoryCheckboxes, setCategoryCheckboxes] = useState({"Heartbeat": false, "Stop": false, "Status": false, "Security": false, "Start": false})
     const [dropdownValues, setDropdownValues] = useState({"EAI Domain": "All", "Application": "All", "Process/Service": "All", "Business Domain": "All", "Business SubDomain": "All"})
     const [fromToDates, setFromToDates] = useState({"From": "2022-01-01 00:00:00", "To": "2022-01-31 00:00:00"})
+
+    const applyButtonRef = useRef(null)
 
     /* options for dropdown fields. Will eventually be queries to the database */
     const EAIOptions = ["EAI Domain 1", "EAI Domain 2", "EAI Domain 3", "EAI Domain 4"]
@@ -41,6 +43,37 @@ export default function Form(props) {
     const checkboxesStyle = {
         display: "flex",
         flexDirection: "row"
+    }
+
+    useEffect(async ()=>{
+        const ss = window.sessionStorage
+        if(ss.getItem('isLogDetail')){
+            await setSeverityCheckboxes(JSON.parse(ss.getItem('severityCheckboxes')))
+            await setPriorityCheckboxes(JSON.parse(ss.getItem('priorityCheckboxes')))
+            await setCategoryCheckboxes(JSON.parse(ss.getItem('categoryCheckboxes')))
+            await setDropdownValues(JSON.parse(ss.getItem('dropdownValues')))
+            await setFromToDates(JSON.parse(ss.getItem('fromToDates')))
+            ss.removeItem('severityCheckboxes')
+            ss.removeItem('priorityCheckboxes')
+            ss.removeItem('categoryCheckboxes')
+            ss.removeItem('dropdownValues')
+            ss.removeItem('fromToDates')
+            ss.removeItem("isLogDetail")
+
+            applyButtonRef.current.click()
+        
+
+
+        }
+    }, [])
+
+    const saveForm = ()=>{
+        const ss = window.sessionStorage
+        ss.setItem('severityCheckboxes', JSON.stringify(severityCheckboxes))
+        ss.setItem('priorityCheckboxes', JSON.stringify(priorityCheckboxes))
+        ss.setItem('categoryCheckboxes', JSON.stringify(categoryCheckboxes))
+        ss.setItem('dropdownValues', JSON.stringify(dropdownValues))
+        ss.setItem('fromToDates', JSON.stringify(fromToDates))
     }
     
     {/* returns true if a given piece of data in the grid has properties specified by current filters */}
@@ -101,7 +134,7 @@ export default function Form(props) {
                 <FormCheckbox name="Priority" checkboxes={priorityCheckboxes} setCheckboxes={setPriorityCheckboxes} />
                 <FormCheckbox name="Category" checkboxes={categoryCheckboxes} setCheckboxes={setCategoryCheckboxes} />
             </div>
-            <Button type="submit" style = {buttonStyle}>Apply</Button>
+            <Button type="submit" onClick={saveForm} ref={applyButtonRef} style = {buttonStyle}>Apply</Button>
             <br />
         </form>
     </div>

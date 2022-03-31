@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Link from 'next/link'
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography } from '@mui/material';
 import { TablePagination } from '@mui/material';
@@ -24,7 +24,6 @@ export default function LETable(props) {
         setRPP(parseInt(event.target.value, 10))
         setPage(0)
     }
-    
 
   return (
       <div>
@@ -63,7 +62,7 @@ export default function LETable(props) {
                             <TableCell>{e["EAI Domain"]}</TableCell>
                             <TableCell>{e["Business Domain"]}</TableCell>
                             <TableCell>{e["Business SubDomain"]}</TableCell>
-                            <TableCell> <Link href={`/log-detail/${e.id}`} >{e["Log Event"]}</Link></TableCell>
+                            <TableCell onClick={() => { window.sessionStorage.setItem('isLogDetail', true) }}> <Link href={`/log-detail/${e.id}`} >{e["Log Event"]}</Link></TableCell>
                         </TableRow>
                     )
                 })}

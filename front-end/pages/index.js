@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
  * @return {JSX.Element}
  */
 export default function Home() {
-  const [loggedIn, setLogin] = useState(true);
+  const [loggedIn] = useState(true);
   const [display, setDisplay] = useState(0); // 0, 1, 2 (dashboard, business process, log events)
   const bpFilters = null;
   const logEventFilters = null;
@@ -49,11 +49,11 @@ export default function Home() {
           <Navbar toggleNav={toggleNav} display={display} />
         </Grid>
         <Grid item height={'100%'}>
-          {display == 0
-            ? <Dashboard onBPClick={toggleBP} onLogEventsClick={toggleLogEvents} onClick={toggleLogEvents} />
-            : display == 1
-              ? <div>Business Process</div>
-              : <div>Log Events</div>
+          {display == 0 ?
+            <Dashboard onBPClick={toggleBP} onLogEventsClick={toggleLogEvents} onClick={toggleLogEvents} /> :
+            display == 1 ?
+              <div>Business Process</div> :
+              <div>Log Events</div>
           }
         </Grid>
       </Grid>

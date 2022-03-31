@@ -1,6 +1,10 @@
 import {Doughnut} from 'react-chartjs-2';
 import 'chart.js/auto';
 
+/**
+ * @param {Object} props
+* @return {JSX.Element}
+*/
 function DonutChartComponent(props) {
   return (
     <Doughnut

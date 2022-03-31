@@ -51,6 +51,7 @@ export default function LogEvent() {
       'EAI Domain': eai,
       'Business Domain': BD,
       'Business SubDomain': BSD,
+      "id": i
     });
   };
   {/* {"severity": "error", "Created Date": "3/2/2022", "Process/Service": "Update Costumer", "Application": "CRM", "Activity": "Activity", "Log Event": "Detail", "priority": "high", "category": "start", "EAI Domain": "EAI Domain 1" },

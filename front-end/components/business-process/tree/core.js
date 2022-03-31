@@ -4,13 +4,16 @@ import {BPColors} from '../../../utils/business-process/standards';
 import BPTreeFilterComponent from './tree-filter';
 import {sampleEAIDomains} from '../../../utils/business-process/sample-data';
 
+import {useLPSession} from '@taci-tech/launchpad-js';
+import {BPLaunchpad} from '../../../utils/business-process/launchpad/core';
+
 const BPTreeView = ({
   onChange,
 }) => {
-  const [data,setData] = useState(sampleEAIDomains) //TODO: change this to effect once we have fetch working
-  const setFilter = () =>{
-    setData(sampleEAIDomains)
-  }
+  const {
+    data,
+    setData,
+  } = useLPSession(BPLaunchpad.tree.getMap());
 
   return (
     <div
@@ -22,7 +25,11 @@ const BPTreeView = ({
       }}
     >
       {/* Filter Section */}
-      <BPTreeFilterComponent setFilter={setFilter}/>
+      <BPTreeFilterComponent
+        onChange={(filter) => {
+          setData(filter);
+        }}
+      />
 
       {/* Divider */}
       <div
@@ -34,7 +41,6 @@ const BPTreeView = ({
       />
 
       {/* Map Section */}
-
       <div
         style={{
           width: '100%',
@@ -47,7 +53,11 @@ const BPTreeView = ({
           justifyContent: 'center',
         }}
       >
-        <BPTreeComponent data={data}/>
+        <BPTreeComponent data={data} onChange={(log) => {
+          if (onChange && log) {
+            onChange(log.id); // TODO: Will be changed based on the property name in API.
+          }
+        }}/>
       </div>
     </div>
   );

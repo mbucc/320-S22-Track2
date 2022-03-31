@@ -3,14 +3,18 @@ import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 
 import BPTextInput from './text-input';
 
+import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import StaticDateTimePicker from '@mui/lab/StaticDateTimePicker';
 import {ClickAwayListener, Popper} from '@mui/material';
 
 import {dateOptions} from '../../../utils/business-process/date-options';
+import {DatePickerHelper} from './support/date-picker-helper';
 
-export const BPDatePicker = ({label, onChange}) => {
+import {parseDate} from './support/date-picker-processor';
+
+export const BPDatePicker = ({label, onChange, baseDate}) => {
   // Date picker value.
   const [value, setValue] = useState(null);
 
@@ -29,7 +33,7 @@ export const BPDatePicker = ({label, onChange}) => {
 
   // Process the input value into datepicker value.
   useEffect(() => {
-    // TODO
+    // setValue(parseDate(inputValue, baseDate));
   }, [inputValue]);
 
   // Process the datepicker value into input value.
@@ -37,8 +41,21 @@ export const BPDatePicker = ({label, onChange}) => {
     // TODO
     if (value) {
       setInputValue(value.toLocaleString('en-US', dateOptions));
+      if (onChange) {
+        onChange(value);
+      }
     }
   }, [value]);
+
+  const onInputFinish = (text) => {
+    try {
+      const parsedDate = parseDate(text, baseDate || new Date());
+      setValue(parsedDate);
+    } catch (e) {
+      console.error(e.toString());
+      // TODO: Set error state to the input field.
+    }
+  };
 
   return (
     <div
@@ -62,7 +79,19 @@ export const BPDatePicker = ({label, onChange}) => {
             style={{
               width: '100%',
             }}
-            label={label}
+            label={(
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {label}
+                <DatePickerHelper/>
+              </div>
+            )}
             boxRef={(ref) => {
               boxRef.current = ref;
             }}
@@ -71,14 +100,16 @@ export const BPDatePicker = ({label, onChange}) => {
             onTextChange={(newValue) => {
               setInputValue(newValue);
             }}
-            onEnterPress={() => {
+            onEnterPress={(e) => {
               handlePopoverClose();
+              onInputFinish(e.target.value);
             }}
             onEscPress={() => {
               handlePopoverClose();
             }}
             onClick={() => setIsOpen(true)}
           />
+
           <Popper
             id={isOpen ? 'bp-date-picker' : undefined}
             open={isOpen}
@@ -128,7 +159,7 @@ export const BPDatePicker = ({label, onChange}) => {
                     onAccept={() => {
                       handlePopoverClose();
                     }}
-                    renderInput={(params) => <></>}
+                    renderInput={(params) => <TextField {...params}/>}
                   />
                 </LocalizationProvider>
               </div>

@@ -1,45 +1,12 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-
+import React, {useEffect, useState} from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
 import {BPTextButton} from '../common/button';
-import AlertDialog from '../common/dialog'
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
-import Image from 'next/image';
+import renderBusinessProcessInstances from './tree-item-log';
 import TreeContextMenu from './tree-context-menu';
-
-const getColorBySeverity = (severity) => {
-  switch (severity) {
-    case 'success':
-      return BPColors.success;
-    case 'info':
-      return BPColors.info;
-    case 'warning':
-      return BPColors.warning;
-    case 'error':
-      return BPColors.error;
-  }
-};
-
-const BPActivitySeverityIcons = {
-  info: '/business-process/icons/severity-icons-info.svg',
-  warning: '/business-process/icons/severity-icons-warning.svg',
-  error: '/business-process/icons/severity-icons-error.svg',
-  success: '/business-process/icons/severity-icons-success.svg',
-};
-
-const BPActivitySeverityIcon = ({severity}) => {
-  return (
-    <Image
-      width={18}
-      height={18}
-      src={BPActivitySeverityIcons[severity]}
-    />
-  );
-};
 
 const findExpandable = (tree) => {
   const result = [];
@@ -56,7 +23,6 @@ const findExpandable = (tree) => {
   }
   return result;
 };
-
 
 // Reusable EAI domain tree item style.
 const rootTreeStyle = {
@@ -103,24 +69,23 @@ const subTreeStyle = {
   },
 };
 
-
 /**
  * The hierarchy tree view component of business process view.
  * @param {Object} props - The props passed to the component.
- * @param {Object} props.onChange - The callback function when the tree view is changed.
+ * @param {function} props.onChange - The callback function when the tree view is changed.
  * @return {JSX.Element} - The generated tree view component.
  */
-export default function BPTreeComponent(props) {
-  const [expanded, setExpanded] = useState([]);
+export default function BPTreeComponent({data: dataProp, onChange}) {
+  const [data, setData] = useState(dataProp);
+  const [expanded, setExpanded] = React.useState([]);
   const [expandable, setExpandable] = useState([]);
-  const [contextMenu, setContextMenu] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [contextMenu, setContextMenu] = React.useState(null);
 
-  // const data = sampleEAIDomains;
-  // const data = props.data;
   useEffect(() => {
-    setExpandable(findExpandable(props.data));
-  },[props.data]);
+    setData(dataProp);
+    setExpandable(findExpandable(dataProp));
+  }, [dataProp]);
+
   const handleContextMenu = (event, source) => {
     event.stopPropagation();
     event.preventDefault();
@@ -147,7 +112,8 @@ export default function BPTreeComponent(props) {
             oldExpanded.length === 0 ? expandable : []
     );
   };
-  // For now, needs to be put here to pass in handleContextMenu
+
+  // NOTE: For now, needs to be put here to pass in handleContextMenu.
   const renderEAIDomains = (nodes) => (
     <TreeItem
       key={nodes.name}
@@ -216,43 +182,16 @@ export default function BPTreeComponent(props) {
     >
       {
         Array.isArray(nodes.activities) ?
-          nodes.activities.map((log) => renderBusinessProcessInstances(log)) :
+          nodes.activities.map((log) => renderBusinessProcessInstances(log, (log) => {
+            if (onChange) {
+              onChange(log);
+            }
+          })) :
           null
       }
     </TreeItem>
   );
 
-  const renderBusinessProcessInstances = (log) =>(
-    <TreeItem
-      key={log.id}
-      nodeId={log.id}
-      icon={<BPActivitySeverityIcon severity={log.severity}/>}
-      label={log.sampleContent}
-      sx={{
-        marginTop: '1px',
-        borderRadius: BPDimens.treeRadius,
-        color: getColorBySeverity(log.severity),
-        backgroundColor: BPColors.transparent,
-        '&:hover': {
-          backgroundColor: BPColors.gray[100],
-        },
-        '& > .MuiTreeItem-content': {
-          minHeight: 34,
-          borderRadius: BPDimens.treeRadius,
-          padding: '0px 13px',
-          '&.Mui-focused, &.Mui-selected, &.Mui-focused.Mui-selected': {
-            backgroundColor: BPColors.gray[100],
-            '&:hover': {
-              backgroundColor: BPColors.transparent,
-            },
-          },
-          '&:hover': {
-            backgroundColor: BPColors.transparent,
-          },
-        },
-      }}
-    />
-  );
   return (
     <div
       style={{
@@ -297,11 +236,10 @@ export default function BPTreeComponent(props) {
           flexDirection: 'column',
           alignItems: 'left',
           justifyContent: 'flex-start',
-          padding: 20,
-          overflowY: 'scroll',
-          rowGap: 14,
+          overflowX: 'hidden',
+          overflowY: 'auto',
         }}
-        onContextMenu={e => e.preventDefault()}
+        onContextMenu={(e) => e.preventDefault()} // Disable the default context menu on BPTreeView.
       >
         <TreeView
           aria-label="controlled"
@@ -309,14 +247,19 @@ export default function BPTreeComponent(props) {
           defaultExpandIcon={<ChevronRightIcon />}
           expanded={expanded}
           onNodeToggle={handleToggle}
+          sx={{
+            padding: '20px 20px',
+          }}
           multiSelect
         >
           {
             props.data.map((nodes) => renderEAIDomains(nodes))
           }
         </TreeView>
-        <TreeContextMenu contextMenu={contextMenu} handleClose={handleClose} handleOpenDialog={handleOpenDialog}/>
-        <AlertDialog openDialog={openDialog} handleCloseDialog={handleCloseDialog}/>
+        <TreeContextMenu
+          contextMenu={contextMenu}
+          handleClose={handleClose}
+        />
       </div>
     </div>
   );

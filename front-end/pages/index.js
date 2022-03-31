@@ -10,14 +10,18 @@ import Login from './login/login';
  * @return {JSX.Element}
  */
 export default function Home() {
+
   // eslint-disable-next-line no-unused-vars
   const [loggedIn, setLogin] = useState(false);
   const [display, setDisplay] = useState(0); // 0, 1, 2 (dashboard, business process, log events)
   const childToParent = (childdata) => {
     setLogin(childdata);
   }
-  // const bpFilters = null;
-  // const logEventFilters = null;
+  const bpFilters = null;
+  const logEventFilters = null;
+
+
+
 
   // function to pass into Navbar to handle tab clicking and changing the displayed view
   // eslint-disable-next-line no-unused-vars
@@ -35,7 +39,7 @@ export default function Home() {
   * Sets display to business process and passes filters into component view
   */
   const toggleBP = (filters) => {
-    bpFilters = null;
+    bpFilters = filters;
     setDisplay(1);
   };
 
@@ -45,7 +49,7 @@ export default function Home() {
   * Sets display to log events and passes filters into component view
   */
   const toggleLogEvents = (filters) => {
-    logEventFilters = null;
+    logEventFilters = filters;
     setDisplay(2);
   };
 
@@ -53,15 +57,14 @@ export default function Home() {
     return (
       <Grid container direction='column'>
         <Grid item height={'100%'}>
-          <Navbar />
+          <Navbar toggleNav={toggleNav} display={display} />
         </Grid>
-        {/* <NavBar onChange={toggleNav} />*/}
         <Grid item height={'100%'}>
-          {display == 0 ?
-            <Dashboard onBPClick={toggleBP} onClick={toggleLogEvents} /> :
-            display == 1 ?
-              <div>Business Process</div> :
-              <div>Log Events</div>
+          {display == 0
+            ? <Dashboard onBPClick={toggleBP} onLogEventsClick={toggleLogEvents} onClick={toggleLogEvents} />
+            : display == 1
+              ? <div>Business Process</div>
+              : <div>Log Events</div>
           }
         </Grid>
       </Grid>

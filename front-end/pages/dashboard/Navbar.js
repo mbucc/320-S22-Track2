@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,22 +7,23 @@ import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import {display} from '@mui/system';
 
 function Navbar(props) {
   return (
     <>
-      <AppBar position='fixed' color='primary'> 
+      <AppBar position='static' color='primary'>
         <Container maxWidth='100%'>
-          <Toolbar maxWidth='100%'>
+          <Toolbar>
             <Typography variant='h6' noWrap component='div' sx={{mr: 5}}>
                             ISO CLOG Monitor
             </Typography>
 
             <Box sx={{flexGrow: 1}}>
-              <Tabs variant='standard' textColor='inherit'>
-                <Tab label='Dashboard' />
-                <Tab label='Business Processes' />
-                <Tab label='Log Events' />
+              <Tabs variant='standard' value={props.display} textColor='inherit' indicatorColor >
+                <Tab label='Dashboard' value={0} onClick={() => props.toggleNav('dashboard clicked', 0)} />
+                <Tab label='Business Processes' value={1} onClick={() => props.toggleNav('bus process clicked', 1)} />
+                <Tab label='Log Events' value={2} onClick={() => props.toggleNav('log events clicked', 2)} />
               </Tabs>
             </Box>
             <Button color='inherit'>

@@ -12,9 +12,9 @@ export default function Dashboard(props) {
 
   return (
     <div className='dashboard'>
-      <Box mt={8} px={10} py={5} sx={{ height: '100%' }}>
-        <Grid container direction='column' height={'100%'} spacing={3}>
-          <Grid item xs={1}>
+      <Box px={10} py={5} sx={{ height: '100%', width: '100%' }}>
+        <Grid container direction='row' height={'100%'} spacing={3}>
+          <Grid item xs={12}>
             {/* replace Paper block with header component */}
             <Paper elevation={3}>
               <Box px={2} pt={4}>
@@ -24,7 +24,7 @@ export default function Dashboard(props) {
               </Box>
             </Paper>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={12}>
             {/* replace Grid block with Counts component */}
             <Grid container direction='row' spacing={2}>
               <Grid item xs={3}>
@@ -65,13 +65,13 @@ export default function Dashboard(props) {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item>
+          <Grid item xs={12}>
             <Grid container item direction="row" spacing={5}>
               <Grid item xs={7}>
                 <DonutCharts />
               </Grid>
               <Grid item xs={5}>
-                <Timelines />
+                <Timelines setFilters={props.onLogEventsClick}/>
               </Grid>
             </Grid>
 

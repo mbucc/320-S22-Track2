@@ -61,9 +61,6 @@ export default function Form(props) {
       ss.removeItem("isLogDetail")
 
       applyButtonRef.current.click()
-
-
-
     }
   }, [])
 
@@ -122,11 +119,11 @@ export default function Form(props) {
         <div>
           <FormDates name="From / To Dates" fromToDates={fromToDates} setFromToDates={setFromToDates} />
           <div style={dropdownStyle}>
-            <Dropdowns options={EAIOptions} setOptions={setDropdownValues} name={"EAI Domain"} ></Dropdowns>
-            <Dropdowns options={applicationOptions} setOptions={setDropdownValues} name={"Application"} ></Dropdowns>
-            <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} name={"Process/Service"} ></Dropdowns>
-            <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} name={"Business Domain"} ></Dropdowns>
-            <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} name={"Business SubDomain"} ></Dropdowns>
+            <Dropdowns options={EAIOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={"EAI Domain"} ></Dropdowns>
+            <Dropdowns options={applicationOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={"Application"} ></Dropdowns>
+            <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={"Process/Service"} ></Dropdowns>
+            <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={"Business Domain"} ></Dropdowns>
+            <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={"Business SubDomain"} ></Dropdowns>
           </div>
         </div>
         <div style={checkboxesStyle}>

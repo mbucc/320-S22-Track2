@@ -4,6 +4,10 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+/**
+ * @param {Object} props
+* @return {JSX.Element}
+*/
 function DonutCharts(props) {
   return (
     <Paper elevation={3}>
@@ -16,7 +20,7 @@ function DonutCharts(props) {
             <DonutChartComponent
               labels={['BP1', 'BP2', 'BP3', 'BP4', 'Rest']}
               values={[10, 10, 10, 10, 30]}
-              onClickFunc={onClickFunc}
+              onClickFunc={(l, v) => console.log(l)}
               title='Percent Contribution to Warnings'
             />
           </div>
@@ -24,7 +28,7 @@ function DonutCharts(props) {
             <DonutChartComponent
               labels={['BP1', 'BP2', 'BP3', 'BP4', 'Rest']}
               values={[12, 19, 3, 5, 20]}
-              onClickFunc={onClickFunc}
+              onClickFunc={(l, v) => console.log(l)}
               title='Percent Contribution to Errors'
             />
           </div>
@@ -32,10 +36,6 @@ function DonutCharts(props) {
       </Box>
     </Paper>
   );
-}
-
-function onClickFunc(label, value) {
-  console.log(label);
 }
 
 export default DonutCharts;

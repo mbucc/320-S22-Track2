@@ -1,18 +1,22 @@
-import React, { useState } from 'react'
-import Timelines from './Timelines'
+import React from 'react';
+import Timelines from './Timelines';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import DonutCharts from './donutchart';
 import Typography from '@mui/material/Typography';
 
+/**
+ * @param {Object} props
+* @return {JSX.Element}
+*/
 export default function Dashboard(props) {
-  const [timeframe, setTimeframe] = useState(1) // (in hours)
-  const [data, setData] = useState(null)
+  // const [timeframe, setTimeframe] = useState(1); // (in hours)
+  // const [data, setData] = useState(null);
 
   return (
     <div className='dashboard'>
-      <Box px={10} py={5} sx={{ height: '100%', width: '100%' }}>
+      <Box px={10} py={5} sx={{height: '100%', width: '100%'}}>
         <Grid container direction='row' height={'100%'} spacing={3}>
           <Grid item xs={12}>
             {/* replace Paper block with header component */}

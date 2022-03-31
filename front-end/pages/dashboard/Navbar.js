@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,8 +7,11 @@ import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import {display} from '@mui/system';
 
+/**
+ * @param {Object} props
+* @return {JSX.Element}
+*/
 function Navbar(props) {
   return (
     <>

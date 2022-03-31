@@ -47,10 +47,7 @@ export default function LogDetail() {
       }
 
       setData(mockData[logID])
-      console.log(data)
-      
   }, [])
-  console.log(logID)
 
   return (
       <>

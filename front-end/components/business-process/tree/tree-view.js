@@ -121,8 +121,6 @@ export default function BPTreeComponent(props) {
   useEffect(() => {
     setExpandable(findExpandable(props.data));
   },[props.data]);
-
-
   const handleContextMenu = (event, source) => {
     event.stopPropagation();
     event.preventDefault();
@@ -149,6 +147,22 @@ export default function BPTreeComponent(props) {
             oldExpanded.length === 0 ? expandable : []
     );
   };
+  // For now, needs to be put here to pass in handleContextMenu
+  const renderEAIDomains = (nodes) => (
+    <TreeItem
+      key={nodes.name}
+      nodeId={nodes.name}
+      label={nodes.name}
+      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      sx={rootTreeStyle}
+    >
+      {
+        Array.isArray(nodes.children) ?
+          nodes.children.map((node) => renderPublishingBusinessDomains(node)) :
+          null
+      }
+    </TreeItem>
+  );
 
   const handleOpenDialog = () => {
     handleClose()

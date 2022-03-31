@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
-import {Table, TableHead, TableBody, TableRow, TableCell, Typography} from '@mui/material';
-import {TablePagination} from '@mui/material';
+import React, {useState, useEffect} from 'react'
+import Link from 'next/link'
+import { Table, TableHead, TableBody, TableRow, TableCell, Typography } from '@mui/material';
+import { TablePagination } from '@mui/material';
 
 
 /**
@@ -32,53 +33,53 @@ export default function LETable(props) {
     <div>
       <Typography variant = "h6">
             Results
-      </Typography>
-      <Table style={tableStyle}>
-        <TableHead >
-          <TableRow>
-            <TableCell >Severity</TableCell>
-            <TableCell >Priority</TableCell>
-            <TableCell >Category</TableCell>
-            <TableCell >Created Date</TableCell>
-            <TableCell >Application</TableCell>
-            <TableCell >Process/Service</TableCell>
-            <TableCell >Activity</TableCell>
-            <TableCell >EAI Domain</TableCell>
-            <TableCell> Business Domain </TableCell>
-            <TableCell> Business SubDomain </TableCell>
-            <TableCell >Log Event</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.data
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((e, i)=>{
-                return (
-                  <TableRow key = {i}>
-                    <TableCell>{e.severity}</TableCell>
-                    <TableCell>{e.priority}</TableCell>
-                    <TableCell>{e.category}</TableCell>
-                    <TableCell>{e['Created Date']}</TableCell>
-                    <TableCell>{e['Application']}</TableCell>
-                    <TableCell>{e['Process/Service']}</TableCell>
-                    <TableCell>{e['Activity']}</TableCell>
-                    <TableCell>{e['EAI Domain']}</TableCell>
-                    <TableCell>{e['Business Domain']}</TableCell>
-                    <TableCell>{e['Business SubDomain']}</TableCell>
-                    <TableCell>{e['Log Event']}</TableCell>
-                  </TableRow>
-                );
-              })}
-        </TableBody>
-      </Table>
-      <TablePagination
-        count = {props.data.length}
-        rowsPerPageOptions = {[5, 10, 20, 50]}
-        page = {page}
-        onPageChange = {handleChangePage}
-        rowsPerPage = {rowsPerPage}
-        onRowsPerPageChange = {handleChangeRPP}
-      />
+        </Typography>
+        <Table style={tableStyle}>
+            <TableHead >
+                <TableRow>
+                    <TableCell >Severity</TableCell> 
+                    <TableCell >Priority</TableCell>
+                    <TableCell >Category</TableCell>
+                    <TableCell >Created Date</TableCell>
+                    <TableCell >Application</TableCell>
+                    <TableCell >Process/Service</TableCell>
+                    <TableCell >Activity</TableCell>
+                    <TableCell >EAI Domain</TableCell>
+                    <TableCell> Business Domain </TableCell>
+                    <TableCell> Business SubDomain </TableCell>
+                    <TableCell >Log Event</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {props.data
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((e, i)=>{
+                    return(
+                        <TableRow key = {i}>
+                            <TableCell>{e.severity}</TableCell>
+                            <TableCell>{e.priority}</TableCell>
+                            <TableCell>{e.category}</TableCell>
+                            <TableCell>{e["Created Date"]}</TableCell>
+                            <TableCell>{e["Application"]}</TableCell>
+                            <TableCell>{e["Process/Service"]}</TableCell>
+                            <TableCell>{e["Activity"]}</TableCell>
+                            <TableCell>{e["EAI Domain"]}</TableCell>
+                            <TableCell>{e["Business Domain"]}</TableCell>
+                            <TableCell>{e["Business SubDomain"]}</TableCell>
+                            <TableCell onClick={() => { window.sessionStorage.setItem('isLogDetail', true) }}> <Link href={`/log-detail/${e.id}`} >{e["Log Event"]}</Link></TableCell>
+                        </TableRow>
+                    )
+                })}
+            </TableBody>
+        </Table>
+        <TablePagination
+            count = {props.data.length}
+            rowsPerPageOptions = {[5, 10, 20, 50]}
+            page = {page}
+            onPageChange = {handleChangePage}
+            rowsPerPage = {rowsPerPage}
+            onRowsPerPageChange = {handleChangeRPP}
+            />
     </div>
 
   );

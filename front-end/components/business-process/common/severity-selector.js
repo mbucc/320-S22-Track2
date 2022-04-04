@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 
 import {BPCheckbox} from './checkbox';
 
 export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange, style, boxStyle}) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [selectedSeverity, setSelectedSeverity] = useState([]);
 
   const labelStyle = {
     fontSize: 13,
@@ -16,6 +17,22 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
     color: BPColors.gray[400],
     transition: 'color 0.15s ease-in-out',
   };
+
+  const onCheckboxChange = (label) => {
+    return (isSelected) => {
+      if (isSelected) {
+        setSelectedSeverity([...selectedSeverity, label]);
+      } else {
+        setSelectedSeverity(selectedSeverity.filter((item) => item !== label));
+      }
+    };
+  };
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(selectedSeverity);
+    }
+  }, [selectedSeverity]);
 
   return (
     <div
@@ -59,6 +76,7 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
           id={`${id}-success`}
           activeColor={BPColors.success}
           contentColor={BPColors.success}
+          onChange={onCheckboxChange('success')}
         >
           Success
         </BPCheckbox>
@@ -66,6 +84,7 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
           id={`${id}-info`}
           activeColor={BPColors.info}
           contentColor={BPColors.info}
+          onChange={onCheckboxChange('info')}
         >
           Info
         </BPCheckbox>
@@ -73,6 +92,7 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
           id={`${id}-warning`}
           activeColor={BPColors.warning}
           contentColor={BPColors.warning}
+          onChange={onCheckboxChange('warning')}
         >
           Warning
         </BPCheckbox>
@@ -80,6 +100,7 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
           id={`${id}-error`}
           activeColor={BPColors.error}
           contentColor={BPColors.error}
+          onChange={onCheckboxChange('error')}
         >
           Error
         </BPCheckbox>

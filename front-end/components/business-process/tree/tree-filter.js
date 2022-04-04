@@ -67,6 +67,7 @@ const BPTreeFilterComponent = ({onChange}) => {
           Business Process
         </p>
         <Button
+          id={'bp-tree-filter-apply-button'}
           size={'small'}
           sx={{
             color: 'white',
@@ -98,6 +99,7 @@ const BPTreeFilterComponent = ({onChange}) => {
         }}
       >
         <BPDatePicker
+          id={'bp-tree-filter-start-date-picker'}
           label={'Start Date'}
           onChange={(newDate)=> {
             setStartDate(newDate);
@@ -105,6 +107,7 @@ const BPTreeFilterComponent = ({onChange}) => {
         />
 
         <BPDatePicker
+          id={'bp-tree-filter-end-date-picker'}
           label={'End Date'}
           onChange={(newDate)=> {
             setEndDate(newDate);
@@ -113,6 +116,7 @@ const BPTreeFilterComponent = ({onChange}) => {
         />
 
         <BPDomainSelector
+          id={'bp-tree-filter-eai-domain-selector'}
           label={'EAI Domain'}
           searchPlaceholder={'Search an EAI domain'}
           list={eaiDomainList}
@@ -120,6 +124,7 @@ const BPTreeFilterComponent = ({onChange}) => {
         />
 
         <BPDomainSelector
+          id={'bp-tree-filter-publishing-business-domain-selector'}
           label={'Publishing Business Domain'}
           searchPlaceholder={'Search a publishing domain'}
           list={publishingBusinessDomainList}

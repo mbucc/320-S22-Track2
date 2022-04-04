@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {Button} from '@mui/material';
 import {BPDomainSelector} from '../common/domain-selector';
@@ -6,6 +6,16 @@ import {BPSeveritySelector} from '../common/severity-selector';
 import {BusinessDomainSample} from '../../../utils/business-process/sample-data';
 
 const BPActivityFilterComponent = ({onChange}) => {
+  const [selectedBusinessDomain, setSelectedBusinessDomain] = useState([]);
+  const [selectedSeverity, setSelectedSeverity] = useState([]);
+
+  useEffect(() => {
+    onChange({
+      businessDomain: selectedBusinessDomain,
+      severity: selectedSeverity,
+    });
+  }, [selectedBusinessDomain, selectedSeverity]);
+
   return (
     <div
       style={{
@@ -38,6 +48,7 @@ const BPActivityFilterComponent = ({onChange}) => {
           Activities Filter
         </p>
         <Button
+          id={'bp-activity-filter-apply-button'}
           size={'small'}
           sx={{
             color: 'white',
@@ -68,13 +79,17 @@ const BPActivityFilterComponent = ({onChange}) => {
         }}
       >
         <BPDomainSelector
+          id={'bp-activity-filter-business-domain-selector'}
           label={'Business Domain'}
           searchPlaceholder={'Search a business domain'}
           list={BusinessDomainSample}
+          onChange={(selected) => setSelectedBusinessDomain(selected)}
         />
 
         <BPSeveritySelector
+          id={'bp-activity-filter-severity-selector'}
           label={'Severity'}
+          onChange={(selected) => setSelectedSeverity(selected)}
         />
       </div>
     </div>

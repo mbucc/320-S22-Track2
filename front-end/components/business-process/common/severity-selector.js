@@ -1,9 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 
 import {BPCheckbox} from './checkbox';
 
-export const BPSeveritySelector = ({label, onChange, style, boxStyle}) => {
+export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange, style, boxStyle}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const labelStyle = {
@@ -37,6 +37,7 @@ export const BPSeveritySelector = ({label, onChange, style, boxStyle}) => {
         <p style={labelStyle}>{label}</p>
       ) : <></>}
       <div
+        id={id}
         style={{
           display: 'flex',
           flexDirection: 'row',
@@ -55,24 +56,28 @@ export const BPSeveritySelector = ({label, onChange, style, boxStyle}) => {
         }}
       >
         <BPCheckbox
+          id={`${id}-success`}
           activeColor={BPColors.success}
           contentColor={BPColors.success}
         >
           Success
         </BPCheckbox>
         <BPCheckbox
+          id={`${id}-info`}
           activeColor={BPColors.info}
           contentColor={BPColors.info}
         >
           Info
         </BPCheckbox>
         <BPCheckbox
+          id={`${id}-warning`}
           activeColor={BPColors.warning}
           contentColor={BPColors.warning}
         >
           Warning
         </BPCheckbox>
         <BPCheckbox
+          id={`${id}-error`}
           activeColor={BPColors.error}
           contentColor={BPColors.error}
         >

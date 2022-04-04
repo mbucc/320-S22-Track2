@@ -6,8 +6,7 @@ import BPTextInput from './text-input';
 import {ClickAwayListener, Popper} from '@mui/material';
 import {BPDomainSelectorItem} from './domain-selector-item';
 
-export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}) => {
-  const [displayValue, setDisplayValue] = useState('');
+export const BPDomainSelector = ({id = 'bp-domain-selector', label, onChange, searchPlaceholder, list = []}) => {
   const [selectedList, setSelectedList] = useState([]);
   const [searchInputValue, setSearchInputValue] = useState('');
 
@@ -36,13 +35,6 @@ export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}
   }, [searchInputValue, list]);
 
   useEffect(() => {
-    if (selectedList.length > 0) {
-      setDisplayValue(
-          list.filter((item) => selectedList.includes(item)).join(', ')
-      );
-    } else {
-      setDisplayValue('All');
-    }
     if (onChange) {
       onChange(selectedList);
     }
@@ -93,6 +85,7 @@ export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}
               <p style={labelStyle}>{label}</p>
             ) : <></>}
             <div
+              id={id}
               style={{
                 width: '100%',
                 display: 'flex',
@@ -166,7 +159,7 @@ export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}
             </div>
           </div>
           <Popper
-            id={isOpen ? 'bp-date-picker' : undefined}
+            id={isOpen ? `${id}-popper` : undefined}
             open={isOpen}
             anchorEl={boxRef.current}
             onClose={handlePopoverClose}
@@ -210,6 +203,7 @@ export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}
               }}
             >
               <BPTextInput
+                id={`${id}-popper-search`}
                 style={{
                   width: '100%',
                   flexShrink: 0,
@@ -219,6 +213,7 @@ export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}
                 placeholder={searchPlaceholder || 'Search a domain'}
               />
               <div
+                id={`${id}-popper-list`}
                 style={{
                   width: '100%',
                   maxHeight: '40vh',
@@ -229,6 +224,7 @@ export const BPDomainSelector = ({label, onChange, searchPlaceholder, list = []}
                 }}
               >
                 <BPDomainSelectorItem
+                  id={`${id}-popper-item-all`}
                   item={'All'}
                   selected={selectedList.length === 0 || selectedList.includes('All')}
                   onClick={() => {

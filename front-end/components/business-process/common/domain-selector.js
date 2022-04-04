@@ -108,6 +108,7 @@ export const BPDomainSelector = ({id = 'bp-domain-selector', label, onChange, se
               }}
             >
               <div
+                id={`${id}-selected-all`}
                 style={{
                   padding: '5px 5px',
                   fontSize: 16,
@@ -119,6 +120,7 @@ export const BPDomainSelector = ({id = 'bp-domain-selector', label, onChange, se
                 All
               </div>
               <div
+                id={`${id}-selected-items`}
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
@@ -145,6 +147,7 @@ export const BPDomainSelector = ({id = 'bp-domain-selector', label, onChange, se
                   ))
                 }
                 <div
+                  id={`${id}-selected-more`}
                   style={{
                     paddingLeft: 4,
                     fontSize: 12,

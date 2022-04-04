@@ -11,8 +11,12 @@ const linkButtonStyle = {
  */
 export default function Home() {
   return (
-    <Button style = {linkButtonStyle}>
-      <Link href = "/LogEvent">CLICK TO SEE LOG EVENT PAGE</Link>
-    </Button>
+    <>
+      <Button style={linkButtonStyle}>
+        <Link href="/LogEvent">CLICK TO SEE LOG EVENT PAGE</Link>
+      </Button><Button style={linkButtonStyle}>
+        <Link href="/business-process/">BP</Link>
+      </Button>
+    </>
   );
 }

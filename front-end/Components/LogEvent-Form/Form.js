@@ -121,12 +121,12 @@ export default function Form(props) {
       <form style={formStyle} onSubmit={applyHandler}>
         <div>
           <FormDates name="From / To Dates" fromToDates={fromToDates} setFromToDates={setFromToDates} />
-          <div style = {dropdownStyle}>
-            <Dropdowns options={EAIOptions} setOptions={setDropdownValues} name={'EAI Domain'} testid={'dropdown-eai'}></Dropdowns>
-            <Dropdowns options={applicationOptions} setOptions={setDropdownValues} name={'Application'} testid={'dropdown-app'}></Dropdowns>
-            <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} name={'Process/Service'} testid={'dropdown-ps'}></Dropdowns>
-            <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} name={'Business Domain'} testid={'dropdown-bd'}></Dropdowns>
-            <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} name={'Business SubDomain'} testid={'dropdown-bsd'}></Dropdowns>
+          <div style={dropdownStyle}>
+            <Dropdowns options={EAIOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'EAI Domain'} testid={'eai'}></Dropdowns>
+            <Dropdowns options={applicationOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Application'} testid={'app'}></Dropdowns>
+            <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Process/Service'} testid={'ps'}></Dropdowns>
+            <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business Domain'} testid={'bd'}></Dropdowns>
+            <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business SubDomain'} testid={'bsd'}></Dropdowns>
           </div>
         </div>
         <div style={checkboxesStyle}>

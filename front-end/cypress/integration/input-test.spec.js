@@ -1,7 +1,7 @@
 // input test - testing the form components
 
 
-describe('input test - EAI Domain', ()=>{
+describe('input test - dropdowns', ()=>{
   beforeEach(()=>{
     cy.visit('http://localhost:3000/LogEvent');
   });

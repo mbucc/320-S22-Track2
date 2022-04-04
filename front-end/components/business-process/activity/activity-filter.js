@@ -10,10 +10,12 @@ const BPActivityFilterComponent = ({onChange}) => {
   const [selectedSeverity, setSelectedSeverity] = useState([]);
 
   useEffect(() => {
-    onChange({
-      businessDomain: selectedBusinessDomain,
-      severity: selectedSeverity,
-    });
+    if (onChange) {
+      onChange({
+        businessDomain: selectedBusinessDomain,
+        severity: selectedSeverity,
+      });
+    }
   }, [selectedBusinessDomain, selectedSeverity]);
 
   return (

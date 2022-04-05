@@ -22,7 +22,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 @ContextConfiguration
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
         DbUnitTestExecutionListener.class })
-public class LogEventsEPTests {
+public class LogDetailsRepositoryTests {
     @Autowired
     private LogDetailRepository logRepo;
 
@@ -37,8 +37,16 @@ public class LogEventsEPTests {
 
     @Test
     @DatabaseSetup("sample_data.xml")
-    public void testFindIdFail() {
+    public void testFindIdNotFound() {
         String id = "crm_server_111111";
+        Optional<LogDetail> response = logRepo.findById(id);
+        Assert.assertEquals(response.isPresent(), false);
+    }
+
+    @Test
+    @DatabaseSetup("sample_data.xml")
+    public void testFindIdEmptyString() {
+        String id = "";
         Optional<LogDetail> response = logRepo.findById(id);
         Assert.assertEquals(response.isPresent(), false);
     }

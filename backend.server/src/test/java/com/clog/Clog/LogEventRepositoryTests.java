@@ -1,7 +1,5 @@
 package com.clog.Clog;
 
-import java.util.Optional;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Assert;
@@ -12,8 +10,17 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+import java.util.Optional;
+
 import com.clog.Clog.LogDetailFiles.LogDetail;
 import com.clog.Clog.LogDetailFiles.LogDetailRepository;
+import com.clog.Clog.LogEventFiles.LogEvent;
+import com.clog.Clog.LogEventFiles.LogEventFilterSpecification;
+import com.clog.Clog.LogEventFiles.LogEventRepository;
+import com.clog.Clog.LogEventFiles.LogEventsSearchCriteria;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
@@ -22,24 +29,19 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 @ContextConfiguration
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
         DbUnitTestExecutionListener.class })
-public class LogEventsEPTests {
+public class LogEventRepositoryTests {
     @Autowired
-    private LogDetailRepository logRepo;
+    private LogEventRepository logEventsRepo;
 
     @Test
     @DatabaseSetup("sample_data.xml")
-    public void testFindId() {
-        String id = "crm_server_000001";
-        Optional<LogDetail> response = logRepo.findById(id);
-        Assert.assertEquals(response.isPresent(), true);
-        Assert.assertEquals(response.get().getGlobal_instance_id(), id);
-    }
+    public void testSearchByBusinessDomain1() {
+        String businessDomain = "CRM";
+        LogEventsSearchCriteria filt = new LogEventsSearchCriteria();
+        filt.setBusinessDomain(businessDomain);
 
-    @Test
-    @DatabaseSetup("sample_data.xml")
-    public void testFindIdFail() {
-        String id = "crm_server_111111";
-        Optional<LogDetail> response = logRepo.findById(id);
-        Assert.assertEquals(response.isPresent(), false);
+        LogEventFilterSpecification test = new LogEventFilterSpecification(filt);
+        List<LogEvent> response = logEventsRepo.findAll(test);
+        Assert.assertEquals(response, 1);
     }
 }

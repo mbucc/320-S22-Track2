@@ -45,10 +45,10 @@ public class LogEventFilterSpecification implements Specification<LogEvent> {
             returnVal = cb.and(cb.equal(root.get("eai_domain"),filter.getEaiDomain()),returnVal);
         }
         Predicate sevPredicate = null;
-        SeverityMap getCrit = new SeverityMap();
+        SeverityMap getSever = new SeverityMap();
         for (String x : filter.getSeverities()) {
             
-            int[] range = getCrit.getRange(x);
+            int[] range = getSever.getRange(x);
             if(sevPredicate == null) {
                 sevPredicate = cb.between(root.get("severity"), range[0], range[1]);
             }

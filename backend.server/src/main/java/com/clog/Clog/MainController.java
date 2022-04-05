@@ -17,6 +17,8 @@ import com.clog.Clog.BusinessProcess.EAIdomain;
 
 import com.clog.Clog.BusinessProcess.businessTreeFilter;
 import com.clog.Clog.BusinessProcess.businessTreeSpecification;
+import com.clog.Clog.DashboardView.DashBoardLineGraphFilter;
+import com.clog.Clog.DashboardView.RecentEventsSpecification;
 import com.clog.Clog.LogDetailFiles.LogDetail;
 import com.clog.Clog.LogDetailFiles.LogDetailRepository;
 import com.clog.Clog.LogEventFiles.LogEvent;
@@ -94,18 +96,26 @@ public class MainController {
         return logEventRepo.findAll(businessGridSpec);
 
     }
+    //Horribly innefficient, not sure how we are going to fix. But this is essentially irrelevant
     @GetMapping(path="/test")
-    public @ResponseBody List<Timestamp> getBusinessProcessGrid() {
-        List<Timestamp> testObj = new ArrayList<Timestamp>();
-        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis((1)));
+    public @ResponseBody List<Long> getBusinessProcessGrid(@RequestParam String severity) {
+        List<Long> testObj = new ArrayList<Long>();
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(64));
+        System.out.println(currentTime);
+        Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis((67)));
         Calendar cal = Calendar.getInstance();
         cal.setTime(startTime);
+        DashBoardLineGraphFilter filter = new DashBoardLineGraphFilter(severity,startTime,currentTime);
         while(cal.getTime().before(currentTime)) {
+            filter.setStartTime(new Timestamp(cal.getTimeInMillis()));
             cal.add(Calendar.MINUTE, 15);
-            testObj.add(new Timestamp(cal.getTimeInMillis()));
+            //System.out.println(cal.getTime());
+            filter.setEndTime(new Timestamp(cal.getTimeInMillis()));
+            RecentEventsSpecification test2 = new RecentEventsSpecification(filter);
+            testObj.add(logEventRepo.count(test2));
         }
         return testObj;
+        //return testObj;
     }
     
 

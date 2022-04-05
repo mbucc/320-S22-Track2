@@ -112,23 +112,29 @@ public class MainController {
     }
     //Horribly innefficient, not sure how we are going to fix. But this is essentially irrelevant
     @GetMapping(path="/test")
-    public @ResponseBody List<Long> getBusinessProcessGrid(@RequestParam String severity) {
-        List<Long> testObj = new ArrayList<Long>();
-        Timestamp currentTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(64));
-        System.out.println(currentTime);
-        Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis((67)));
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(startTime);
-        DashBoardLineGraphFilter filter = new DashBoardLineGraphFilter(severity,startTime,currentTime);
-        while(cal.getTime().before(currentTime)) {
-            filter.setStartTime(new Timestamp(cal.getTimeInMillis()));
-            cal.add(Calendar.MINUTE, 15);
-            //System.out.println(cal.getTime());
-            filter.setEndTime(new Timestamp(cal.getTimeInMillis()));
-            RecentEventsSpecification test2 = new RecentEventsSpecification(filter);
-            testObj.add(logEventRepo.count(test2));
-        }
-        return testObj;
+    public @ResponseBody List<String> getBusinessProcessGrid(@RequestParam String severity) {
+        // List<Long> testObj = new ArrayList<Long>();
+        // Timestamp currentTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(64));
+        // System.out.println(currentTime);
+        // Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis((67)));
+        // Calendar cal = Calendar.getInstance();
+        // cal.setTime(startTime);
+        // DashBoardLineGraphFilter filter = new DashBoardLineGraphFilter(severity,startTime,currentTime);
+        // while(cal.getTime().before(currentTime)) {
+        //     filter.setStartTime(new Timestamp(cal.getTimeInMillis()));
+        //     cal.add(Calendar.MINUTE, 15);
+        //     //System.out.println(cal.getTime());
+        //     filter.setEndTime(new Timestamp(cal.getTimeInMillis()));
+        //     RecentEventsSpecification test2 = new RecentEventsSpecification(filter);
+        //     testObj.add(logEventRepo.count(test2));
+        // }
+        // return testObj;
+        logEventRepo.findDistinctBusinessDomains();
+        logEventRepo.findDistinctBusinessSubDomains();
+        logEventRepo.findDistinctApplications();
+        logEventRepo.findDistinctServices();
+        busTree.findDistinctPublishingBusinessDomains();
+        return logEventRepo.findDistinctEAI_Domains();
         //return testObj;
     }
     

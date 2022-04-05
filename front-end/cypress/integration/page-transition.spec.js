@@ -5,6 +5,19 @@
 // check out the link below and learn how to write your first test:
 // https://on.cypress.io/writing-first-test
 
+
+describe('Log Event Button', () => {
+  it('At home page', () => {
+    cy.visit('http://localhost:3000');
+
+    // click menun button in header
+    cy.get('button').contains('CLICK TO SEE LOG EVENT PAGE').click();
+
+    // should take us back to home page
+    cy.url().should('eq', 'http://localhost:3000/LogEvent');
+  });
+});
+
 describe('Home Button', () => {
   it('Brings us to home page', () => {
     cy.visit('http://localhost:3000/LogEvent');

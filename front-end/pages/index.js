@@ -14,7 +14,8 @@ export default function Home() {
     <>
       <Button style={linkButtonStyle}>
         <Link href="/LogEvent">CLICK TO SEE LOG EVENT PAGE</Link>
-      </Button><Button style={linkButtonStyle}>
+      </Button>
+      <Button style={linkButtonStyle}>
         <Link href="/business-process/">BP</Link>
       </Button>
     </>

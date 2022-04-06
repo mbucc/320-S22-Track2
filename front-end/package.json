@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "cypress": "cypress open",
     "start": "next start",
     "lint": "next lint"
   },
@@ -20,11 +21,12 @@
     "next": "12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-split": "^2.0.14",
     "react-table": "^7.7.0",
-    "styled-components": "^5.3.5",
-    "react-split": "^2.0.14"
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
+    "cypress": "^9.5.3",
     "eslint": "^8.10.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-next": "12.1.0"

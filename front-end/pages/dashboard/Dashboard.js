@@ -93,6 +93,5 @@ export default function Dashboard(props) {
         </Grid>
       </Box>
     </div>
-
   );
 }

@@ -15,6 +15,7 @@ const BPIndex = () => {
 
   return (
     <div
+      id={'bp-root'}
       style={{
         width: '100%',
         height: '100vh', // 100vh = 100% of viewport height.

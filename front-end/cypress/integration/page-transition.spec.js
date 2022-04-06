@@ -10,10 +10,10 @@ describe('Log Event Button', () => {
   it('At home page', () => {
     cy.visit('http://localhost:3000');
 
-    // click menun button in header
+    // click Log Event page button in header
     cy.get('button').contains('CLICK TO SEE LOG EVENT PAGE').click();
 
-    // should take us back to home page
+    // should take us back to Log Event page
     cy.url().should('eq', 'http://localhost:3000/LogEvent');
   });
 });

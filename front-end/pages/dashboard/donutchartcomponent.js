@@ -9,11 +9,11 @@ function DonutChartComponent(props) {
   return (
     <Doughnut
       data={{
-        labels: props.labels,
+        labels: props.data.labels,
         datasets: [
           {
             label: '# of Votes',
-            data: props.values,
+            data: props.data.values,
             backgroundColor: [
               'rgba(31, 54, 61, 1)',
               'rgba(54, 162, 235, 1)',
@@ -29,8 +29,8 @@ function DonutChartComponent(props) {
         maintainAspectRatio: true,
         onClick: (event, element) => {
           if (element.length > 0) {
-            props.onClickFunc('Click');
-            props.onClickFunc(props.labels[element[0].index]);
+            // props.onClickFunc('Click');
+            props.onClickFunc(props.data.labels[element[0].index]);
           }
         },
         plugins: {

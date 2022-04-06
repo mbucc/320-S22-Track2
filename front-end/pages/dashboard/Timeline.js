@@ -46,6 +46,10 @@ export default function Timeline(props) {
     return {};
   };
 
+  const getTotal = () => {
+    return props.data.reduce((acc, e) => {return acc + e.logs}, 0)
+  }
+
   return (
     <Grid container direction='column'>
       <Grid
@@ -59,7 +63,7 @@ export default function Timeline(props) {
                         Total {props.type}
           </Typography>
           <Typography variant='h5' gutterBottom component='div'>
-            {props.total}
+            {getTotal()}
           </Typography>
         </Grid>
         <Grid item>

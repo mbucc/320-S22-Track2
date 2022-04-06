@@ -72,8 +72,6 @@ public class EAIdomain {
         this.key2_app_context_value = key2_app_context_value;
     }
 
-
-
     public String getEai_domain() {
         return eai_domain;
     }

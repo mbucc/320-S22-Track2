@@ -1,4 +1,4 @@
-import React from 'react';
+import {React,useState} from 'react';
 import Timelines from './Timelines';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -6,14 +6,14 @@ import Paper from '@mui/material/Paper';
 import DonutCharts from './donutchart';
 import Typography from '@mui/material/Typography';
 import Dropdown from './Dropdown';
-
+import fakeData from './fake_data.json';
 /**
  * @param {Object} props
 * @return {JSX.Element}
 */
 export default function Dashboard(props) {
-  // const [timeframe, setTimeframe] = useState(1); // (in hours)
-  // const [data, setData] = useState(null);
+  const [timeframe, setTimeframe] = useState(60); // (in hours)
+  const [data, setData] = useState(fakeData.filter(e => e.time <= timeframe));
 
   return (
     <div className='dashboard'>
@@ -75,10 +75,10 @@ export default function Dashboard(props) {
           <Grid item xs={12}>
             <Grid container item direction="row" spacing={5}>
               <Grid item xs={6}>
-                <DonutCharts />
+                <DonutCharts data={data}/>
               </Grid>
               <Grid item xs={6}>
-                <Timelines setFilters={props.onLogEventsClick}/>
+                <Timelines data={data} setFilters={props.onLogEventsClick}/>
               </Grid>
             </Grid>
           </Grid>

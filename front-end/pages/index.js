@@ -6,7 +6,7 @@ import Login from './login/login';
 // import "./index.css"
 
 /**
- * The home page of the website.
+ *
  * @return {JSX.Element}
  */
 export default function Home() {

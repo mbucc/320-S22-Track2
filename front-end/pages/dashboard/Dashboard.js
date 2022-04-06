@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import DonutCharts from './donutchart';
 import Typography from '@mui/material/Typography';
+import Dropdown from './Dropdown';
 
 /**
  * @param {Object} props
@@ -19,14 +20,16 @@ export default function Dashboard(props) {
       <Box px={10} py={5} sx={{height: '100%', width: '100%'}}>
         <Grid container direction='row' height={'100%'} spacing={3}>
           <Grid item xs={12}>
-            {/* replace Paper block with header component */}
-            <Paper elevation={3}>
-              <Box px={2} pt={4}>
-                <Typography variant="h5" gutterBottom component="div">
-                  Hello
+            <Grid container>
+              <Grid item xs={11}>
+                <Typography variant="h5">
+                  Welcome!
                 </Typography>
-              </Box>
-            </Paper>
+              </Grid>
+              <Grid item xs={1} align="right">
+                <Dropdown />
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             {/* replace Grid block with Counts component */}

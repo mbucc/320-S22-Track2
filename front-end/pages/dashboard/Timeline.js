@@ -32,6 +32,14 @@ export default function Timeline(props) {
     );
   };
 
+  const onClickTimeline = ({targets}) => {
+    if (targets) {
+        const point = props.data[targets[0].point]
+        console.log(props.data[targets[0].point])
+        props.onClick(getFilters(point.start, point.end))
+    }
+  }
+
   const getFilters = (start, end) => {
     console.log('Get log events of type ' + props.type + ' from ' + start + ' to ' + end);
 
@@ -68,7 +76,7 @@ export default function Timeline(props) {
             argumentField='time'
           />
           <ArgumentAxis />
-          <EventTracker />
+          <EventTracker onClick={onClickTimeline}/>
           <HoverState
             hover={hover}
             onHoverChange={changeHover}

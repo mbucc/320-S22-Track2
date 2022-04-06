@@ -2,6 +2,9 @@ import React from 'react';
 import {Checkbox, Container} from '@mui/material';
 import {Button} from '@mui/material';
 import {FormControlLabel} from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
+import FormHelperText from '@mui/material/FormHelperText';
 /**
  *
  * @param {*} props checkbox state and setState passed into Formcheckbox
@@ -45,23 +48,37 @@ export default function FormCheckbox(props) {
   const checkAll = (event) => selectAll(true, event);
   const unCheckAll = (event) => selectAll(false, event);
 
+  //consterror = [];
+
+  const error = Object.keys(props.checkboxes).filter((v) => props.checkboxes[v]).length < 1;
 
   return (
     <div>
       <Container style = {formContainerStyle}>
         <h4> {props.name}:</h4>
+        <FormControl
+          required
+          
+          error={error}
+          component="fieldset"
+          sx={{ m: 3 }}
+          variant="standard"
+        >
+        <FormGroup>
         {Object.keys(props.checkboxes).map((e)=>{
           return (
-
             <FormControlLabel
               label = {e}
               style={labelStyle}
               control = {<Checkbox name={e} onChange={handleOnChange} checked={props.checkboxes[e]} />}
               key = {e}
             />
-
           );
         })}
+        </FormGroup>
+
+        <FormHelperText>Pick at least 1 from each column</FormHelperText>
+        </FormControl>
         <div style = {checkAllStyle}>
           <Button onClick={checkAll}>Check All</Button>
           <Button onClick={unCheckAll}>Uncheck All</Button>

@@ -17,3 +17,4 @@ describe('My First Test', () => {
       cy.url().should('eq', "http://localhost:3000/")
     })
   })
+

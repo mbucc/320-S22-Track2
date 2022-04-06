@@ -83,10 +83,10 @@ export default function Dashboard(props) {
           <Grid item xs={12}>
             <Grid container item direction="row" spacing={5}>
               <Grid item xs={6}>
-                <DonutCharts data={data.bp}/>
+                <DonutCharts />
               </Grid>
               <Grid item xs={6}>
-                <Timelines setFilters={props.onLogEventsClick} data={data.logevents} timeframe={timeframe}/>
+                <Timelines setFilters={props.onLogEventsClick} data={data} timeframe={timeframe}/>
               </Grid>
             </Grid>
           </Grid>

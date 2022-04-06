@@ -43,7 +43,7 @@ export default function Timelines(props) {
 
   // };
   return (
-    <Paper elevation={3}>
+    <Paper elevation={3} sx={{ height: '100%' }}>
       <Box px={5} pb={5} pt={3}>
         <Grid container direction='column' justifyContent="space-between" spacing={1}>
           <Grid item xs={3}>
@@ -78,6 +78,5 @@ export default function Timelines(props) {
         </Grid>
       </Box>
     </Paper>
-
   );
 }

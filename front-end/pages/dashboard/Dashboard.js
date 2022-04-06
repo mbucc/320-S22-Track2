@@ -13,7 +13,15 @@ import Dropdown from './Dropdown';
 */
 export default function Dashboard(props) {
   // const [timeframe, setTimeframe] = useState(1); // (in hours)
-  // const [data, setData] = useState(null);
+  const [data, setData] = useState(getData());
+
+  const refresh = () => {
+    setData(getData())
+  }
+
+  const getData = () => {
+    
+  }
 
   return (
     <div className='dashboard'>
@@ -75,10 +83,10 @@ export default function Dashboard(props) {
           <Grid item xs={12}>
             <Grid container item direction="row" spacing={5}>
               <Grid item xs={6}>
-                <DonutCharts />
+                <DonutCharts data={data.bp}/>
               </Grid>
               <Grid item xs={6}>
-                <Timelines setFilters={props.onLogEventsClick}/>
+                <Timelines setFilters={props.onLogEventsClick} data={data.logevents} timeframe={timeframe}/>
               </Grid>
             </Grid>
           </Grid>

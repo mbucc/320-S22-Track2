@@ -18,15 +18,15 @@ export default function Timeline(props) {
   const [hover, changeHover] = useState(null);
   const [tooltipTarget, changeTooltip] = useState(null);
 
-  const TooltipContent = (props) => {
-    console.log(props);
+  const TooltipContent = (target) => {
+    console.log(target);
     return (
       <div>
         <Tooltip.Content
-          text={'# Logs: ' + props.text}
+          text={'# Logs: ' + target.text}
         />
         <Tooltip.Content
-          text={props.targetItem.time}
+          text={'Time: ' + props.data[target.targetItem.point].time}
         />
       </div>
     );

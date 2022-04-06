@@ -81,11 +81,8 @@ export default function Dashboard(props) {
                 <Timelines setFilters={props.onLogEventsClick}/>
               </Grid>
             </Grid>
-
           </Grid>
-
         </Grid>
-
       </Box>
     </div>
 

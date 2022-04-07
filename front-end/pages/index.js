@@ -55,7 +55,7 @@ export default function Home() {
     return (
       <Grid container direction='column'>
         <Grid item height={'100%'}>
-          <Navbar toggleNav={toggleNav} display={display} />
+          <Navbar/>
         </Grid>
         <Grid item height={'100%'}>
           {display == 0 ?

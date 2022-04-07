@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import Link from 'next/link';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -67,7 +68,14 @@ export default function Timeline(props) {
           </Typography>
         </Grid>
         <Grid item>
-          <Button variant="text" onClick={() => props.onClick(getFilters(props.data[0].time, props.data[props.data.length - 1].time))}>See More</Button>
+          {/* Need to change linking to pass filters */}
+          <Button variant="text">
+            <Link href='/log-events/' passHref>
+              <a>
+                See More
+              </a>
+            </Link>
+          </Button>
         </Grid>
       </Grid>
       <Grid item>

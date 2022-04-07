@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 
 import {BPCheckbox} from './checkbox';
+import {IconAlertCircle, IconInfoCircle} from '@tabler/icons';
 
-export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange, style, boxStyle}) => {
+export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange, style, boxStyle, hint, error}) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [selectedSeverity, setSelectedSeverity] = useState([]);
+  const [selectedSeverity, setSelectedSeverity] = useState(['success', 'info', 'warning', 'error']);
 
   const labelStyle = {
     fontSize: 13,
@@ -14,7 +15,9 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
     padding: 0,
     marginTop: 0,
     marginBottom: 3,
-    color: BPColors.gray[400],
+    color: error ?
+      BPColors.red[600] :
+      BPColors.gray[400],
     transition: 'color 0.15s ease-in-out',
   };
 
@@ -66,7 +69,9 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
           columnGap: 15,
           color: BPColors.gray[400],
           borderRadius: BPDimens.smallRadius,
-          border: BPStandards.border,
+          border: error ?
+            `1px solid ${BPColors.red[600]}` :
+            BPStandards.border,
           background: isHovered ? BPColors.white : BPColors.gray[30],
           transition: 'all 0.15s ease-in-out',
           ...boxStyle,
@@ -77,6 +82,9 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
           activeColor={BPColors.success}
           contentColor={BPColors.success}
           onChange={onCheckboxChange('success')}
+          defaultSelected={() => {
+            return selectedSeverity.includes('success');
+          }}
         >
           Success
         </BPCheckbox>
@@ -85,6 +93,9 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
           activeColor={BPColors.info}
           contentColor={BPColors.info}
           onChange={onCheckboxChange('info')}
+          defaultSelected={() => {
+            return selectedSeverity.includes('info');
+          }}
         >
           Info
         </BPCheckbox>
@@ -93,6 +104,9 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
           activeColor={BPColors.warning}
           contentColor={BPColors.warning}
           onChange={onCheckboxChange('warning')}
+          defaultSelected={() => {
+            return selectedSeverity.includes('warning');
+          }}
         >
           Warning
         </BPCheckbox>
@@ -101,9 +115,52 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
           activeColor={BPColors.error}
           contentColor={BPColors.error}
           onChange={onCheckboxChange('error')}
+          defaultSelected={() => {
+            return selectedSeverity.includes('error');
+          }}
         >
           Error
         </BPCheckbox>
+      </div>
+      <div
+        style={{
+          display: error || hint ? 'flex' : 'none',
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
+          width: '100%',
+          paddingTop: 4,
+          color: error ? BPColors.red[600] : BPColors.gray[400],
+        }}
+      >
+        <IconAlertCircle
+          width={14}
+          height={14}
+          style={{
+            flexShrink: 0,
+            display: error ? 'flex' : 'none',
+            marginTop: 0.5,
+            marginRight: 5,
+          }}
+        />
+        <IconInfoCircle
+          width={14}
+          height={14}
+          style={{
+            flexShrink: 0,
+            display: hint && !error ? 'flex' : 'none',
+            marginTop: 0.5,
+            marginRight: 5,
+          }}
+        />
+        <span
+          style={{
+            fontSize: 12,
+            fontWeight: '500',
+          }}
+        >
+          {error || hint || ''}
+        </span>
       </div>
     </div>
   );

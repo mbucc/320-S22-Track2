@@ -9,14 +9,21 @@ const BPActivityFilterComponent = ({onChange}) => {
   const [selectedBusinessDomain, setSelectedBusinessDomain] = useState([]);
   const [selectedSeverity, setSelectedSeverity] = useState([]);
 
-  useEffect(() => {
+  const [selectedSeverityError, setSelectedSeverityError] = useState(null);
+
+  const onApplyButtonClick = () => {
+    if (selectedSeverity.length === 0) {
+      setSelectedSeverityError('Please select at least one severity');
+      return;
+    }
+
     if (onChange) {
       onChange({
         businessDomain: selectedBusinessDomain,
         severity: selectedSeverity,
       });
     }
-  }, [selectedBusinessDomain, selectedSeverity]);
+  };
 
   return (
     <div
@@ -61,6 +68,7 @@ const BPActivityFilterComponent = ({onChange}) => {
               backgroundColor: '#16a34a',
             },
           }}
+          onClick={onApplyButtonClick}
         >
           Apply
         </Button>
@@ -92,6 +100,7 @@ const BPActivityFilterComponent = ({onChange}) => {
           id={'bp-activity-filter-severity-selector'}
           label={'Severity'}
           onChange={(selected) => setSelectedSeverity(selected)}
+          error={selectedSeverityError}
         />
       </div>
     </div>

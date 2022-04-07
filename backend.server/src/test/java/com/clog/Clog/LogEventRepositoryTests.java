@@ -38,7 +38,7 @@ public class LogEventRepositoryTests {
     public void testSearchByBusinessDomain1() {
         String businessDomain = "CRM";
         LogEventsSearchCriteria filt = new LogEventsSearchCriteria();
-        filt.setBusinessDomain(businessDomain);
+        //filt.setBusinessDomain(businessDomain);
 
         LogEventFilterSpecification test = new LogEventFilterSpecification(filt);
         List<LogEvent> response = logEventsRepo.findAll(test);

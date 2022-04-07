@@ -19,30 +19,37 @@ public class BusinessGridSpecification implements Specification<LogEvent> {
 
     @Override
     public Predicate toPredicate(Root<LogEvent> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-        // TODO Auto-generated method stub
         Predicate toReturn = criteriaBuilder.equal(root.get("eai_transaction_id"), filter.getEai_transaction_id());
-        Predicate sevPredicate = null;
-        SeverityMap getCrit = new SeverityMap();
-        for (String x : filter.getSeverities()) {
-            int[] range = getCrit.getRange(x);
-            if(sevPredicate == null) {
-                sevPredicate = criteriaBuilder.between(root.get("severity"), range[0], range[1]);
+       
+        if (filter.getSeverities() != null){
+            Predicate sevPredicate = null;
+            SeverityMap getCrit = new SeverityMap();
+            for (String x : filter.getSeverities()) {
+                int[] range = getCrit.getRange(x);
+                if(sevPredicate == null) {
+                    sevPredicate = criteriaBuilder.between(root.get("severity"), range[0], range[1]);
+                }
+                else {
+                    sevPredicate = criteriaBuilder.or(criteriaBuilder.between(root.get("severity"), range[0], range[1]), sevPredicate);
+                }
             }
-            else {
-                sevPredicate = criteriaBuilder.or(criteriaBuilder.between(root.get("severity"), range[0], range[1]), sevPredicate);
-            }
+            toReturn = criteriaBuilder.and(sevPredicate, toReturn);
         }
-        toReturn = criteriaBuilder.and(sevPredicate, toReturn);
-        Predicate pubPredicate = null;
-        for(String pubString : filter.getBusinessDomainList()) {
-            if(pubPredicate == null) {
-                pubPredicate = criteriaBuilder.equal(root.get("business_domain"), pubString);
+
+            
+        if(filter.getBusinessDomainList() != null){
+            Predicate pubPredicate = null;
+            for(String pubString : filter.getBusinessDomainList()) {
+                if(pubPredicate == null) {
+                    pubPredicate = criteriaBuilder.equal(root.get("business_domain"), pubString);
+                }
+                else {
+                    pubPredicate = criteriaBuilder.or(criteriaBuilder.equal(root.get("business_domain"), pubString),pubPredicate);
+                }
             }
-            else {
-                pubPredicate = criteriaBuilder.or(criteriaBuilder.equal(root.get("business_domain"), pubString),pubPredicate);
-            }
+            toReturn = criteriaBuilder.and(pubPredicate, toReturn);
+           
         }
-        toReturn = criteriaBuilder.and(pubPredicate, toReturn);
         return toReturn;
     }
 }

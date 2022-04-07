@@ -27,26 +27,36 @@ public class LogEventFilterSpecification implements Specification<LogEvent> {
                                          filter.getEndTime(),
                                          filter.getStartTime());
 
-        if(!filter.getBusinessDomain().equals("All")) {   
-            
-            returnVal = cb.and(cb.equal(root.get("business_domain"),
-                                        filter.getBusinessDomain()),
-                                        returnVal);
+        if(filter.getBusinessDomain() != null) {   
+            Predicate busPredicate = null;
+            for (String x: filter.getBusinessDomain()) {
+                if (busPredicate == null) {
+                    busPredicate = cb.equal(root.get("business_domain"),x);
+                }
+                else {
+                    busPredicate = cb.or(busPredicate, cb.equal(root.get("business_domain"),x));
+                }
+            }
+            returnVal = cb.and(busPredicate,returnVal);
         }
-        if(!filter.getBusinessSubDomain().equals("All")) {
-
-            returnVal = cb.and(cb.equal(root.get("business_subdomain"),
-                                        filter.getBusinessSubDomain()),
-                                        returnVal);
+        if(filter.getBusinessSubDomain() != null) {
+            Predicate subPredicate = null;
+            for(String x : filter.getBusinessSubDomain()) {
+                if(subPredicate == null) {
+                    subPredicate = cb.equal(root.get("business_subdomain"),x);
+                } else {
+                    subPredicate = cb.or(cb.equal(root.get("business_subdomain"),x),subPredicate);
+                }
+            }
         }
-        if(!filter.getApplication().equals("All")) {
-
+        if(filter.getApplication() != null) {
+            Predicate appPredicate = null;
+            for (String x: filter.getApplication())
             returnVal = cb.and(cb.equal(root.get("application"),
                                         filter.getApplication()),
                                         returnVal);
         }
         if(!filter.getProcess().equals("All")) {
-
             returnVal = cb.and(cb.equal(root.get("component"),
                                         filter.getProcess()),
                                         returnVal);

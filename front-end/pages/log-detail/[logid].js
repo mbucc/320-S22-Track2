@@ -2,6 +2,8 @@ import {List, ListItem, Typography} from '@mui/material';
 import {Box} from '@mui/system';
 import {useRouter} from 'next/router';
 import {useState, useEffect} from 'react';
+import Header from '../../Components/LogEvent-Form/Header.js';
+
 
 /**
  *
@@ -65,7 +67,8 @@ export default function LogDetail() {
 
   return (
     <>
-      <Typography variant = 'h4' style = {titleStyle}>Log Event ID: {logID}</Typography>
+      <Header titleText = {`Log Detail`} homeText = 'Log Event' homeHref = '/LogEvent'/>
+      <Typography variant = 'h3' style = {titleStyle}>Log Event ID: {logID}</Typography>
       {data === null ? (<Typography variant = 'p'> loading... </Typography>) :
             (<div>
               <Box sx = {{
@@ -73,7 +76,7 @@ export default function LogDetail() {
                 maxWidth: '800px',
               }}>
                 <List>
-                  <ListItem dividerß>
+                  <ListItem divider>
                     <Typography variant = 'subtitle1' sx = {subtitleStyle}>
                       Severity:
                     </Typography>

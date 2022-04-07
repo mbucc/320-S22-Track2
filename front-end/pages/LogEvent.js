@@ -76,7 +76,7 @@ export default function LogEvent() {
 
   return (
     <div>
-      <Header />
+      <Header titleText = 'Log Events'/>
       <Container style = {formContainerStyle}>
         <Form mockData={mockData} setData={setData}/>
       </Container>

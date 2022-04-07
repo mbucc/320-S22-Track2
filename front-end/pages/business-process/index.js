@@ -2,7 +2,7 @@ import Head from 'next/head';
 import BPTreeView from '../../components/business-process/tree/core';
 import BPActivityView from '../../components/business-process/activity/core';
 import {BPColors, BPStandards} from '../../utils/business-process/standards';
-
+import Navbar from '../dashboard/Navbar';
 
 const BPIndex = () => {
   return (
@@ -39,9 +39,7 @@ const BPIndex = () => {
             justifyContent: 'center',
           }}
         >
-          <p style={{fontSize: 16, fontWeight: '500', opacity: 0.3}}>
-            Navigation Placeholder
-          </p>
+          <Navbar />
         </div>
         <div
           style={{

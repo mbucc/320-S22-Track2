@@ -57,13 +57,9 @@ export default function FormCheckbox(props) {
         <h4> {props.name}:</h4>
         <FormControl
           required
-          
           error={error}
-          component="fieldset"
-          sx={{ m: 3 }}
-          variant="standard"
         >
-        <FormGroup>
+        <FormGroup style={checkAllStyle}>
         {Object.keys(props.checkboxes).map((e)=>{
           return (
             <FormControlLabel

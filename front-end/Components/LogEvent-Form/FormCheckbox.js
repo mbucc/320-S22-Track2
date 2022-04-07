@@ -30,7 +30,6 @@ export default function FormCheckbox(props) {
 
 
   const handleOnChange = (event)=>{
-    console.log(event);
     props.setCheckboxes((checkbox)=> {
       return {...checkbox, [event.target.name]: !checkbox[event.target.name]};
     });

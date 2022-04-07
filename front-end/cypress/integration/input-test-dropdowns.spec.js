@@ -20,8 +20,8 @@ describe('input test - dropdowns', ()=>{
 
   it('gives input to process/service dropdown', ()=>{
     cy.get(`[data-testid='dropdown-ps']`).trigger('mousedown', {button: 0});
-    cy.get('[role=option]:contains("Update Costumer")').click();
-    cy.get(`[data-testid='dropdown-ps']`).contains('Update Costumer');
+    cy.get('[role=option]:contains("Update Customer")').click();
+    cy.get(`[data-testid='dropdown-ps']`).contains('Update Customer');
   });
 
   it('gives input to business subdomain dropdown', ()=>{

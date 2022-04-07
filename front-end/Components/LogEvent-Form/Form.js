@@ -22,7 +22,7 @@ export default function Form(props) {
   /* options for dropdown fields. Will eventually be queries to the database */
   const EAIOptions = ['EAI Domain 1', 'EAI Domain 2', 'EAI Domain 3', 'EAI Domain 4'];
   const applicationOptions = ['CRM'];
-  const processServiceOptions = ['Update Costumer'];
+  const processServiceOptions = ['Update Customer'];
   const BusinessDomainOptions = ['Business Domain 1', 'Business Domain 2'];
   const BusinessSubDomOptions = ['Business SubDomain 1', 'Business SubDomain 2'];
 
@@ -106,7 +106,6 @@ export default function Form(props) {
     const priorityKeys = Object.keys(priorityCheckboxes).filter((e) => priorityCheckboxes[e]);
     const categoryKeys = Object.keys(categoryCheckboxes).filter((e) => categoryCheckboxes[e]);
     const objKeys = severityKeys.concat(priorityKeys).concat(categoryKeys);
-
     const filteredData = props.mockData.filter((e) => filterData(e, objKeys));
 
     props.setData(filteredData);

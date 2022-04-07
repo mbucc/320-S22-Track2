@@ -1,8 +1,8 @@
-// input test - testing the form components
+// input test - testing the dropdown components
 
 
 describe('input test - dropdowns', ()=>{
-  beforeEach(()=>{
+  before(()=>{
     cy.visit('http://localhost:3000/LogEvent');
   });
 

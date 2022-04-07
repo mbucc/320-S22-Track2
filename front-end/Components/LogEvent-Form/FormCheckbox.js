@@ -54,7 +54,7 @@ export default function FormCheckbox(props) {
 
   return (
     <div>
-      <Container style = {formContainerStyle}>
+      <Container style = {formContainerStyle} data-testid = {`checkbox-${props.testid}`}>
         <h4> {props.name}:</h4>
         <FormControl
           required
@@ -70,7 +70,7 @@ export default function FormCheckbox(props) {
             <FormControlLabel
               label = {e}
               style={labelStyle}
-              control = {<Checkbox name={e} onChange={handleOnChange} checked={props.checkboxes[e]} />}
+              control = {<Checkbox name={e} onChange={handleOnChange} checked={props.checkboxes[e]} data-testid = {`checkbox-${props.testid}-${e.toLowerCase()}`} />}
               key = {e}
             />
           );
@@ -80,8 +80,8 @@ export default function FormCheckbox(props) {
         <FormHelperText>Pick at least 1 from each column</FormHelperText>
         </FormControl>
         <div style = {checkAllStyle}>
-          <Button onClick={checkAll}>Check All</Button>
-          <Button onClick={unCheckAll}>Uncheck All</Button>
+          <Button onClick={checkAll} data-testid={`checkbox-${props.testid}-checkAllButton`}>Check All</Button>
+          <Button onClick={unCheckAll} data-testid={`checkbox-${props.testid}-uncheckAllButton`}>Uncheck All</Button>
         </div>
       </Container>
     </div>

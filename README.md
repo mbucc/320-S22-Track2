@@ -35,3 +35,7 @@ Your spring boot is running correctly
 
 Possible issues:
 If you get a port 8080 is in use change the value of server.port in the application.properties file
+
+## API Documentation
+
+https://docs.google.com/document/d/1YjxN6EU7HJrZut07Qz17Tm2g8T__OFQ6Nicekf79mHY/edit?usp=sharing

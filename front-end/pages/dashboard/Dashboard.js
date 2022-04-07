@@ -26,16 +26,16 @@ export default function Dashboard(props) {
   if (data) {
     return (
       <div className='dashboard'>
-        <Box px={10} py={5} sx={{ height: '100%', width: '100%' }}>
+        <Box px={6} py={3} sx={{ height: '100%', width: '100%' }}>
           <Grid container direction='row' height={'100%'} spacing={3}>
             <Grid item xs={12}>
-              <Grid container>
-                <Grid item xs={11}>
-                  <Typography variant="h5">
+              <Grid container style={{alignItems: "center"}}>
+                <Grid item xs={6}>
+                  <Typography variant="h4">
                     Welcome!
                   </Typography>
                 </Grid>
-                <Grid item xs={1} align="right">
+                <Grid item xs={6} align="right">
                   <Dropdown />
                 </Grid>
               </Grid>

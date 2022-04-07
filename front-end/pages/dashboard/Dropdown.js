@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import { Select, MenuItem, FormControl, makeStyles } from "@material-ui/core";
+import IconButton from '@material-ui/core/IconButton';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 export default function Dropdown() {
   return (
     <div className="Dropdown">
-      <Select defaultValue={"1 day"}>
-        <MenuItem value = {"15 mins"}>15 mins</MenuItem>
-        <MenuItem value = {"30 mins"}>30 mins</MenuItem>
-        <MenuItem value = {"1 hour"}>1 hour</MenuItem>
-        <MenuItem value = {"4 hours"}>4 hours</MenuItem>
-        <MenuItem value = {"12 hours"}>12 hours</MenuItem>
-        <MenuItem value = {"1 day"}>1 day</MenuItem>
+      <Select defaultValue={60}>
+        <MenuItem value = {15}>15 mins</MenuItem>
+        <MenuItem value = {30}>30 mins</MenuItem>
+        <MenuItem value = {60}>1 hour</MenuItem>
+        <MenuItem value = {240}>4 hours</MenuItem>
+        <MenuItem value = {720}>12 hours</MenuItem>
+        <MenuItem value = {1440}>1 day</MenuItem>
       </Select>
+
+      <IconButton color="primary">
+        <RefreshIcon color="action"></RefreshIcon>
+      </IconButton>
     </div>
   );
 }

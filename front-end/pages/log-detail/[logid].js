@@ -73,7 +73,7 @@ export default function LogDetail() {
                 maxWidth: '800px',
               }}>
                 <List>
-                  <ListItem divider style = {itemStyle}>
+                  <ListItem dividerß>
                     <Typography variant = 'subtitle1' sx = {subtitleStyle}>
                       Severity:
                     </Typography>

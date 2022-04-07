@@ -8,21 +8,6 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
   const [isHovered, setIsHovered] = useState(false);
   const [selectedSeverity, setSelectedSeverity] = useState(['success', 'info', 'warning', 'error']);
 
-  const [hintState, setHintState] = useState(null);
-  const [errorState, setErrorState] = useState(null);
-
-  useEffect(() => {
-    if (hint) {
-      setHintState(hint);
-    }
-  }, [hint]);
-
-  useEffect(() => {
-    if (error) {
-      setErrorState(error);
-    }
-  }, [error]);
-
   const labelStyle = {
     fontSize: 13,
     fontWeight: '500',
@@ -30,7 +15,7 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
     padding: 0,
     marginTop: 0,
     marginBottom: 3,
-    color: errorState ?
+    color: error ?
       BPColors.red[600] :
       BPColors.gray[400],
     transition: 'color 0.15s ease-in-out',
@@ -38,8 +23,6 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
 
   const onCheckboxChange = (label) => {
     return (isSelected) => {
-      setHintState(null);
-      setErrorState(null);
       if (isSelected) {
         setSelectedSeverity([...selectedSeverity, label]);
       } else {
@@ -86,7 +69,7 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
           columnGap: 15,
           color: BPColors.gray[400],
           borderRadius: BPDimens.smallRadius,
-          border: errorState ?
+          border: error ?
             `1px solid ${BPColors.red[600]}` :
             BPStandards.border,
           background: isHovered ? BPColors.white : BPColors.gray[30],
@@ -141,13 +124,13 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
       </div>
       <div
         style={{
-          display: errorState || hintState ? 'flex' : 'none',
+          display: error || hint ? 'flex' : 'none',
           flexDirection: 'row',
           alignItems: 'flex-start',
           justifyContent: 'flex-start',
           width: '100%',
           paddingTop: 4,
-          color: errorState ? BPColors.red[600] : BPColors.gray[400],
+          color: error ? BPColors.red[600] : BPColors.gray[400],
         }}
       >
         <IconAlertCircle
@@ -155,7 +138,7 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
           height={14}
           style={{
             flexShrink: 0,
-            display: errorState ? 'flex' : 'none',
+            display: error ? 'flex' : 'none',
             marginTop: 0.5,
             marginRight: 5,
           }}
@@ -165,7 +148,7 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
           height={14}
           style={{
             flexShrink: 0,
-            display: hintState && !errorState ? 'flex' : 'none',
+            display: hint && !error ? 'flex' : 'none',
             marginTop: 0.5,
             marginRight: 5,
           }}
@@ -176,7 +159,7 @@ export const BPSeveritySelector = ({id = 'bp-severity-selector', label, onChange
             fontWeight: '500',
           }}
         >
-          {errorState || hintState || ''}
+          {error || hint || ''}
         </span>
       </div>
     </div>

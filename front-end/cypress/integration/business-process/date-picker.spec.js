@@ -1,23 +1,98 @@
+import {dateOptions} from '../../../utils/business-process/date-options';
 before(() => {
   cy.visit('/business-process');
 });
 
 describe('Magic commands is working properly with shortcut commands.', () => {
-  it('Support rough date format.', () => {});
-  it('Support single date modifiers.', () => {});
-  it('Support multiple date modifiers.', () => {});
-  it('Magic commands should only work when Enter is pressed', () => {
-    cy.get('#bp-tree-filter-start-date-picker-field').type('+1h');
-    cy.get('#bp-tree-filter-start-date-picker-field').type('{enter}');
+  it('Support rough date format.', () => {
+    const rough1 = '12/20/2021 9am';
+    const rough2 = '12/20/2021 9:00';
+    const rough3 = '12/20/2021 9 AM';
+    const correct = '12/20/2021, 9:00 AM';
+
+    cy.get('#bp-tree-filter-start-date-picker-field').should('have.value', '');
+    cy.get('#bp-tree-filter-start-date-picker-field').type(rough1).type('{enter}').should('have.value', correct).clear();
+    cy.get('#bp-tree-filter-start-date-picker-field').type(rough2).type('{enter}').should('have.value', correct).clear();
+    cy.get('#bp-tree-filter-start-date-picker-field').type(rough3).type('{enter}').should('have.value', correct).clear();
   });
-  it('Help documentation button works properly.', () => {});
+  it('Support single date modifiers.', () => {
+    let baseTime = new Date();
+    // Test h(hour)
+    baseTime.setHours(parseInt(baseTime.getHours()) - 1);
+    cy.get('#bp-tree-filter-start-date-picker-field').type('-1h').type('{enter}').should('have.value', baseTime.toLocaleString('en-US', dateOptions)).clear();
+    // Test m(minute)
+    baseTime = new Date();
+    baseTime.setMinutes(parseInt(baseTime.getMinutes()) - 1);
+    cy.get('#bp-tree-filter-start-date-picker-field').type('-1m').type('{enter}').should('have.value', baseTime.toLocaleString('en-US', dateOptions)).clear();
+    // Test d(day)
+    baseTime = new Date();
+    baseTime.setDate(parseInt(baseTime.getDate()) - 1);
+    cy.get('#bp-tree-filter-start-date-picker-field').type('-1d').type('{enter}').should('have.value', baseTime.toLocaleString('en-US', dateOptions)).clear();
+    // Test mo(month)
+    baseTime = new Date();
+    baseTime.setMonth(parseInt(baseTime.getMonth()) - 1);
+    cy.get('#bp-tree-filter-start-date-picker-field').type('-1mo').type('{enter}').should('have.value', baseTime.toLocaleString('en-US', dateOptions)).clear();
+    // Test y(year)
+    baseTime = new Date();
+    baseTime.setFullYear(parseInt(baseTime.getFullYear()) - 1);
+    cy.get('#bp-tree-filter-start-date-picker-field').type('-1y').type('{enter}').should('have.value', baseTime.toLocaleString('en-US', dateOptions)).clear();
+  });
+  it('Support multiple date modifiers.', () => {
+    const baseTime = new Date();
+    baseTime.setMonth(parseInt(baseTime.getMonth()) - 1);
+    baseTime.setDate(parseInt(baseTime.getDate()) + 1);
+    baseTime.setHours(9);
+    baseTime.setMinutes(0);
+    cy.get('#bp-tree-filter-start-date-picker-field').type('-1mo +1d 9am').type('{enter}').should('have.value', baseTime.toLocaleString('en-US', dateOptions)).clear();
+  });
+
+  it('Magic commands should only work when Enter is pressed', () => {
+    const baseTime = new Date();
+    cy.get('#bp-tree-filter-start-date-picker-field').type(baseTime.toLocaleString('en-US', dateOptions)).type('{enter}').clear();
+
+    const newMonth = parseInt(baseTime.getMonth()) - 1;
+    baseTime.setMonth(newMonth);
+    cy.get('#bp-tree-filter-start-date-picker-field').type('-1mo').should('have.value', '-1mo');
+    cy.get('#bp-tree-filter-start-date-picker-field').type('{enter}').should('have.value', baseTime.toLocaleString('en-US', dateOptions));
+  });
+
+  it('Help documentation button works properly.', () => {
+    cy.get(':nth-child(1) > .helper-modal-content-children').should('not.exist');
+    cy.get('svg.icon.icon-tabler.icon-tabler-help').eq(0).click();
+    cy.get(':nth-child(1) > .helper-modal-content-children').should('exist');
+    cy.get('.helper-modal-close-btn').click();
+    cy.get(':nth-child(1) > .helper-modal-content-children').should('not.exist');
+  });
 });
 
 describe('Date format is parsed correctly', () => {
-  it('Start date field parses the command based on current time.', () => {});
-  it('End date field parses the command based on the start date.', () => {});
-  it('Support date format parsing and separated time format parsing.', () => {});
-  it('Support the date format that only has month and day.', () => {});
+  it('Start date field parses the command based on current time.', () => {
+    cy.get('#bp-tree-filter-start-date-picker-field').clear();
+    cy.get('#bp-tree-filter-start-date-picker-field').should('have.value', '');
+    const baseTime = new Date();
+    const newMonth = parseInt(baseTime.getMonth()) - 1;
+    baseTime.setMonth(newMonth);
+    cy.get('#bp-tree-filter-start-date-picker-field').type('-1mo').type('{enter}').should('have.value', baseTime.toLocaleString('en-US', dateOptions)).clear();
+  });
+
+  it('End date field parses the command based on the start date.', () => {
+    cy.get('#bp-tree-filter-start-date-picker-field').type('12/20/2021, 9:00 AM').type('{enter}');
+    cy.get('#bp-tree-filter-end-date-picker-field').should('have.value', '');
+    cy.get('#bp-tree-filter-end-date-picker-field').type('-1mo').type('{enter}').should('have.value', '11/20/2021, 9:00 AM');
+  });
+  it('Support date format parsing and separated time format parsing.', () => {
+    const baseTime = new Date();
+    baseTime.setHours(9);
+    baseTime.setMinutes(0);
+    cy.get('#bp-tree-filter-start-date-picker-field').clear().type('9:00 AM').type('{enter}').should('have.value', baseTime.toLocaleString('en-US', dateOptions)).clear();
+  });
+  it('Support the date format that only has month and day.', () => {
+    // TODO: Weird Error by using setMonth
+    const baseTime = new Date();
+    baseTime.setMonth(10);
+    baseTime.setDate(28);
+    cy.get('#bp-tree-filter-start-date-picker-field').clear().type('10/28').type('{enter}').should('have.value', baseTime.toLocaleString('en-US', dateOptions)).clear();
+  });
 });
 
 describe('Other tests in DatePicker component', () => {
@@ -25,5 +100,8 @@ describe('Other tests in DatePicker component', () => {
     cy.get('body').click(0, 0);
     cy.get('#bp-tree-filter-start-date-picker-popper').should('not.exist');
   });
-  it('Date should be changed per actions of the popper .', () => {});
+  it('Date should be changed per actions of the popper .', () => {
+    cy.get('#bp-tree-filter-start-date-picker-field').clear().click();
+    // TODO: Need more clarification on this test.
+  });
 });

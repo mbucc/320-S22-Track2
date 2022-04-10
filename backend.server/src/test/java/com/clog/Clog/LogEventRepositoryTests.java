@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -41,52 +42,53 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.jayway.jsonpath.JsonPath;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-        DbUnitTestExecutionListener.class })
+// @ContextConfiguration
+// @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
+// DbUnitTestExecutionListener.class })
 @AutoConfigureMockMvc
 public class LogEventRepositoryTests {
-    @Autowired
-    private MockMvc mockMvc;
+        @Autowired
+        private MockMvc mockMvc;
 
-    // Severity and Priorities are not drop-downs. Start and end-time, returns
-    // Nothing.
-    @Test
-    @DatabaseSetup("sample_data.xml")
-    public void testSearchByBusinessDomain() throws Exception {
-        this.mockMvc.perform(get("/logEvents").param("businessDomain", "CRM"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$", hasSize(1)));
-    }
+        // Severity and Priorities are not drop-downs. Start and end-time, returns
+        // Nothing.
+        @Test
+        @DatabaseSetup("sample_data.xml")
+        public void testSearchByBusinessDomain() throws Exception {
+                this.mockMvc.perform(get("/logEvents").param("businessDomain", "CRM"))
+                                .andDo(print())
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentType("application/json"))
+                                .andExpect(jsonPath("$", hasSize(1)));
+        }
 
-    @Test
-    @DatabaseSetup("sample_data.xml")
-    public void testSampleQuerysuccess() throws Exception {
-        this.mockMvc.perform(
-                get("/logEvents")
-                        .param("businessDomain", "CRM")
-                        .param("eaiDomain", "EAI_DOMAIN_1")
-                        .param("startTime", "2020-12-12 01:24:23")
-                        .param("endTime", "2020-12-12 01:25:00")
-                        .param("businessSubDomain", "Customer")
-                        .param("process", "1212")
-                        .param("priority", "10")
-                        .param("categories", "ReportSituation")
-                        .param("severities", "10")
-                        .param("application", "CRM_adapter"))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
+        @Test
+        @DatabaseSetup("sample_data.xml")
+        public void testSampleQuerysuccess() throws Exception {
+                this.mockMvc.perform(
+                                get("/logEvents")
+                                                .param("businessDomain", "CRM")
+                                                .param("eaiDomain", "EAI_DOMAIN_1")
+                                                .param("startTime", "2020-12-12 01:24:23")
+                                                .param("endTime", "2020-12-12 01:25:00")
+                                                .param("businessSubDomain", "Customer")
+                                                .param("process", "1212")
+                                                .param("priority", "10")
+                                                .param("categories", "ReportSituation")
+                                                .param("severities", "10")
+                                                .param("application", "CRM_adapter"))
+                                .andDo(print())
+                                .andExpect(status().isOk());
+        }
 
-    @Test
-    @DatabaseSetup("sample_data.xml")
-    public void testGetById() throws Exception {
-        this.mockMvc.perform(
-                get("/logDetail")
-                        .param("id", "crm_server_000001"))
-                .andExpect(status().isOk());
-    }
+        @Test
+        @DatabaseSetup("sample_data.xml")
+        public void testGetById() throws Exception {
+                this.mockMvc.perform(
+                                get("/logDetail")
+                                                .param("id", "crm_server_000001"))
+                                .andExpect(status().isOk());
+        }
 }

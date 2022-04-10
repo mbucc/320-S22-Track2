@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,11 +22,12 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 @SpringBootTest
-@DatabaseSetup("sample_data.xml")
+@ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-        DbUnitTestExecutionListener.class })
+// @DatabaseSetup("sample_data.xml")
+// @ContextConfiguration
+// @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
+// DbUnitTestExecutionListener.class })
 public class LogDetailsRepositoryTests {
     // Todo: Investigate where context configuration is loaded from
     @Autowired

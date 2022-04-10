@@ -1,6 +1,6 @@
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import {BPDimens, BPStandards} from "../../../utils/business-process/standards";
+import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 
 /**
  * The context menu for the tree.

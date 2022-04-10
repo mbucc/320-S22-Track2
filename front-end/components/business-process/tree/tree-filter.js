@@ -20,8 +20,16 @@ const BPTreeFilterComponent = ({onChange}) => {
   useEffect(() => {
     if (startDate && startDate > new Date()) {
       setStartDateError('Start date must be in the past.');
+    } else {
+      setStartDateError(null);
     }
-  }, [startDate, endDate]);
+  }, [startDate]);
+
+  useEffect(() => {
+    if (endDate) {
+      setEndDateError(null);
+    }
+  }, [endDate]);
 
   const onApplyClick = () => {
     if (startDate && endDate && startDate > endDate) {

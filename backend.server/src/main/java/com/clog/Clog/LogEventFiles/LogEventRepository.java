@@ -1,13 +1,15 @@
 package com.clog.Clog.LogEventFiles;
+
 import java.util.List;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.lang.Nullable;
 
-
-public interface LogEventRepository extends JpaRepository<LogEvent, String>, JpaSpecificationExecutor<LogEvent>{
+public interface LogEventRepository extends JpaRepository<LogEvent, String>, JpaSpecificationExecutor<LogEvent> {
     @Cacheable("eaiDomains")
     @Query("SELECT DISTINCT a.eai_domain FROM LogEvent a")
     List<String> findDistinctEAI_Domains();
@@ -27,5 +29,6 @@ public interface LogEventRepository extends JpaRepository<LogEvent, String>, Jpa
     @Cacheable("service")
     @Query("SELECT DISTINCT a.event_context FROM LogEvent a")
     List<String> findDistinctServices();
-}
 
+    List<LogEvent> findAll(@Nullable Specification<LogEvent> spec);
+}

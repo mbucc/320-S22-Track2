@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,16 +20,17 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 @SpringBootTest
+@DatabaseSetup("sample_data.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
         DbUnitTestExecutionListener.class })
 public class LogDetailsRepositoryTests {
+    // Todo: Investigate where context configuration is loaded from
     @Autowired
     private LogDetailRepository logRepo;
 
     @Test
-    @DatabaseSetup("sample_data.xml")
     public void testFindId() {
         String id = "crm_server_000001";
         Optional<LogDetail> response = logRepo.findById(id);
@@ -36,7 +39,6 @@ public class LogDetailsRepositoryTests {
     }
 
     @Test
-    @DatabaseSetup("sample_data.xml")
     public void testFindIdNotFound() {
         String id = "crm_server_111111";
         Optional<LogDetail> response = logRepo.findById(id);
@@ -44,7 +46,6 @@ public class LogDetailsRepositoryTests {
     }
 
     @Test
-    @DatabaseSetup("sample_data.xml")
     public void testFindIdEmptyString() {
         String id = "";
         Optional<LogDetail> response = logRepo.findById(id);

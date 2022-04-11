@@ -67,7 +67,7 @@ export default function LogDetail() {
 
   return (
     <>
-      <Header titleText = {`Log Detail`} homeText = 'Log Event' homeHref = '/LogEvent'/>
+      <Header titleText = {`Log Detail`} homeText = 'Log Events' homeHref = '/LogEvent'/>
       <Typography variant = 'h3' style = {titleStyle}>Log Event ID: {logID}</Typography>
       {data === null ? (<Typography variant = 'p'> loading... </Typography>) :
             (<div>

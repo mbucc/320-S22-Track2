@@ -47,7 +47,7 @@ export default function FormCheckbox(props) {
   const checkAll = (event) => selectAll(true, event);
   const unCheckAll = (event) => selectAll(false, event);
 
-  //consterror = [];
+  // consterror = [];
 
   const error = Object.keys(props.checkboxes).filter((v) => props.checkboxes[v]).length < 1;
 
@@ -59,20 +59,20 @@ export default function FormCheckbox(props) {
           required
           error={error}
         >
-        <FormGroup style={checkAllStyle}>
-        {Object.keys(props.checkboxes).map((e)=>{
-          return (
-            <FormControlLabel
-              label = {e}
-              style={labelStyle}
-              control = {<Checkbox name={e} onChange={handleOnChange} checked={props.checkboxes[e]} data-testid = {`checkbox-${props.testid}-${e.toLowerCase()}`} />}
-              key = {e}
-            />
-          );
-        })}
-        </FormGroup>
+          <FormGroup style={checkAllStyle}>
+            {Object.keys(props.checkboxes).map((e)=>{
+              return (
+                <FormControlLabel
+                  label = {e}
+                  style={labelStyle}
+                  control = {<Checkbox name={e} onChange={handleOnChange} checked={props.checkboxes[e]} data-testid = {`checkbox-${props.testid}-${e.toLowerCase()}`} />}
+                  key = {e}
+                />
+              );
+            })}
+          </FormGroup>
 
-        <FormHelperText>Pick at least 1 from each column</FormHelperText>
+          <FormHelperText>Pick at least 1 from each column</FormHelperText>
         </FormControl>
         <div style = {checkAllStyle}>
           <Button onClick={checkAll} data-testid={`checkbox-${props.testid}-checkAllButton`}>Check All</Button>

@@ -7,6 +7,7 @@ import {getDateStringByValue} from '../../../utils/business-process/date-options
 
 const renderBusinessProcessInstances = (log, onChange) =>(
   <TreeItem
+    id='BPTree-log'
     key={log.id}
     nodeId={log.id}
     icon={<BPActivitySeverityIcon severity={log.severity}/>}

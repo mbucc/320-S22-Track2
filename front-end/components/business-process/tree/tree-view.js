@@ -194,6 +194,7 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
         }}
       >
         <BPTextButton
+          id="expand-collapse-all-button"
           onClick={handleExpandClick}
         >
           {expanded.length === 0 ? 'Expand All' : 'Collapse All'}

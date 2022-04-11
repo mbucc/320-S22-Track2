@@ -3,13 +3,13 @@ package com.clog.Clog.LogEventFiles;
 import java.sql.Timestamp;
 
 public class LogEventsSearchCriteria {
-    private String businessDomain;
-    private String eaiDomain;
+    private String[] businessDomain;
+    private String[] eaiDomain;
     private Timestamp startTime;
     private Timestamp endTime;
-    private String application;
-    private String businessSubDomain;
-    private String process;
+    private String[] application;
+    private String[] businessSubDomain;
+    private String[] process;
     private String[] categories;
     private String[] priorities;
     private String[] severities;
@@ -32,22 +32,22 @@ public class LogEventsSearchCriteria {
     public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
-    public String getApplication() {
+    public String[] getApplication() {
         return application;
     }
-    public void setApplication(String application) {
+    public void setApplication(String[] application) {
         this.application = application;
     }
-    public String getBusinessSubDomain() {
+    public String[] getBusinessSubDomain() {
         return businessSubDomain;
     }
-    public void setBusinessSubDomain(String businessSubDomain) {
-        this.businessSubDomain = businessSubDomain;
+    public void setBusinessSubDomain(String[] businessSubDomain2) {
+        this.businessSubDomain = businessSubDomain2;
     }
-    public String getProcess() {
+    public String[] getProcess() {
         return process;
     }
-    public void setProcess(String process) {
+    public void setProcess(String[] process) {
         this.process = process;
     }
     public String[] getCategories() {
@@ -65,16 +65,16 @@ public class LogEventsSearchCriteria {
     public LogEventsSearchCriteria() {
 
     }
-    public String getBusinessDomain() {
+    public String[] getBusinessDomain() {
         return businessDomain;
     }
-    public void setBusinessDomain(String businessDomain) {
+    public void setBusinessDomain(String[] businessDomain) {
         this.businessDomain = businessDomain;
     }
-    public String getEaiDomain() {
+    public String[] getEaiDomain() {
         return eaiDomain;
     }
-    public void setEaiDomain(String eaiDomain) {
+    public void setEaiDomain(String[] eaiDomain) {
         this.eaiDomain = eaiDomain;
     }
     

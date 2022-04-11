@@ -18,25 +18,29 @@ public class businessTreeSpecification implements Specification<EAIdomain> {
     @Override
     public Predicate toPredicate(Root<EAIdomain> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
         Predicate returnVal = cb.between(root.<Timestamp>get("eai_transaction_create_time"),filter.getEndTime(),filter.getStartTime());
-        Predicate eaiPred = null;
-        for (String eaiDom : filter.getEaiDomain()) {
-            if(eaiPred == null) {
-                eaiPred = cb.equal(root.get("eai_domain"), eaiDom);
-            } else {
-                eaiPred = cb.or(cb.equal(root.get("eai_domain"), eaiDom), eaiPred);
+        if(filter.getEaiDomain() != null){
+            Predicate eaiPred = null;
+            for (String eaiDom : filter.getEaiDomain()) {
+                if(eaiPred == null) {
+                    eaiPred = cb.equal(root.get("eai_domain"), eaiDom);
+                } else {
+                    eaiPred = cb.or(cb.equal(root.get("eai_domain"), eaiDom), eaiPred);
+                }
             }
+            returnVal = cb.and(eaiPred, returnVal);
         }
-        returnVal = cb.and(eaiPred, returnVal);
-        Predicate pubPredicate = null;
-        for(String pubString : filter.getPublishingBusinessDomain()) {
-            if(pubPredicate == null) {
-                pubPredicate = cb.equal(root.get("publishing_business_domain"), pubString);
+        if(filter.getPublishingBusinessDomain() != null) {
+            Predicate pubPredicate = null;
+            for(String pubString : filter.getPublishingBusinessDomain()) {
+                if(pubPredicate == null) {
+                    pubPredicate = cb.equal(root.get("publishing_business_domain"), pubString);
+                }
+                else {
+                    pubPredicate = cb.or(cb.equal(root.get("publishing_business_domain"), pubString),pubPredicate);
+                }
             }
-            else {
-                pubPredicate = cb.or(cb.equal(root.get("publishing_business_domain"), pubString),pubPredicate);
-            }
+            returnVal = cb.and(pubPredicate,returnVal);
         }
-        returnVal = cb.and(eaiPred,returnVal);
         return returnVal;
     }
     

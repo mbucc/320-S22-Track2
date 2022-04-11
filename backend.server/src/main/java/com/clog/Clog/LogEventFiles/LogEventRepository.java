@@ -25,7 +25,7 @@ public interface LogEventRepository extends JpaRepository<LogEvent, String>, Jpa
     @Cacheable("application")
     @Query("SELECT DISTINCT a.application FROM LogEvent a")
     List<String> findDistinctApplications();
-
+    
     @Cacheable("service")
     @Query("SELECT DISTINCT a.event_context FROM LogEvent a")
     List<String> findDistinctServices();

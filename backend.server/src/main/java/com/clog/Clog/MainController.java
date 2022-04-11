@@ -47,13 +47,13 @@ public class MainController {
 
 
     @GetMapping(path="/logDetail")
-    public @ResponseBody Optional<LogDetail> getAllLogDetails(@RequestParam String id) {
+    public @ResponseBody Optional<LogDetail> getLogDetails(@RequestParam String id) {
         return logRepo.findById(id);
     }
     @GetMapping(path="/logEvents")
-    public @ResponseBody List<LogEvent> getLogEvents(@RequestParam String businessDomain, @RequestParam String eaiDomain, @RequestParam String startTime,
-    @RequestParam String endTime,@RequestParam String businessSubDomain,@RequestParam String process, @RequestParam String[] priorities, @RequestParam String[] categories,
-    @RequestParam String[] severities, @RequestParam String application) {
+    public @ResponseBody List<LogEvent> getLogEvents(@RequestParam(required = false) String[] businessDomain, @RequestParam(required = false) String[] eaiDomain, @RequestParam String startTime,
+    @RequestParam String endTime,@RequestParam(required = false) String[] businessSubDomain,@RequestParam(required = false) String[] process, @RequestParam String[] priorities, @RequestParam String[] categories,
+    @RequestParam String[] severities, @RequestParam(required = false) String[] application) {
         LogEventsSearchCriteria filt = new LogEventsSearchCriteria();
         filt.setBusinessDomain(businessDomain);
         filt.setEaiDomain(eaiDomain);
@@ -72,8 +72,8 @@ public class MainController {
     public @ResponseBody Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getBusinessTree(
     @RequestParam String startTime, 
     @RequestParam String endTime, 
-    @RequestParam String[] eaiDomain, 
-    @RequestParam String[] publishingBusinessDomain) {
+    @RequestParam(required = false) String[] eaiDomain, 
+    @RequestParam(required = false) String[] publishingBusinessDomain) {
 
         businessTreeFilter filt = new businessTreeFilter();
 
@@ -96,8 +96,8 @@ public class MainController {
     @GetMapping(path="/businessProcessGrid")
     public @ResponseBody List<LogEvent> getBusinessProcessGrid(
     @RequestParam String eai_transaction_id, 
-    @RequestParam String[] severities, 
-    @RequestParam String[] businessDomain)
+    @RequestParam(required = false) String[] severities, 
+    @RequestParam(required = false) String[] businessDomain)
     {
         BusinessGridFilter businessFilter = new BusinessGridFilter();
 

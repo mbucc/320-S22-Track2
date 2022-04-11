@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 
+
 /**
  *
  * @param {*} props state and setState for dates
@@ -24,6 +25,7 @@ export default function FormDates(props) {
           label="From"
           type="datetime-local"
           defaultValue={props.fromToDates.From}
+          value ={props.fromToDates.From}
           sx={{width: 250}}
           InputLabelProps={{
             shrink: true,
@@ -36,6 +38,7 @@ export default function FormDates(props) {
           label="To"
           type="datetime-local"
           defaultValue={props.fromToDates.To}
+          value={props.fromToDates.To}
           sx={{width: 250}}
           InputLabelProps={{
             shrink: true,

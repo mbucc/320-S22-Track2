@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {Table, TableHead, TableBody, TableRow, TableCell, Typography} from '@mui/material';
+import Link from 'next/link';
+import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button} from '@mui/material';
 import {TablePagination} from '@mui/material';
 
 
@@ -65,7 +66,11 @@ export default function LETable(props) {
                     <TableCell>{e['EAI Domain']}</TableCell>
                     <TableCell>{e['Business Domain']}</TableCell>
                     <TableCell>{e['Business SubDomain']}</TableCell>
-                    <TableCell>{e['Log Event']}</TableCell>
+                    <TableCell onClick={() => {
+                      window.sessionStorage.setItem('isLogDetail', true);
+                    }}>
+                      <Button><Link href={`/log-detail/${e.id}`} >{e['Log Event']}</Link></Button>
+                    </TableCell>
                   </TableRow>
                 );
               })}

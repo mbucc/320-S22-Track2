@@ -2,6 +2,9 @@ import React from 'react';
 import {Checkbox, Container} from '@mui/material';
 import {Button} from '@mui/material';
 import {FormControlLabel} from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
+import FormHelperText from '@mui/material/FormHelperText';
 /**
  *
  * @param {*} props checkbox state and setState passed into Formcheckbox
@@ -27,7 +30,6 @@ export default function FormCheckbox(props) {
 
 
   const handleOnChange = (event)=>{
-    console.log(event);
     props.setCheckboxes((checkbox)=> {
       return {...checkbox, [event.target.name]: !checkbox[event.target.name]};
     });
@@ -45,26 +47,36 @@ export default function FormCheckbox(props) {
   const checkAll = (event) => selectAll(true, event);
   const unCheckAll = (event) => selectAll(false, event);
 
+  // consterror = [];
+
+  const error = Object.keys(props.checkboxes).filter((v) => props.checkboxes[v]).length < 1;
 
   return (
     <div>
-      <Container style = {formContainerStyle}>
+      <Container style = {formContainerStyle} data-testid = {`checkbox-${props.testid}`}>
         <h4> {props.name}:</h4>
-        {Object.keys(props.checkboxes).map((e)=>{
-          return (
+        <FormControl
+          required
+          error={error}
+        >
+          <FormGroup style={checkAllStyle}>
+            {Object.keys(props.checkboxes).map((e)=>{
+              return (
+                <FormControlLabel
+                  label = {e}
+                  style={labelStyle}
+                  control = {<Checkbox name={e} onChange={handleOnChange} checked={props.checkboxes[e]} data-testid = {`checkbox-${props.testid}-${e.toLowerCase()}`} />}
+                  key = {e}
+                />
+              );
+            })}
+          </FormGroup>
 
-            <FormControlLabel
-              label = {e}
-              style={labelStyle}
-              control = {<Checkbox name={e} onChange={handleOnChange} checked={props.checkboxes[e]} />}
-              key = {e}
-            />
-
-          );
-        })}
+          <FormHelperText>Pick at least 1 from each column</FormHelperText>
+        </FormControl>
         <div style = {checkAllStyle}>
-          <Button onClick={checkAll}>Check All</Button>
-          <Button onClick={unCheckAll}>Uncheck All</Button>
+          <Button onClick={checkAll} data-testid={`checkbox-${props.testid}-checkAllButton`}>Check All</Button>
+          <Button onClick={unCheckAll} data-testid={`checkbox-${props.testid}-uncheckAllButton`}>Uncheck All</Button>
         </div>
       </Container>
     </div>

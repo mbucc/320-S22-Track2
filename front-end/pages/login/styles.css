@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background: #637d63;
+  }
+  
+  .App {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .form {
+    max-width: 330px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+    margin-top: 30px;
+  }
+  
+  .form .form__custom-button {
+    margin-top: 50px;
+  }
+  

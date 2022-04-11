@@ -1,4 +1,7 @@
 import '../styles/globals.css';
+import '../styles/Dashboard.css';
+import '../styles/index.css';
+import '../styles/styles.css';
 
 import {StyledEngineProvider} from '@mui/material';
 

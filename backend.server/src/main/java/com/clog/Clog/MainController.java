@@ -48,7 +48,6 @@ public class MainController {
     @Autowired
     private BusinessTreeRepository busTree;
 
-
     @GetMapping(path="/logDetail")
     public @ResponseBody Optional<LogDetail> getLogDetails(@RequestParam String id) {
         return logRepo.findById(id);
@@ -117,23 +116,17 @@ public class MainController {
     //Fixed ish, but need to update equals on recent event specifications. Then also do cache put and
     //Cache evicts, oh and auto update every 15 minutes
     @GetMapping(path="/countByType")
-    public @ResponseBody Map<Timestamp,Long> test(@RequestParam String severity) {
+    public @ResponseBody Map<Timestamp,Long> test(@RequestParam String severity, @RequestParam int intervals, @RequestParam int timeBack) {
         SortedMap<Timestamp,Long> testObj = new TreeMap<Timestamp,Long>();
-        Timestamp currentTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(6));
-
-        Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis((7)));
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(timeBack));
         Calendar cal = Calendar.getInstance();
+        int intervalLength = timeBack / intervals;
         cal.setTime(startTime);
-        int unroundedMinutes = cal.get(Calendar.MINUTE);
-        int mod = unroundedMinutes % 15;
-        cal.add(Calendar.MINUTE, mod < 8 ? -mod : (15-mod));
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        DashBoardLineGraphFilter filter = new DashBoardLineGraphFilter(severity,startTime,currentTime);
-
+        
         while(cal.getTime().before(currentTime)) {
-            filter.setStartTime(new Timestamp(cal.getTimeInMillis()));
-            cal.add(Calendar.MINUTE, 15);
+            DashBoardLineGraphFilter filter = new DashBoardLineGraphFilter(severity,new Timestamp(cal.getTimeInMillis()),currentTime);
+            cal.add(Calendar.MINUTE, intervalLength);
             filter.setEndTime(new Timestamp(cal.getTimeInMillis()));
             RecentEventsSpecification test2 = new RecentEventsSpecification(filter);          
             testObj.put(filter.getStartTime(), logEventRepo.count(test2));

@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
+import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 
 import BPTextInput from './text-input';
 
@@ -13,6 +13,7 @@ import {dateOptions} from '../../../utils/business-process/date-options';
 import {DatePickerHelper} from './support/date-picker-helper';
 
 import {parseDate} from './support/date-picker-processor';
+import {BPDatePickerConflictResolver} from './support/date-picker-conflict-resolver';
 
 export const BPDatePicker = ({id = 'bp-datepicker', label, hint, error, onChange, baseDate}) => {
   // Date picker value.
@@ -39,12 +40,16 @@ export const BPDatePicker = ({id = 'bp-datepicker', label, hint, error, onChange
 
   // Update hint state when hint prop changes.
   useEffect(() => {
-    setHintState(hint);
+    if (hint) {
+      setHintState(hint);
+    }
   }, [hint]);
 
   // Update error state when error prop changes.
   useEffect(() => {
-    setErrorState(error);
+    if (error) {
+      setErrorState(error);
+    }
   }, [error]);
 
   // Process the datepicker value into input value.
@@ -140,7 +145,12 @@ export const BPDatePicker = ({id = 'bp-datepicker', label, hint, error, onChange
             }}
             onClick={() => setIsOpen(true)}
           />
-
+          <BPDatePickerConflictResolver
+            date={value}
+            onChange={(newValue) => {
+              setValue(newValue);
+            }}
+          />
           <Popper
             id={isOpen ? `${id}-popper` : undefined}
             open={isOpen}

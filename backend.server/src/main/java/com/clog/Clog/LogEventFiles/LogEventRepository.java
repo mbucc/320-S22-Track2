@@ -2,6 +2,8 @@ package com.clog.Clog.LogEventFiles;
 
 import java.util.List;
 
+import com.clog.Clog.DashboardView.RecentEventsSpecification;
+
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,6 +31,9 @@ public interface LogEventRepository extends JpaRepository<LogEvent, String>, Jpa
     @Cacheable("service")
     @Query("SELECT DISTINCT a.event_context FROM LogEvent a")
     List<String> findDistinctServices();
+
+    @Cacheable("time")
+    long count(Specification<LogEvent> specEvent);
 
     List<LogEvent> findAll(@Nullable Specification<LogEvent> spec);
 }

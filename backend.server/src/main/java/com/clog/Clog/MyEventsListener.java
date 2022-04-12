@@ -24,5 +24,6 @@ public class MyEventsListener {
         logEventRepo.findDistinctBusinessSubDomains();
         logEventRepo.findDistinctBusinessDomains();
         busTree.findDistinctPublishingBusinessDomains();
+        
     }
 }

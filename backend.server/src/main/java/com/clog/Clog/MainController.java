@@ -3,9 +3,12 @@ package com.clog.Clog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import com.clog.Clog.BusinessProcess.BusinessGridFilter;
@@ -52,8 +55,8 @@ public class MainController {
     }
     @GetMapping(path="/logEvents")
     public @ResponseBody List<LogEvent> getLogEvents(@RequestParam(required = false) String[] businessDomain, @RequestParam(required = false) String[] eaiDomain, @RequestParam String startTime,
-    @RequestParam String endTime,@RequestParam(required = false) String[] businessSubDomain,@RequestParam(required = false) String[] process, @RequestParam String[] priorities, @RequestParam String[] categories,
-    @RequestParam String[] severities, @RequestParam(required = false) String[] application) {
+    @RequestParam String endTime,@RequestParam(required = false) String[] businessSubDomain,@RequestParam(required = false) String[] process, @RequestParam(required = false) String[] priorities, @RequestParam(required = false) String[] categories,
+    @RequestParam(required =  false) String[] severities, @RequestParam(required = false) String[] application) {
         LogEventsSearchCriteria filt = new LogEventsSearchCriteria();
         filt.setBusinessDomain(businessDomain);
         filt.setEaiDomain(eaiDomain);
@@ -111,22 +114,29 @@ public class MainController {
 
     }
     //Horribly innefficient, not sure how we are going to fix. But this is essentially irrelevant
-    @GetMapping(path="/test")
-    public @ResponseBody List<Long> test(@RequestParam String severity) {
-        List<Long> testObj = new ArrayList<Long>();
-        Timestamp currentTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(64));
-        System.out.println(currentTime);
-        Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis((67)));
+    //Fixed ish, but need to update equals on recent event specifications. Then also do cache put and
+    //Cache evicts, oh and auto update every 15 minutes
+    @GetMapping(path="/countByType")
+    public @ResponseBody Map<Timestamp,Long> test(@RequestParam String severity) {
+        SortedMap<Timestamp,Long> testObj = new TreeMap<Timestamp,Long>();
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(6));
+
+        Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.DAYS.toMillis((7)));
         Calendar cal = Calendar.getInstance();
         cal.setTime(startTime);
+        int unroundedMinutes = cal.get(Calendar.MINUTE);
+        int mod = unroundedMinutes % 15;
+        cal.add(Calendar.MINUTE, mod < 8 ? -mod : (15-mod));
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
         DashBoardLineGraphFilter filter = new DashBoardLineGraphFilter(severity,startTime,currentTime);
+
         while(cal.getTime().before(currentTime)) {
             filter.setStartTime(new Timestamp(cal.getTimeInMillis()));
             cal.add(Calendar.MINUTE, 15);
-            //System.out.println(cal.getTime());
             filter.setEndTime(new Timestamp(cal.getTimeInMillis()));
-            RecentEventsSpecification test2 = new RecentEventsSpecification(filter);
-            testObj.add(logEventRepo.count(test2));
+            RecentEventsSpecification test2 = new RecentEventsSpecification(filter);          
+            testObj.put(filter.getStartTime(), logEventRepo.count(test2));
         }
         return testObj;
 

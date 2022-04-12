@@ -12,8 +12,10 @@ import com.clog.Clog.LogEventFiles.LogEvent;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import net.bytebuddy.asm.Advice.This;
+
 public class RecentEventsSpecification implements Specification<LogEvent>{
-    DashBoardLineGraphFilter filter;
+    private DashBoardLineGraphFilter filter;
     public RecentEventsSpecification(DashBoardLineGraphFilter filter) {
         super();
         this.filter = filter;
@@ -27,5 +29,30 @@ public class RecentEventsSpecification implements Specification<LogEvent>{
         toReturn = criteriaBuilder.and(toReturn, criteriaBuilder.between(root.get("severity"), range[0], range[1]));
         return toReturn;
     }
-    
+    @Override
+    public int hashCode() {
+        return filter.getStartTime().hashCode() + filter.getEndTime().hashCode() + filter.getSeverityString().hashCode();
+    }
+    @Override
+     public boolean equals(Object o) {
+        if (o instanceof RecentEventsSpecification) {
+            RecentEventsSpecification toComp = (RecentEventsSpecification) o;
+            DashBoardLineGraphFilter filt = toComp.getFilter();
+            if (filt.getEndTime() == filter.getEndTime() && filt.getStartTime() == filter.getEndTime()
+            && filter.getSeverityString() == filt.getSeverityString()) {
+                return true;
+            }
+        }
+        return false;
+         
+     }
+
+    public DashBoardLineGraphFilter getFilter() {
+        return filter;
+    }
+
+    public void setFilter(DashBoardLineGraphFilter filter) {
+        this.filter = filter;
+    }
+
 }

@@ -1,6 +1,7 @@
 import {dateOptions} from '../../../utils/business-process/date-options';
 before(() => {
   cy.visit('/business-process');
+  cy.clock(new Date().getTime());
 });
 
 describe('Magic commands is working properly with shortcut commands.', () => {
@@ -87,21 +88,25 @@ describe('Date format is parsed correctly', () => {
     cy.get('#bp-tree-filter-start-date-picker-field').clear().type('9:00 AM').type('{enter}').should('have.value', baseTime.toLocaleString('en-US', dateOptions)).clear();
   });
   it('Support the date format that only has month and day.', () => {
-    // TODO: Weird Error by using setMonth
     const baseTime = new Date();
-    baseTime.setMonth(10);
+    baseTime.setMonth(9);
     baseTime.setDate(28);
     cy.get('#bp-tree-filter-start-date-picker-field').clear().type('10/28').type('{enter}').should('have.value', baseTime.toLocaleString('en-US', dateOptions)).clear();
   });
 });
 
 describe('Other tests in DatePicker component', () => {
+  it('Support DLS correctly.', () => {
+    // TODO: Handle "before" and "after" time correctly.
+  });
   it('Popper should be dismissed when we click outside.', () => {
     cy.get('body').click(0, 0);
     cy.get('#bp-tree-filter-start-date-picker-popper').should('not.exist');
   });
   it('Date should be changed per actions of the popper .', () => {
     cy.get('#bp-tree-filter-start-date-picker-field').clear().click();
-    // TODO: Need more clarification on this test.
+    cy.get('#bp-tree-filter-start-date-picker-popper').should('exist');
+    cy.get(':nth-child(3) > :nth-child(3) > .MuiButtonBase-root').click();
+    // TODO: Unable to click the hour and minutes.
   });
 });

@@ -133,7 +133,23 @@ export default function Form(props) {
           <FormCheckbox name="Priority" checkboxes={priorityCheckboxes} setCheckboxes={setPriorityCheckboxes} testid = {'priority'}/>
           <FormCheckbox name="Category" checkboxes={categoryCheckboxes} setCheckboxes={setCategoryCheckboxes} testid = {'category'}/>
         </div>
-        <Button type="submit" onClick={saveForm} ref={applyButtonRef} style={buttonStyle}>Apply</Button>
+        <Button
+          type="submit"
+          onClick={saveForm}
+          ref={applyButtonRef}
+          size={'small'}
+          sx={{
+            color: 'white',
+            borderRadius: 999,
+            backgroundColor: '#22c55e',
+            '&:hover': {
+              backgroundColor: '#16a34a',
+            },
+            width: '100px',
+            margin: '20px'
+          }}>
+          Apply
+        </Button>
         <br />
       </form>
     </div>

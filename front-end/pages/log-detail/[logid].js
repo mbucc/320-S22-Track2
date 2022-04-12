@@ -1,8 +1,7 @@
-import {List, ListItem, Typography} from '@mui/material';
+import {Button, Link, List, ListItem, Typography} from '@mui/material';
 import {Box} from '@mui/system';
 import {useRouter} from 'next/router';
 import {useState, useEffect} from 'react';
-import Header from '../../Components/LogEvent-Form/Header.js';
 
 
 /**
@@ -67,7 +66,20 @@ export default function LogDetail() {
 
   return (
     <>
-      <Header titleText = {`Log Detail`} homeText = 'Log Events' homeHref = '/LogEvent'/>
+      <Button
+        variant = 'text'
+        href = '/'
+        size = {'large'}
+        sx = {{
+          borderRadius: 999,
+          padding: '6px 14px',
+          color: '#000',
+          '&:hover': {
+            backgroundColor: '#00000008',
+          },
+        }}>
+        Back
+      </Button>
       <Typography variant = 'h3' style = {titleStyle}>Log Event ID: {logID}</Typography>
       {data === null ? (<Typography variant = 'p'> loading... </Typography>) :
             (<div>

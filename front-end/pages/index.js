@@ -3,6 +3,7 @@ import Dashboard from './dashboard/Dashboard';
 import Navbar from './dashboard/Navbar';
 import Grid from '@mui/material/Grid';
 import Login from './login/login';
+import LogEvent from './log-event/LogEvent';
 // import "./index.css"
 
 /**
@@ -62,7 +63,7 @@ export default function Home() {
             <Dashboard onBPClick={toggleBP} onLogEventsClick={toggleLogEvents} onClick={toggleLogEvents} /> :
             display == 1 ?
               <div>Business Process</div> :
-              <div>Log Events</div>
+              <LogEvent />
           }
         </Grid>
       </Grid>

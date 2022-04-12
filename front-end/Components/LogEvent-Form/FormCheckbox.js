@@ -45,7 +45,7 @@ export default function FormCheckbox(props) {
   };
 
   const checkAll = (event) => selectAll(true, event);
-  const unCheckAll = (event) => selectAll(false, event);
+  const uncheckAll = (event) => selectAll(false, event);
 
   // consterror = [];
 
@@ -75,8 +75,32 @@ export default function FormCheckbox(props) {
           <FormHelperText>Pick at least 1 from each column</FormHelperText>
         </FormControl>
         <div style = {checkAllStyle}>
-          <Button onClick={checkAll} data-testid={`checkbox-${props.testid}-checkAllButton`}>Check All</Button>
-          <Button onClick={unCheckAll} data-testid={`checkbox-${props.testid}-uncheckAllButton`}>Uncheck All</Button>
+          <Button
+            onClick={checkAll}
+            data-testid={`checkbox-${props.testid}-checkAllButton`}
+            sx={{
+              borderRadius: 999,
+              padding: '6px 14px',
+              color: '#000',
+              '&:hover': {
+                backgroundColor: '#00000008',
+              },
+            }}>
+            Check All
+          </Button>
+          <Button
+            onClick={uncheckAll}
+            data-testid={`checkbox-${props.testid}-uncheckAllButton`}
+            sx={{
+              borderRadius: 999,
+              padding: '6px 14px',
+              color: '#000',
+              '&:hover': {
+                backgroundColor: '#00000008',
+              },
+            }}>
+            Uncheck All
+          </Button>
         </div>
       </Container>
     </div>

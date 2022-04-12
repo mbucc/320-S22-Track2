@@ -29,7 +29,6 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 // @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
 // DbUnitTestExecutionListener.class })
 public class LogDetailsRepositoryTests {
-    // Todo: Investigate where context configuration is loaded from
     @Autowired
     private LogDetailRepository logRepo;
 

@@ -42,7 +42,7 @@ export default function Dashboard(props) {
                   </Typography>
                 </Grid>
                 <Grid item xs={6} align="right">
-                  <Dropdown timeframe={timeframe} setTimeframe={setTimeframe} refresh={refresh}/>
+                  <Dropdown timeframe={timeframe} setTimeframe={setTimeframe}/>
                 </Grid>
               </Grid>
             </Grid>

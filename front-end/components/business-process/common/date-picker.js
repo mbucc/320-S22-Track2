@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
+import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 
 import BPTextInput from './text-input';
 
@@ -13,8 +13,9 @@ import {dateOptions} from '../../../utils/business-process/date-options';
 import {DatePickerHelper} from './support/date-picker-helper';
 
 import {parseDate} from './support/date-picker-processor';
+import {BPDatePickerConflictResolver} from './support/date-picker-conflict-resolver';
 
-export const BPDatePicker = ({id = 'bp-datepicker', label, onChange, baseDate}) => {
+export const BPDatePicker = ({id = 'bp-datepicker', label, hint, error, onChange, baseDate}) => {
   // Date picker value.
   const [value, setValue] = useState(null);
 
@@ -24,6 +25,12 @@ export const BPDatePicker = ({id = 'bp-datepicker', label, onChange, baseDate}) 
   // Date picker open state.
   const [isOpen, setIsOpen] = useState(false);
 
+  // Date picker hint state.
+  const [hintState, setHintState] = useState(null);
+
+  // Date picker input field error state.
+  const [errorState, setErrorState] = useState(null);
+
   // Date picker anchor element.
   const boxRef = useRef(null);
 
@@ -31,12 +38,29 @@ export const BPDatePicker = ({id = 'bp-datepicker', label, onChange, baseDate}) 
     setIsOpen(false);
   };
 
+  // Update hint state when hint prop changes.
+  useEffect(() => {
+    if (hint) {
+      setHintState(hint);
+    }
+  }, [hint]);
+
+  // Update error state when error prop changes.
+  useEffect(() => {
+    if (error) {
+      setErrorState(error);
+    }
+  }, [error]);
+
   // Process the datepicker value into input value.
   useEffect(() => {
-    // TODO
     if (value) {
+      setHintState(null);
+      setErrorState(null);
       setInputValue(value.toLocaleString('en-US', dateOptions));
       if (onChange) {
+        // Call the onChange callback with Date object.
+        // It will always be called nevertheless it is inputted by typing or selecting.
         onChange(value);
       }
     }
@@ -47,9 +71,15 @@ export const BPDatePicker = ({id = 'bp-datepicker', label, onChange, baseDate}) 
       const parsedDate = parseDate(text, baseDate || new Date());
       setValue(parsedDate);
     } catch (e) {
-      console.error(e.toString());
-      // TODO: Set error state to the input field.
+      setErrorState(e.message); // Set error message to the error state.
     }
+  };
+
+  const isValidOnBlur = () => {
+    return (
+      inputValue.length > 0 &&
+      !inputValue.match(/^\d{1,2}\/\d{1,2}\/\d{4}, \d{1,2}:\d{2} (?:AM|PM)?$/)
+    );
   };
 
   return (
@@ -91,21 +121,36 @@ export const BPDatePicker = ({id = 'bp-datepicker', label, onChange, baseDate}) 
             boxRef={(ref) => {
               boxRef.current = ref;
             }}
+            hint={hintState}
+            error={errorState}
             placeholder={'mm/dd/yyyy hh:mm'}
             value={inputValue}
             onTextChange={(newValue) => {
+              setHintState(null);
+              setErrorState(null);
               setInputValue(newValue);
             }}
             onEnterPress={(e) => {
               handlePopoverClose();
+              setHintState(null);
               onInputFinish(e.target.value);
             }}
             onEscPress={() => {
               handlePopoverClose();
             }}
+            onBlur={() => {
+              if (isValidOnBlur()) {
+                setHintState('You are not finalizing it. Hit "Enter" after typing.');
+              }
+            }}
             onClick={() => setIsOpen(true)}
           />
-
+          <BPDatePickerConflictResolver
+            date={value}
+            onChange={(newValue) => {
+              setValue(newValue);
+            }}
+          />
           <Popper
             id={isOpen ? `${id}-popper` : undefined}
             open={isOpen}

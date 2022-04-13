@@ -13,7 +13,34 @@ const BPTreeFilterComponent = ({onChange}) => {
   const [eaiDomains, setEAIDomains] = useState([]);
   const [publishingBusinessDomains, setPublishingBusinessDomains] = useState([]);
 
+  const [startDateError, setStartDateError] = useState(null);
+  const [endDateError, setEndDateError] = useState(null);
+
+  // Track the common date picker error.
+  useEffect(() => {
+    if (startDate && startDate > new Date()) {
+      setStartDateError('Start date must be in the past.');
+    } else {
+      setStartDateError(null);
+    }
+  }, [startDate]);
+
+  useEffect(() => {
+    if (endDate) {
+      setEndDateError(null);
+    }
+  }, [endDate]);
+
   const onApplyClick = () => {
+    if (startDate && endDate && startDate > endDate) {
+      setEndDateError('End date must be later than start date.');
+      return;
+    }
+
+    if (startDate && startDate > new Date()) {
+      setStartDateError('Start date must be in the past.');
+    }
+
     onChange({
       startDate,
       endDate,
@@ -104,6 +131,7 @@ const BPTreeFilterComponent = ({onChange}) => {
           onChange={(newDate)=> {
             setStartDate(newDate);
           }}
+          error={startDateError}
         />
 
         <BPDatePicker
@@ -113,6 +141,7 @@ const BPTreeFilterComponent = ({onChange}) => {
             setEndDate(newDate);
           }}
           baseDate={startDate}
+          error={endDateError}
         />
 
         <BPDomainSelector

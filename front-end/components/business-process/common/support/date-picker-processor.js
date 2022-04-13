@@ -1,28 +1,100 @@
 // This function is a mix of the `addAction` and `minusAction` functions because we can pass a negative value in.
+
 const changeDateByAmount = (base, amount, flag) => {
+  const baseDate = new Date(base);
+
   switch (flag) {
     case 'h':
-      const newHour = parseInt(base.getHours()) + parseInt(amount);
-      base.setHours(newHour);
+      baseDate.setTime(baseDate.getTime() + (amount * 60 * 60 * 1000));
       break;
     case 'd':
-      const newDate = parseInt(base.getDate()) + parseInt(amount);
-      base.setDate(newDate);
+      const newDate = parseInt(baseDate.getDate()) + parseInt(amount);
+      baseDate.setDate(newDate);
       break;
     case 'm':
-      const newMinute = parseInt(base.getMinutes()) + parseInt(amount);
-      base.setMinutes(newMinute);
+      baseDate.setTime(baseDate.getTime() + (amount * 60 * 1000));
       break;
     case 'mo':
-      const newMonth = parseInt(base.getMonth()) + parseInt(amount);
-      base.setMonth(newMonth);
+      const newMonth = parseInt(baseDate.getMonth()) + parseInt(amount);
+      baseDate.setMonth(newMonth);
       break;
     case 'y':
-      const newYear = parseInt(base.getFullYear()) + parseInt(amount);
-      base.setFullYear(newYear);
+      const newYear = parseInt(baseDate.getFullYear()) + parseInt(amount);
+      baseDate.setFullYear(newYear);
       break;
   }
+
+  return baseDate;
 };
+
+// A function parse the month number to a string of the month name.
+const parseMonthName = (monthNumber) => {
+  return new Date(0, monthNumber - 1)
+      .toLocaleString('en-US', {month: 'long'});
+};
+
+// A function checking if the current area is in Daylight Saving Time area.
+const isDaylightSavingArea = () => {
+  const date = new Date();
+  const january = new Date(date.getFullYear(), 0, 1); // January 1st.
+  const july = new Date(date.getFullYear(), 6, 1); // July 1st.
+  return january.getTimezoneOffset() !== july.getTimezoneOffset(); // If the timezone offset is not the same, it is in DST area.
+};
+
+/**
+ * Check if the given time in under a potential conflict of the daylight saving time.
+ * @param {Date} date - The date to check.
+ * @return {boolean} - True if it is under the conflict of daylight saving time.
+ */
+export function isInDaylightSavingConflictTime(date) {
+  if (!isDaylightSavingArea()) { // If it is not in DST area, it will never be in a conflict time.
+    return false;
+  }
+
+  // Get the 12PM of the day before the given date.
+  const yesterdayNoon = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1, 12);
+
+  // Get the 12PM of the given date.
+  const todayNoon = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12);
+
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+
+  // If the 12PM of the day before the given date is before the 12PM of the given date, it is in the conflict time.
+  if (yesterdayNoon.getTimezoneOffset() < todayNoon.getTimezoneOffset()) {
+    if ((hour === 1 && minute >= 0 && minute <= 59)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Set the timezone of a date to the given timezone.
+ *
+ * @param {Date} date - The date to set the timezone.
+ * @param {number | null} offset - The offset of the timezone.
+ * @return {Date} - The date with the timezone set.
+ */
+export function setTimezoneByOffset(date, offset) {
+  if (!offset) {
+    return date;
+  }
+
+  const newDate = new Date(date);
+  newDate.setTime(date.getTime() - (date.getTimezoneOffset() - offset) * 60 * 1000);
+  return newDate;
+
+  // Below is the original code.
+  // I was considering the case that we may have a duplicated 2AM, so I wrote this solution.
+  // But after digging into the problem, I found that we do not have a duplicated 2AM.
+  // The overlapping area is from 1:00AM to 1:59AM.
+  // Just keep this here for a while in case of a future reference.
+
+  // const timezoneModifier = offset / -60 > 0 ? '+' : '-';
+  // const timezoneHour = Math.abs(offset / 60);
+  // return DateTime.fromJSDate(date).setZone(`UTC${timezoneModifier}${timezoneHour}`, {keepLocalTime: true}).toJSDate();
+}
 
 /**
  * This function takes the user input string and returns the parsed date in the format of DateTime object.
@@ -61,9 +133,9 @@ export function parseDate(userInput, baseDate) {
       const amount = currentModifier.replace(/\D/g, '');
       const flag = currentModifier.replace(/\W/g, '').replace(/\d/g, '').toLowerCase();
       if (prefix === '+') {
-        changeDateByAmount(updatedDate, amount, flag);
+        updatedDate = changeDateByAmount(updatedDate, amount, flag);
       } else {
-        changeDateByAmount(updatedDate, -amount, flag);
+        updatedDate = changeDateByAmount(updatedDate, -amount, flag);
       }
     } else if (
       /* If this is a now modifier. */
@@ -86,16 +158,16 @@ export function parseDate(userInput, baseDate) {
       const hour = timeArray[0];
       const minute = timeArray[1] || 0;
 
-      if ((hour > 12 && matches[1] === 'pm') || hour >= 24) {
-        throw new Error('Invalid hour.');
+      if (hour >= 24) {
+        throw new Error('Invalid hour. The hour must be between 0 and 23.');
       } else if (minute >= 60) {
-        throw new Error('Invalid minute.');
+        throw new Error('Invalid minute. The minute must be between 0 and 59.');
       }
 
       // If the user types `12am`, we need to set the hour to 0.
       const hourInt = hour === '12' ? 0 : parseInt(hour);
       const minuteInt = parseInt(minute);
-      const ampmInt = (matches[1] || 'am') === 'am' ? 0 : 12;
+      const ampmInt = (matches[1] || 'am') === 'am' ? 0 : (hourInt > 11 ? 0 : 12);
       updatedDate.setHours(hourInt + ampmInt);
       updatedDate.setMinutes(minuteInt);
     } else if (
@@ -115,11 +187,33 @@ export function parseDate(userInput, baseDate) {
       const day = parseInt(dateArray[1]) || 1;
       const year = parseInt(dateArray[2]) || updatedDate.getFullYear();
 
-      // TODO: Throw errors if the date is invalid.
+      // Throw errors if the date is invalid.
+      if (month > 12) {
+        throw new Error('Invalid month. The month must be between 1 and 12.');
+      } else if (month === 2) {
+        if ((0 === year % 4) && (0 !== year % 100) || (0 === year % 400)) {
+          // This is a leap year.
+          if (day > 29) {
+            throw new Error('Invalid day. February has only 29 days in a leap year.');
+          }
+        } else if (day > 28) {
+          throw new Error('Invalid day. February only has 28 days in a non-leap year.');
+        }
+      } else if (day > 30) {
+        if ([4, 6, 9, 11].includes(month)) {
+          throw new Error(`Invalid day. ${parseMonthName(month)} only has 30 days.`);
+        }
+        if (day > 31) {
+          throw new Error(`Invalid day. ${parseMonthName(month)} only has 31 days.`);
+        }
+      } else if (year < 0 || year > 9999) {
+        throw new Error('Invalid year.');
+      }
+
+      updatedDate.setFullYear(year);
 
       // -1 because the month starts from 0.
       updatedDate.setMonth(month - 1, day);
-      updatedDate.setFullYear(year);
     } else if (
       /* If this is a standalone `am` or `pm`. */
       ['am', 'pm'].includes(currentModifier.toLowerCase())
@@ -130,7 +224,8 @@ export function parseDate(userInput, baseDate) {
         updatedDate.setHours(hour + 12);
       }
     } else {
-      // TODO: Invalid format.
+      // Invalid format.
+      throw new Error('Invalid format.');
     }
   }
 

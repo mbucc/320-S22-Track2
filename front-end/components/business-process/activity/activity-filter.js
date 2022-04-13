@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {Button} from '@mui/material';
 import {BPDomainSelector} from '../common/domain-selector';
@@ -7,16 +7,18 @@ import {BusinessDomainSample} from '../../../utils/business-process/sample-data'
 
 const BPActivityFilterComponent = ({onChange}) => {
   const [selectedBusinessDomain, setSelectedBusinessDomain] = useState([]);
-  const [selectedSeverity, setSelectedSeverity] = useState([]);
+  const [selectedSeverity, setSelectedSeverity] = useState(['success', 'info', 'warning', 'error']);
 
-  useEffect(() => {
+  const [selectedSeverityError, setSelectedSeverityError] = useState(null);
+
+  const onApplyButtonClick = () => {
     if (onChange) {
       onChange({
         businessDomain: selectedBusinessDomain,
         severity: selectedSeverity,
       });
     }
-  }, [selectedBusinessDomain, selectedSeverity]);
+  };
 
   return (
     <div
@@ -61,6 +63,7 @@ const BPActivityFilterComponent = ({onChange}) => {
               backgroundColor: '#16a34a',
             },
           }}
+          onClick={onApplyButtonClick}
         >
           Apply
         </Button>
@@ -85,13 +88,23 @@ const BPActivityFilterComponent = ({onChange}) => {
           label={'Business Domain'}
           searchPlaceholder={'Search a business domain'}
           list={BusinessDomainSample}
-          onChange={(selected) => setSelectedBusinessDomain(selected)}
+          onChange={(selected) => {
+            setSelectedBusinessDomain(selected);
+          }}
         />
 
         <BPSeveritySelector
           id={'bp-activity-filter-severity-selector'}
           label={'Severity'}
-          onChange={(selected) => setSelectedSeverity(selected)}
+          onChange={(selected) => {
+            setSelectedSeverity(selected);
+            if (selected.length === 0) {
+              setSelectedSeverityError('Please select at least one severity');
+            } else {
+              setSelectedSeverityError(null);
+            }
+          }}
+          error={selectedSeverityError}
         />
       </div>
     </div>

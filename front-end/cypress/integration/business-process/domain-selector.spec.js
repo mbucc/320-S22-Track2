@@ -22,12 +22,15 @@ before(() => {
 
     it('Selecting an entry in the list displays it in the field.', () => {
         cy.get('#bp-tree-filter-eai-domain-selector').click();
-        cy.get('#bp-tree-filter-eai-domain-selector-popper-list > :nth-child(2)').invoke('val').then(val => {
-            entry = val;
+        cy.get('#bp-tree-filter-eai-domain-selector-popper-list > :nth-child(2)').invoke('text').then(firstEntry => {
+            cy.get('#bp-tree-filter-eai-domain-selector-popper-list > :nth-child(2)').click();
+            cy.get('body').click(0, 0);
+            cy.get('#bp-tree-filter-eai-domain-selector').invoke('val').should((selectorVal) => {
+                expect(entry).to.eq(selectorVal);
+            });
+            
         })
-        cy.get('#bp-tree-filter-eai-domain-selector-popper-list > :nth-child(2)').click();
-        cy.get('body').click(0, 0);
-        cy.get('#bp-tree-filter-eai-domain-selector').should('have.value', entry);
+        
     })
 
     it('If something is typed into the search bar, all entries will contain the searched keyword.', () => {

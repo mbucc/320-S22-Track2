@@ -21,7 +21,7 @@ export default function Dashboard(props) {
   }
 
   const getData = () => {
-    return fakeData.filter(e => e.time <= timeframe)
+    return fakeData.filter(e => e.time <= timeframe).sort((a, b) => b.time - a.time)
   }
 
   const setTimeframe = (tf) => {

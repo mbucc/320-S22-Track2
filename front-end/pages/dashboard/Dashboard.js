@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Timelines from './Timelines';
+import Counts from './Counts'
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -12,7 +13,7 @@ import fakeData from './fake_data.json';
 * @return {JSX.Element}
 */
 export default function Dashboard(props) {
-  const [timeframe, setTimeframe] = useState(60); // (in hours)
+  const [timeframe, setTimeframe] = useState(60); // (in minutes)
   const [data, setData] = useState(fakeData.filter(e => e.time <= timeframe).sort((a, b) => b.time - a.time));
 
   const refresh = () => {
@@ -36,50 +37,12 @@ export default function Dashboard(props) {
                   </Typography>
                 </Grid>
                 <Grid item xs={6} align="right">
-                  <Dropdown />
+                  <Dropdown timeframe={timeframe} setTimeframe={setTimeframe} refresh={refresh}/>
                 </Grid>
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              {/* replace Grid block with Counts component */}
-              <Grid container direction='row' spacing={2}>
-                <Grid item xs={3}>
-                  <Paper elevation={3}>
-                    <Box px={2} pt={4}>
-                      <Typography variant="h5" gutterBottom component="div">
-                        Count
-                      </Typography>
-                    </Box>
-                  </Paper>
-                </Grid>
-                <Grid item xs={3}>
-                  <Paper elevation={3}>
-                    <Box px={2} pt={4}>
-                      <Typography variant="h5" gutterBottom component="div">
-                        Count
-                      </Typography>
-                    </Box>
-                  </Paper>
-                </Grid>
-                <Grid item xs={3}>
-                  <Paper elevation={3}>
-                    <Box px={2} pt={4}>
-                      <Typography variant="h5" gutterBottom component="div">
-                        Count
-                      </Typography>
-                    </Box>
-                  </Paper>
-                </Grid >
-                <Grid item xs={3}>
-                  <Paper elevation={3}>
-                    <Box px={2} pt={4}>
-                      <Typography variant="h5" gutterBottom component="div">
-                        Count
-                      </Typography>
-                    </Box>
-                  </Paper>
-                </Grid>
-              </Grid>
+              <Counts setFilters={props.onLogEventsClick} data={data} timeframe={"1 hour"}/>
             </Grid>
             <Grid item xs={12}>
               <Grid container item direction="row" spacing={5}>

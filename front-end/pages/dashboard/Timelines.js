@@ -10,7 +10,7 @@ import Timeline from './Timeline';
 * @return {JSX.Element}
 */
 export default function Timelines(props) {
-  console.log(props.data.length)
+  console.log("updating timeline, timefram eis ", props.timeframe)
   // const data = [
   //   {time: '13:00', logs: 20},
   //   {time: '13:06', logs: 10},

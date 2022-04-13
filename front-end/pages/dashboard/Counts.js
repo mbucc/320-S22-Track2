@@ -52,7 +52,7 @@ export default function Counts(props) {
                       </Typography>
                     </Box>
                   </Paper> */}
-                <Count icon={<ErrorOutlineRoundedIcon sx={{ color: red[500] }}/>} countTitle={"High Priority Logs"} total={sumHighPriority()} timeframe={props.timeframe} onClick={props.setFilters}/>
+                <Count icon={<ErrorOutlineRoundedIcon sx={{ color: red[500] }}/>} countTitle={"High Priority Logs"} total={sumHighPriority()} onClick={props.setFilters}/>
             </Grid>
             <Grid item xs={3}>
                 {/* <Paper elevation={3}>
@@ -62,7 +62,7 @@ export default function Counts(props) {
                         </Typography>
                     </Box>
                 </Paper> */}
-                <Count countTitle={"Medium Priority Logs"} total={sumMediumPriority()} timeframe={props.timeframe} onClick={props.setFilters}/>
+                <Count countTitle={"Medium Priority Logs"} total={sumMediumPriority()} onClick={props.setFilters}/>
             </Grid>
             <Grid item xs={3}>
                 {/* <Paper elevation={3}>
@@ -72,7 +72,7 @@ export default function Counts(props) {
                         </Typography>
                     </Box>
                 </Paper> */}
-                <Count countTitle={"Errors"} total={sumErrors()} timeframe={props.timeframe} onClick={props.setFilters}/>
+                <Count countTitle={"Errors"} total={sumErrors()} onClick={props.setFilters}/>
             </Grid >
             <Grid item xs={3}>
                 {/* <Paper elevation={3}>
@@ -82,7 +82,7 @@ export default function Counts(props) {
                         </Typography>
                     </Box>
                 </Paper> */}
-                <Count countTitle={"Warnings"} total={sumWarnings()} timeframe={props.timeframe} onClick={props.setFilters}/>
+                <Count countTitle={"Warnings"} total={sumWarnings()} onClick={props.setFilters}/>
             </Grid>
         </Grid>
     )

@@ -13,23 +13,24 @@ import fakeData from './fake_data.json';
 * @return {JSX.Element}
 */
 export default function Dashboard(props) {
-  const timeframe = 60 // (in minutes)
-  const [data, setData] = useState(fakeData.filter(e => e.time <= timeframe).sort((a, b) => b.time - a.time));
-
-  const refresh = () => {
-    setData(getData())
+  const getData = (tf) => {
+    return fakeData.filter(e => e.time <= tf).sort((a, b) => b.time - a.time)
   }
 
-  const getData = () => {
-    return fakeData.filter(e => e.time <= timeframe).sort((a, b) => b.time - a.time)
+  // const [timeframe, setTimeframe] = useState(60) // (in minutes)
+  const [state, setState] = useState({
+    timeframe: 60,
+    data: getData(60)
+  })
+
+  const changeTimeframe = (tf) => {
+    setState({
+      timeframe: tf,
+      data: getData(tf)
+    })
   }
 
-  const setTimeframe = (tf) => {
-    timeframe = tf
-    refresh()
-  }
-
-  if (data) {
+  if (state.data) {
     return (
       <div className='dashboard'>
         <Box px={6} py={3} sx={{ height: '100%', width: '100%' }}>
@@ -42,20 +43,20 @@ export default function Dashboard(props) {
                   </Typography>
                 </Grid>
                 <Grid item xs={6} align="right">
-                  <Dropdown timeframe={timeframe} setTimeframe={setTimeframe}/>
+                  <Dropdown timeframe={state.timeframe} setTimeframe={changeTimeframe}/>
                 </Grid>
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Counts setFilters={props.onLogEventsClick} data={data} timeframe={"1 hour"}/>
+              <Counts setFilters={props.onLogEventsClick} data={state.data}/>
             </Grid>
             <Grid item xs={12}>
               <Grid container item direction="row" spacing={5}>
                 <Grid item xs={7}>
-                  <DonutCharts data={data}/>
+                  <DonutCharts data={state.data}/>
                 </Grid>
                 <Grid item xs={5}>
-                  <Timelines setFilters={props.onLogEventsClick} data={data} timeframe={timeframe} />
+                  <Timelines setFilters={props.onLogEventsClick} data={state.data} timeframe={state.timeframe} />
                 </Grid>
               </Grid>
             </Grid>

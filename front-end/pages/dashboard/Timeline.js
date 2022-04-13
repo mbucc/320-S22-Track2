@@ -20,7 +20,6 @@ export default function Timeline(props) {
   const [tooltipTarget, changeTooltip] = useState(null);
 
   const TooltipContent = (target) => {
-    console.log(target);
     return (
       <div>
         <Tooltip.Content
@@ -48,7 +47,7 @@ export default function Timeline(props) {
   };
 
   const getTotal = () => {
-    return props.data.reduce((acc, e) => {return acc + e.logs}, 0)
+    return props.data.reduce((acc, e) => {return acc + e.logs}, 0) - props.data[0].logs
   }
 
   return (
@@ -70,7 +69,7 @@ export default function Timeline(props) {
         <Grid item>
           {/* Need to change linking to pass filters */}
           <Button variant="text">
-            <Link href='/log-events/' passHref>
+            <Link href='/LogEvent/' passHref>
               <a>
                 See More
               </a>

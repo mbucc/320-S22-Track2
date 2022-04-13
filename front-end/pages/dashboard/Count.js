@@ -42,14 +42,14 @@ export default function Count(props) {
                     {props.total}
                 </Typography>
                 <Grid container direction='row'>
-                    <Grid item xs={6}>
+                    {/* <Grid item xs={6}>
                         <Typography>
                             in the last {props.timeframe}
                         </Typography>
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={6}>
                         <Button variant="text">
-                            <Link href='/log-events/' passHref>
+                            <Link href='//LogEvent//' passHref>
                                 <a>
                                     See More
                                 </a>

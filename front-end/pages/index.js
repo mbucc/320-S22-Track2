@@ -4,6 +4,7 @@ import Navbar from './dashboard/Navbar';
 import Grid from '@mui/material/Grid';
 import Login from './login/login';
 import LogEvent from './log-event/LogEvent';
+import BPIndex from './business-process';
 // import "./index.css"
 
 /**
@@ -62,7 +63,7 @@ export default function Home() {
           {display == 0 ?
             <Dashboard onBPClick={toggleBP} onLogEventsClick={toggleLogEvents} onClick={toggleLogEvents} /> :
             display == 1 ?
-              <div>Business Process</div> :
+              <BPIndex /> :
               <LogEvent />
           }
         </Grid>
@@ -71,7 +72,6 @@ export default function Home() {
   } else {
     return (
       <div className='Login_page'>
-
         <Login setLogin = {childToParent}/>
       </div>
 

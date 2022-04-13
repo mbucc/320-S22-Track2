@@ -2,7 +2,7 @@
 
 describe('gives input to checkboxes', ()=>{
   before(() =>{
-    cy.visit('http://localhost:3000/LogEvent');
+    cy.visit('http://localhost:3000/log-event/LogEvent');
   });
 
   it('gives input to severity checkboxes', ()=>{

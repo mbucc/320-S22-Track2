@@ -157,7 +157,6 @@ export default function LETable(props) {
   const dateComparison = (comp)=>{
     return (a, b) =>{
       if (comp === 'lt') {
-        console.log(moment(a['Created Date']).format('MMDDYYYYHHmmss') - moment(b['Created Date']).format('MMDDYYYYHHmmss'));
         return moment(a['Created Date']).format('MMDDYYYYHHmmss') - moment(b['Created Date']).format('MMDDYYYYHHmmss');
       }
       if (comp === 'gt') {

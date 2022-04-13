@@ -26,8 +26,8 @@ public class LogEventFilterSpecification implements Specification<LogEvent> {
         // TODO Auto-generated method stub
         //Begin with range of dates possible
         Predicate returnVal = cb.between(root.<Timestamp>get("creation_time"),
-                                         filter.getEndTime(),
-                                         filter.getStartTime());
+                                         filter.getStartTime(),
+                                         filter.getEndTime());
 
         if(filter.getBusinessDomain() != null) {   
             Predicate busPredicate = null;

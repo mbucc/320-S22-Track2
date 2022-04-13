@@ -100,12 +100,12 @@ public class MainController {
 
     @GetMapping(path="/businessProcessGrid")
     public @ResponseBody List<LogEvent> getBusinessProcessGrid(
-    @RequestParam String eai_transaction_id, 
+    @RequestParam String eaiTransactionId, 
     @RequestParam(required = false) String[] severities, 
     @RequestParam(required = false) String[] businessDomain)
     {
         BusinessGridFilter businessFilter = new BusinessGridFilter();
-        businessFilter.setEai_transaction_id(eai_transaction_id);
+        businessFilter.setEai_transaction_id(eaiTransactionId);
         businessFilter.setBusinessDomainList(businessDomain);
         businessFilter.setSeverities(severities);
 
@@ -124,15 +124,29 @@ public class MainController {
         Double intervalLength = timeBack / intervals;
         cal.setTime(startTime);       
         while(cal.getTime().before(currentTime)) {
+            System.out.println(intervalLength);
             DashBoardLineGraphFilter filter = new DashBoardLineGraphFilter(severity,new Timestamp(cal.getTimeInMillis()),currentTime);
+            System.out.println(cal.getTimeInMillis());
             cal.add(Calendar.MILLISECOND, (int) Math.round(intervalLength*60*1000));
+            System.out.println(cal.getTimeInMillis());
             filter.setEndTime(new Timestamp(cal.getTimeInMillis()));
             RecentEventsSpecification test2 = new RecentEventsSpecification(filter);          
             testObj.put(filter.getStartTime(), logEventRepo.count(test2));
+            break;
         }
         return testObj;
     }
+    @GetMapping(path="/businessProcessPieGraph")
+    public @ResponseBody Map<String, Integer> getPieGraph(@RequestParam int timeBack) {
+        Map<String, Integer> returnMap = new HashMap<String,Integer>();
+        LogEventsSearchCriteria filt = new LogEventsSearchCriteria();
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(timeBack));
+        filt.setStartTime(startTime);
+        filt.setEndTime(currentTime);
 
+        return returnMap;
+    }
     @GetMapping(path="/businessDomains")
     public @ResponseBody List<String> getBusinessDomains() {
         return logEventRepo.findDistinctBusinessDomains();

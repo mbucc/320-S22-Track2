@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "cypress": "cypress open",
     "start": "next start",
     "lint": "next lint"
   },
@@ -32,7 +33,7 @@
     "react-localization": "^1.0.18"
   },
   "devDependencies": {
-    "cypress": "^9.5.2",
+    "cypress": "^9.5.4",
     "eslint": "^8.10.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-next": "12.1.0"

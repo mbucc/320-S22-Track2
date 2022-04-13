@@ -58,11 +58,11 @@ public class LogEventRepositoryTests {
         public void testSearchByBusinessDomain() throws Exception {
                 this.mockMvc.perform(get("/clog/logEvents")
                                 .param("businessDomain", "CRM")
-                                .param("startTime", "2020-12-12 01:24:22")
+                                .param("startTime", "2020-12-12 01:24:20")
                                 .param("endTime", "2020-12-12 01:24:25"))
                                 .andDo(print())
                                 .andExpect(status().isOk())
-                                .andExpect(content().contentType("application/json"))
+                                .andExpect(content().contentType("application/json"));
         }
 
         @Test

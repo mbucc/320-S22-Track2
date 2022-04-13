@@ -55,20 +55,20 @@ public class LogEventRepositoryTests {
         // Severity and Priorities are not drop-downs. Start and end-time, returns
         // Nothing.
         @Test
-        @DatabaseSetup("sample_data.xml")
         public void testSearchByBusinessDomain() throws Exception {
-                this.mockMvc.perform(get("/logEvents").param("businessDomain", "CRM"))
+                this.mockMvc.perform(get("/clog/logEvents")
+                                .param("businessDomain", "CRM")
+                                .param("startTime", "2020-12-12 01:24:20")
+                                .param("endTime", "2020-12-12 01:24:25"))
                                 .andDo(print())
                                 .andExpect(status().isOk())
-                                .andExpect(content().contentType("application/json"))
-                                .andExpect(jsonPath("$", hasSize(1)));
+                                .andExpect(content().contentType("application/json"));
         }
 
         @Test
-        @DatabaseSetup("sample_data.xml")
         public void testSampleQuerysuccess() throws Exception {
                 this.mockMvc.perform(
-                                get("/logEvents")
+                                get("/clog/logEvents")
                                                 .param("businessDomain", "CRM")
                                                 .param("eaiDomain", "EAI_DOMAIN_1")
                                                 .param("startTime", "2020-12-12 01:24:23")
@@ -84,11 +84,11 @@ public class LogEventRepositoryTests {
         }
 
         @Test
-        @DatabaseSetup("sample_data.xml")
         public void testGetById() throws Exception {
                 this.mockMvc.perform(
-                                get("/logDetail")
+                                get("/clog/logDetail")
                                                 .param("id", "crm_server_000001"))
+                                .andDo(print())
                                 .andExpect(status().isOk());
         }
 }

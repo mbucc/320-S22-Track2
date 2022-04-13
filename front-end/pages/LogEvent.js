@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Form from '../Components/LogEvent-Form/Form.js';
 import LETable from '../Components/LogEvent-Form/LETable.js';
-import Header from '../Components/LogEvent-Form/Header.js';
+import Navbar from './dashboard/Navbar';
 import {Container} from '@mui/material';
 
 /**
@@ -75,7 +75,7 @@ export default function LogEvent() {
 
   return (
     <div>
-      <Header />
+      <Navbar />
       <Container style = {formContainerStyle}>
         <Form mockData={mockData} setData={setData}/>
       </Container>

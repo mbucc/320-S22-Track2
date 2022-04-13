@@ -59,7 +59,7 @@ export default function Home() {
         </Grid>
         <Grid item height={'100%'}>
           {display == 0 ?
-            <Dashboard onBPClick={toggleBP} onLogEventsClick={toggleLogEvents} onClick={toggleLogEvents} /> :
+            <Dashboard onBPClick={toggleBP} onLogEventsClick={toggleLogEvents}/> :
             display == 1 ?
               <div>Business Process</div> :
               <div>Log Events</div>

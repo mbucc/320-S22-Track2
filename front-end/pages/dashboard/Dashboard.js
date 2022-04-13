@@ -13,7 +13,7 @@ import fakeData from './fake_data.json';
 * @return {JSX.Element}
 */
 export default function Dashboard(props) {
-  const [timeframe, setTimeframe] = useState(60); // (in minutes)
+  const timeframe = 60 // (in minutes)
   const [data, setData] = useState(fakeData.filter(e => e.time <= timeframe).sort((a, b) => b.time - a.time));
 
   const refresh = () => {
@@ -22,6 +22,11 @@ export default function Dashboard(props) {
 
   const getData = () => {
     return fakeData.filter(e => e.time <= timeframe)
+  }
+
+  const setTimeframe = (tf) => {
+    timeframe = tf
+    refresh()
   }
 
   if (data) {

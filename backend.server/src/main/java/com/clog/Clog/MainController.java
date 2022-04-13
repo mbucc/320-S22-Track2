@@ -52,6 +52,7 @@ public class MainController {
     public @ResponseBody Optional<LogDetail> getLogDetails(@RequestParam String id) {
         return logRepo.findById(id);
     }
+
     @GetMapping(path="/logEvents")
     public @ResponseBody List<LogEvent> getLogEvents(@RequestParam(required = false) String[] businessDomain, @RequestParam(required = false) String[] eaiDomain, @RequestParam String startTime,
     @RequestParam String endTime,@RequestParam(required = false) String[] businessSubDomain,@RequestParam(required = false) String[] process, @RequestParam(required = false) String[] priorities, @RequestParam(required = false) String[] categories,
@@ -70,6 +71,7 @@ public class MainController {
         LogEventFilterSpecification test = new LogEventFilterSpecification(filt);
         return logEventRepo.findAll(test);
     }
+
     @GetMapping(path="/businessProcessTree")
     public @ResponseBody Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getBusinessTree(
     @RequestParam String startTime, 
@@ -95,6 +97,7 @@ public class MainController {
         }
         return returnMap.getMap();
     }
+
     @GetMapping(path="/businessProcessGrid")
     public @ResponseBody List<LogEvent> getBusinessProcessGrid(
     @RequestParam String eai_transaction_id, 
@@ -102,7 +105,6 @@ public class MainController {
     @RequestParam(required = false) String[] businessDomain)
     {
         BusinessGridFilter businessFilter = new BusinessGridFilter();
-
         businessFilter.setEai_transaction_id(eai_transaction_id);
         businessFilter.setBusinessDomainList(businessDomain);
         businessFilter.setSeverities(severities);
@@ -112,52 +114,53 @@ public class MainController {
         return logEventRepo.findAll(businessGridSpec);
 
     }
-    //Horribly innefficient, not sure how we are going to fix. But this is essentially irrelevant
-    //Fixed ish, but need to update equals on recent event specifications. Then also do cache put and
-    //Cache evicts, oh and auto update every 15 minutes
+
     @GetMapping(path="/countByType")
-    public @ResponseBody Map<Timestamp,Long> test(@RequestParam String severity, @RequestParam int intervals, @RequestParam int timeBack) {
+    public @ResponseBody Map<Timestamp,Long> test(@RequestParam String severity, @RequestParam Double intervals, @RequestParam int timeBack) {
         SortedMap<Timestamp,Long> testObj = new TreeMap<Timestamp,Long>();
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(timeBack));
         Calendar cal = Calendar.getInstance();
-        int intervalLength = timeBack / intervals;
-        cal.setTime(startTime);
-        
+        Double intervalLength = timeBack / intervals;
+        cal.setTime(startTime);       
         while(cal.getTime().before(currentTime)) {
             DashBoardLineGraphFilter filter = new DashBoardLineGraphFilter(severity,new Timestamp(cal.getTimeInMillis()),currentTime);
-            cal.add(Calendar.MINUTE, intervalLength);
+            cal.add(Calendar.MILLISECOND, (int) Math.round(intervalLength*60*1000));
             filter.setEndTime(new Timestamp(cal.getTimeInMillis()));
             RecentEventsSpecification test2 = new RecentEventsSpecification(filter);          
             testObj.put(filter.getStartTime(), logEventRepo.count(test2));
         }
         return testObj;
-
     }
+
     @GetMapping(path="/businessDomains")
     public @ResponseBody List<String> getBusinessDomains() {
         return logEventRepo.findDistinctBusinessDomains();
     }
+
     @GetMapping(path="/businessSubDomains")
     public @ResponseBody List<String> getBusinessSubDomains() {
         return logEventRepo.findDistinctBusinessSubDomains();
     }
+
     @GetMapping(path="/applications")
     public @ResponseBody List<String> getApplications() {
         return logEventRepo.findDistinctApplications();
     }
+
     @GetMapping(path="/services")
     public @ResponseBody List<String> getServices() {
         return logEventRepo.findDistinctServices();
     }
+
     @GetMapping(path="/publishingBusinessDomains")
     public @ResponseBody List<String> getPublishingBusinessDomains() {
         return busTree.findDistinctPublishingBusinessDomains();
     }
+
     @GetMapping(path="/eaiDomains")
     public @ResponseBody List<String> getEAIDomains(){
         return logEventRepo.findDistinctEAI_Domains();
     }
     
-
 }

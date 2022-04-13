@@ -10,9 +10,7 @@ import Timeline from './Timeline';
 * @return {JSX.Element}
 */
 export default function Timelines(props) {
-  const [data, setData] = useState(null)
-
-  console.log(moment().subtract(60, 'minute').format('HH:mm'))
+  console.log(props.data.length)
   // const data = [
   //   {time: '13:00', logs: 20},
   //   {time: '13:06', logs: 10},
@@ -55,7 +53,8 @@ export default function Timelines(props) {
       }
     }
 
-    return points.map(point => ({ time: moment().subtract(point.time, 'minute').format('HH:mm'), logs: point.logs }))
+    points = points.map(point => ({ time: moment().subtract(point.time, 'minute').format('HH:mm'), logs: point.logs }))
+    return [{time: moment().subtract(props.timeframe, 'minute').format('HH:mm'), logs: points[0].logs}].concat(points)
   };
 
   /*

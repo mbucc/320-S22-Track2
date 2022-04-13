@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {dateOptions} from '../../../utils/business-process/date-options';
 before(() => {
   cy.visit('/business-process');
@@ -104,9 +105,13 @@ describe('Other tests in DatePicker component', () => {
     cy.get('#bp-tree-filter-start-date-picker-popper').should('not.exist');
   });
   it('Date should be changed per actions of the popper .', () => {
+    const test_date = new Date(2021, 9, 20, 15, 15);
     cy.get('#bp-tree-filter-start-date-picker-field').clear().click();
     cy.get('#bp-tree-filter-start-date-picker-popper').should('exist');
-    cy.get(':nth-child(3) > :nth-child(3) > .MuiButtonBase-root').click();
-    // TODO: Unable to click the hour and minutes.
+    cy.get('[data-testid="ArrowDropDownIcon"]').click();
+    cy.get(':nth-child(122) > .PrivatePickersYear-yearButton').click();
+    cy.get(':nth-child(4) > :nth-child(4) > .MuiButtonBase-root').click();
+    cy.get('.css-1umqo6f').click(220, 110).click(220, 110);
+    cy.get('#bp-tree-filter-start-date-picker-field').should('have.value', test_date.toLocaleDateString('en-US', dateOptions));
   });
 });

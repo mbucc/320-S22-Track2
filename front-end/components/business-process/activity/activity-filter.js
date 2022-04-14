@@ -6,6 +6,20 @@ import {BPSeveritySelector} from '../common/severity-selector';
 import {BusinessDomainSample} from '../../../utils/business-process/sample-data';
 
 const BPActivityFilterComponent = ({onChange}) => {
+  const [selectedBusinessDomain, setSelectedBusinessDomain] = useState([]);
+  const [selectedSeverity, setSelectedSeverity] = useState(['success', 'info', 'warning', 'error']);
+
+  const [selectedSeverityError, setSelectedSeverityError] = useState(null);
+
+  const onApplyButtonClick = () => {
+    if (onChange) {
+      onChange({
+        businessDomain: selectedBusinessDomain,
+        severity: selectedSeverity,
+      });
+    }
+  };
+
   return (
     <div
       style={{
@@ -38,6 +52,7 @@ const BPActivityFilterComponent = ({onChange}) => {
           Activities Filter
         </p>
         <Button
+          id={'bp-activity-filter-apply-button'}
           size={'small'}
           sx={{
             color: 'white',
@@ -48,6 +63,7 @@ const BPActivityFilterComponent = ({onChange}) => {
               backgroundColor: '#16a34a',
             },
           }}
+          onClick={onApplyButtonClick}
         >
           Apply
         </Button>
@@ -68,13 +84,27 @@ const BPActivityFilterComponent = ({onChange}) => {
         }}
       >
         <BPDomainSelector
+          id={'bp-activity-filter-business-domain-selector'}
           label={'Business Domain'}
           searchPlaceholder={'Search a business domain'}
           list={BusinessDomainSample}
+          onChange={(selected) => {
+            setSelectedBusinessDomain(selected);
+          }}
         />
 
         <BPSeveritySelector
+          id={'bp-activity-filter-severity-selector'}
           label={'Severity'}
+          onChange={(selected) => {
+            setSelectedSeverity(selected);
+            if (selected.length === 0) {
+              setSelectedSeverityError('Please select at least one severity');
+            } else {
+              setSelectedSeverityError(null);
+            }
+          }}
+          error={selectedSeverityError}
         />
       </div>
     </div>

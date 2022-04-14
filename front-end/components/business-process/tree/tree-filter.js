@@ -1,14 +1,66 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {Button} from '@mui/material';
-import BPTextInput from '../common/text-input';
 import {BPDatePicker} from '../common/date-picker';
 import {BPDomainSelector} from '../common/domain-selector';
-import {EAIDomainSample, PublishingBusinessDomainSample} from '../../../utils/business-process/sample-data';
+
+import {useLPSession} from '@taci-tech/launchpad-js';
+import {BPLaunchpad} from '../../../utils/business-process/launchpad/core';
 
 const BPTreeFilterComponent = ({onChange}) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [eaiDomains, setEAIDomains] = useState([]);
+  const [publishingBusinessDomains, setPublishingBusinessDomains] = useState([]);
+
+  const [startDateError, setStartDateError] = useState(null);
+  const [endDateError, setEndDateError] = useState(null);
+
+  // Track the common date picker error.
+  useEffect(() => {
+    if (startDate && startDate > new Date()) {
+      setStartDateError('Start date must be in the past.');
+    } else {
+      setStartDateError(null);
+    }
+  }, [startDate]);
+
+  useEffect(() => {
+    if (endDate) {
+      setEndDateError(null);
+    }
+  }, [endDate]);
+
+  const onApplyClick = () => {
+    if (startDate && endDate && startDate > endDate) {
+      setEndDateError('End date must be later than start date.');
+      return;
+    }
+
+    if (startDate && startDate > new Date()) {
+      setStartDateError('Start date must be in the past.');
+    }
+
+    onChange({
+      startDate,
+      endDate,
+      eaiDomains,
+      publishingBusinessDomains,
+    });
+  };
+
+  const {
+    data: eaiDomainList,
+  } = useLPSession(BPLaunchpad.tree.getEAIDomainList());
+
+  const {
+    data: publishingBusinessDomainList,
+    setData: setSelectedEAIDomains,
+  } = useLPSession(BPLaunchpad.tree.getPublishingBusinessDomainList());
+
+  useEffect(() => {
+    setSelectedEAIDomains(eaiDomains);
+  }, [eaiDomains]);
 
   return (
     <div
@@ -42,6 +94,7 @@ const BPTreeFilterComponent = ({onChange}) => {
           Business Process
         </p>
         <Button
+          id={'bp-tree-filter-apply-button'}
           size={'small'}
           sx={{
             color: 'white',
@@ -52,6 +105,7 @@ const BPTreeFilterComponent = ({onChange}) => {
               backgroundColor: '#16a34a',
             },
           }}
+          onClick={onApplyClick}
         >
           Apply
         </Button>
@@ -72,23 +126,38 @@ const BPTreeFilterComponent = ({onChange}) => {
         }}
       >
         <BPDatePicker
+          id={'bp-tree-filter-start-date-picker'}
           label={'Start Date'}
+          onChange={(newDate)=> {
+            setStartDate(newDate);
+          }}
+          error={startDateError}
         />
 
         <BPDatePicker
+          id={'bp-tree-filter-end-date-picker'}
           label={'End Date'}
+          onChange={(newDate)=> {
+            setEndDate(newDate);
+          }}
+          baseDate={startDate}
+          error={endDateError}
         />
 
         <BPDomainSelector
+          id={'bp-tree-filter-eai-domain-selector'}
           label={'EAI Domain'}
           searchPlaceholder={'Search an EAI domain'}
-          list={EAIDomainSample}
+          list={eaiDomainList}
+          onChange={(value) => setEAIDomains(value)}
         />
 
         <BPDomainSelector
+          id={'bp-tree-filter-publishing-business-domain-selector'}
           label={'Publishing Business Domain'}
           searchPlaceholder={'Search a publishing domain'}
-          list={PublishingBusinessDomainSample}
+          list={publishingBusinessDomainList}
+          onChange={(value) => setPublishingBusinessDomains(value)}
         />
       </div>
     </div>

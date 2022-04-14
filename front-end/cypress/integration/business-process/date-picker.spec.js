@@ -111,7 +111,7 @@ describe('Other tests in DatePicker component', () => {
     cy.get('[data-testid="ArrowDropDownIcon"]').click();
     cy.get(':nth-child(122) > .PrivatePickersYear-yearButton').click();
     cy.get(':nth-child(4) > :nth-child(4) > .MuiButtonBase-root').click();
-    cy.get('.css-1umqo6f').click(220, 110).click(220, 110);
+    cy.get('.css-1umqo6f').click(220, 110, {force: true}).click(220, 110, {force: true});
     cy.get('#bp-tree-filter-start-date-picker-field').should('have.value', test_date.toLocaleDateString('en-US', dateOptions));
   });
 });

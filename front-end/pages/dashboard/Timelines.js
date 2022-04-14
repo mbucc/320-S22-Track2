@@ -3,14 +3,13 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import moment from 'moment';
 import Timeline from './Timeline';
+import moment from 'moment';
 /**
  * @param {Object} props
 * @return {JSX.Element}
 */
 export default function Timelines(props) {
-  console.log("updating timeline, timefram eis ", props.timeframe)
   // const data = [
   //   {time: '13:00', logs: 20},
   //   {time: '13:06', logs: 10},
@@ -42,20 +41,24 @@ export default function Timelines(props) {
   */
   const getPoints = (criteria) => {
     let labels = getPointLabels()
-    let points = labels.map((e) => ({ time: e, logs: 0 })).slice(1)
-    let pointIndex = 1
+    let points = labels.map((e) => ({ time: e, logs: 0 }))
+    let pointIndex = 0
     for (let i = 0; i < props.data.length; i++) {
       if (props.data[i].time < labels[pointIndex]) {
         pointIndex += 1
       }
       if (!criteria || props.data[i].type === criteria) {
-        points[pointIndex - 1].logs += 1
+        points[pointIndex].logs += 1
       }
     }
 
-    points = points.map(point => ({ time: moment().subtract(point.time, 'minute').format('HH:mm'), logs: point.logs }))
-    return [{time: moment().subtract(props.timeframe, 'minute').format('HH:mm'), logs: points[0].logs}].concat(points)
+    // points = points.map(point => ({ time: moment().subtract(point.time, 'minute').format('HH:mm'), logs: point.logs }))
+    points = points.map(point => ({ time: moment().subtract(point.time, 'minute'), logs: point.logs }))
+    // points = points.map(point => ({ time: moment().subtract(point.time, 'minute').toDate(), logs: point.logs }))
+    console.log(points)
+    return points
   };
+  // console.log("Points: ", getPoints())
 
   /*
   * Returns array of points for total errors timeline

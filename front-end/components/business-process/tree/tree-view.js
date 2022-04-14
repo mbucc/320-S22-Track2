@@ -117,6 +117,7 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
   // NOTE: For now, needs to be put here to pass in handleContextMenu.
   const renderEAIDomains = (nodes) => (
     <TreeItem
+      className='eai-domain'
       key={nodes.name}
       nodeId={nodes.name}
       label={nodes.name}
@@ -133,6 +134,7 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
 
   const renderPublishingBusinessDomains = (nodes) => (
     <TreeItem
+      className='publishing-biz-domain'
       key={nodes.name}
       nodeId={nodes.name}
       label={nodes.name}
@@ -149,6 +151,7 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
 
   const renderBusinessProcesses = (nodes) => (
     <TreeItem
+      className='biz-process'
       key={nodes.name}
       nodeId={nodes.name}
       label={nodes.name}

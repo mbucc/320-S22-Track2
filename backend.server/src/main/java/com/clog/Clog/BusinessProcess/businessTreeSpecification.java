@@ -17,7 +17,7 @@ public class businessTreeSpecification implements Specification<EAIdomain> {
     }
     @Override
     public Predicate toPredicate(Root<EAIdomain> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-        Predicate returnVal = cb.between(root.<Timestamp>get("eai_transaction_create_time"),filter.getEndTime(),filter.getStartTime());
+        Predicate returnVal = cb.between(root.<Timestamp>get("eai_transaction_create_time"),filter.getStartTime(),filter.getEndTime());
         if(filter.getEaiDomain() != null){
             Predicate eaiPred = null;
             for (String eaiDom : filter.getEaiDomain()) {
@@ -30,6 +30,7 @@ public class businessTreeSpecification implements Specification<EAIdomain> {
             returnVal = cb.and(eaiPred, returnVal);
         }
         if(filter.getPublishingBusinessDomain() != null) {
+
             Predicate pubPredicate = null;
             for(String pubString : filter.getPublishingBusinessDomain()) {
                 if(pubPredicate == null) {

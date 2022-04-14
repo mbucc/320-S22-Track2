@@ -85,11 +85,11 @@ public class MainController {
         filt.setEndTime(Timestamp.valueOf(endTime));
         filt.setEaiDomain(eaiDomain);
         filt.setPublishingBusinessDomain(publishingBusinessDomain);
-
+        System.out.println(filt.getEndTime());
+        System.out.println(filt.getStartTime());
         businessTreeSpecification spec = new businessTreeSpecification(filt);
 
         List<EAIdomain> test =  busTree.findAll(spec);
-
         BusinessProcessTreeMap returnMap = new BusinessProcessTreeMap();
         
         for(EAIdomain x : test) {
@@ -126,24 +126,47 @@ public class MainController {
         while(cal.getTime().before(currentTime)) {
             System.out.println(intervalLength);
             DashBoardLineGraphFilter filter = new DashBoardLineGraphFilter(severity,new Timestamp(cal.getTimeInMillis()),currentTime);
-            System.out.println(cal.getTimeInMillis());
-            cal.add(Calendar.MILLISECOND, (int) Math.round(intervalLength*60*1000));
-            System.out.println(cal.getTimeInMillis());
+            cal.setTimeInMillis(cal.getTimeInMillis() + Math.round(intervalLength*60*1000));
             filter.setEndTime(new Timestamp(cal.getTimeInMillis()));
             RecentEventsSpecification test2 = new RecentEventsSpecification(filter);          
             testObj.put(filter.getStartTime(), logEventRepo.count(test2));
-            break;
         }
         return testObj;
     }
     @GetMapping(path="/businessProcessPieGraph")
-    public @ResponseBody Map<String, Integer> getPieGraph(@RequestParam int timeBack) {
-        Map<String, Integer> returnMap = new HashMap<String,Integer>();
+    public @ResponseBody Map<String, Integer[]> getPieGraph(@RequestParam int timeBack) {
+        Map<String, Integer[]> returnMap = new HashMap<String,Integer[]>();
         LogEventsSearchCriteria filt = new LogEventsSearchCriteria();
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(timeBack));
         filt.setStartTime(startTime);
         filt.setEndTime(currentTime);
+        String[] filtStrings = {"warning","error"};
+        filt.setSeverities(filtStrings);
+        List<LogEvent> toSort = logEventRepo.findAll(new LogEventFilterSpecification(filt));
+        for(LogEvent curLog : toSort) {
+            if(!returnMap.containsKey(curLog.getBusiness_domain())) {
+                if(curLog.getSeverity() >= 50) {
+                    Integer[] toPut = {0,1};
+                    returnMap.put(curLog.getBusiness_domain(), toPut);
+                }
+                else {
+                    Integer[] toPut = {1,0};
+                    returnMap.put(curLog.getBusiness_domain(), toPut);
+                }
+            } else {
+                if(curLog.getSeverity() >= 50) {
+                    Integer[] toPut = returnMap.get(curLog.getBusiness_domain());
+                    toPut[1]++;
+                    returnMap.put(curLog.getBusiness_domain(), toPut);
+                }
+                else {
+                    Integer[] toPut = returnMap.get(curLog.getBusiness_domain());
+                    toPut[1]++;
+                    returnMap.put(curLog.getBusiness_domain(), toPut);
+                }
+            }
+        }
 
         return returnMap;
     }

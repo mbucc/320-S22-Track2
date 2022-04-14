@@ -13,8 +13,8 @@ public class BusinessProcessTreeMap {
     public void addObj(EAIdomain treeEntry) {
         //If EAI in top level map
         int sev = -1;
-        if(treeEntry.getLog() != null) {
-            sev = treeEntry.getLog().getSeverity();
+       if(treeEntry.getLog() != null) {
+           sev = treeEntry.getLog().getSeverity();
         }
         BusinessProcessTreeNode toAddNode = new BusinessProcessTreeNode(treeEntry.getBusiness_process(), treeEntry.getKey1_app_context_name(), 
         treeEntry.getKey1_app_context_value(), treeEntry.getKey2_app_context_name(),

@@ -88,10 +88,8 @@ public class MainController {
         System.out.println(filt.getEndTime());
         System.out.println(filt.getStartTime());
         businessTreeSpecification spec = new businessTreeSpecification(filt);
-
         List<EAIdomain> test =  busTree.findAll(spec);
         BusinessProcessTreeMap returnMap = new BusinessProcessTreeMap();
-        
         for(EAIdomain x : test) {
             returnMap.addObj(x);
         }
@@ -108,11 +106,9 @@ public class MainController {
         businessFilter.setEai_transaction_id(eaiTransactionId);
         businessFilter.setBusinessDomainList(businessDomain);
         businessFilter.setSeverities(severities);
-
         BusinessGridSpecification businessGridSpec = new BusinessGridSpecification(businessFilter);
 
         return logEventRepo.findAll(businessGridSpec);
-
     }
 
     @GetMapping(path="/countByType")
@@ -162,7 +158,7 @@ public class MainController {
                 }
                 else {
                     Integer[] toPut = returnMap.get(curLog.getBusiness_domain());
-                    toPut[1]++;
+                    toPut[0]++;
                     returnMap.put(curLog.getBusiness_domain(), toPut);
                 }
             }

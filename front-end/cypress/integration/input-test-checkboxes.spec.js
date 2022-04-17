@@ -46,7 +46,7 @@ describe('gives input to checkboxes', ()=>{
 
     cy.get(`[data-testid='checkbox-severity-checkAllButton']`).click();
     cy.get(`[data-testid='checkbox-severity']`).find(`[data-testid='CheckBoxIcon']`).first();
-    cy.get(`[data-testid='checkbox-severity-uncheckAllButton']`).click();
+    cy.get(`[data-testid='checkbox-severity-checkAllButton']`).click();
     cy.get(`[data-testid='checkbox-severity']`).find(`[data-testid='CheckBoxOutlineBlankIcon']`).first();
   });
 
@@ -82,7 +82,7 @@ describe('gives input to checkboxes', ()=>{
 
     cy.get(`[data-testid='checkbox-priority-checkAllButton']`).click();
     cy.get(`[data-testid='checkbox-priority']`).find(`[data-testid='CheckBoxIcon']`).first();
-    cy.get(`[data-testid='checkbox-priority-uncheckAllButton']`).click();
+    cy.get(`[data-testid='checkbox-priority-checkAllButton']`).click();
     cy.get(`[data-testid='checkbox-priority']`).find(`[data-testid='CheckBoxOutlineBlankIcon']`).first();
   });
 
@@ -136,7 +136,7 @@ describe('gives input to checkboxes', ()=>{
 
     cy.get(`[data-testid='checkbox-category-checkAllButton']`).click();
     cy.get(`[data-testid='checkbox-category']`).find(`[data-testid='CheckBoxIcon']`).first();
-    cy.get(`[data-testid='checkbox-category-uncheckAllButton']`).click();
+    cy.get(`[data-testid='checkbox-category-checkAllButton']`).click();
     cy.get(`[data-testid='checkbox-category']`).find(`[data-testid='CheckBoxOutlineBlankIcon']`).first();
   });
 });

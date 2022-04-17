@@ -27,7 +27,7 @@ const BPIndex = () => {
           justifyContent: 'center',
         }}
       >
-        <div
+        {/* <div
           style={{
             width: '100%',
             height: 70,
@@ -39,10 +39,10 @@ const BPIndex = () => {
             justifyContent: 'center',
           }}
         >
-          <p style={{fontSize: 16, fontWeight: '500', opacity: 0.3}}>
+           <p style={{fontSize: 16, fontWeight: '500', opacity: 0.3}}>
             Navigation Placeholder
-          </p>
-        </div>
+          </p> 
+        </div> */}
         <div
           style={{
             width: '100%',

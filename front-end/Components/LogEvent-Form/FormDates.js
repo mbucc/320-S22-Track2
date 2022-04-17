@@ -22,7 +22,13 @@ export default function FormDates(props) {
   return (
     <div>
       <h4 style = {labelStyle}> {props.name}:</h4>
-      <Stack component="" noValidate spacing={3}>
+      <Stack 
+        component="" 
+        noValidate 
+        spacing={3}
+        sx = {{
+          marginBottom: '20px',
+        }}>
         <TextField
           name="From"
           id="from-date"
@@ -30,7 +36,9 @@ export default function FormDates(props) {
           type="datetime-local"
           defaultValue={props.fromToDates.From}
           value ={props.fromToDates.From}
-          sx={{width: 250}}
+          sx={{
+            width: 250,
+          }}
           InputLabelProps={{
             shrink: true,
           }}

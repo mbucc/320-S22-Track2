@@ -29,7 +29,7 @@ export default function LETable(props) {
    * 5 = by priority descending
    * 6 = by priority descending
    */
-  const [sort, setSort] = useState(0);
+  const [sort, setSort] = useState(5);
 
   /* event handlers for changing number of pages and changing page*/
   const handleChangePage = (event, newPage) => {
@@ -49,8 +49,6 @@ export default function LETable(props) {
   const sortHandler = (sort)=>{
     let sortedData = props.data;
     switch (sort) {
-      case 0:
-        return 0;
       case 1:
         sortedData = sortedData.sort(severityComparison('lt'));
         props.setData(sortedData);

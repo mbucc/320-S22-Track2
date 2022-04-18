@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import DonutCharts from './donutchart';
 import Typography from '@mui/material/Typography';
-import Header from '../../Components/LogEvent-Form/Header';
 
 /**
  * @param {Object} props

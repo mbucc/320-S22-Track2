@@ -94,9 +94,9 @@ export default function FormCheckbox(props) {
             sx={{
               borderRadius: 999,
               padding: '6px 14px',
-              color: '#000',
+              color: '#100',
               '&:hover': {
-                backgroundColor: '#00000008',
+                backgroundColor: '#00000039',
               },
             }}>
             Uncheck All

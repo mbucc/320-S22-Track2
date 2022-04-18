@@ -4,6 +4,7 @@ import {Button, Typography} from '@mui/material';
 import FormDates from './FormDates.js';
 import FormCheckbox from './FormCheckbox.js';
 import moment from 'moment';
+import {BPDomainSelector} from '../business-process/common/domain-selector';
 
 /**
  *
@@ -14,7 +15,9 @@ export default function Form(props) {
   const [severityCheckboxes, setSeverityCheckboxes] = useState({'Error': false, 'Warning': false, 'Info': false, 'Success': false});
   const [priorityCheckboxes, setPriorityCheckboxes] = useState({'Low': false, 'Medium': false, 'High': false});
   const [categoryCheckboxes, setCategoryCheckboxes] = useState({'Heartbeat': false, 'Stop': false, 'Status': false, 'Security': false, 'Start': false});
-  const [dropdownValues, setDropdownValues] = useState({'EAI Domain': 'All', 'Application': 'All', 'Process/Service': 'All', 'Business Domain': 'All', 'Business SubDomain': 'All'});
+  const [dropdownValues, setDropdownValues] = useState({'EAI Domain': ['All'], 'Application': ['All'], 'Process/Service': ['All'], 'Business Domain': ['All'], 'Business SubDomain': ['All']});
+  const [selectedEAIDomains, setSelectedEAIDomains] = useState(['All']);
+
   const [fromToDates, setFromToDates] = useState({'From': '2022-01-01 00:00:00', 'To': '2022-01-31 00:00:00'});
 
   const applyButtonRef = useRef(null);
@@ -36,12 +39,6 @@ export default function Form(props) {
   const dropdownStyle = {
     display: 'flex',
     flexDirection: 'row',
-  };
-
-  const buttonStyle = {
-    marginTop: '20px',
-    width: '100px',
-    border: 'solid',
   };
 
   const checkboxesStyle = {
@@ -91,11 +88,11 @@ export default function Form(props) {
     const categoryFilter = objKeys.includes(e.category);
 
     // Dropdowwn filters
-    const domainFilter = dropdownValues['EAI Domain'] === 'All' ? true : e['EAI Domain'] === dropdownValues['EAI Domain'];
-    const applicationFilter = dropdownValues['Application'] === 'All' ? true : e['Application'] === dropdownValues['Application'];
-    const processServiceFilter = dropdownValues['Process/Service'] === 'All' ? true : e['Process/Service'] === dropdownValues['Process/Service'];
-    const BDFilter = dropdownValues['Business Domain'] === 'All' ? true : e['Business Domain'] === dropdownValues['Business Domain'];
-    const BSDFilter = dropdownValues['Business SubDomain'] === 'All' ? true : e['Business SubDomain'] === dropdownValues['Business SubDomain'];
+    const domainFilter = dropdownValues['EAI Domain'].includes('All') ? true : dropdownValues['EAI Domain'].includes(e['EAI Domain']);
+    const applicationFilter = dropdownValues['Application'].includes('All') ? true : dropdownValues['Application'].includes(e['Application']);
+    const processServiceFilter = dropdownValues['Process/Service'].includes('All') ? true :  dropdownValues['Process/Service'].includes(e['Process/Service']);
+    const BDFilter = dropdownValues['Business Domain'].includes('All') ? true : dropdownValues['Business Domain'].includes(e['Business Domain']);
+    const BSDFilter = dropdownValues['Business SubDomain'].includes('All') ? true : dropdownValues['Business SubDomain'].includes(e['Business SubDomain']);
 
     return dateFilter && severityFilter && priorityFilter && domainFilter && applicationFilter && processServiceFilter && BDFilter && BSDFilter && categoryFilter;
   };
@@ -108,9 +105,27 @@ export default function Form(props) {
     const objKeys = severityKeys.concat(priorityKeys).concat(categoryKeys);
     const filteredData = props.mockData.filter((e) => filterData(e, objKeys));
 
+    filteredData = filteredData.sort(dateComparison('gt'));
     props.setData(filteredData);
   };
 
+  const changeOptions = (name)=>{
+    return (list) => {
+      list.length === 0 ? setDropdownValues({...dropdownValues, [name]: ['All']}) : setDropdownValues({...dropdownValues, [name]: list});
+    };
+  };
+
+
+  const dateComparison = (comp)=>{
+    return (a, b) =>{
+      if (comp === 'lt') {
+        return moment(a['Created Date']).format('MMDDYYYYHHmmss') - moment(b['Created Date']).format('MMDDYYYYHHmmss');
+      }
+      if (comp === 'gt') {
+        return moment(b['Created Date']).format('MMDDYYYYHHmmss') - moment(a['Created Date']).format('MMDDYYYYHHmmss');
+      }
+    };
+  };
 
   return (
     <div>
@@ -121,11 +136,15 @@ export default function Form(props) {
         <div>
           <FormDates name="From / To Dates" fromToDates={fromToDates} setFromToDates={setFromToDates} />
           <div style={dropdownStyle}>
-            <Dropdowns options={EAIOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'EAI Domain'} testid={'eai'}></Dropdowns>
-            <Dropdowns options={applicationOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Application'} testid={'app'}></Dropdowns>
+            <BPDomainSelector label = {'EAI Domain'} searchPlaceholder = {'Select options'} list = {EAIOptions} onChange = {changeOptions('EAI Domain')}/>
+            <BPDomainSelector label = {'Application'} searchPlaceholder = {'Select options'} list = {applicationOptions} onChange = {changeOptions('Application')}/>
+            <BPDomainSelector label = {'Process/Service'} searchPlaceholder = {'Select options'} list = {processServiceOptions} onChange = {changeOptions('Process/Service')}/>
+            <BPDomainSelector label = {'Business Domain'} searchPlaceholder = {'Select options'} list = {BusinessDomainOptions} onChange = {changeOptions('Business Domain')}/>
+            <BPDomainSelector label = {'Business SubDomain'} searchPlaceholder = {'Select options'} list = {BusinessSubDomOptions} onChange = {changeOptions('Business SubDomain')}/>
+            {/*<Dropdowns options={applicationOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Application'} testid={'app'}></Dropdowns>
             <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Process/Service'} testid={'ps'}></Dropdowns>
             <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business Domain'} testid={'bd'}></Dropdowns>
-            <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business SubDomain'} testid={'bsd'}></Dropdowns>
+            <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business SubDomain'} testid={'bsd'}></Dropdowns>*/}
           </div>
         </div>
         <div style={checkboxesStyle}>
@@ -146,7 +165,7 @@ export default function Form(props) {
               backgroundColor: '#16a34a',
             },
             width: '100px',
-            margin: '20px'
+            margin: '20px',
           }}>
           Apply
         </Button>

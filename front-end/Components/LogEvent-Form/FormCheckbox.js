@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Checkbox, Container} from '@mui/material';
 import {Button} from '@mui/material';
 import {FormControlLabel} from '@mui/material';
@@ -11,6 +11,8 @@ import FormHelperText from '@mui/material/FormHelperText';
  * @return {JSX.Element}
  */
 export default function FormCheckbox(props) {
+  const [checkallButton, setCheckallButton] = useState('Check All');
+
   const labelStyle= {
     marginRight: '10px',
   };
@@ -42,7 +44,13 @@ export default function FormCheckbox(props) {
         return {...checkboxes, [name]: isSelected};
       });
     });
+    if (isSelected) {
+      setCheckallButton('Uncheck All');
+    } else {
+      setCheckallButton('Check All');
+    }
   };
+
 
   const checkAll = (event) => selectAll(true, event);
   const uncheckAll = (event) => selectAll(false, event);
@@ -72,11 +80,11 @@ export default function FormCheckbox(props) {
             })}
           </FormGroup>
 
-          <FormHelperText>Pick at least 1 from each column</FormHelperText>
+          <FormHelperText>Pick at least 1</FormHelperText>
         </FormControl>
         <div style = {checkAllStyle}>
           <Button
-            onClick={checkAll}
+            onClick={checkallButton === 'Check All' ? checkAll : uncheckAll}
             data-testid={`checkbox-${props.testid}-checkAllButton`}
             sx={{
               borderRadius: 999,
@@ -86,9 +94,9 @@ export default function FormCheckbox(props) {
                 backgroundColor: '#00000008',
               },
             }}>
-            Check All
+            {checkallButton === 'Check All' ? 'Check All' : 'Uncheck All'}
           </Button>
-          <Button
+          {/* <Button
             onClick={uncheckAll}
             data-testid={`checkbox-${props.testid}-uncheckAllButton`}
             sx={{
@@ -100,7 +108,7 @@ export default function FormCheckbox(props) {
               },
             }}>
             Uncheck All
-          </Button>
+          </Button>*/}
         </div>
       </Container>
     </div>

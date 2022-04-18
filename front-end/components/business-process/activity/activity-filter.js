@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
-import {Button} from '@mui/material';
 import {BPDomainSelector} from '../common/domain-selector';
 import {BPSeveritySelector} from '../common/severity-selector';
 import {BusinessDomainSample} from '../../../utils/business-process/sample-data';
+import {BPButton} from '../common/button';
 
 const BPActivityFilterComponent = ({onChange}) => {
   const [selectedBusinessDomain, setSelectedBusinessDomain] = useState([]);
@@ -51,22 +51,12 @@ const BPActivityFilterComponent = ({onChange}) => {
         <p style={{fontSize: 17, fontWeight: '500'}}>
           Activities Filter
         </p>
-        <Button
+        <BPButton
           id={'bp-activity-filter-apply-button'}
-          size={'small'}
-          sx={{
-            color: 'white',
-            borderRadius: 999,
-            backgroundColor: '#22c55e',
-
-            '&:hover': {
-              backgroundColor: '#16a34a',
-            },
-          }}
           onClick={onApplyButtonClick}
         >
           Apply
-        </Button>
+        </BPButton>
       </div>
       <div
         style={{

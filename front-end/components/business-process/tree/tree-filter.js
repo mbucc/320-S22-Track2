@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
-import {Button} from '@mui/material';
 import {BPDatePicker} from '../common/date-picker';
 import {BPDomainSelector} from '../common/domain-selector';
 
 import {useLPSession} from '@taci-tech/launchpad-js';
 import {BPLaunchpad} from '../../../utils/business-process/launchpad/core';
+import {BPButton} from '../common/button';
 
 const BPTreeFilterComponent = ({onChange}) => {
   const [startDate, setStartDate] = useState(null);
@@ -93,22 +93,12 @@ const BPTreeFilterComponent = ({onChange}) => {
         <p style={{fontSize: 17, fontWeight: '500'}}>
           Business Process
         </p>
-        <Button
+        <BPButton
           id={'bp-tree-filter-apply-button'}
-          size={'small'}
-          sx={{
-            color: 'white',
-            borderRadius: 999,
-            backgroundColor: '#22c55e',
-
-            '&:hover': {
-              backgroundColor: '#16a34a',
-            },
-          }}
           onClick={onApplyClick}
         >
           Apply
-        </Button>
+        </BPButton>
       </div>
       <div
         style={{

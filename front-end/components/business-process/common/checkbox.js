@@ -1,13 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BPColors} from '../../../utils/business-process/standards';
 import {IconCheck} from '@tabler/icons';
 
-export const BPCheckbox = ({checkboxProps, children, contentColor = BPColors.gray[400], idleColor = BPColors.gray[200], activeColor = BPColors.green[600]}) => {
-  const [isChecked, setIsChecked] = useState(false);
+export const BPCheckbox = ({id = 'bp-checkbox', defaultSelected = false, children, onChange, contentColor = BPColors.gray[400], idleColor = BPColors.gray[200], activeColor = BPColors.green[600], ...labelProps}) => {
+  const [isChecked, setIsChecked] = useState(defaultSelected);
   const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(isChecked);
+    }
+  }, [isChecked]);
 
   return (
     <label
+      id={id}
       style={{
         display: 'flex',
         flexDirection: 'row',
@@ -29,6 +36,7 @@ export const BPCheckbox = ({checkboxProps, children, contentColor = BPColors.gra
       onMouseLeave={() => {
         setIsHovered(false);
       }}
+      {...labelProps}
     >
       <div
         style={{

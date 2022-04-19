@@ -39,7 +39,6 @@ const BPIndex = (props) => {
             justifyContent: 'center',
           }}
         >
-          {/* <Navbar /> */}
         {/* </div> */}
         <div
           style={{

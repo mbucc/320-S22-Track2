@@ -59,7 +59,7 @@ export default function Timeline(props) {
   const getFilters = (start, end) => {
     console.log('Get log events of type ' + props.type + ' from ' + start + ' to ' + end);
 
-    return {start: start, end: end, type: 'severity', severity: props.type};
+    return { start: start, end: end, type: 'severity', severity: props.type };
   };
 
   const getTotal = () => {
@@ -84,7 +84,10 @@ export default function Timeline(props) {
         </Grid>
         <Grid item>
           {/* Need to change linking to pass filters */}
-          <Button variant="text" onClick={() => props.toggleLogEvents(getFilters(props.data[0].time, props.data[props.data.length - 1].time))}>
+          <Button
+            variant="text"
+            onClick={() => props.toggleLogEvents(getFilters(props.data[0].time, props.data[props.data.length - 1].time))}
+          >
             <Link href='/LogEvent/' passHref>
               <a>
                 See More

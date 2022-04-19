@@ -45,23 +45,27 @@ export default function Timeline(props) {
 
   const onClickTimeline = ({ targets }) => {
     if (targets) {
-      const point = props.data[targets[0].point]
-      console.log(props.data[targets[0].point])
-      props.onClick(getFilters(point.start, point.end))
+      const index = targets[0].point
+      const point = props.data[index]
+      if (index == 0) {
+        props.toggleLogEvents(getFilters(point.time, point.time))
+        return
+      }
+      const filters = getFilters(props.data[index - 1].time, point.time)
+      props.toggleLogEvents(filters)
     }
   }
 
   const getFilters = (start, end) => {
     console.log('Get log events of type ' + props.type + ' from ' + start + ' to ' + end);
 
-    return {};
+    return {start: start, end: end, type: 'severity', severity: props.type};
   };
 
   const getTotal = () => {
     return props.data.reduce((acc, e) => { return acc + e.logs }, 0) - props.data[0].logs
   }
 
-  console.log("data: ", props.data)
   return (
     <Grid container direction='column'>
       <Grid
@@ -80,7 +84,7 @@ export default function Timeline(props) {
         </Grid>
         <Grid item>
           {/* Need to change linking to pass filters */}
-          <Button variant="text">
+          <Button variant="text" onClick={() => props.toggleLogEvents(getFilters(props.data[0].time, props.data[props.data.length - 1].time))}>
             <Link href='/LogEvent/' passHref>
               <a>
                 See More

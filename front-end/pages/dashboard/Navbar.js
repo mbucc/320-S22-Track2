@@ -57,6 +57,7 @@ function Navbar(props) {
                 fontWeight: 'bolder',
               },
             }}
+            onClick={()=>props.clearFilters()}
           >
             <Link href='/' passHref>
               <a>

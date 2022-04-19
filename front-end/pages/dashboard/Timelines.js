@@ -5,23 +5,12 @@ import Box from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Timeline from './Timeline';
 import moment from 'moment';
+
 /**
  * @param {Object} props
 * @return {JSX.Element}
 */
 export default function Timelines(props) {
-  // const data = [
-  //   {time: '13:00', logs: 20},
-  //   {time: '13:06', logs: 10},
-  //   {time: '13:12', logs: 30},
-  //   {time: '13:18', logs: 125},
-  //   {time: '13:24', logs: 10},
-  //   {time: '13:30', logs: 30},
-  //   {time: '13:36', logs: 20},
-  //   {time: '13:42', logs: 450},
-  //   {time: '13:48', logs: 560},
-  // ];
-
   const getPointLabels = () => {
     let block = props.timeframe / 6
     let label = props.timeframe
@@ -52,13 +41,9 @@ export default function Timelines(props) {
       }
     }
 
-    // points = points.map(point => ({ time: moment().subtract(point.time, 'minute').format('HH:mm'), logs: point.logs }))
     points = points.map(point => ({ time: moment().subtract(point.time, 'minute'), logs: point.logs }))
-    // points = points.map(point => ({ time: moment().subtract(point.time, 'minute').toDate(), logs: point.logs }))
-    console.log(points)
     return points
   };
-  // console.log("Points: ", getPoints())
 
   /*
   * Returns array of points for total errors timeline
@@ -85,21 +70,21 @@ export default function Timelines(props) {
           </Grid>
           <Grid item xs={3}>
             <Timeline
-              onClick={() => props.setFilters()}
+              toggleLogEvents={props.toggleLogEvents}
               type="Logs"
               data={getPoints()}
             />
           </Grid>
           <Grid item xs={3}>
             <Timeline
-              onClick={() => props.setFilters()}
+              toggleLogEvents={props.toggleLogEvents}
               type="Errors"
               data={getErrorPoints()}
             />
           </Grid>
           <Grid item xs={3}>
             <Timeline
-              onClick={() => props.setFilters()}
+              toggleLogEvents={props.toggleLogEvents}
               type="Warnings"
               data={getWarningPoints()}
             />

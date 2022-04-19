@@ -8,6 +8,7 @@ import DonutCharts from './donutchart';
 import Typography from '@mui/material/Typography';
 import Dropdown from './Dropdown';
 import fakeData from './fake_data.json';
+
 /**
  * @param {Object} props
 * @return {JSX.Element}
@@ -48,15 +49,15 @@ export default function Dashboard(props) {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Counts setFilters={props.onLogEventsClick} data={state.data}/>
+              <Counts toggleLogEvents={props.toggleLogEvents} data={state.data}/>
             </Grid>
             <Grid item xs={12}>
               <Grid container item direction="row" spacing={5}>
                 <Grid item xs={7}>
-                  <DonutCharts data={state.data}/>
+                  <DonutCharts data={state.data} toggleBP={props.toggleBP} />
                 </Grid>
                 <Grid item xs={5}>
-                  <Timelines setFilters={props.onLogEventsClick} data={state.data} timeframe={state.timeframe} />
+                  <Timelines toggleLogEvents={props.toggleLogEvents} data={state.data} timeframe={state.timeframe} />
                 </Grid>
               </Grid>
             </Grid>

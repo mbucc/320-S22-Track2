@@ -8,7 +8,7 @@ import {Container} from '@mui/material';
  *
  * @return {JSX.Element}
  */
-export default function LogEvent() {
+export default function LogEvent(props) {
   /* just some code to generate a big set of mock data */
   const mockData = [];
 
@@ -75,7 +75,7 @@ export default function LogEvent() {
 
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <Container style = {formContainerStyle}>
         <Form mockData={mockData} setData={setData}/>
       </Container>

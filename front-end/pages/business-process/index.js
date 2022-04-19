@@ -4,7 +4,7 @@ import BPActivityView from '../../components/business-process/activity/core';
 import {BPColors, BPStandards} from '../../utils/business-process/standards';
 import Navbar from '../dashboard/Navbar';
 
-const BPIndex = () => {
+const BPIndex = (props) => {
   return (
     <div
       style={{
@@ -27,7 +27,7 @@ const BPIndex = () => {
           justifyContent: 'center',
         }}
       >
-        <div
+        {/* <div
           style={{
             width: '100%',
             height: 70,
@@ -39,8 +39,8 @@ const BPIndex = () => {
             justifyContent: 'center',
           }}
         >
-          <Navbar />
-        </div>
+          {/* <Navbar /> */}
+        {/* </div> */}
         <div
           style={{
             width: '100%',

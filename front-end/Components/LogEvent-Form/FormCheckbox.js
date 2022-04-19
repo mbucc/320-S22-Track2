@@ -21,6 +21,7 @@ export default function FormCheckbox(props) {
   const checkAllStyle = {
     display: 'block',
     alignSelf: 'start',
+    color: BPColors.gray[600],
   };
 
   const checkboxesStyle = {
@@ -110,8 +111,9 @@ export default function FormCheckbox(props) {
           </FormGroup>
           <FormHelperText>Pick at least 1</FormHelperText>
         </FormControl>
-        <div style = {checkAllStyle}>
+        <div>
           <Button
+            style = {checkAllStyle}
             onClick={checkallButton === 'Check All' ? checkAll : uncheckAll}
             data-testid={`checkbox-${props.testid}-checkAllButton`}
             sx={{

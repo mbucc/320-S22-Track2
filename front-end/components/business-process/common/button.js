@@ -1,9 +1,11 @@
 import React from 'react';
 import {Button} from '@mui/material';
 
-const BPTextButton = ({children, ...props}) => {
+const BPTextButton = ({id = 'bp-text-button', children, ...props}) => {
   return (
     <Button
+      id={id}
+      {...props}
       onClick={props.onClick}
       variant="text"
       sx={{
@@ -20,9 +22,11 @@ const BPTextButton = ({children, ...props}) => {
   );
 };
 
-const BPButton = ({children, ...props}) => {
+const BPButton = ({id = 'bp-button', children, ...props}) => {
   return (
     <Button
+      id={id}
+      {...props}
       size={'small'}
       sx={{
         color: 'white',

@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import {BPColors, BPDimens} from '../../../utils/business-process/standards';
 import {IconCheck} from '@tabler/icons';
 
-export const BPDomainSelectorItem = ({item, selected, style, onClick}) => {
+export const BPDomainSelectorItem = ({id, item, selected, style, onClick}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
+      id={id}
       style={{
         padding: '10px 10px',
         cursor: 'pointer',

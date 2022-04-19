@@ -3,11 +3,6 @@ import { Button } from '@mui/material';
 import Link from 'next/link';
 
 function Navbar(props) {
-  const [loggedIn, setLogin] = useState(false);
-  const childToParent = (childdata) => {
-    setLogin(childdata);
-  };
-
   return (
     // change the way content is justified
     <div
@@ -120,11 +115,12 @@ function Navbar(props) {
               fontWeight: 'bolder',
             },
           }}
+          onClick = {() => props.setLogin(false) }
         >
           <Link
             href={{
-              pathname: './login/Login',
-              query: { setLogin: childToParent },
+              pathname: '/',
+              state: { testVar: 'test' },
             }} 
             passHref
           >

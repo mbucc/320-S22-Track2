@@ -60,7 +60,7 @@ function ClogApp({ Component, pageProps }) {
       <StyledEngineProvider injectFirst>
         <Grid container direction='column'>
           <Grid item height={'100%'}>
-            <Navbar clearFilters={clearFilters}/>
+            <Navbar clearFilters={clearFilters} setLogin={childToParent} />
           </Grid>
           <Grid item height={'100%'}>
             {<Component {...pageProps}

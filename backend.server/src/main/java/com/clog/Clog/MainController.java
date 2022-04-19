@@ -78,9 +78,7 @@ public class MainController {
     @RequestParam String endTime, 
     @RequestParam(required = false) String[] eaiDomain, 
     @RequestParam(required = false) String[] publishingBusinessDomain) {
-
         businessTreeFilter filt = new businessTreeFilter();
-
         filt.setStartTime(Timestamp.valueOf(startTime));
         filt.setEndTime(Timestamp.valueOf(endTime));
         filt.setEaiDomain(eaiDomain);
@@ -107,7 +105,6 @@ public class MainController {
         businessFilter.setBusinessDomainList(businessDomain);
         businessFilter.setSeverities(severities);
         BusinessGridSpecification businessGridSpec = new BusinessGridSpecification(businessFilter);
-
         return logEventRepo.findAll(businessGridSpec);
     }
 

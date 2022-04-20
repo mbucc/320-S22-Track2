@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Link from 'next/link';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -9,7 +9,7 @@ import {
   SplineSeries,
   Tooltip,
 } from '@devexpress/dx-react-chart-material-ui';
-import { EventTracker, HoverState } from '@devexpress/dx-react-chart';
+import {EventTracker, HoverState} from '@devexpress/dx-react-chart';
 import moment from 'moment';
 
 /**
@@ -21,8 +21,8 @@ export default function Timeline(props) {
   const [tooltipTarget, changeTooltip] = useState(null);
 
   const getTimeFormat = (m) => {
-    return m.format('HH:mm')
-  }
+    return m.format('HH:mm');
+  };
 
   const TooltipContent = (target) => {
     return (
@@ -37,34 +37,36 @@ export default function Timeline(props) {
     );
   };
 
-  const Label = ({ text, ...props }) => {
+  const Label = ({text, ...props}) => {
     let time = text.replace(/\,/g, ''); // 1125, but a string, so convert it to number
     time = parseInt(time, 10);
     return <ArgumentAxis.Label {...props} text={getTimeFormat(moment(time))} />;
-  }
+  };
 
-  const onClickTimeline = ({ targets }) => {
+  const onClickTimeline = ({targets}) => {
     if (targets) {
-      const index = targets[0].point
-      const point = props.data[index]
+      const index = targets[0].point;
+      const point = props.data[index];
       if (index == 0) {
-        props.toggleLogEvents(getFilters(point.time, point.time))
-        return
+        props.toggleLogEvents(getFilters(point.time, point.time));
+        return;
       }
-      const filters = getFilters(props.data[index - 1].time, point.time)
-      props.toggleLogEvents(filters)
+      const filters = getFilters(props.data[index - 1].time, point.time);
+      props.toggleLogEvents(filters);
     }
-  }
+  };
 
   const getFilters = (start, end) => {
     console.log('Get log events of type ' + props.type + ' from ' + start + ' to ' + end);
 
-    return { start: start, end: end, type: 'severity', severity: props.type };
+    return {start: start, end: end, type: 'severity', severity: props.type};
   };
 
   const getTotal = () => {
-    return props.data.reduce((acc, e) => { return acc + e.logs }, 0) - props.data[0].logs
-  }
+    return props.data.reduce((acc, e) => {
+      return acc + e.logs;
+    }, 0) - props.data[0].logs;
+  };
 
   return (
     <Grid container direction='column'>

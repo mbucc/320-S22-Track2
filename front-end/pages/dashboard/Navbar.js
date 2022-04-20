@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
-import { Button } from '@mui/material';
+import React from 'react';
+import {Button} from '@mui/material';
 import Link from 'next/link';
 
+/**
+ * @param {Object} props
+* @return {JSX.Element}
+*/
 function Navbar(props) {
   return (
     // change the way content is justified
@@ -120,8 +124,8 @@ function Navbar(props) {
           <Link
             href={{
               pathname: '/',
-              state: { testVar: 'test' },
-            }} 
+              state: {testVar: 'test'},
+            }}
             passHref
           >
             <a>

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState} from 'react';
 import Timelines from './Timelines';
-import Counts from './Counts'
+import Counts from './Counts';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import DonutCharts from './donutchart';
 import Typography from '@mui/material/Typography';
 import Dropdown from './Dropdown';
@@ -15,29 +14,29 @@ import fakeData from './fake_data.json';
 */
 export default function Dashboard(props) {
   const getData = (tf) => {
-    return fakeData.filter(e => e.time <= tf).sort((a, b) => b.time - a.time)
-  }
+    return fakeData.filter((e) => e.time <= tf).sort((a, b) => b.time - a.time);
+  };
 
   // const [timeframe, setTimeframe] = useState(60) // (in minutes)
   const [state, setState] = useState({
     timeframe: 60,
-    data: getData(60)
-  })
+    data: getData(60),
+  });
 
   const changeTimeframe = (tf) => {
     setState({
       timeframe: tf,
-      data: getData(tf)
-    })
-  }
+      data: getData(tf),
+    });
+  };
 
   if (state.data) {
     return (
       <div className='dashboard'>
-        <Box px={6} py={3} sx={{ height: '100%', width: '100%' }}>
+        <Box px={6} py={3} sx={{height: '100%', width: '100%'}}>
           <Grid container direction='row' height={'100%'} spacing={3}>
             <Grid item xs={12}>
-              <Grid container style={{alignItems: "center"}}>
+              <Grid container style={{alignItems: 'center'}}>
                 <Grid item xs={6}>
                   <Typography variant="h4">
                     Welcome!
@@ -52,7 +51,7 @@ export default function Dashboard(props) {
               <Counts toggleLogEvents={props.toggleLogEvents} data={state.data}/>
             </Grid>
             <Grid item xs={12}>
-              <Grid container item direction="row" spacing={5}>
+              <Grid container item direction='row' spacing={5}>
                 <Grid item xs={7}>
                   <DonutCharts data={state.data} toggleBP={props.toggleBP} />
                 </Grid>
@@ -66,5 +65,5 @@ export default function Dashboard(props) {
       </div>
     );
   }
-  return(<div>Loading data...</div>)
+  return (<div>Loading data...</div>);
 }

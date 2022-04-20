@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Grid';
@@ -12,55 +12,55 @@ import moment from 'moment';
 */
 export default function Timelines(props) {
   const getPointLabels = () => {
-    let block = props.timeframe / 6
-    let label = props.timeframe
-    let labels = [props.timeframe]
+    const block = props.timeframe / 6;
+    let label = props.timeframe;
+    const labels = [props.timeframe];
 
     while (label - block > 0) {
-      label -= block
-      labels.push(label)
+      label -= block;
+      labels.push(label);
     }
-    labels.push(0)
+    labels.push(0);
 
-    return labels
-  }
+    return labels;
+  };
 
   /*
   * Returns array of points for total logs timeline
   */
   const getPoints = (criteria) => {
-    let labels = getPointLabels()
-    let points = labels.map((e) => ({ time: e, logs: 0 }))
-    let pointIndex = 0
+    const labels = getPointLabels();
+    let points = labels.map((e) => ({time: e, logs: 0}));
+    let pointIndex = 0;
     for (let i = 0; i < props.data.length; i++) {
       if (props.data[i].time < labels[pointIndex]) {
-        pointIndex += 1
+        pointIndex += 1;
       }
       if (!criteria || props.data[i].type === criteria) {
-        points[pointIndex].logs += 1
+        points[pointIndex].logs += 1;
       }
     }
 
-    points = points.map(point => ({ time: moment().subtract(point.time, 'minute'), logs: point.logs }))
-    return points
+    points = points.map((point) => ({time: moment().subtract(point.time, 'minute'), logs: point.logs}));
+    return points;
   };
 
   /*
   * Returns array of points for total errors timeline
   */
   const getErrorPoints = () => {
-    return getPoints('Error')
+    return getPoints('Error');
   };
 
   /*
   * Returns array of points for total errors timeline
   */
   const getWarningPoints = () => {
-    return getPoints('Warning')
+    return getPoints('Warning');
   };
 
   return (
-    <Paper elevation={3} sx={{ height: '100%' }}>
+    <Paper elevation={3} sx={{height: '100%'}}>
       <Box px={5} pb={5} pt={3}>
         <Grid container direction='column' justifyContent="space-between" spacing={1}>
           <Grid item xs={3}>

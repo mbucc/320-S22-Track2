@@ -1,8 +1,12 @@
-import React, { useState } from "react";
-import { Select, MenuItem, FormControl, makeStyles } from "@material-ui/core";
+import React from 'react';
+import {Select, MenuItem} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
+/**
+ * @param {Object} props
+* @return {JSX.Element}
+*/
 export default function Dropdown(props) {
   return (
     <div className="Dropdown">

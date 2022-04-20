@@ -53,7 +53,7 @@ export default function Dashboard(props) {
             <Grid item xs={12}>
               <Grid container item direction='row' spacing={5}>
                 <Grid item xs={7}>
-                  <DonutCharts data={state.data} toggleBP={props.toggleBP} />
+                  <DonutCharts data={state.data} toggleBP={props.toggleBP} timeframe={state.timeframe}/>
                 </Grid>
                 <Grid item xs={5}>
                   <Timelines toggleLogEvents={props.toggleLogEvents} data={state.data} timeframe={state.timeframe} />

@@ -9,32 +9,56 @@ import Typography from '@mui/material/Typography';
 * @return {JSX.Element}
 */
 function DonutCharts(props) {
+  const filterData = (type) => {
+    const bpscore = {};
+    const filtered = props.data.filter((e)=>e.type===type);
+    for (let i = 0; i<filtered.length; i+=1) {
+      if (!(filtered[i]['BP_name'] in bpscore)) {
+        bpscore[filtered[i]['BP_name']] = 0;
+      }
+      bpscore[filtered[i]['BP_name']] += 1;
+    }
+    const temparr = [];
+    for (const el in bpscore) {
+      temparr.push([el, bpscore[el]]);
+    }
+
+    temparr.sort((a, b)=>b[1]-a[1]);
+    const labels = [];
+    const values = [];
+    for (let i = 0; i<5; i++) {
+      labels.push(temparr[i][0]);
+      values.push(temparr[i][1]);
+    }
+    return {'labels': labels, 'values': values};
+  };
   return (
-    <Paper elevation={3}>
-      <Box p={3}>
-        <Typography variant="h5" gutterBottom component="div" align='center'>
-          Business Processes Summary
-        </Typography>
-        <div className={styles.row}>
-          <div className={styles.column}>
-            <DonutChartComponent
-              labels={['BP1', 'BP2', 'BP3', 'BP4', 'Rest']}
-              values={[10, 10, 10, 10, 30]}
-              onClickFunc={(l, v) => console.log(l)}
-              title='Percent Contribution to Warnings'
-            />
+    <div className='donuts'>
+      <Paper elevation={3} sx={{height: '100%'}}>
+        <Box pt={3}>
+          <Typography variant="h5" gutterBottom component="div" align='center'>
+            Business Processes Summary
+          </Typography>
+          <div className={styles.row}>
+            <div className={styles.column}>
+              <DonutChartComponent
+                data={filterData('Warning')}
+                onClickFunc={(l, v) => console.log(l)}
+                title='Percent Contribution to Warnings'
+              />
+            </div>
+            <div className={styles.column}>
+              <DonutChartComponent
+                data={filterData('Error')}
+                onClickFunc={(l, v) => console.log(l)}
+                title='Percent Contribution to Errors'
+              />
+            </div>
           </div>
-          <div className={styles.column}>
-            <DonutChartComponent
-              labels={['BP1', 'BP2', 'BP3', 'BP4', 'Rest']}
-              values={[12, 19, 3, 5, 20]}
-              onClickFunc={(l, v) => console.log(l)}
-              title='Percent Contribution to Errors'
-            />
-          </div>
-        </div>
-      </Box>
-    </Paper>
+        </Box>
+      </Paper>
+    </div>
+
   );
 }
 

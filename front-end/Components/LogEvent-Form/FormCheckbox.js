@@ -5,6 +5,7 @@ import {FormControlLabel} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormHelperText from '@mui/material/FormHelperText';
+import { BPColors } from '../../utils/business-process/standards';
 /**
  *
  * @param {*} props checkbox state and setState passed into Formcheckbox
@@ -18,16 +19,40 @@ export default function FormCheckbox(props) {
   };
 
   const checkAllStyle = {
+    display: 'block',
+    alignSelf: 'start',
+    color: BPColors.gray[600],
+  };
+
+  const checkboxesStyle = {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
+  };
+
+  const groupLabelStyle = {
+    marginRight: '10px',
+    fontSize: 13,
+    fontWeight: '500',
+    lineHeight: 1,
+    padding: 0,
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 5,
+    color: BPColors.gray[400],
+    transition: 'color 0.15s ease-in-out',
   };
 
   const formContainerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
     border: 'thin solid lightgray',
     borderRadius: '4px',
-    margin: '10px 5px 0px',
+    margin: '2px 5px 5px 5px',
     padding: '10px 10px',
-    width: 'fit-content',
+    width: '200px',
+    height: 'fit-content',
+    backgroundColor: '#FCFDFD',
   };
 
 
@@ -61,29 +86,34 @@ export default function FormCheckbox(props) {
 
   return (
     <div>
+      <label style = {groupLabelStyle}> {props.name}:</label>
       <Container style = {formContainerStyle} data-testid = {`checkbox-${props.testid}`}>
-        <h4> {props.name}:</h4>
         <FormControl
           required
           error={error}
         >
-          <FormGroup style={checkAllStyle}>
+          <FormGroup style={checkboxesStyle}>
             {Object.keys(props.checkboxes).map((e)=>{
               return (
                 <FormControlLabel
                   label = {e}
                   style={labelStyle}
-                  control = {<Checkbox name={e} onChange={handleOnChange} checked={props.checkboxes[e]} data-testid = {`checkbox-${props.testid}-${e.toLowerCase()}`} />}
+                  control = {<Checkbox
+                    name={e}
+                    onChange={handleOnChange}
+                    checked={props.checkboxes[e]}
+                    data-testid = {`checkbox-${props.testid}-${e.toLowerCase()}`}
+                  />}
                   key = {e}
                 />
               );
             })}
           </FormGroup>
-
           <FormHelperText>Pick at least 1</FormHelperText>
         </FormControl>
-        <div style = {checkAllStyle}>
+        <div>
           <Button
+            style = {checkAllStyle}
             onClick={checkallButton === 'Check All' ? checkAll : uncheckAll}
             data-testid={`checkbox-${props.testid}-checkAllButton`}
             sx={{
@@ -96,19 +126,6 @@ export default function FormCheckbox(props) {
             }}>
             {checkallButton === 'Check All' ? 'Check All' : 'Uncheck All'}
           </Button>
-          {/* <Button
-            onClick={uncheckAll}
-            data-testid={`checkbox-${props.testid}-uncheckAllButton`}
-            sx={{
-              borderRadius: 999,
-              padding: '6px 14px',
-              color: '#000',
-              '&:hover': {
-                backgroundColor: '#00000008',
-              },
-            }}>
-            Uncheck All
-          </Button>*/}
         </div>
       </Container>
     </div>

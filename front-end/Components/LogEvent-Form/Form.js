@@ -1,10 +1,9 @@
 import React, {useEffect, useState, useRef} from 'react';
-import Dropdowns from './Dropdowns';
 import {Button, Typography} from '@mui/material';
-import FormDates from './FormDates.js';
 import FormCheckbox from './FormCheckbox.js';
 import moment from 'moment';
 import {BPDomainSelector} from '../business-process/common/domain-selector';
+import {BPDatePicker} from '../business-process/common/date-picker';
 
 /**
  *
@@ -16,9 +15,12 @@ export default function Form(props) {
   const [priorityCheckboxes, setPriorityCheckboxes] = useState({'Low': false, 'Medium': false, 'High': false});
   const [categoryCheckboxes, setCategoryCheckboxes] = useState({'Heartbeat': false, 'Stop': false, 'Status': false, 'Security': false, 'Start': false});
   const [dropdownValues, setDropdownValues] = useState({'EAI Domain': ['All'], 'Application': ['All'], 'Process/Service': ['All'], 'Business Domain': ['All'], 'Business SubDomain': ['All']});
-
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
   const [fromToDates, setFromToDates] = useState({'From': '2022-01-01 00:00:00', 'To': '2022-01-31 00:00:00'});
 
+  const [fromDateError, setFromDateError] = useState(null);
+  const [toDateError, setToDateError] = useState(null);
   const applyButtonRef = useRef(null);
 
   /* options for dropdown fields. Will eventually be queries to the database */
@@ -29,21 +31,38 @@ export default function Form(props) {
   const BusinessSubDomOptions = ['Business SubDomain 1', 'Business SubDomain 2'];
 
   const formStyle = {
+    width: '1600px',
     marginTop: '20px',
-    marginLeft: '20px',
+    marginLeft: '5px',
     display: 'flex',
     flexDirection: 'column',
+  };
+
+  const filtersStyle = {
+    width: '50%',
+    display: 'flex',
+    flexDirection: 'row',
   };
 
   const dropdownStyle = {
     display: 'flex',
     flexDirection: 'row',
+    flexWrap: 'wrap',
+
   };
 
   const checkboxesStyle = {
+    width: '50%',
     display: 'flex',
     flexDirection: 'row',
   };
+
+  const datesStyle = {
+    paddingBottom: '5px',
+    marginRight: '5px',
+    width: '400px',
+  };
+
 
   useEffect(async () => {
     const ss = window.sessionStorage;
@@ -77,8 +96,8 @@ export default function Form(props) {
   const filterData = (e, objKeys) => {
     // Date filters
     const compareDate = moment(e['Created Date']);
-    const startDate = moment(fromToDates['From']);
-    const endDate = moment(fromToDates['To']);
+    const startDate = moment(fromDate);
+    const endDate = moment(toDate);
     const dateFilter = compareDate.isBetween(startDate, endDate, undefined, '[]'); // '[]' means inclusive on the left and right
 
     // Checkbox filters
@@ -98,6 +117,22 @@ export default function Form(props) {
 
   const applyHandler = (event) => {
     event.preventDefault();
+
+    if (!fromDate) {
+      setFromDateError('Please enter a date.');
+    }
+
+    if (!toDate) {
+      setToDateError('Please enter a date.');
+    }
+
+    if (fromDate && toDate && fromDate > toDate) {
+      setToDateError('To date must be later than from date.');
+    }
+    if (fromDate && fromDate > new Date()) {
+      setFromDateError('From date must be in the past.');
+    }
+
     const severityKeys = Object.keys(severityCheckboxes).filter((e) => severityCheckboxes[e]);
     const priorityKeys = Object.keys(priorityCheckboxes).filter((e) => priorityCheckboxes[e]);
     const categoryKeys = Object.keys(categoryCheckboxes).filter((e) => categoryCheckboxes[e]);
@@ -126,14 +161,50 @@ export default function Form(props) {
     };
   };
 
+  // side effects that handle wrongly inputted dates
+  useEffect(() => {
+    if (fromDate && fromDate > new Date()) {
+      setFromDateError('From date must be in the past.');
+    } else {
+      setFromDateError(null);
+    }
+  }, [fromDate]);
+
+  useEffect(() => {
+    if (toDate && fromDate && toDate < fromDate) {
+      console.log(toDate, fromDate);
+      setToDateError('To date must be after from date.');
+    } else {
+      setToDateError(null);
+    }
+  }, [toDate, fromDate]);
+
   return (
     <div>
       <Typography variant="h6">
         Filters
       </Typography>
       <form style={formStyle} onSubmit={applyHandler}>
-        <div>
-          <FormDates name="From / To Dates" fromToDates={fromToDates} setFromToDates={setFromToDates} />
+        <div style = {filtersStyle}>
+          <div style = {datesStyle}>
+            <BPDatePicker
+              id = 'logevent-datepicker-fromdate'
+              label = 'From Date'
+              onChange = {(newDate)=>{
+                setFromDate(newDate);
+              }}
+              error = {fromDateError}
+            />
+            <BPDatePicker
+              id = 'logevent-datepicker-todate'
+              label = 'To Date'
+              onChange = {(newDate)=>{
+                setToDate(newDate);
+              }}
+              baseDate = {fromDate}
+              error = {toDateError}
+            />
+          </div>
           <div style={dropdownStyle}>
             <BPDomainSelector label = {'EAI Domain'} searchPlaceholder = {'Select options'} list = {EAIOptions} onChange = {changeOptions('EAI Domain')}/>
             <BPDomainSelector label = {'Application'} searchPlaceholder = {'Select options'} list = {applicationOptions} onChange = {changeOptions('Application')}/>
@@ -145,11 +216,11 @@ export default function Form(props) {
             <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business Domain'} testid={'bd'}></Dropdowns>
             <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business SubDomain'} testid={'bsd'}></Dropdowns>*/}
           </div>
-        </div>
-        <div style={checkboxesStyle}>
-          <FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} testid = {'severity'}/>
-          <FormCheckbox name="Priority" checkboxes={priorityCheckboxes} setCheckboxes={setPriorityCheckboxes} testid = {'priority'}/>
-          <FormCheckbox name="Category" checkboxes={categoryCheckboxes} setCheckboxes={setCategoryCheckboxes} testid = {'category'}/>
+          <div style={checkboxesStyle}>
+            <FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} testid = {'severity'}/>
+            <FormCheckbox name="Priority" checkboxes={priorityCheckboxes} setCheckboxes={setPriorityCheckboxes} testid = {'priority'}/>
+            <FormCheckbox name="Category" checkboxes={categoryCheckboxes} setCheckboxes={setCategoryCheckboxes} testid = {'category'}/>
+          </div>
         </div>
         <Button
           type="submit"
@@ -165,10 +236,10 @@ export default function Form(props) {
             },
             width: '100px',
             margin: '20px',
+            alignSelf: 'start',
           }}>
           Apply
         </Button>
-        <br />
       </form>
     </div>
   );

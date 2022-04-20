@@ -22,9 +22,9 @@ export default function FormDates(props) {
   return (
     <div>
       <h4 style = {labelStyle}> {props.name}:</h4>
-      <Stack 
-        component="" 
-        noValidate 
+      <Stack
+        component=""
+        noValidate
         spacing={3}
         sx = {{
           marginBottom: '20px',

@@ -17,7 +17,6 @@ export default function Dashboard(props) {
     return fakeData.filter((e) => e.time <= tf).sort((a, b) => b.time - a.time);
   };
 
-  // const [timeframe, setTimeframe] = useState(60) // (in minutes)
   const [state, setState] = useState({
     timeframe: 60,
     data: getData(60),

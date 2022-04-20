@@ -30,6 +30,15 @@ export default function Dashboard(props) {
     });
   };
 
+  // Helps show when all components have been last updated
+  const [updateTime, setUpdateTime] = useState(getTime());
+  function getTime() {
+    const today = new Date;
+    let hr = today.getHours();
+    let min = today.getMinutes();
+    return hr + ":" + ((min < 10) ? "0" : "") + min;
+  }
+
   if (state.data) {
     return (
       <div className='dashboard'>
@@ -43,7 +52,16 @@ export default function Dashboard(props) {
                   </Typography>
                 </Grid>
                 <Grid item xs={6} align="right">
-                  <Dropdown timeframe={state.timeframe} setTimeframe={changeTimeframe}/>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <Dropdown timeframe={state.timeframe} setTimeframe={changeTimeframe} setUpdateTime={setUpdateTime} getTime={getTime}/>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="h7">
+                        Last updated at {updateTime}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>

@@ -41,12 +41,12 @@ export default function Dashboard(props) {
 
   // Helps show when all components have been last updated
   const [updateTime, setUpdateTime] = useState(getTime());
-  function getTime() {
+  const getTime = () => {
     const today = new Date;
     const hr = today.getHours();
     const min = today.getMinutes();
     return hr + ':' + ((min < 10) ? '0' : '') + min;
-  }
+  };
 
   if (state.data) {
     return (

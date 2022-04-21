@@ -9,7 +9,7 @@ import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/s
 import renderBusinessProcessInstances from './tree-item-log';
 import TreeContextMenu from './tree-context-menu';
 
-const findExpandable = (tree) => {
+export const findExpandable = (tree) => {
   const result = [];
   const stack = [...tree];
   while (stack.length) {
@@ -95,7 +95,7 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
         {
           mouseX: event.clientX - 2,
           mouseY: event.clientY - 4,
-          source: source,
+          node: source,
         } :
         null,
     );
@@ -120,7 +120,7 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
       key={nodes.name}
       nodeId={nodes.name}
       label={nodes.name}
-      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      onContextMenu={(e) => handleContextMenu(e, nodes)}
       sx={rootTreeStyle}
     >
       {
@@ -136,7 +136,7 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
       key={nodes.name}
       nodeId={nodes.name}
       label={nodes.name}
-      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      onContextMenu={(e) => handleContextMenu(e, nodes)}
       sx={subTreeStyle}
     >
       {
@@ -152,7 +152,7 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
       key={nodes.name}
       nodeId={nodes.name}
       label={nodes.name}
-      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      onContextMenu={(e) => handleContextMenu(e, nodes)}
       sx={subTreeStyle}
     >
       {
@@ -166,6 +166,10 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
       }
     </TreeItem>
   );
+
+  useEffect(() => {
+    console.log('expanded', expanded);
+  }, [expanded]);
 
   return (
     <div
@@ -232,6 +236,8 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
           }
         </TreeView>
         <TreeContextMenu
+          expanded={expanded}
+          setExpanded={(newExpanded) => setExpanded(newExpanded)}
           contextMenu={contextMenu}
           handleClose={handleClose}
         />

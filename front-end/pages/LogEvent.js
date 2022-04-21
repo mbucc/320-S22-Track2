@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
 import Form from '../Components/LogEvent-Form/Form.js';
 import LETable from '../Components/LogEvent-Form/LETable.js';
-import Header from '../Components/LogEvent-Form/Header.js';
 import {Container} from '@mui/material';
 
 /**
  *
  * @return {JSX.Element}
  */
-export default function LogEvent() {
+export default function LogEvent(props) {
   /* just some code to generate a big set of mock data */
   const mockData = [];
 
@@ -20,7 +19,7 @@ export default function LogEvent() {
     width: 'fit-content',
   };
   for (let i = 0; i < 1000; i++) {
-    let severity = 'N/A'; const date = `1/${(i%30) + 1}/${2022 + (Math.floor(i / 2022))} 0${i%10}:00:00`; const ps = 'Update Costumer'; const app = 'CRM'; const activity = 'Activity'; let priority = 'N/A'; let category = 'N/A'; let eai = 'N/A'; let BD = ''; let BSD = '';
+    let severity = 'N/A'; const date = `1/${(i%30) + 1}/${2022 + (Math.floor(i / 2022))} 0${i%10}:00:00`; const ps = 'Update Customer'; const app = 'CRM'; const activity = 'Activity'; let priority = 'N/A'; let category = 'N/A'; let eai = 'N/A'; let BD = ''; let BSD = '';
     switch (i%5) {
       case (0): category = 'Heartbeat'; break;
       case (1): category = 'Stop'; break;
@@ -51,6 +50,7 @@ export default function LogEvent() {
       'EAI Domain': eai,
       'Business Domain': BD,
       'Business SubDomain': BSD,
+      'id': i,
     });
   };
   {/* {"severity": "error", "Created Date": "3/2/2022", "Process/Service": "Update Costumer", "Application": "CRM", "Activity": "Activity", "Log Event": "Detail", "priority": "high", "category": "start", "EAI Domain": "EAI Domain 1" },
@@ -75,14 +75,12 @@ export default function LogEvent() {
 
   return (
     <div>
-      <Header />
       <Container style = {formContainerStyle}>
         <Form mockData={mockData} setData={setData}/>
       </Container>
       <Container style = {formContainerStyle}>
         <LETable data = {data}/>
       </Container>
-
     </div>
   );
 }

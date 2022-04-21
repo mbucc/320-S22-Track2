@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Select, MenuItem, InputLabel} from '@mui/material';
 
 /**
@@ -7,8 +7,6 @@ import {Select, MenuItem, InputLabel} from '@mui/material';
  * @return {JSX.Element}
  */
 export default function Dropdowns(props) {
-  const [dropdownValue, setDropdownValue] = useState('All');
-
   const dropdownStyle = {
     marginTop: '20px',
     marginRight: '20px',
@@ -16,7 +14,6 @@ export default function Dropdowns(props) {
   };
 
   const handleOnChange = (event)=>{
-    setDropdownValue(event.target.value);
     props.setOptions((option)=>{
       return {...option, [props.name]: event.target.value};
     });
@@ -25,7 +22,7 @@ export default function Dropdowns(props) {
   return (
     <div style={dropdownStyle}>
       <InputLabel > {props.name} </InputLabel>
-      <Select value={dropdownValue} onChange={handleOnChange} >
+      <Select value={props.dropdownValue[props.name]} onChange={handleOnChange} data-testid={`dropdown-${props.testid}`}>
         <MenuItem value={'All'}> {'All'}</MenuItem>
         {props.options.map((e, i)=>{
           return (

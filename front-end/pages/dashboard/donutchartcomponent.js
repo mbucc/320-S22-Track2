@@ -30,7 +30,7 @@ function DonutChartComponent(props) {
         onClick: (event, element) => {
           if (element.length > 0) {
             // props.onClickFunc('Click');
-            props.onClickFunc(props.data.labels[element[0].index]);
+            props.toggleBP({type: 'severity', severity: props.type, bp: props.data.labels[element[0].index]});
           }
         },
         plugins: {

@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import { Button } from '@mui/material';
+import React from 'react';
+import {Button} from '@mui/material';
 import Link from 'next/link';
 
+/**
+ * @param {Object} props
+* @return {JSX.Element}
+*/
 function Navbar(props) {
-  const [loggedIn, setLogin] = useState(false);
-  const childToParent = (childdata) => {
-    setLogin(childdata);
-  };
-
   return (
     // change the way content is justified
     <div
@@ -57,6 +56,7 @@ function Navbar(props) {
                 fontWeight: 'bolder',
               },
             }}
+            onClick={()=>props.clearFilters()}
           >
             <Link href='/' passHref>
               <a>
@@ -93,7 +93,7 @@ function Navbar(props) {
               },
             }}
           >
-            <Link href='/log-events/' passHref>
+            <Link href='LogEvent' passHref>
               <a>
                 Log Events
               </a>
@@ -119,12 +119,13 @@ function Navbar(props) {
               fontWeight: 'bolder',
             },
           }}
+          onClick = {() => props.setLogin(false) }
         >
           <Link
             href={{
-              pathname: './login/Login',
-              query: { setLogin: childToParent },
-            }} 
+              pathname: '/',
+              state: {testVar: 'test'},
+            }}
             passHref
           >
             <a>

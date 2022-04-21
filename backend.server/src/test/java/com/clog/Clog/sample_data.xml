@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <LOG_DETAILS_T 
+    <LOG_DETAILS_T> 
         global_instance_id = "crm_server_000001"
         business_domain = "CRM"
         business_subdomain = "Customer"
@@ -20,5 +20,7 @@
         category_name = "ReportSituation"
         activity = "Customer Update Started"
         msg = "Recieved a customer update start event"
-    />
+    </>
+
+
 </dataset>

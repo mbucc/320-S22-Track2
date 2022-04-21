@@ -7,7 +7,7 @@ export const dateOptions = {
   minute: 'numeric',
   second: undefined,
   hour12: true,
-  timeZoneName: undefined,
+  timeZone: undefined,
 };
 
 export const getDateStringByValue = (value) => {

@@ -97,15 +97,12 @@ describe('Date format is parsed correctly', () => {
 });
 
 describe('Other tests in DatePicker component', () => {
-  it('Support DLS correctly.', () => {
-    // TODO: Handle "before" and "after" time correctly.
-  });
   it('Popper should be dismissed when we click outside.', () => {
     cy.get('body').click(0, 0);
     cy.get('#bp-tree-filter-start-date-picker-popper').should('not.exist');
   });
   it('Date should be changed per actions of the popper .', () => {
-    const test_date = new Date(2021, 9, 20, 15, 15);
+    const test_date = new Date(2021, 9, 20, 3, 15);
     cy.get('#bp-tree-filter-start-date-picker-field').clear().click();
     cy.get('#bp-tree-filter-start-date-picker-popper').should('exist');
     cy.get('[data-testid="ArrowDropDownIcon"]').click();
@@ -113,5 +110,19 @@ describe('Other tests in DatePicker component', () => {
     cy.get(':nth-child(4) > :nth-child(4) > .MuiButtonBase-root').click();
     cy.get('.css-1umqo6f').click(220, 110, {force: true}).click(220, 110, {force: true});
     cy.get('#bp-tree-filter-start-date-picker-field').should('have.value', test_date.toLocaleDateString('en-US', dateOptions));
+  });
+  it('Support DLS correctly.', () => {
+    cy.get('#bp-tree-filter-start-date-picker-field').clear();
+    cy.get('#bp-tree-filter-start-date-picker-field').type('11/07/2021 1am').type('{enter}');
+    cy.get('#bp-date-picker-conflict-option-earlier').should('exist');
+    cy.get('#bp-date-picker-conflict-option-later').should('exist');
+    cy.get('#bp-date-picker-conflict-option-later').click();
+
+    cy.get('#bp-tree-filter-end-date-picker-field').type('11/07/2021 1am').type('{enter}');
+    cy.get('#bp-tree-filter-apply-button').click();
+    cy.get('.icon-tabler-alert-circle').should('exist');
+
+    cy.get('#bp-tree-filter-end-date-picker-field').clear();
+    cy.get('#bp-tree-filter-end-date-picker-field').type('3/14/2021 2:30 AM').type('{enter}').should('have.value', '3/14/2021, 3:30 AM');
   });
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import BPTreeComponent from './tree-view';
 import {BPColors} from '../../../utils/business-process/standards';
 import BPTreeFilterComponent from './tree-filter';
@@ -11,8 +11,12 @@ const BPTreeView = ({
 }) => {
   const {
     data,
-    setData,
+    setParam,
   } = useLPSession(BPLaunchpad.tree.getMap());
+
+  useEffect(() => {
+    console.log('BPTreeView: useEffect', data);
+  }, [data]);
 
   return (
     <div
@@ -26,7 +30,7 @@ const BPTreeView = ({
       {/* Filter Section */}
       <BPTreeFilterComponent
         onChange={(filter) => {
-          setData(filter);
+          setParam(filter);
         }}
       />
 

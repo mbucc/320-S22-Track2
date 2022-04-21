@@ -12,7 +12,7 @@ const BPActivityView = ({
 }) => {
   const {
     data: gridData,
-    setData: setSelectedTransaction,
+    setParam: setSelectedTransaction,
   } = useLPSession(BPLaunchpad.activities.getGrid());
 
   const columns = useBPActivityTableColumns();

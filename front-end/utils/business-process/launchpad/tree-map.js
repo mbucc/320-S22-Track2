@@ -1,4 +1,5 @@
 import {sampleEAIDomains} from '../sample-data';
+import {RequestHandler, RMContentType} from "@taci-tech/launchpad-js";
 
 /**
  * Mock tree map fetching launchpad configuration.
@@ -8,7 +9,26 @@ export const getTreeMap = () => {
   return {
     onStart: () => [],
     onMount: ({setState}) => {
-      setState(sampleEAIDomains);
+      RequestHandler.get({
+        path: 'http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/businessProcessTree',
+        config: {
+          contentType: RMContentType.JSON,
+          header: {
+            'Allow-Control-Allow-Origin': '*',
+          },
+          query: {
+            'startTime': '2022-01-22%2012:55:03.680000',
+            'endTime': '2022-04-22%2012:55:03.680000',
+            'eaiDomain': 'EAI_DOMAIN_1,EAI_DOMAIN_2',
+            'publishingBusinessDomain': 'crm_app',
+          },
+        },
+        handler: {
+          200: (data) => {
+            setState(data);
+          },
+        },
+      });
     },
     onOverride: ({setState, newValue}) => {
       newValue = newValue || {
@@ -16,26 +36,23 @@ export const getTreeMap = () => {
         publishingBusinessDomains: undefined,
       };
 
-      let result = sampleEAIDomains;
-
-      // Mock: Filter out the EAI Domains.
-      if (newValue.eaiDomains && newValue.eaiDomains.length > 0) {
-        result = result.filter((domain) => {
-          return newValue.eaiDomains.includes(domain.name);
-        });
-      }
-
-      if (newValue.publishingBusinessDomains && newValue.publishingBusinessDomains.length > 0) {
-        result = result.map((domain) => {
-          const newDomain = {...domain};
-          newDomain.children = newDomain.children.filter((child) => {
-            return newValue.publishingBusinessDomains.includes(child.name);
-          });
-          return newDomain;
-        });
-      }
-
-      setState(result);
+      RequestHandler.get({
+        path: 'http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/businessProcessTree',
+        config: {
+          contentType: RMContentType.JSON,
+          query: {
+            'startTime': '2022-01-22%2012:55:03.680000',
+            'endTime': '2022-04-22%2012:55:03.680000',
+            'eaiDomain': 'EAI_DOMAIN_1,EAI_DOMAIN_2',
+            'publishingBusinessDomain': 'crm_app',
+          },
+        },
+        handler: {
+          200: (data) => {
+            setState(data);
+          },
+        },
+      });
     },
   };
 };

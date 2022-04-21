@@ -55,7 +55,7 @@ const BPTreeFilterComponent = ({onChange}) => {
 
   const {
     data: publishingBusinessDomainList,
-    setData: setSelectedEAIDomains,
+    setParam: setSelectedEAIDomains,
   } = useLPSession(BPLaunchpad.tree.getPublishingBusinessDomainList());
 
   useEffect(() => {

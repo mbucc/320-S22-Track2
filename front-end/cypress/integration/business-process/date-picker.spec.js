@@ -3,6 +3,7 @@ import {dateOptions} from '../../../utils/business-process/date-options';
 before(() => {
   cy.visit('/business-process');
   cy.clock(new Date().getTime());
+  cy.get('.MuiButton-root').first().click();
 });
 
 describe('Magic commands is working properly with shortcut commands.', () => {

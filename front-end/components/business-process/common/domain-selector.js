@@ -82,7 +82,7 @@ export const BPDomainSelector = ({id = 'bp-domain-selector', label, onChange, se
             }}
           >
             {label ? (
-              <p style={labelStyle}>{label}</p>
+              <div style={labelStyle}>{label}</div>
             ) : <></>}
             <div
               id={id}

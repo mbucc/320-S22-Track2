@@ -3,12 +3,20 @@ import styles from '../../styles/Dashboard.module.css';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import moment from 'moment';
 
 /**
  * @param {Object} props
 * @return {JSX.Element}
 */
 function DonutCharts(props) {
+  const endTime =  moment()
+  const startTime = moment().subtract(props.timeframe, 'minute')
+  const toggleBP = (filters) => {
+    filters['start'] = startTime._d
+    filters['end'] = endTime._d
+    props.toggleBP(filters)
+  }
   const filterData = (type) => {
     const bpscore = {};
     const filtered = props.data.filter((e)=>e.type===type);
@@ -43,14 +51,16 @@ function DonutCharts(props) {
             <div className={styles.column}>
               <DonutChartComponent
                 data={filterData('Warning')}
-                onClickFunc={(l, v) => console.log(l)}
+                toggleBP={toggleBP}
+                type='Warning'
                 title='Percent Contribution to Warnings'
               />
             </div>
             <div className={styles.column}>
               <DonutChartComponent
                 data={filterData('Error')}
-                onClickFunc={(l, v) => console.log(l)}
+                toggleBP={toggleBP}
+                type='Error'
                 title='Percent Contribution to Errors'
               />
             </div>

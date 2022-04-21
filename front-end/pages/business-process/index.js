@@ -18,35 +18,17 @@ const BPIndex = () => {
       id={'bp-root'}
       style={{
         width: '100%',
-        height: '100vh', // 100vh = 100% of viewport height.
       }}
     >
       <Head>
         <title>Business Process - CLOG</title>
       </Head>
 
-      <div
-        style={{
-          width: '100%',
-          height: 70,
-          flexShrink: 0,
-          backgroundColor: '#fbfbfb',
-          borderBottom: BPStandards.border,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <p style={{fontSize: 16, fontWeight: '500', opacity: 0.3}}>
-          Navigation Placeholder
-        </p>
-      </div>
-
       {/* The adjustable frame */}
       <div
         style={{
           width: '100%',
-          height: 'calc(100% - 70px)',
+          height: 'calc(100vh - 68.5px)',
           flexShrink: 1,
           flexGrow: 0,
         }}

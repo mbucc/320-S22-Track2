@@ -10,13 +10,13 @@ import moment from 'moment';
 * @return {JSX.Element}
 */
 function DonutCharts(props) {
-  const endTime =  moment()
-  const startTime = moment().subtract(props.timeframe, 'minute')
+  const endTime = moment();
+  const startTime = moment().subtract(props.timeframe, 'minute');
   const toggleBP = (filters) => {
-    filters['start'] = startTime._d
-    filters['end'] = endTime._d
-    props.toggleBP(filters)
-  }
+    filters['start'] = startTime._d;
+    filters['end'] = endTime._d;
+    props.toggleBP(filters);
+  };
   const filterData = (type) => {
     const bpscore = {};
     const filtered = props.data.filter((e)=>e.type===type);

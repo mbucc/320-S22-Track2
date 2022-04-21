@@ -135,6 +135,12 @@ export const BPCheckboxGroup = ({id = 'bp-checkbox-group', label, onChange, styl
         } else {
           onChange(selectedOptions.filter((item) => item !== label));
         }
+      } else {
+        if (!selectedOptions.includes(label)) {
+          setSelectedOptions([...selectedOptions, label]);
+        } else {
+          setSelectedOptions(selectedOptions.filter((item) => item !== label));
+        }
       }
     };
   };

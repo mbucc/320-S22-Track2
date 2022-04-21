@@ -7,20 +7,77 @@ import {BPDatePicker} from '../business-process/common/date-picker';
 
 /**
  *
- * @param {*} props state and setState for data
+ * @param {*} props state and setState for data, as well as possible filters for
  * @return {JSX.Element}
  */
 export default function Form(props) {
-  const [severityCheckboxes, setSeverityCheckboxes] = useState({'Error': false, 'Warning': false, 'Info': false, 'Success': false});
-  const [priorityCheckboxes, setPriorityCheckboxes] = useState({'Low': false, 'Medium': false, 'High': false});
-  const [categoryCheckboxes, setCategoryCheckboxes] = useState({'Heartbeat': false, 'Stop': false, 'Status': false, 'Security': false, 'Start': false});
+  const initSeverityCheckboxes = {
+    'Error': false,
+    'Warning': false,
+    'Info': false,
+    'Success': false,
+  };
+
+  const initPriorityCheckboxes = {
+    'Low': false,
+    'Medium': false,
+    'High': false,
+  };
+
+  const initCategoryCheckboxes = {
+    'Heartbeat': false,
+    'Stop': false,
+    'Status': false,
+    'Security': false,
+    'Start': false,
+  };
+
+  if (props.logEventFilters?.type && props.logEventFilters?.type === 'severity') {
+    switch (props.logEventFilters?.severity) {
+      case ('Logs'):
+        // We want to show all logs. check everything
+        Object.keys(initSeverityCheckboxes).forEach((e)=>{
+          initSeverityCheckboxes[e] = true;
+        });
+        Object.keys(initPriorityCheckboxes).forEach((e)=>{
+          initPriorityCheckboxes[e] = true;
+        });
+        Object.keys(initCategoryCheckboxes).forEach((e)=>{
+          initCategoryCheckboxes[e] = true;
+        });
+        break;
+      case ('Errors'):
+        initSeverityCheckboxes['Error'] = true;
+        Object.keys(initPriorityCheckboxes).forEach((e)=>{
+          initPriorityCheckboxes[e] = true;
+        });
+        Object.keys(initCategoryCheckboxes).forEach((e)=>{
+          initCategoryCheckboxes[e] = true;
+        });
+        break;
+      case ('Warnings'):
+        initSeverityCheckboxes['Warnings'] = true;
+        Object.keys(initPriorityCheckboxes).forEach((e)=>{
+          initPriorityCheckboxes[e] = true;
+        });
+        Object.keys(initCategoryCheckboxes).forEach((e)=>{
+          initCategoryCheckboxes[e] = true;
+        });
+        break;
+    }
+  }
+
+
+  const [severityCheckboxes, setSeverityCheckboxes] = useState(initSeverityCheckboxes);
+  const [priorityCheckboxes, setPriorityCheckboxes] = useState(initPriorityCheckboxes);
+  const [categoryCheckboxes, setCategoryCheckboxes] = useState(initCategoryCheckboxes);
   const [dropdownValues, setDropdownValues] = useState({'EAI Domain': ['All'], 'Application': ['All'], 'Process/Service': ['All'], 'Business Domain': ['All'], 'Business SubDomain': ['All']});
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
-  const [fromToDates, setFromToDates] = useState({'From': '2022-01-01 00:00:00', 'To': '2022-01-31 00:00:00'});
 
   const [fromDateError, setFromDateError] = useState(null);
   const [toDateError, setToDateError] = useState(null);
+
   const applyButtonRef = useRef(null);
 
   /* options for dropdown fields. Will eventually be queries to the database */
@@ -71,13 +128,15 @@ export default function Form(props) {
       await setPriorityCheckboxes(JSON.parse(ss.getItem('priorityCheckboxes')));
       await setCategoryCheckboxes(JSON.parse(ss.getItem('categoryCheckboxes')));
       await setDropdownValues(JSON.parse(ss.getItem('dropdownValues')));
-      await setFromToDates(JSON.parse(ss.getItem('fromToDates')));
+      await setFromDate(JSON.parse(ss.getItem('fromDate')));
+      await setToDate(JSON.parse(ss.getItem('toDate')));
       ss.removeItem('severityCheckboxes');
       ss.removeItem('priorityCheckboxes');
       ss.removeItem('categoryCheckboxes');
       ss.removeItem('dropdownValues');
-      ss.removeItem('fromToDates');
       ss.removeItem('isLogDetail');
+      ss.removeItem('fromDate');
+      ss.removeItem('toDate');
 
       applyButtonRef.current.click();
     }
@@ -89,7 +148,8 @@ export default function Form(props) {
     ss.setItem('priorityCheckboxes', JSON.stringify(priorityCheckboxes));
     ss.setItem('categoryCheckboxes', JSON.stringify(categoryCheckboxes));
     ss.setItem('dropdownValues', JSON.stringify(dropdownValues));
-    ss.setItem('fromToDates', JSON.stringify(fromToDates));
+    ss.setItem('fromDate', JSON.stringify(fromDate));
+    ss.setItem('toDate', JSON.stringify(toDate));
   };
 
   {/* returns true if a given piece of data in the grid has properties specified by current filters */}
@@ -117,11 +177,11 @@ export default function Form(props) {
 
   const applyHandler = (event) => {
     event.preventDefault();
-
+    console.log(fromDate);
     if (!fromDate) {
       setFromDateError('Please enter a date.');
     }
-
+    console.log(toDate);
     if (!toDate) {
       setToDateError('Please enter a date.');
     }
@@ -172,7 +232,6 @@ export default function Form(props) {
 
   useEffect(() => {
     if (toDate && fromDate && toDate < fromDate) {
-      console.log(toDate, fromDate);
       setToDateError('To date must be after from date.');
     } else {
       setToDateError(null);

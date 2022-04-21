@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Grid';
@@ -10,9 +10,9 @@ import Timeline from './Timeline';
 * @return {JSX.Element}
 */
 export default function Timelines(props) {
-  const [data, setData] = useState(null)
+  const [data, setData] = useState(null);
 
-  console.log(moment().subtract(60, 'minute').format('HH:mm'))
+  // console.log(moment(xz).subtract(60, 'minute').format('HH:mm'));
   // const data = [
   //   {time: '13:00', logs: 20},
   //   {time: '13:06', logs: 10},

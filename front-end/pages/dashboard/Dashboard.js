@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState} from 'react';
 import Timelines from './Timelines';
-import Counts from './Counts'
+import Counts from './Counts';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import DonutCharts from './donutchart';
 import Typography from '@mui/material/Typography';
 import Dropdown from './Dropdown';
@@ -17,20 +16,21 @@ export default function Dashboard(props) {
   const [data, setData] = useState(fakeData.filter(e => e.time <= timeframe).sort((a, b) => b.time - a.time));
 
   const refresh = () => {
-    setData(getData())
-  }
+    setData(getData());
+  };
 
   const getData = () => {
-    return fakeData.filter(e => e.time <= timeframe)
-  }
+    return fakeData.filter((e) => e.time <= timeframe);
+  };
 
   if (data) {
+    const newLocal = '100%';
     return (
       <div className='dashboard'>
-        <Box px={6} py={3} sx={{ height: '100%', width: '100%' }}>
+        <Box px={6} py={3} sx={{height: newLocal, width: '100%'}}>
           <Grid container direction='row' height={'100%'} spacing={3}>
             <Grid item xs={12}>
-              <Grid container style={{alignItems: "center"}}>
+              <Grid container style={{alignItems: 'center'}}>
                 <Grid item xs={6}>
                   <Typography variant="h4">
                     Welcome!
@@ -42,7 +42,7 @@ export default function Dashboard(props) {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Counts setFilters={props.onLogEventsClick} data={data} timeframe={"1 hour"}/>
+              <Counts setFilters={props.onLogEventsClick} data={data} timeframe={'1 hour'}/>
             </Grid>
             <Grid item xs={12}>
               <Grid container item direction="row" spacing={5}>
@@ -59,5 +59,5 @@ export default function Dashboard(props) {
       </div>
     );
   }
-  return(<div>Loading data...</div>)
+  return (<div>Loading data...</div>);
 }

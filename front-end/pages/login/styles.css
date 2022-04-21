@@ -4,12 +4,13 @@
   }
   
   body {
-    background: #637d63;
+    background: '#22c55e';
   }
   
   .App {
     font-family: sans-serif;
     text-align: center;
+    background-color: rgb(34, 197, 94);
   }
   
   .form {

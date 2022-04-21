@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 
 import {IconAlertCircle, IconCheck, IconInfoCircle} from '@tabler/icons';
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const sampleOptions = [
   {

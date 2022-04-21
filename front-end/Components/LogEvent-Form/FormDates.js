@@ -3,6 +3,10 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 
 
+const labelStyle = {
+  marginBottom: '20px',
+};
+
 /**
  *
  * @param {*} props state and setState for dates
@@ -17,8 +21,14 @@ export default function FormDates(props) {
 
   return (
     <div>
-      <h4> {props.name}:</h4>
-      <Stack component="" noValidate spacing={3}>
+      <h4 style = {labelStyle}> {props.name}:</h4>
+      <Stack
+        component=""
+        noValidate
+        spacing={3}
+        sx = {{
+          marginBottom: '20px',
+        }}>
         <TextField
           name="From"
           id="from-date"
@@ -26,11 +36,14 @@ export default function FormDates(props) {
           type="datetime-local"
           defaultValue={props.fromToDates.From}
           value ={props.fromToDates.From}
-          sx={{width: 250}}
+          sx={{
+            width: 250,
+          }}
           InputLabelProps={{
             shrink: true,
           }}
           onChange={handleOnChange}
+
         />
         <TextField
           name="To"

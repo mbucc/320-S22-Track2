@@ -1,7 +1,8 @@
-import {Button, AppBar, IconButton, Popover, Toolbar, Typography, MenuList, MenuItem, Link} from '@mui/material';
+import {Button, AppBar, IconButton, Popover, Toolbar, Typography, MenuList, MenuItem, Link, Tab, Tabs} from '@mui/material';
 import {Menu} from '@mui/icons-material';
 import React from 'react';
 import {useState} from 'react';
+
 
 /**
  * @param {*} props homeHref - hypertext reference for the home button. homeText - text for the home button. titleText - text for the title
@@ -28,9 +29,14 @@ export default function Header(props) {
     setAnchor(null);
   };
 
+
   return (
     <div>
-      <AppBar position = "static">
+      <AppBar
+        position = "static"
+        sx = {{
+          backgroundColor: '#6FB2D2',
+        }}>
         <Toolbar>
           <IconButton onClick={openPopover}>
             <Menu />
@@ -71,6 +77,10 @@ export default function Header(props) {
           <Typography variant = "h4">
             {props.titleText}
           </Typography>
+          <Tabs>
+            <Tab label = 'Log Event' value = {0} component = {'a'} href = {'/log-event/LogEvent'} />
+            <Tab label = 'Business Process' value = {1} component = {'a'} href = {'/business-process/'} />
+          </Tabs>
         </Toolbar>
       </AppBar>
     </div>

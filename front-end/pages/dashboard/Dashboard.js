@@ -13,6 +13,16 @@ import fakeData from './fake_data.json';
 * @return {JSX.Element}
 */
 export default function Dashboard(props) {
+  // const testing = async () => {
+  //   await fetch('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/countByType?severity=error&intervals=6&timeBack=1440 ')
+  //     .then((response) => {response.json();})
+  //     .then((data) => {
+  //       console.log('testing api: ', data)
+  //     })
+  // }
+
+  // testing()
+
   const getData = (tf) => {
     return fakeData.filter((e) => e.time <= tf).sort((a, b) => b.time - a.time);
   };

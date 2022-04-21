@@ -56,18 +56,7 @@ const RegularButton = React.forwardRef((props, ref) => {
 
 RegularButton.propTypes = {
   color: PropTypes.oneOf([
-    'primary',
-    'info',
-    'success',
-    'warning',
-    'danger',
-    'rose',
-    'white',
-    'facebook',
-    'twitter',
-    'google',
-    'github',
-    'transparent',
+    '#22c55e'
   ]),
   size: PropTypes.oneOf(['sm', 'lg']),
   simple: PropTypes.bool,

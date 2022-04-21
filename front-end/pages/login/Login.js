@@ -1,16 +1,15 @@
 import React from 'react';
 import CustomInput from './CustomInput';
 import Button from './Buttons';
+import logo from "./iso_newengland.png"
+import Image from "next/image"
 
-/**
- * @param {Object} props
-* @return {JSX.Element}
-*/
+// eslint-disable-next-line require-jsdoc
 export default function Login({setLogin}) {
   return (
     <div className="App">
-
-
+      <Image src = {logo}  style={{minWidth: "50%", height: "50%"}}/>
+      <h3>ISO CLOG Monitor</h3>
       <form className="form">
         <CustomInput
           labelText="Email"

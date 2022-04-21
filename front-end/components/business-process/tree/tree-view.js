@@ -195,6 +195,9 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
       >
         <BPTextButton
           onClick={handleExpandClick}
+          style={{
+            marginLeft: '-6px',
+          }}
         >
           {expanded.length === 0 ? 'Expand All' : 'Collapse All'}
         </BPTextButton>

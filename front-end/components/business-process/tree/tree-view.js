@@ -33,8 +33,11 @@ const rootTreeStyle = {
   '&:hover': {
     backgroundColor: BPColors.gray[70] + '4f',
   },
+  '& > .MuiTreeItem-content > .MuiTreeItem-label': {
+    height: 40,
+  },
   '& > .MuiTreeItem-content': {
-    minHeight: 40,
+    height: 40,
     backgroundColor: BPColors.gray[30],
     borderRadius: BPDimens.treeRadius,
     border: BPStandards.border,
@@ -58,8 +61,11 @@ const subTreeStyle = {
   '&:hover': {
     backgroundColor: BPColors.gray[70] + '4f',
   },
+  '& > .MuiTreeItem-content > .MuiTreeItem-label': {
+    height: 34,
+  },
   '& > .MuiTreeItem-content': {
-    minHeight: 34,
+    height: 34,
     borderRadius: BPDimens.treeRadius,
     '&:hover': {
       backgroundColor: BPColors.gray[100],
@@ -95,7 +101,8 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
         {
           mouseX: event.clientX - 2,
           mouseY: event.clientY - 4,
-          node: source,
+          node: source.node,
+          level: source.level,
         } :
         null,
     );
@@ -119,8 +126,16 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
     <TreeItem
       key={nodes.name}
       nodeId={nodes.name}
-      label={nodes.name}
-      onContextMenu={(e) => handleContextMenu(e, nodes)}
+      label={(
+        <div
+          style={{height: '100%', display: 'flex', alignItems: 'center'}}
+          onContextMenu={(e) => {
+            handleContextMenu(e, {node: nodes, level: 0});
+          }}
+        >
+          {nodes.name}
+        </div>
+      )}
       sx={rootTreeStyle}
     >
       {
@@ -135,8 +150,16 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
     <TreeItem
       key={nodes.name}
       nodeId={nodes.name}
-      label={nodes.name}
-      onContextMenu={(e) => handleContextMenu(e, nodes)}
+      label={(
+        <div
+          style={{height: '100%', display: 'flex', alignItems: 'center'}}
+          onContextMenu={(e) => {
+            handleContextMenu(e, {node: nodes, level: 1});
+          }}
+        >
+          {nodes.name}
+        </div>
+      )}
       sx={subTreeStyle}
     >
       {
@@ -151,8 +174,16 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
     <TreeItem
       key={nodes.name}
       nodeId={nodes.name}
-      label={nodes.name}
-      onContextMenu={(e) => handleContextMenu(e, nodes)}
+      label={(
+        <div
+          style={{height: '100%', display: 'flex', alignItems: 'center'}}
+          onContextMenu={(e) => {
+            handleContextMenu(e, {node: nodes, level: 2});
+          }}
+        >
+          {nodes.name}
+        </div>
+      )}
       sx={subTreeStyle}
     >
       {
@@ -166,10 +197,6 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
       }
     </TreeItem>
   );
-
-  useEffect(() => {
-    console.log('expanded', expanded);
-  }, [expanded]);
 
   return (
     <div

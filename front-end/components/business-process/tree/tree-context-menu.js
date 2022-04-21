@@ -2,6 +2,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {findExpandable} from './tree-view';
+import {useEffect, useState} from 'react';
 
 /**
  * The context menu for the tree.
@@ -9,6 +10,22 @@ import {findExpandable} from './tree-view';
  * @return {JSX.Element} - The context menu for the tree.
  */
 export default function TreeContextMenu({contextMenu, handleClose, expanded, setExpanded}) {
+  // Use states to avoid content-jumping while animating.
+  const [expandLabel, setExpandLabel] = useState('');
+  const [collapseLabel, setCollapseLabel] = useState('');
+
+  useEffect(() => {
+    if (contextMenu) {
+      if (contextMenu.level === 2) {
+        setExpandLabel('Expand');
+        setCollapseLabel('Collapse');
+      } else {
+        setExpandLabel('Expand All Children');
+        setCollapseLabel('Collapse All Children');
+      }
+    }
+  }, [contextMenu]);
+
   return (
     <Menu
       open={contextMenu !== null}
@@ -45,18 +62,22 @@ export default function TreeContextMenu({contextMenu, handleClose, expanded, set
           handleClose();
         }}
       >
-        Expand All Children
+        {expandLabel}
       </MenuItem>
       <MenuItem
         onClick={() => {
           const toBeCollapsed = findExpandable([contextMenu.node]);
-          setExpanded(expanded.filter((name) => {
-            return !toBeCollapsed.includes(name) || name === contextMenu.node.name;
-          }));
+          if (contextMenu.level === 2) {
+            setExpanded(expanded.filter((name) => !toBeCollapsed.includes(name)));
+          } else {
+            setExpanded(expanded.filter((name) => {
+              return !toBeCollapsed.includes(name) || name === contextMenu.node.name;
+            }));
+          }
           handleClose();
         }}
       >
-        Collapse All Children
+        {collapseLabel}
       </MenuItem>
     </Menu>
   );

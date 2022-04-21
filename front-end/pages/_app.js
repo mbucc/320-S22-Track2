@@ -6,7 +6,7 @@ import '../styles/styles.css';
 import React, { useState } from 'react';
 import Navbar from './dashboard/Navbar';
 import Grid from '@mui/material/Grid';
-import Login from './login/login';
+import Login from './login/Login';
 import { useRouter } from 'next/router'
 
 import { StyledEngineProvider } from '@mui/material';

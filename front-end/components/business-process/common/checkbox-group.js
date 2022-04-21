@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 
 import {IconAlertCircle, IconCheck, IconInfoCircle} from '@tabler/icons';
+import styled from "styled-components";
 
 const sampleOptions = [
   {
@@ -83,6 +84,28 @@ export const BPCheckboxGroupItem = ({id = 'bp-checkbox-group-item', selectKey, s
   );
 };
 
+const BPSelectAllButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 5px;
+  margin-bottom: 1px;
+  cursor: pointer;
+  color: ${BPColors.gray[400]};
+  font-size: 13px;
+  font-weight: 400;
+  transition: all 0.11s ease-in-out;
+  user-select: none;
+  opacity: 0.80;
+  
+  &:hover {
+    color: ${BPColors.gray[500]};
+    background-color: ${BPColors.gray[100]};
+    border-radius: ${BPDimens.smallRadius}px;
+    opacity: 1.00;
+  }
+`;
+
 export const BPCheckboxGroup = ({id = 'bp-checkbox-group', label, onChange, style, boxStyle, options = sampleOptions, selected = [], hint, error}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(selected);
@@ -133,7 +156,36 @@ export const BPCheckboxGroup = ({id = 'bp-checkbox-group', label, onChange, styl
       }}
     >
       {label ? (
-        <p style={labelStyle}>{label}</p>
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'flex-end',
+            justifyContent: 'space-between',
+          }}
+        >
+          <div style={labelStyle}>{label}</div>
+          <BPSelectAllButton
+            onClick={() => {
+              if (selectedOptions.length === options.length) {
+                if (onChange) {
+                  onChange([]);
+                } else {
+                  setSelectedOptions([]);
+                }
+              } else {
+                if (onChange) {
+                  onChange(options.map((option) => option.key));
+                } else {
+                  setSelectedOptions(options.map((option) => option.key));
+                }
+              }
+            }}
+          >
+            {selectedOptions.length === options.length ? 'Uncheck All' : 'Check All'}
+          </BPSelectAllButton>
+        </div>
       ) : <></>}
       <div
         id={id}

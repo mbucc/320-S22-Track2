@@ -1,4 +1,4 @@
-import {Button, Link, List, ListItem, Typography} from '@mui/material';
+import {Button, List, ListItem, Typography} from '@mui/material';
 import {Box} from '@mui/system';
 import {useRouter} from 'next/router';
 import {useState, useEffect} from 'react';
@@ -68,7 +68,7 @@ export default function LogDetail() {
     <>
       <Button
         variant = 'text'
-        href = '/'
+        href = '/log-event'
         size = {'large'}
         sx = {{
           borderRadius: 999,

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import Form from '../../Components/LogEvent-Form/Form.js';
-import LETable from '../../Components/LogEvent-Form/LETable.js';
+import Form from '../../components/LogEvent-Form/Form.js';
+import LETable from '../../components/LogEvent-Form/LETable.js';
 import {Container} from '@mui/material';
 import moment from 'moment';
 

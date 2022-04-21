@@ -19,8 +19,8 @@ function DonutCharts(props) {
   };
   const filterData = (type) => {
     const bpscore = {};
-    const filtered = props.data.filter((e)=>e.type===type);
-    for (let i = 0; i<filtered.length; i+=1) {
+    const filtered = props.data.filter((e) => e.type === type);
+    for (let i = 0; i < filtered.length; i += 1) {
       if (!(filtered[i]['BP_name'] in bpscore)) {
         bpscore[filtered[i]['BP_name']] = 0;
       }
@@ -28,13 +28,15 @@ function DonutCharts(props) {
     }
     const temparr = [];
     for (const el in bpscore) {
-      temparr.push([el, bpscore[el]]);
+      if (bpscore.hasOwnProperty(el)) {
+        temparr.push([el, bpscore[el]]);
+      }
     }
 
-    temparr.sort((a, b)=>b[1]-a[1]);
+    temparr.sort((a, b) => b[1] - a[1]);
     const labels = [];
     const values = [];
-    for (let i = 0; i<5; i++) {
+    for (let i = 0; i < 5; i++) {
       labels.push(temparr[i][0]);
       values.push(temparr[i][1]);
     }

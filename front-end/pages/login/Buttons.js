@@ -56,7 +56,7 @@ const RegularButton = React.forwardRef((props, ref) => {
 
 RegularButton.propTypes = {
   color: PropTypes.oneOf([
-    '#22c55e'
+    '#22c55e',
   ]),
   size: PropTypes.oneOf(['sm', 'lg']),
   simple: PropTypes.bool,

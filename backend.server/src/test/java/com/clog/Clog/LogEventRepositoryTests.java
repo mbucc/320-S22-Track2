@@ -75,14 +75,34 @@ public class LogEventRepositoryTests {
 
                                 int a_val11 = Integer.parseInt(a_val1);
                                 int b_val11 = Integer.parseInt(b_val1);
-                                continue;
+                                
+                                if(a_val11 == b_val11){
+                                        continue;
+                                }
+                                else{
+                                        flag = false;
+                                        break;
+                                }
                                 
                         }
                         else if(attr1.equals("severity")){
-                                continue;
+                                String a_val1 = a_val.toString();
+                                String b_val1 = b_val.toString();
+
+                                int a_val11 = Integer.parseInt(a_val1);
+                                int b_val11 = Integer.parseInt(b_val1);
+
+                                if(a_val11 == b_val11){
+                                        continue;
+                                }
+                                else{
+                                        flag = false;
+                                        break;
+                                }
+
                         }
                         else if(attr1.equals("creation_time")){
-                                continue;
+                                continue;  //Ignored for now
                         }
                         else{
                                 String a_val1 = a_val.toString();

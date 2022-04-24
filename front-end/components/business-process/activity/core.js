@@ -15,6 +15,10 @@ const BPActivityView = ({
     setParam: setSelectedTransaction,
   } = useLPSession(BPLaunchpad.activities.getGrid());
 
+  const {
+    data: businessDomainList,
+  } = useLPSession(BPLaunchpad.activities.getBusinessDomainList());
+
   const columns = useBPActivityTableColumns();
 
   const data = React.useMemo(
@@ -23,7 +27,9 @@ const BPActivityView = ({
   );
 
   useEffect(() => {
-    setSelectedTransaction(selectedTransaction);
+    if (selectedTransaction) {
+      setSelectedTransaction(selectedTransaction);
+    }
   }, [selectedTransaction]);
 
   return (
@@ -36,7 +42,9 @@ const BPActivityView = ({
       }}
     >
       {/* Filter Section */}
-      <BPActivityFilterComponent/>
+      <BPActivityFilterComponent
+        businessDomainList={businessDomainList}
+      />
 
       {/* Divider */}
       <div

@@ -10,13 +10,15 @@ const SpinLayout = styled.div`
 
   color: ${BPColors.gray[400]};
   
+  // Infinite loop animation.
   -webkit-animation: rotating 1400ms linear infinite;
   -moz-animation: rotating 1400ms linear infinite;
   -ms-animation: rotating 1400ms linear infinite;
   -o-animation: rotating 1400ms linear infinite;
   animation: rotating 1400ms linear infinite;
 
-  @-webkit-keyframes rotating /* Safari and Chrome */ {
+  // Keyframe animation for Safari and Chrome.
+  @-webkit-keyframes rotating {
     from {
       -webkit-transform: rotate(0deg);
       -o-transform: rotate(0deg);
@@ -28,6 +30,8 @@ const SpinLayout = styled.div`
       transform: rotate(360deg);
     }
   }
+  
+  // Keyframe animation for all backwards compatible browsers.
   @keyframes rotating {
     from {
       -ms-transform: rotate(0deg);
@@ -50,10 +54,10 @@ const SpinLayout = styled.div`
  * [BP] A loading spinner component.
  * @return {React.Component}
  */
-export default function BPLoader() {
+export default function BPLoader({style}) {
   return (
     <SpinLayout>
-      <IconLoaderQuarter/>
+      <IconLoaderQuarter style={style}/>
     </SpinLayout>
   );
 }

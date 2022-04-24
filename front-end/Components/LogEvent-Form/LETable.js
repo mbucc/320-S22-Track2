@@ -3,6 +3,7 @@ import Link from 'next/link';
 import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button, TableSortLabel} from '@mui/material';
 import {TablePagination} from '@mui/material';
 import moment from 'moment';
+import {BPColors} from '../../utils/business-process/standards.js';
 
 
 /**
@@ -208,8 +209,25 @@ export default function LETable(props) {
               .map((e, i)=>{
                 return (
                   <TableRow key = {i}>
-                    <TableCell>{e.severity}</TableCell>
-                    <TableCell>{e.priority}</TableCell>
+                    <TableCell
+                      style = {
+                        {color:
+                          e.severity.toLowerCase() === 'error' ? BPColors.error :
+                          e.severity.toLowerCase() === 'warning' ? BPColors.warning :
+                          e.severity.toLowerCase() === 'info' ? BPColors.info :
+                          BPColors.success,
+                        }
+                      }>{e.severity}</TableCell>
+                    <TableCell
+                      style = {
+                        {
+                          color:
+                            e.priority.toLowerCase() === 'high' ? BPColors.error :
+                            e.priority.toLowerCase() === 'medium' ? BPColors.warning :
+                            e.priority.toLowerCase() === 'low' ? '#D6C000' :
+                            BPColors.success,
+                        }
+                      }>{e.priority}</TableCell>
                     <TableCell>{e.category}</TableCell>
                     <TableCell>{e['Created Date']}</TableCell>
                     <TableCell>{e['Application']}</TableCell>

@@ -4,6 +4,9 @@ import FormCheckbox from './FormCheckbox.js';
 import moment from 'moment';
 import {BPDomainSelector} from '../business-process/common/domain-selector';
 import {BPDatePicker} from '../business-process/common/date-picker';
+import {BPCheckboxGroup} from '../business-process/common/checkbox-group.js';
+import {BPColors, BPStandards} from '../../utils/business-process/standards.js';
+
 
 /**
  *
@@ -13,14 +16,9 @@ import {BPDatePicker} from '../business-process/common/date-picker';
 export default function Form(props) {
   const severityOptions = [
     {
-      key: 'success',
-      label: 'Success',
-      color: BPColors.success,
-    },
-    {
-      key: 'info',
-      label: 'Info',
-      color: BPColors.info,
+      key: 'error',
+      label: 'Error',
+      color: BPColors.error,
     },
     {
       key: 'warning',
@@ -28,9 +26,14 @@ export default function Form(props) {
       color: BPColors.warning,
     },
     {
-      key: 'error',
-      label: 'Error',
-      color: BPColors.error,
+      key: 'info',
+      label: 'Info',
+      color: BPColors.info,
+    },
+    {
+      key: 'success',
+      label: 'Success',
+      color: BPColors.success,
     },
   ];
 
@@ -48,7 +51,7 @@ export default function Form(props) {
     {
       key: 'low',
       label: 'Low',
-      color: '#FFF27A',
+      color: '#D6C000',
     },
   ];
 
@@ -80,73 +83,28 @@ export default function Form(props) {
     },
   ];
 
-  const initSeverityCheckboxes = {
-    'Error': false,
-    'Warning': false,
-    'Info': false,
-    'Success': false,
-  };
+  const initSeverityCheckboxes = ['success', 'info', 'warning', 'error'];
 
-  const initPriorityCheckboxes = {
-    'Low': false,
-    'Medium': false,
-    'High': false,
-  };
+  const initPriorityCheckboxes = ['high', 'medium', 'low'];
 
-  const initCategoryCheckboxes = {
-    'Heartbeat': false,
-    'Stop': false,
-    'Status': false,
-    'Security': false,
-    'Start': false,
-  };
+  const initCategoryCheckboxes = ['heartbeat', 'status', 'security', 'start', 'stop'];
 
-  if (props.logEventFilters?.type && props.logEventFilters?.type === 'severity') {
-    switch (props.logEventFilters?.severity) {
-      case ('Logs'):
-        // We want to show all logs. check everything
-        Object.keys(initSeverityCheckboxes).forEach((e)=>{
-          initSeverityCheckboxes[e] = true;
-        });
-        Object.keys(initPriorityCheckboxes).forEach((e)=>{
-          initPriorityCheckboxes[e] = true;
-        });
-        Object.keys(initCategoryCheckboxes).forEach((e)=>{
-          initCategoryCheckboxes[e] = true;
-        });
-        break;
-      case ('Errors'):
-        initSeverityCheckboxes['Error'] = true;
-        Object.keys(initPriorityCheckboxes).forEach((e)=>{
-          initPriorityCheckboxes[e] = true;
-        });
-        Object.keys(initCategoryCheckboxes).forEach((e)=>{
-          initCategoryCheckboxes[e] = true;
-        });
-        break;
-      case ('Warnings'):
-        initSeverityCheckboxes['Warning'] = true;
-        Object.keys(initPriorityCheckboxes).forEach((e)=>{
-          initPriorityCheckboxes[e] = true;
-        });
-        Object.keys(initCategoryCheckboxes).forEach((e)=>{
-          initCategoryCheckboxes[e] = true;
-        });
-        break;
-    }
-  }
-
-
-  const [severityCheckboxes, setSeverityCheckboxes] = useState(['success', 'info', 'warning', 'error']);
-  const [priorityCheckboxes, setPriorityCheckboxes] = useState(['high', 'medium', 'low']);
-  const [categoryCheckboxes, setCategoryCheckboxes] = useState(['heartbeat', 'status', 'security', 'start', 'stop']);
+  /* states storing the currently selected inputs in the form. */
+  const [severityCheckboxes, setSeverityCheckboxes] = useState(initSeverityCheckboxes);
+  const [priorityCheckboxes, setPriorityCheckboxes] = useState(initPriorityCheckboxes);
+  const [categoryCheckboxes, setCategoryCheckboxes] = useState(initCategoryCheckboxes);
   const [dropdownValues, setDropdownValues] = useState({'EAI Domain': ['All'], 'Application': ['All'], 'Process/Service': ['All'], 'Business Domain': ['All'], 'Business SubDomain': ['All']});
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
 
+  /* states for errors displayed by input fields */
   const [fromDateError, setFromDateError] = useState(null);
   const [toDateError, setToDateError] = useState(null);
+  const [severityError, setSeverityError] = useState(null);
+  const [priorityError, setPriorityError] = useState(null);
+  const [categoryError, setCategoryError] = useState(null);
 
+  /* a ref for the apply button */
   const applyButtonRef = useRef(null);
 
   /* options for dropdown fields. Will eventually be queries to the database */
@@ -156,6 +114,7 @@ export default function Form(props) {
   const BusinessDomainOptions = ['Business Domain 1', 'Business Domain 2'];
   const BusinessSubDomOptions = ['Business SubDomain 1', 'Business SubDomain 2'];
 
+  /* styles for various elements in the form */
   const formStyle = {
     width: '1600px',
     marginTop: '20px',
@@ -166,8 +125,10 @@ export default function Form(props) {
 
   const filtersStyle = {
     width: '50%',
+    marginTop: '5px',
     display: 'flex',
     flexDirection: 'row',
+    flexShrink: '0',
   };
 
   const dropdownStyle = {
@@ -180,15 +141,19 @@ export default function Form(props) {
   const checkboxesStyle = {
     width: '50%',
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
+    marginLeft: '10px',
+  };
+
+  const checkboxGroupStyle = {
   };
 
   const datesStyle = {
+    flexShrink: '0',
     paddingBottom: '5px',
     marginRight: '5px',
-    width: '400px',
+    width: '200px',
   };
-
 
   useEffect(async () => {
     const ss = window.sessionStorage;
@@ -211,7 +176,27 @@ export default function Form(props) {
     }
   }, []);
 
-  const saveForm = () => {
+  const initialLoad = useRef(true);
+  useEffect(()=>{
+    if (initialLoad.current) {
+      if (props.logEventFilters?.type && props.logEventFilters?.type === 'severity') {
+        switch (props.logEventFilters?.severity) {
+          case ('Logs'):
+            // We want to show all logs. no change to checkboxes
+            break;
+          case ('Errors'):
+            setSeverityCheckboxes(initSeverityCheckboxes.filter((e) => e === 'error'));
+            break;
+          case ('Warnings'):
+            setSeverityCheckboxes(initSeverityCheckboxes.filter((e) => e === 'warning'));
+            break;
+        }
+      }
+      initialLoad.current = false;
+    }
+  }, [initSeverityCheckboxes, props.logEventFilters?.severity, props.logEventFilters?.type]);
+
+  const saveForm = (event) => {
     const ss = window.sessionStorage;
     ss.setItem('severityCheckboxes', JSON.stringify(severityCheckboxes));
     ss.setItem('priorityCheckboxes', JSON.stringify(priorityCheckboxes));
@@ -219,6 +204,7 @@ export default function Form(props) {
     ss.setItem('dropdownValues', JSON.stringify(dropdownValues));
     ss.setItem('fromDate', JSON.stringify(fromDate));
     ss.setItem('toDate', JSON.stringify(toDate));
+    applyHandler(event);
   };
 
   {/* returns true if a given piece of data in the grid has properties specified by current filters */}
@@ -230,9 +216,9 @@ export default function Form(props) {
     const dateFilter = compareDate.isBetween(startDate, endDate, undefined, '[]'); // '[]' means inclusive on the left and right
 
     // Checkbox filters
-    const severityFilter = objKeys.includes(e.severity);
-    const priorityFilter = objKeys.includes(e.priority);
-    const categoryFilter = objKeys.includes(e.category);
+    const severityFilter = objKeys.includes(e.severity.toLowerCase());
+    const priorityFilter = objKeys.includes(e.priority.toLowerCase());
+    const categoryFilter = objKeys.includes(e.category.toLowerCase());
 
     // Dropdowwn filters
     const domainFilter = dropdownValues['EAI Domain'].includes('All') ? true : dropdownValues['EAI Domain'].includes(e['EAI Domain']);
@@ -246,6 +232,7 @@ export default function Form(props) {
 
   const applyHandler = (event) => {
     event.preventDefault();
+    console.log(event);
     if (!fromDate) {
       setFromDateError('Please enter a date.');
     }
@@ -260,10 +247,10 @@ export default function Form(props) {
       setFromDateError('From date must be in the past.');
     }
 
-    const severityKeys = Object.keys(severityCheckboxes).filter((e) => severityCheckboxes[e]);
-    const priorityKeys = Object.keys(priorityCheckboxes).filter((e) => priorityCheckboxes[e]);
-    const categoryKeys = Object.keys(categoryCheckboxes).filter((e) => categoryCheckboxes[e]);
-    const objKeys = severityKeys.concat(priorityKeys).concat(categoryKeys);
+    // const severityKeys = Object.keys(severityCheckboxes).filter((e) => severityCheckboxes[e]);
+    // const priorityKeys = Object.keys(priorityCheckboxes).filter((e) => priorityCheckboxes[e]);
+    // const categoryKeys = Object.keys(categoryCheckboxes).filter((e) => categoryCheckboxes[e]);
+    const objKeys = severityCheckboxes.concat(priorityCheckboxes).concat(categoryCheckboxes);
     const filteredData = props.mockData.filter((e) => filterData(e, objKeys));
 
     filteredData = filteredData.sort(dateComparison('gt'));
@@ -310,7 +297,10 @@ export default function Form(props) {
       <Typography variant="h6">
         Filters
       </Typography>
-      <form style={formStyle} onSubmit={applyHandler}>
+      <form
+        style={formStyle}
+        onSubmit={applyHandler}
+      >
         <div style = {filtersStyle}>
           <div style = {datesStyle}>
             <BPDatePicker
@@ -343,26 +333,78 @@ export default function Form(props) {
             <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business SubDomain'} testid={'bsd'}></Dropdowns>*/}
           </div>
           <div style={checkboxesStyle}>
-            {/*<FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} testid = {'severity'}/>
+            {/* <FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} testid = {'severity'}/>
             <FormCheckbox name="Priority" checkboxes={priorityCheckboxes} setCheckboxes={setPriorityCheckboxes} testid = {'priority'}/>
           <FormCheckbox name="Category" checkboxes={categoryCheckboxes} setCheckboxes={setCategoryCheckboxes} testid = {'category'}/>*/}
+            <BPCheckboxGroup
+              id = 'logevent-severity-selector'
+              label = 'Severity'
+              onChange = {(selection)=>{
+                setSeverityCheckboxes(selection);
+                if (selection.length === 0) {
+                  setSeverityError('Please select at least one severity');
+                } else {
+                  setSeverityError(null);
+                }
+              }}
+              options = {severityOptions}
+              selected = {severityCheckboxes}
+              boxStyle = {checkboxGroupStyle}
+              error = {severityError}
+            />
+            <BPCheckboxGroup
+              id = 'logevent-priority-selector'
+              label = 'Priority'
+              onChange = {(selection)=>{
+                setPriorityCheckboxes(selection);
+                if (selection.length === 0) {
+                  setPriorityError('Please select at least one priority');
+                } else {
+                  setPriorityError(null);
+                }
+              }}
+              options = {priorityOptions}
+              selected = {priorityCheckboxes}
+              boxStyle = {checkboxGroupStyle}
+              error = {priorityError}
+            />
+            <BPCheckboxGroup
+              id = 'logevent-category-selector'
+              label = 'Category'
+              onChange = {(selection)=>{
+                setCategoryCheckboxes(selection);
+                if (selection.length === 0) {
+                  setCategoryError('Please select at least one category');
+                } else {
+                  setCategoryError(null);
+                }
+              }}
+              options = {categoryOptions}
+              selected = {categoryCheckboxes}
+              boxStyle = {checkboxGroupStyle}
+              error = {categoryError}
+            />
+
           </div>
         </div>
         <Button
-          type="submit"
           onClick={saveForm}
           ref={applyButtonRef}
           size={'small'}
           sx={{
             color: 'white',
+            width: '100px',
             borderRadius: 999,
+            p: '2.5px 6px 3.5px 6px',
+            fontSize: '15px',
+            fontWeight: '500',
+            fontFamily: BPStandards.fontFamily,
+            letterSpacing: '0.2px',
+            textTransform: 'Initial',
             backgroundColor: '#22c55e',
             '&:hover': {
               backgroundColor: '#16a34a',
             },
-            width: '100px',
-            margin: '20px',
-            alignSelf: 'start',
           }}>
           Apply
         </Button>

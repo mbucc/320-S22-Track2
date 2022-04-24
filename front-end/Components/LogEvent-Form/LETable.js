@@ -220,7 +220,7 @@ export default function LETable(props) {
                             e.severity.toLowerCase() === 'warning' ? BPColors.warning :
                             e.severity.toLowerCase() === 'info' ? BPColors.info :
                             BPColors.success,
-                          width: '150px',
+                          width: 'fit-content',
                         }
                       }
                     >
@@ -230,7 +230,7 @@ export default function LETable(props) {
                         e.severity.toLowerCase() === 'info' ? <InfoIcon style = {{color: BPColors.info, paddingTop: '8px'}}/> :
                         <CheckCircleIcon style = {{color: BPColors.success, paddingTop: '8px'}}/>
                       }
-                      <div style = {{display: 'inline-block', alignItems: 'center', marginLeft: '2px'}}>{e.severity}</div>
+                      <div style = {{display: 'inline-block', alignSelf: 'center', marginLeft: '2px'}}>{e.severity}</div>
                     </TableCell>
                     <TableCell
                       style = {

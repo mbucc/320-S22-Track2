@@ -11,6 +11,75 @@ import {BPDatePicker} from '../business-process/common/date-picker';
  * @return {JSX.Element}
  */
 export default function Form(props) {
+  const severityOptions = [
+    {
+      key: 'success',
+      label: 'Success',
+      color: BPColors.success,
+    },
+    {
+      key: 'info',
+      label: 'Info',
+      color: BPColors.info,
+    },
+    {
+      key: 'warning',
+      label: 'Warning',
+      color: BPColors.warning,
+    },
+    {
+      key: 'error',
+      label: 'Error',
+      color: BPColors.error,
+    },
+  ];
+
+  const priorityOptions = [
+    {
+      key: 'high',
+      label: 'High',
+      color: BPColors.error,
+    },
+    {
+      key: 'medium',
+      label: 'Medium',
+      color: BPColors.warning,
+    },
+    {
+      key: 'low',
+      label: 'Low',
+      color: '#FFF27A',
+    },
+  ];
+
+  const categoryOptions = [
+    {
+      key: 'heartbeat',
+      label: 'Heartbeat',
+      color: BPColors.gray[400],
+    },
+    {
+      key: 'stop',
+      label: 'Stop',
+      color: BPColors.gray[400],
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      color: BPColors.gray[400],
+    },
+    {
+      key: 'security',
+      label: 'Security',
+      color: BPColors.gray[400],
+    },
+    {
+      key: 'start',
+      label: 'Start',
+      color: BPColors.gray[400],
+    },
+  ];
+
   const initSeverityCheckboxes = {
     'Error': false,
     'Warning': false,
@@ -68,9 +137,9 @@ export default function Form(props) {
   }
 
 
-  const [severityCheckboxes, setSeverityCheckboxes] = useState(initSeverityCheckboxes);
-  const [priorityCheckboxes, setPriorityCheckboxes] = useState(initPriorityCheckboxes);
-  const [categoryCheckboxes, setCategoryCheckboxes] = useState(initCategoryCheckboxes);
+  const [severityCheckboxes, setSeverityCheckboxes] = useState(['success', 'info', 'warning', 'error']);
+  const [priorityCheckboxes, setPriorityCheckboxes] = useState(['high', 'medium', 'low']);
+  const [categoryCheckboxes, setCategoryCheckboxes] = useState(['heartbeat', 'status', 'security', 'start', 'stop']);
   const [dropdownValues, setDropdownValues] = useState({'EAI Domain': ['All'], 'Application': ['All'], 'Process/Service': ['All'], 'Business Domain': ['All'], 'Business SubDomain': ['All']});
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
@@ -177,11 +246,9 @@ export default function Form(props) {
 
   const applyHandler = (event) => {
     event.preventDefault();
-    console.log(fromDate);
     if (!fromDate) {
       setFromDateError('Please enter a date.');
     }
-    console.log(toDate);
     if (!toDate) {
       setToDateError('Please enter a date.');
     }
@@ -276,9 +343,9 @@ export default function Form(props) {
             <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business SubDomain'} testid={'bsd'}></Dropdowns>*/}
           </div>
           <div style={checkboxesStyle}>
-            <FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} testid = {'severity'}/>
+            {/*<FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} testid = {'severity'}/>
             <FormCheckbox name="Priority" checkboxes={priorityCheckboxes} setCheckboxes={setPriorityCheckboxes} testid = {'priority'}/>
-            <FormCheckbox name="Category" checkboxes={categoryCheckboxes} setCheckboxes={setCategoryCheckboxes} testid = {'category'}/>
+          <FormCheckbox name="Category" checkboxes={categoryCheckboxes} setCheckboxes={setCategoryCheckboxes} testid = {'category'}/>*/}
           </div>
         </div>
         <Button

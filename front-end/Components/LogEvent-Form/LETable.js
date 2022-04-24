@@ -4,7 +4,10 @@ import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button, Ta
 import {TablePagination} from '@mui/material';
 import moment from 'moment';
 import {BPColors} from '../../utils/business-process/standards.js';
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import InfoIcon from '@mui/icons-material/Info';
+import ErrorIcon from '@mui/icons-material/Error';
+import WarningIcon from '@mui/icons-material/Warning';
 
 /**
  *
@@ -211,13 +214,24 @@ export default function LETable(props) {
                   <TableRow key = {i}>
                     <TableCell
                       style = {
-                        {color:
-                          e.severity.toLowerCase() === 'error' ? BPColors.error :
-                          e.severity.toLowerCase() === 'warning' ? BPColors.warning :
-                          e.severity.toLowerCase() === 'info' ? BPColors.info :
-                          BPColors.success,
+                        {
+                          color:
+                            e.severity.toLowerCase() === 'error' ? BPColors.error :
+                            e.severity.toLowerCase() === 'warning' ? BPColors.warning :
+                            e.severity.toLowerCase() === 'info' ? BPColors.info :
+                            BPColors.success,
+                          width: '150px',
                         }
-                      }>{e.severity}</TableCell>
+                      }
+                    >
+                      {
+                        e.severity.toLowerCase() === 'error' ? <ErrorIcon style = {{color: BPColors.error, paddingTop: '8px'}}/> :
+                        e.severity.toLowerCase() === 'warning' ? <WarningIcon style = {{color: BPColors.warning, paddingTop: '8px'}}/> :
+                        e.severity.toLowerCase() === 'info' ? <InfoIcon style = {{color: BPColors.info, paddingTop: '8px'}}/> :
+                        <CheckCircleIcon style = {{color: BPColors.success, paddingTop: '8px'}}/>
+                      }
+                      <div style = {{display: 'inline-block', alignItems: 'center', marginLeft: '2px'}}>{e.severity}</div>
+                    </TableCell>
                     <TableCell
                       style = {
                         {
@@ -227,7 +241,10 @@ export default function LETable(props) {
                             e.priority.toLowerCase() === 'low' ? '#D6C000' :
                             BPColors.success,
                         }
-                      }>{e.priority}</TableCell>
+                      }
+                    >
+                      {e.priority}
+                    </TableCell>
                     <TableCell>{e.category}</TableCell>
                     <TableCell>{e['Created Date']}</TableCell>
                     <TableCell>{e['Application']}</TableCell>

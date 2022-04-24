@@ -1,5 +1,6 @@
 import {sampleEAIDomains} from '../sample-data';
-import {RequestHandler, RMContentType} from "@taci-tech/launchpad-js";
+import {RequestHandler, RMContentType} from '@taci-tech/launchpad-js';
+import {unwrapAPI} from '../api-unwrap';
 
 /**
  * Mock tree map fetching launchpad configuration.
@@ -25,7 +26,7 @@ export const getTreeMap = () => {
         },
         handler: {
           200: (data) => {
-            setState(data);
+            setState(unwrapAPI(data));
           },
         },
       });

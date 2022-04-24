@@ -3,15 +3,14 @@ import TreeItem from '@mui/lab/TreeItem';
 
 import {BPColors, BPDimens} from '../../../utils/business-process/standards';
 import {BPActivitySeverityIcon, getColorBySeverityValue} from '../../../utils/business-process/severity';
-import {getDateStringByValue} from '../../../utils/business-process/date-options';
 
-const renderBusinessProcessInstances = (log, onChange) =>(
+const renderBusinessProcessInstances = (log, index, onChange) => (
   <TreeItem
     className='tree-log'
-    key={log.id}
-    nodeId={log.id}
+    key={log.eai_transaction_id ? log.eai_transaction_id : (log.name + index)}
+    nodeId={log.eai_transaction_id ? log.eai_transaction_id : (log.name + index)}
     icon={<BPActivitySeverityIcon severity={log.severity}/>}
-    label={getDateStringByValue(log.logEventCreatedDate)}
+    label={log.name}
     onClick={() => {
       if (onChange) {
         onChange(log);

@@ -191,11 +191,13 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
     >
       {
         Array.isArray(nodes.activities) ?
-          nodes.activities.map((log) => renderBusinessProcessInstances(log, (log) => {
-            if (onChange) {
-              onChange(log);
-            }
-          })) :
+          nodes.activities.map((log, index) => {
+            return renderBusinessProcessInstances(log, index, (log) => {
+              if (onChange) {
+                onChange(log);
+              }
+            });
+          }) :
           null
       }
     </TreeItem>

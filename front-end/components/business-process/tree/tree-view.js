@@ -15,11 +15,11 @@ export const findExpandable = (tree) => {
   while (stack.length) {
     const node = stack.pop();
     if (Array.isArray(node.children)) {
-      result.push(node.name);
+      result.push(node.nodeId);
       node.children.forEach((n) => stack.push(n));
     }
     if (Array.isArray(node.activities)) {
-      result.push(node.name);
+      result.push(node.nodeId);
     }
   }
   return result;
@@ -84,9 +84,9 @@ const subTreeStyle = {
  */
 export default function BPTreeComponent({data: dataProp, onChange}) {
   const [data, setData] = useState(dataProp);
-  const [expanded, setExpanded] = React.useState([]);
+  const [expanded, setExpanded] = useState([]);
   const [expandable, setExpandable] = useState([]);
-  const [contextMenu, setContextMenu] = React.useState(null);
+  const [contextMenu, setContextMenu] = useState(null);
 
   useEffect(() => {
     setData(dataProp);
@@ -125,8 +125,8 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
   const renderEAIDomains = (nodes) => (
     <TreeItem
       className='eai-domain'
-      key={nodes.name}
-      nodeId={nodes.name}
+      key={nodes.nodeId}
+      nodeId={nodes.nodeId}
       label={(
         <div
           style={{height: '100%', display: 'flex', alignItems: 'center'}}
@@ -150,8 +150,8 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
   const renderPublishingBusinessDomains = (nodes) => (
     <TreeItem
       className='publishing-biz-domain'
-      key={nodes.name}
-      nodeId={nodes.name}
+      key={nodes.nodeId}
+      nodeId={nodes.nodeId}
       label={(
         <div
           style={{height: '100%', display: 'flex', alignItems: 'center'}}
@@ -175,8 +175,8 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
   const renderBusinessProcesses = (nodes) => (
     <TreeItem
       className='biz-process'
-      key={nodes.name}
-      nodeId={nodes.name}
+      key={nodes.nodeId}
+      nodeId={nodes.nodeId}
       label={(
         <div
           style={{height: '100%', display: 'flex', alignItems: 'center'}}
@@ -208,7 +208,7 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
       style={{
         width: '100%',
         height: '100%',
-        display: 'flex',
+        display: data.length > 0 ? 'flex' : 'none',
         flexDirection: 'column',
       }}
     >
@@ -254,18 +254,15 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
           overflowX: 'hidden',
           overflowY: 'auto',
         }}
-        onContextMenu={(e) => e.preventDefault()} // Disable the default context menu on BPTreeView.
       >
         <TreeView
-          aria-label="controlled"
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
           expanded={expanded}
           onNodeToggle={handleToggle}
           sx={{
-            padding: '20px 20px',
+            padding: '20px',
           }}
-          multiSelect
         >
           {
             data.map((nodes) => renderEAIDomains(nodes))

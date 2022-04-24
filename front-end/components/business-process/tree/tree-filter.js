@@ -3,11 +3,9 @@ import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {BPDatePicker} from '../common/date-picker';
 import {BPDomainSelector} from '../common/domain-selector';
 
-import {useLPSession} from '@taci-tech/launchpad-js';
-import {BPLaunchpad} from '../../../utils/business-process/launchpad/core';
 import {BPButton} from '../common/button';
 
-const BPTreeFilterComponent = ({onChange}) => {
+const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onChange}) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [eaiDomains, setEAIDomains] = useState([]);
@@ -42,25 +40,12 @@ const BPTreeFilterComponent = ({onChange}) => {
     }
 
     onChange({
-      startDate,
-      endDate,
-      eaiDomains,
-      publishingBusinessDomains,
+      'startTime': startDate,
+      'endTime': endDate,
+      'eaiDomain': eaiDomains.join(','),
+      'publishingBusinessDomain': publishingBusinessDomains.join(','),
     });
   };
-
-  const {
-    data: eaiDomainList,
-  } = useLPSession(BPLaunchpad.tree.getEAIDomainList());
-
-  const {
-    data: publishingBusinessDomainList,
-    setParam: setSelectedEAIDomains,
-  } = useLPSession(BPLaunchpad.tree.getPublishingBusinessDomainList());
-
-  useEffect(() => {
-    setSelectedEAIDomains(eaiDomains);
-  }, [eaiDomains]);
 
   return (
     <div

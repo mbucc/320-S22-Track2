@@ -56,7 +56,7 @@ export default function Form(props) {
         });
         break;
       case ('Warnings'):
-        initSeverityCheckboxes['Warnings'] = true;
+        initSeverityCheckboxes['Warning'] = true;
         Object.keys(initPriorityCheckboxes).forEach((e)=>{
           initPriorityCheckboxes[e] = true;
         });

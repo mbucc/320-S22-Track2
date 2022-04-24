@@ -1,5 +1,5 @@
 import {getEAIDomainList, getPublishingBusinessDomainList, getTreeMap} from './tree-map';
-import {getActivityGrid} from './activity-table';
+import {getActivityGrid, getBusinessDomainList} from './activity-table';
 
 export const BPLaunchpad = {
   tree: {
@@ -9,5 +9,6 @@ export const BPLaunchpad = {
   },
   activities: {
     getGrid: getActivityGrid,
+    getBusinessDomainList: getBusinessDomainList,
   },
 };

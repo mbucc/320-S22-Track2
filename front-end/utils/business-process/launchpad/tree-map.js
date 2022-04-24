@@ -1,6 +1,7 @@
-import {sampleEAIDomains} from '../sample-data';
 import {RequestHandler, RMContentType} from '@taci-tech/launchpad-js';
 import {unwrapAPI} from '../api-unwrap';
+import {convertToAPIFormat} from '../date-options';
+import moment from 'moment';
 
 /**
  * Mock tree map fetching launchpad configuration.
@@ -9,48 +10,64 @@ import {unwrapAPI} from '../api-unwrap';
 export const getTreeMap = () => {
   return {
     onStart: () => [],
-    onMount: ({setState}) => {
+    onMount: ({setState, setIsLoading}) => {
+      setIsLoading(true);
       RequestHandler.get({
         path: 'http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/businessProcessTree',
         config: {
           contentType: RMContentType.JSON,
-          header: {
-            'Allow-Control-Allow-Origin': '*',
-          },
           query: {
-            'startTime': '2022-01-22%2012:55:03.680000',
-            'endTime': '2022-04-22%2012:55:03.680000',
-            'eaiDomain': 'EAI_DOMAIN_1,EAI_DOMAIN_2',
-            'publishingBusinessDomain': 'crm_app',
+            'startTime': convertToAPIFormat(moment().subtract(30, 'minutes')),
+            'endTime': convertToAPIFormat(moment()),
           },
         },
         handler: {
           200: (data) => {
+            setIsLoading(false);
             setState(unwrapAPI(data));
+          },
+          0: () => {
+            setIsLoading(false);
+            setState([]);
           },
         },
       });
     },
-    onOverride: ({setState, newValue}) => {
-      newValue = newValue || {
-        eaiDomains: undefined,
-        publishingBusinessDomains: undefined,
-      };
+    onOverride: ({setState, setIsLoading, newValue}) => {
+      newValue = newValue || {};
+
+      newValue['startTime'] = convertToAPIFormat(
+          moment(newValue['startTime'] || new Date())
+      );
+      newValue['endTime'] = convertToAPIFormat(
+          moment(newValue['endTime'] || new Date())
+      );
+
+      const newQuery = Object.keys(newValue).reduce((acc, key) => {
+        if (newValue[key]) {
+          acc[key] = newValue[key];
+        }
+        return acc;
+      }, {});
+
+      setState([]);
+      setIsLoading(true);
 
       RequestHandler.get({
         path: 'http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/businessProcessTree',
         config: {
           contentType: RMContentType.JSON,
-          query: {
-            'startTime': '2022-01-22%2012:55:03.680000',
-            'endTime': '2022-04-22%2012:55:03.680000',
-            'eaiDomain': 'EAI_DOMAIN_1,EAI_DOMAIN_2',
-            'publishingBusinessDomain': 'crm_app',
-          },
+          query: newQuery,
         },
         handler: {
           200: (data) => {
-            setState(data);
+            setIsLoading(false);
+            console.log('API', data);
+            setState(unwrapAPI(data));
+          },
+          0: () => {
+            setIsLoading(false);
+            setState([]);
           },
         },
       });
@@ -61,11 +78,24 @@ export const getTreeMap = () => {
 export const getEAIDomainList = () => {
   return {
     onStart: () => [],
-    onMount: ({setState}) => {
-      const list = sampleEAIDomains.map((domain) => {
-        return domain.name;
+    onMount: ({setState, setIsLoading}) => {
+      setIsLoading(true);
+      RequestHandler.get({
+        path: 'http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/eaiDomains',
+        config: {
+          contentType: RMContentType.JSON,
+        },
+        handler: {
+          200: (data) => {
+            setIsLoading(false);
+            setState(data);
+          },
+          0: () => {
+            setIsLoading(false);
+            setState([]);
+          },
+        },
       });
-      setState(list);
     },
   };
 };
@@ -73,24 +103,24 @@ export const getEAIDomainList = () => {
 export const getPublishingBusinessDomainList = () => {
   return {
     onStart: () => [],
-    onMount: ({setState}) => {
-      const list = [];
-      sampleEAIDomains.forEach((domain) => {
-        domain.children?.forEach((child) => {
-          list.push(child.name);
-        });
+    onMount: ({setState, setIsLoading}) => {
+      setIsLoading(true);
+      RequestHandler.get({
+        path: 'http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/publishingBusinessDomains',
+        config: {
+          contentType: RMContentType.JSON,
+        },
+        handler: {
+          200: (data) => {
+            setIsLoading(false);
+            setState(data);
+          },
+          0: () => {
+            setIsLoading(false);
+            setState([]);
+          },
+        },
       });
-      setState(list);
-    },
-    onOverride: ({setState, newValue}) => {
-      newValue = newValue || [];
-      let result = [];
-      sampleEAIDomains.forEach((domain) => {
-        if (newValue.length === 0 || newValue.includes(domain.name)) {
-          result = result.concat(domain.children.map((publishingBusinessDomain) => publishingBusinessDomain.name) || []);
-        }
-      });
-      setState(result);
     },
   };
 };

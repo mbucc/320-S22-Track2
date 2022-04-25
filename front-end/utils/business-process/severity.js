@@ -59,7 +59,7 @@ export const BPActivitySeverityIcons = {
   Success: '/business-process/icons/severity-icons-success.svg',
 };
 
-export const BPActivitySeverityIcon = ({severity}) => {
+export const BPActivitySeverityIcon = ({size = 18, severity}) => {
   return (
     <div
       style={{
@@ -70,8 +70,8 @@ export const BPActivitySeverityIcon = ({severity}) => {
       }}
     >
       <Image
-        width={18}
-        height={18}
+        width={size}
+        height={size}
         src={BPActivitySeverityIcons[getNameBySeverityValue(severity)]}
       />
     </div>

@@ -6,6 +6,28 @@ import BPTableComponent from './activity-table';
 import {useLPSession} from '@taci-tech/launchpad-js';
 import {BPLaunchpad} from '../../../utils/business-process/launchpad/core';
 import {useBPActivityTableColumns} from './activity-table-columns';
+import BPLoader from '../common/loader';
+import {IconBulb} from '@tabler/icons';
+
+import styled from 'styled-components';
+
+const BPSectionNoticeBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  
+  background-color: ${BPColors.gray[100]}4f;
+  border-top: 1px solid ${BPColors.gray[100]};
+  padding: 20px;
+  
+  column-gap: 10px;
+`;
 
 const BPActivityView = ({
   selectedTransaction,
@@ -13,6 +35,7 @@ const BPActivityView = ({
   const {
     data: gridData,
     setParam: setSelectedTransaction,
+    isLoading,
   } = useLPSession(BPLaunchpad.activities.getGrid());
 
   const {
@@ -36,6 +59,7 @@ const BPActivityView = ({
     <div
       style={{
         width: '100%',
+        maxWidth: '100vw',
         height: '100%',
         display: 'flex',
         flexDirection: 'row',
@@ -63,13 +87,53 @@ const BPActivityView = ({
           flexShrink: 1,
           flexGrow: 0,
           overflowX: 'auto',
+          position: 'relative',
           backgroundColor: '#ffffff',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <BPTableComponent columns={columns} data={data}/>
+        <BPTableComponent
+          columns={columns}
+          data={data}
+        />
+        <BPSectionNoticeBox
+          style={{
+            display: isLoading ? 'flex' : 'none',
+          }}
+        >
+          <BPLoader/>
+          <div
+            style={{
+              fontSize: '15px',
+              fontWeight: '500',
+              color: BPColors.gray[400],
+            }}
+          >
+            Loading...
+          </div>
+        </BPSectionNoticeBox>
+        <BPSectionNoticeBox
+          style={{
+            display: !isLoading && data.length === 0 ? 'flex' : 'none',
+          }}
+        >
+          <IconBulb
+            style={{
+              color: BPColors.gray[400],
+            }}
+          />
+          <div
+            style={{
+              fontSize: '15px',
+              fontWeight: '500',
+              color: BPColors.gray[400],
+            }}
+          >
+            Select a business process instance to view the grid.
+          </div>
+        </BPSectionNoticeBox>
       </div>
     </div>
   );

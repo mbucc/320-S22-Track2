@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {Button, Typography} from '@mui/material';
-import FormCheckbox from './FormCheckbox.js';
 import moment from 'moment';
 import {BPDomainSelector} from '../business-process/common/domain-selector';
 import {BPDatePicker} from '../business-process/common/date-picker';
@@ -108,7 +107,7 @@ export default function Form(props) {
   const applyButtonRef = useRef(null);
 
   /* options for dropdown fields. Will eventually be queries to the database */
-  const EAIOptions = ['EAI Domain 1', 'EAI Domain 2', 'EAI Domain 3', 'EAI Domain 4'];
+  const EAIOptions = ['EAI Domain 1', 'EAI Domain 2', 'EAI Domain 3', 'EAI Domain 4', 'EAI Domain 5', 'EAI Domain 6', 'EAI Domain 7', 'EAI Domain 8'];
   const applicationOptions = ['CRM'];
   const processServiceOptions = ['Update Customer'];
   const BusinessDomainOptions = ['Business Domain 1', 'Business Domain 2'];
@@ -116,7 +115,7 @@ export default function Form(props) {
 
   /* styles for various elements in the form */
   const formStyle = {
-    width: '1600px',
+    width: 'inherit',
     marginTop: '20px',
     marginLeft: '5px',
     display: 'flex',
@@ -124,7 +123,8 @@ export default function Form(props) {
   };
 
   const filtersStyle = {
-    width: '50%',
+    width: 'inherit',
+    height: '400px',
     marginTop: '5px',
     display: 'flex',
     flexDirection: 'row',
@@ -133,16 +133,19 @@ export default function Form(props) {
 
   const dropdownStyle = {
     display: 'flex',
+    width: '50%',
     flexDirection: 'row',
     flexWrap: 'wrap',
-
+    flexShrink: '0',
   };
 
   const checkboxesStyle = {
-    width: '50%',
+    width: '30%',
     display: 'flex',
     flexDirection: 'column',
+    flexShrink: '0',
     marginLeft: '10px',
+    marginTop: '7px',
   };
 
   const checkboxGroupStyle = {
@@ -152,7 +155,8 @@ export default function Form(props) {
     flexShrink: '0',
     paddingBottom: '5px',
     marginRight: '5px',
-    width: '200px',
+    marginTop: '9px',
+    width: '20%',
   };
 
   useEffect(async () => {
@@ -232,7 +236,6 @@ export default function Form(props) {
 
   const applyHandler = (event) => {
     event.preventDefault();
-    console.log(event);
     if (!fromDate) {
       setFromDateError('Please enter a date.');
     }
@@ -255,6 +258,7 @@ export default function Form(props) {
 
     filteredData = filteredData.sort(dateComparison('gt'));
     props.setData(filteredData);
+    props.setPage(0);
   };
 
   const changeOptions = (name)=>{
@@ -336,54 +340,60 @@ export default function Form(props) {
             {/* <FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} testid = {'severity'}/>
             <FormCheckbox name="Priority" checkboxes={priorityCheckboxes} setCheckboxes={setPriorityCheckboxes} testid = {'priority'}/>
           <FormCheckbox name="Category" checkboxes={categoryCheckboxes} setCheckboxes={setCategoryCheckboxes} testid = {'category'}/>*/}
-            <BPCheckboxGroup
-              id = 'logevent-severity-selector'
-              label = 'Severity'
-              onChange = {(selection)=>{
-                setSeverityCheckboxes(selection);
-                if (selection.length === 0) {
-                  setSeverityError('Please select at least one severity');
-                } else {
-                  setSeverityError(null);
-                }
-              }}
-              options = {severityOptions}
-              selected = {severityCheckboxes}
-              boxStyle = {checkboxGroupStyle}
-              error = {severityError}
-            />
-            <BPCheckboxGroup
-              id = 'logevent-priority-selector'
-              label = 'Priority'
-              onChange = {(selection)=>{
-                setPriorityCheckboxes(selection);
-                if (selection.length === 0) {
-                  setPriorityError('Please select at least one priority');
-                } else {
-                  setPriorityError(null);
-                }
-              }}
-              options = {priorityOptions}
-              selected = {priorityCheckboxes}
-              boxStyle = {checkboxGroupStyle}
-              error = {priorityError}
-            />
-            <BPCheckboxGroup
-              id = 'logevent-category-selector'
-              label = 'Category'
-              onChange = {(selection)=>{
-                setCategoryCheckboxes(selection);
-                if (selection.length === 0) {
-                  setCategoryError('Please select at least one category');
-                } else {
-                  setCategoryError(null);
-                }
-              }}
-              options = {categoryOptions}
-              selected = {categoryCheckboxes}
-              boxStyle = {checkboxGroupStyle}
-              error = {categoryError}
-            />
+            <div style = {{height: '30%'}}>
+              <BPCheckboxGroup
+                id = 'logevent-severity-selector'
+                label = 'Severity'
+                onChange = {(selection)=>{
+                  setSeverityCheckboxes(selection);
+                  if (selection.length === 0) {
+                    setSeverityError('Please select at least one severity');
+                  } else {
+                    setSeverityError(null);
+                  }
+                }}
+                options = {severityOptions}
+                selected = {severityCheckboxes}
+                boxStyle = {checkboxGroupStyle}
+                error = {severityError}
+              />
+            </div>
+            <div style = {{height: '25%'}}>
+              <BPCheckboxGroup
+                id = 'logevent-priority-selector'
+                label = 'Priority'
+                onChange = {(selection)=>{
+                  setPriorityCheckboxes(selection);
+                  if (selection.length === 0) {
+                    setPriorityError('Please select at least one priority');
+                  } else {
+                    setPriorityError(null);
+                  }
+                }}
+                options = {priorityOptions}
+                selected = {priorityCheckboxes}
+                boxStyle = {checkboxGroupStyle}
+                error = {priorityError}
+              />
+            </div>
+            <div style = {{height: '30%'}}>
+              <BPCheckboxGroup
+                id = 'logevent-category-selector'
+                label = 'Category'
+                onChange = {(selection)=>{
+                  setCategoryCheckboxes(selection);
+                  if (selection.length === 0) {
+                    setCategoryError('Please select at least one category');
+                  } else {
+                    setCategoryError(null);
+                  }
+                }}
+                options = {categoryOptions}
+                selected = {categoryCheckboxes}
+                boxStyle = {checkboxGroupStyle}
+                error = {categoryError}
+              />
+            </div>
 
           </div>
         </div>

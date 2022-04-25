@@ -17,7 +17,7 @@ export default function LogEvent(props) {
     borderRadius: '4px',
     margin: '20px',
     padding: '20px',
-    width: 'fit-content',
+    width: 'inherit',
   };
   for (let i = 0; i < 1000; i++) {
     let severity = 'N/A'; const date = moment(`1/${(i%30) + 1}/${2022 + (Math.floor(i / 2022))} 0${i%24}:00:00`).format('MM-DD-YYYY HH:mm:ss'); const ps = 'Update Customer'; const app = 'CRM'; const activity = 'Activity'; let priority = 'N/A'; let category = 'N/A'; let eai = 'N/A'; let BD = ''; let BSD = '';
@@ -72,15 +72,29 @@ export default function LogEvent(props) {
         {"severity": "success", "Created Date": "3/10/2022", "Process/Service": "Update Costumer", "Application": "CRM", "Activity": "Activity", "Log Event": "Detail" , "priority": "low", "category": "Start", "EAI Domain": "EAI Domain 2"},*/
 
 
+  /* states for the table */
   const [data, setData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRPP] = useState(10);
 
   return (
     <div>
       <Container style = {formContainerStyle}>
-        <Form mockData={mockData} setData={setData} {...props}/>
+        <Form
+          mockData={mockData}
+          setData={setData}
+          setPage={setPage}
+          {...props}
+        />
       </Container>
       <Container style = {formContainerStyle}>
-        <LETable data = {data} setData = {setData}/>
+        <LETable
+          data = {data}
+          setData = {setData}
+          page = {page}
+          setPage = {setPage}
+          rowsPerPage = {rowsPerPage}
+          setRowsPerPage = {setRPP}/>
       </Container>
     </div>
   );

@@ -20,10 +20,6 @@ export default function LETable(props) {
     width: 'inherit',
   };
 
-  /* states for the table */
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRPP] = useState(10);
-
   /**
    * 0 = default sort
    * 1 = by severity descending
@@ -37,11 +33,11 @@ export default function LETable(props) {
 
   /* event handlers for changing number of pages and changing page*/
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    props.setPage(newPage);
   };
   const handleChangeRPP = (event) => {
     setRPP(parseInt(event.target.value, 10));
-    setPage(0);
+    props.setPage(0);
   };
 
   /**
@@ -208,7 +204,7 @@ export default function LETable(props) {
         </TableHead>
         <TableBody>
           {props.data
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
               .map((e, i)=>{
                 return (
                   <TableRow key = {i}>
@@ -220,7 +216,7 @@ export default function LETable(props) {
                             e.severity.toLowerCase() === 'warning' ? BPColors.warning :
                             e.severity.toLowerCase() === 'info' ? BPColors.info :
                             BPColors.success,
-                          width: 'fit-content',
+                          width: '120px',
                         }
                       }
                     >
@@ -278,9 +274,9 @@ export default function LETable(props) {
       <TablePagination
         count = {props.data.length}
         rowsPerPageOptions = {[5, 10, 20, 50]}
-        page = {page}
+        page = {props.page}
         onPageChange = {handleChangePage}
-        rowsPerPage = {rowsPerPage}
+        rowsPerPage = {props.rowsPerPage}
         onRowsPerPageChange = {handleChangeRPP}
       />
     </div>

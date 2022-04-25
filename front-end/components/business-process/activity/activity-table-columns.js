@@ -40,7 +40,7 @@ export const useBPActivityTableColumns = () => {
         },
         {
           Header: 'Log Event Created Date',
-          accessor: 'logEventCreatedDate',
+          accessor: 'creation_time',
           minWidth: 240,
           width: 265,
           sortDescFirst: true,
@@ -57,14 +57,14 @@ export const useBPActivityTableColumns = () => {
                   fontWeight: '400',
                 }}
               >
-                {getDateStringByValue(data.logEventCreatedDate)}
+                {getDateStringByValue(data.creation_time)}
               </div>
             );
           },
         },
         {
           Header: 'Business Domain',
-          accessor: 'businessDomain',
+          accessor: 'business_domain',
           minWidth: 190,
           width: 220,
           sortDescFirst: true,

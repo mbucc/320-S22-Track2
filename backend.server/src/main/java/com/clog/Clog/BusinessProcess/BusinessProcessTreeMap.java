@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
 public class BusinessProcessTreeMap {
     private Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> eai_domainTopLevel;
     public BusinessProcessTreeMap() {
@@ -39,11 +41,12 @@ public class BusinessProcessTreeMap {
             }
             //publishing business domain not in EAI map
             else {
+
                 Map<String, List<BusinessProcessTreeNode>> pubbusProc = new HashMap<String, List<BusinessProcessTreeNode>>();
                 List<BusinessProcessTreeNode> listToAdd = new ArrayList<BusinessProcessTreeNode>();
                 listToAdd.add(toAddNode);
                 pubbusProc.put(treeEntry.getBusiness_process(), listToAdd);
-                EaiMap.put(treeEntry.getEai_domain(), pubbusProc);
+                EaiMap.put(treeEntry.getPublishing_business_domain(), pubbusProc);
             }
 
         }

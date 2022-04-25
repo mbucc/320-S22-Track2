@@ -11,7 +11,7 @@ INSERT INTO LOG_DETAILS_T VALUES
         'Publish_Customer_Update', 
         'Publish_Customer_Update', 
         '10', 
-        '10', 
+        '71', 
         '2020-12-12 01:24:23', 
         'INTERNAL',
         '1212',

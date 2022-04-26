@@ -5,7 +5,7 @@ import {FormControlLabel} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormHelperText from '@mui/material/FormHelperText';
-import { BPColors } from '../../utils/business-process/standards';
+import {BPColors} from '../../utils/business-process/standards';
 /**
  *
  * @param {*} props checkbox state and setState passed into Formcheckbox

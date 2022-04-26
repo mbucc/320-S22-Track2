@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import Form from '../../Components/LogEvent-Form/Form.js';
-import LETable from '../../Components/LogEvent-Form/LETable.js';
+import Form from '../../components/LogEvent-Form/Form.js';
+import LETable from '../../components/LogEvent-Form/LETable.js';
 import {Container} from '@mui/material';
 import moment from 'moment';
 
 /**
- *
+ * @param {object} props filters passed from the dashboard.
  * @return {JSX.Element}
  */
-export default function LogEvent() {
+export default function LogEvent(props) {
   /* just some code to generate a big set of mock data */
   const mockData = [];
 
@@ -77,7 +77,7 @@ export default function LogEvent() {
   return (
     <div>
       <Container style = {formContainerStyle}>
-        <Form mockData={mockData} setData={setData}/>
+        <Form mockData={mockData} setData={setData} {...props}/>
       </Container>
       <Container style = {formContainerStyle}>
         <LETable data = {data} setData = {setData}/>

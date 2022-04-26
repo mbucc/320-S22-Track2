@@ -194,7 +194,6 @@ export default function LETable(props) {
               </TableSortLabel>
             </TableCell>
             <TableCell >Application</TableCell>
-            <TableCell >Process/Service</TableCell>
             <TableCell >Activity</TableCell>
             <TableCell >EAI Domain</TableCell>
             <TableCell> Business Domain </TableCell>
@@ -210,17 +209,14 @@ export default function LETable(props) {
                   <TableRow key = {i}>
                     <TableCell>{e.severity}</TableCell>
                     <TableCell>{e.priority}</TableCell>
-                    <TableCell>{e.category}</TableCell>
-                    <TableCell>{e['Created Date']}</TableCell>
-                    <TableCell>{e['Application']}</TableCell>
-                    <TableCell>{e['Process/Service']}</TableCell>
-                    <TableCell>{e['Activity']}</TableCell>
-                    <TableCell>{e['EAI Domain']}</TableCell>
-                    <TableCell>{e['Business Domain']}</TableCell>
-                    <TableCell>{e['Business SubDomain']}</TableCell>
-                    <TableCell onClick={() => {
-                      window.sessionStorage.setItem('isLogDetail', true);
-                    }}>
+                    <TableCell>{e.category_name}</TableCell>
+                    <TableCell>{e['creation_time']}</TableCell>
+                    <TableCell>{e['application']}</TableCell>
+                    <TableCell>{e['activity']}</TableCell>
+                    <TableCell>{e['eai_domain']}</TableCell>
+                    <TableCell>{e['business_domain']}</TableCell>
+                    <TableCell>{e['business_subdomain']}</TableCell>
+                    <TableCell>
                       <Button
                         variant="text"
                         sx={{
@@ -232,7 +228,7 @@ export default function LETable(props) {
                           },
                         }}
                       >
-                        <Link href={`/log-detail/${e.id}`} >{e['Log Event']}</Link>
+                        <Link href={`/log-detail/${e.global_instance_id}`} >Detail</Link>
                       </Button>
                     </TableCell>
                   </TableRow>

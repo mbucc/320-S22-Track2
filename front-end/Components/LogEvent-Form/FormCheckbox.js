@@ -96,7 +96,7 @@ export default function FormCheckbox(props) {
             {Object.keys(props.checkboxes).map((e)=>{
               return (
                 <FormControlLabel
-                  label = {e}
+                  label={e.charAt(0).toUpperCase() + e.slice(1) }
                   style={labelStyle}
                   control = {<Checkbox
                     name={e}

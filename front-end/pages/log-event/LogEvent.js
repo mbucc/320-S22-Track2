@@ -1,16 +1,35 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Form from '../../Components/LogEvent-Form/Form.js';
 import LETable from '../../Components/LogEvent-Form/LETable.js';
 import {Container} from '@mui/material';
 import moment from 'moment';
-
+import axios from 'axios';
 /**
  *
  * @return {JSX.Element}
  */
-export default function LogEvent() {
+function LogEvent() {
   /* just some code to generate a big set of mock data */
   const mockData = [];
+  const [BusinessDomainOptions, setBusinessDomainOptions] = useState(null);
+  const [BusinessSubDomOptions, setBusinessSubDomOptions] = useState(null);
+  const [EAIOptions, setEAIOptions] = useState(null)
+  const [applicationOptions, setApplicationOptions] = useState(null)
+  const [processServiceOptions, setProcessServiceOptions] = useState(null)
+  
+
+  useEffect(async()=>{
+    const businessDomain = await axios.get('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/businessDomains')
+    const subDomain = await axios.get('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/businessSubDomains');
+    const eaiDomain = await axios.get('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/eaiDomains');
+    const appOptions = await axios.get('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/applications')
+    const processOptions = await axios.get('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/publishingBusinessDomains');
+    setBusinessDomainOptions(businessDomain.data)
+    setBusinessSubDomOptions(subDomain.data)
+    setEAIOptions(eaiDomain.data)
+    setApplicationOptions(appOptions.data)
+    setProcessServiceOptions(processOptions.data);
+  }, [])
 
   const formContainerStyle = {
     border: 'thin solid lightgray',
@@ -77,7 +96,7 @@ export default function LogEvent() {
   return (
     <div>
       <Container style = {formContainerStyle}>
-        <Form mockData={mockData} setData={setData}/>
+        <Form mockData={mockData} setData={setData} BusinessDomainOptions={BusinessDomainOptions} BusinessSubDomOptions={BusinessSubDomOptions} EAIOptions={EAIOptions} applicationOptions={applicationOptions} processServiceOptions={processServiceOptions} />
       </Container>
       <Container style = {formContainerStyle}>
         <LETable data = {data} setData = {setData}/>
@@ -85,3 +104,5 @@ export default function LogEvent() {
     </div>
   );
 }
+
+export default LogEvent

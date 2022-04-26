@@ -4,6 +4,7 @@ import FormCheckbox from './FormCheckbox.js';
 import moment from 'moment';
 import {BPDomainSelector} from '../business-process/common/domain-selector';
 import {BPDatePicker} from '../business-process/common/date-picker';
+import axios from 'axios';
 
 /**
  *
@@ -11,9 +12,9 @@ import {BPDatePicker} from '../business-process/common/date-picker';
  * @return {JSX.Element}
  */
 export default function Form(props) {
-  const [severityCheckboxes, setSeverityCheckboxes] = useState({'Error': false, 'Warning': false, 'Info': false, 'Success': false});
-  const [priorityCheckboxes, setPriorityCheckboxes] = useState({'Low': false, 'Medium': false, 'High': false});
-  const [categoryCheckboxes, setCategoryCheckboxes] = useState({'Heartbeat': false, 'Stop': false, 'Status': false, 'Security': false, 'Start': false});
+  const [severityCheckboxes, setSeverityCheckboxes] = useState({'error': false, 'warning': false, 'info': false, 'success': false});
+  const [priorityCheckboxes, setPriorityCheckboxes] = useState({'low': false, 'medium': false, 'high': false});
+  const [categoryCheckboxes, setCategoryCheckboxes] = useState({ "ReportUpdate": false, "ReportPersisted": false, "ReportFail": false});
   const [dropdownValues, setDropdownValues] = useState({'EAI Domain': ['All'], 'Application': ['All'], 'Process/Service': ['All'], 'Business Domain': ['All'], 'Business SubDomain': ['All']});
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
@@ -22,13 +23,6 @@ export default function Form(props) {
   const [fromDateError, setFromDateError] = useState(null);
   const [toDateError, setToDateError] = useState(null);
   const applyButtonRef = useRef(null);
-
-  /* options for dropdown fields. Will eventually be queries to the database */
-  const EAIOptions = ['EAI Domain 1', 'EAI Domain 2', 'EAI Domain 3', 'EAI Domain 4'];
-  const applicationOptions = ['CRM'];
-  const processServiceOptions = ['Update Customer'];
-  const BusinessDomainOptions = ['Business Domain 1', 'Business Domain 2'];
-  const BusinessSubDomOptions = ['Business SubDomain 1', 'Business SubDomain 2'];
 
   const formStyle = {
     width: '1600px',
@@ -63,35 +57,6 @@ export default function Form(props) {
     width: '400px',
   };
 
-
-  useEffect(async () => {
-    const ss = window.sessionStorage;
-    if (ss.getItem('isLogDetail')) {
-      await setSeverityCheckboxes(JSON.parse(ss.getItem('severityCheckboxes')));
-      await setPriorityCheckboxes(JSON.parse(ss.getItem('priorityCheckboxes')));
-      await setCategoryCheckboxes(JSON.parse(ss.getItem('categoryCheckboxes')));
-      await setDropdownValues(JSON.parse(ss.getItem('dropdownValues')));
-      await setFromToDates(JSON.parse(ss.getItem('fromToDates')));
-      ss.removeItem('severityCheckboxes');
-      ss.removeItem('priorityCheckboxes');
-      ss.removeItem('categoryCheckboxes');
-      ss.removeItem('dropdownValues');
-      ss.removeItem('fromToDates');
-      ss.removeItem('isLogDetail');
-
-      applyButtonRef.current.click();
-    }
-  }, []);
-
-  const saveForm = () => {
-    const ss = window.sessionStorage;
-    ss.setItem('severityCheckboxes', JSON.stringify(severityCheckboxes));
-    ss.setItem('priorityCheckboxes', JSON.stringify(priorityCheckboxes));
-    ss.setItem('categoryCheckboxes', JSON.stringify(categoryCheckboxes));
-    ss.setItem('dropdownValues', JSON.stringify(dropdownValues));
-    ss.setItem('fromToDates', JSON.stringify(fromToDates));
-  };
-
   {/* returns true if a given piece of data in the grid has properties specified by current filters */}
   const filterData = (e, objKeys) => {
     // Date filters
@@ -115,33 +80,69 @@ export default function Form(props) {
     return dateFilter && severityFilter && priorityFilter && domainFilter && applicationFilter && processServiceFilter && BDFilter && BSDFilter && categoryFilter;
   };
 
-  const applyHandler = (event) => {
+  const applyHandler = async (event)=>{
     event.preventDefault();
+    let API_PARAMS = []
 
-    if (!fromDate) {
-      setFromDateError('Please enter a date.');
-    }
+    const startDate = `startTime=${moment(fromDate).format("YYYY-MM-DD HH:mm:ss")}`;
+    const endDate = `endTime=${moment(toDate).format("YYYY-MM-DD HH:mm:ss")}`;
+    API_PARAMS.push(startDate);
+    API_PARAMS.push(endDate);
+    console.log(startDate)
 
-    if (!toDate) {
-      setToDateError('Please enter a date.');
-    }
+    const severityURL = `severities=${Object.keys(severityCheckboxes).filter((e) => severityCheckboxes[e]).toString()}`;
+    const priorityURL = `priorities=${Object.keys(priorityCheckboxes).filter((e) => priorityCheckboxes[e]).toString()}`;
+    const categoryURL = `categories=${Object.keys(categoryCheckboxes).filter((e) => categoryCheckboxes[e]).toString()}`;
+    severityURL === 'severities='? null: API_PARAMS.push(severityURL)
+    priorityURL === 'priorities='? null: API_PARAMS.push(priorityURL);
+    categoryURL === 'categories='? null : API_PARAMS.push(categoryURL)
 
-    if (fromDate && toDate && fromDate > toDate) {
-      setToDateError('To date must be later than from date.');
-    }
-    if (fromDate && fromDate > new Date()) {
-      setFromDateError('From date must be in the past.');
-    }
+    const EaiURL = dropdownValues["EAI Domain"].includes("All") ? "" : `eaiDomain=${dropdownValues["EAI Domain"].toString()}`
+    const applicationURL = dropdownValues['Application'].includes('All') ? '' : `application=${dropdownValues['Application'].toString()}`;
+    const processServiceURL = dropdownValues['Process/Service'].includes('All') ? '' : `process=${dropdownValues['Process/Service'].toString()}`;
+    const BDURL = dropdownValues['Business Domain'].includes('All') ? "" : `businessDomain=${dropdownValues['Business Domain'].toString()}`;
+    const BSDURL = dropdownValues['Business SubDomain'].includes('All') ? "" : `businessSubDomain=${dropdownValues['Business SubDomain'].toString()}`;
+    EaiURL === ''? null : API_PARAMS.push(EaiURL);
+    applicationURL === ''? null : API_PARAMS.push(applicationURL);
+    processServiceURL === ''? null : API_PARAMS.push(processServiceURL);
+    BDURL === ''? null : API_PARAMS.push(BDURL);
+    BSDURL === ''? null : API_PARAMS.push(BSDURL)
 
-    const severityKeys = Object.keys(severityCheckboxes).filter((e) => severityCheckboxes[e]);
-    const priorityKeys = Object.keys(priorityCheckboxes).filter((e) => priorityCheckboxes[e]);
-    const categoryKeys = Object.keys(categoryCheckboxes).filter((e) => categoryCheckboxes[e]);
-    const objKeys = severityKeys.concat(priorityKeys).concat(categoryKeys);
-    const filteredData = props.mockData.filter((e) => filterData(e, objKeys));
+    const API_URL = `http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?${API_PARAMS.join('&')}`
+    console.log(API_URL);
+    const res = await axios.get(API_URL)
 
-    filteredData = filteredData.sort(dateComparison('gt'));
-    props.setData(filteredData);
-  };
+    const data = res.data
+    props.setData(data)
+
+  }
+  // const applyHandler = (event) => {
+  //   event.preventDefault();
+
+  //   if (!fromDate) {
+  //     setFromDateError('Please enter a date.');
+  //   }
+
+  //   if (!toDate) {
+  //     setToDateError('Please enter a date.');
+  //   }
+
+  //   if (fromDate && toDate && fromDate > toDate) {
+  //     setToDateError('To date must be later than from date.');
+  //   }
+  //   if (fromDate && fromDate > new Date()) {
+  //     setFromDateError('From date must be in the past.');
+  //   }
+
+  //   const severityKeys = Object.keys(severityCheckboxes).filter((e) => severityCheckboxes[e]);
+  //   const priorityKeys = Object.keys(priorityCheckboxes).filter((e) => priorityCheckboxes[e]);
+  //   const categoryKeys = Object.keys(categoryCheckboxes).filter((e) => categoryCheckboxes[e]);
+  //   const objKeys = severityKeys.concat(priorityKeys).concat(categoryKeys);
+  //   const filteredData = props.mockData.filter((e) => filterData(e, objKeys));
+
+  //   filteredData = filteredData.sort(dateComparison('gt'));
+  //   props.setData(filteredData);
+  // };
 
   const changeOptions = (name)=>{
     return (list) => {
@@ -184,7 +185,7 @@ export default function Form(props) {
       <Typography variant="h6">
         Filters
       </Typography>
-      <form style={formStyle} onSubmit={applyHandler}>
+      <form style={formStyle}>
         <div style = {filtersStyle}>
           <div style = {datesStyle}>
             <BPDatePicker
@@ -206,11 +207,11 @@ export default function Form(props) {
             />
           </div>
           <div style={dropdownStyle}>
-            <BPDomainSelector label = {'EAI Domain'} searchPlaceholder = {'Select options'} list = {EAIOptions} onChange = {changeOptions('EAI Domain')} id = {'dropdown-eai'}/>
-            <BPDomainSelector label = {'Application'} searchPlaceholder = {'Select options'} list = {applicationOptions} onChange = {changeOptions('Application')} id = {'dropdown-app'}/>
-            <BPDomainSelector label = {'Process/Service'} searchPlaceholder = {'Select options'} list = {processServiceOptions} onChange = {changeOptions('Process/Service')} id = {'dropdown-ps'}/>
-            <BPDomainSelector label = {'Business Domain'} searchPlaceholder = {'Select options'} list = {BusinessDomainOptions} onChange = {changeOptions('Business Domain')} id = {'dropdown-bd'}/>
-            <BPDomainSelector label = {'Business SubDomain'} searchPlaceholder = {'Select options'} list = {BusinessSubDomOptions} onChange = {changeOptions('Business SubDomain')} id = {'dropdown-bsd'}/>
+            {props.EAIOptions === null ? null : <BPDomainSelector label = {'EAI Domain'} searchPlaceholder = {'Select options'} list = {props.EAIOptions} onChange = {changeOptions('EAI Domain')} id = {'dropdown-eai'}/>}
+            {props.applicationOptions === null ? null : <BPDomainSelector label = {'Application'} searchPlaceholder = {'Select options'} list = {props.applicationOptions} onChange = {changeOptions('Application')} id = {'dropdown-app'}/>}
+            {props.processServiceOptions === null? null :<BPDomainSelector label = {'Process/Service'} searchPlaceholder = {'Select options'} list = {props.processServiceOptions} onChange = {changeOptions('Process/Service')} id = {'dropdown-ps'}/>}
+            {props.BusinessDomainOptions === null ? null : <BPDomainSelector label = {'Business Domain'} searchPlaceholder = {'Select options'} list = {props.BusinessDomainOptions} onChange = {changeOptions('Business Domain')} id = {'dropdown-bd'}/>}
+            {props.BusinessSubDomOptions === null ? null : <BPDomainSelector label = {'Business SubDomain'} searchPlaceholder = {'Select options'} list = {props.BusinessSubDomOptions} onChange = {changeOptions('Business SubDomain')} id = {'dropdown-bsd'}/>}
             {/* <Dropdowns options={applicationOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Application'} testid={'app'}></Dropdowns>
             <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Process/Service'} testid={'ps'}></Dropdowns>
             <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business Domain'} testid={'bd'}></Dropdowns>
@@ -224,7 +225,7 @@ export default function Form(props) {
         </div>
         <Button
           type="submit"
-          onClick={saveForm}
+          onClick={applyHandler}
           ref={applyButtonRef}
           size={'small'}
           sx={{

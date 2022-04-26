@@ -7,7 +7,7 @@ import {useTable, useBlockLayout, useSortBy, useResizeColumns} from 'react-table
 import styled from 'styled-components';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {IconArrowRight, IconArrowsSort, IconSortAscending, IconSortDescending} from '@tabler/icons';
-import {BPTextButton} from "../common/button";
+import {BPTextButton} from '../common/button';
 
 /**
  * The root component for the activity table.
@@ -45,23 +45,21 @@ const BPTableRootStructure = styled.div`
       display: flex;
       flex-direction: column;
       padding-bottom: 40px;
-      padding-left: 12px;
-      padding-right: 12px;
+      
+      &:nth-child(2n-1) {
+        background-color: ${BPColors.gray[70]};
+      }
     }
     
     .table-line {
       flex: 1;
+      padding: 0 12px;
       min-width: 100%;
       width: max-content;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: flex-start;
-
-      &:hover {
-        background-color: ${BPColors.gray[100]};
-        border-radius: ${BPDimens.treeRadius};
-      }
     }
 
     .table-line-divider {

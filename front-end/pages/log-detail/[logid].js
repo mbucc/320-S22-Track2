@@ -66,9 +66,9 @@ export default function LogDetail() {
 
   return (
     <>
-      <Button
+      {/* <Button
         variant = 'text'
-        href = '/log-event'
+        href = '/LogEvent'
         size = {'large'}
         sx = {{
           borderRadius: 999,
@@ -79,7 +79,7 @@ export default function LogDetail() {
           },
         }}>
         Back
-      </Button>
+      </Button> */}
       <Typography variant = 'h3' style = {titleStyle}>Log Event ID: {logID}</Typography>
       {data === null ? (<Typography variant = 'p'> loading... </Typography>) :
             (<div>

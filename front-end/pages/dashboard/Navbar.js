@@ -76,7 +76,7 @@ function Navbar(props) {
               },
             }}
           >
-            <Link href='./business-process/' passHref>
+            <Link href='/business-process/' passHref>
               <a>
                 Business Processes
               </a>
@@ -93,7 +93,7 @@ function Navbar(props) {
               },
             }}
           >
-            <Link href='./LogEvent' passHref>
+            <Link href='/LogEvent' passHref>
               <a>
                 Log Events
               </a>

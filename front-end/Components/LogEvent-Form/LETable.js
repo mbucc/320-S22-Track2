@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import Link from 'next/link';
-import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button, TableSortLabel} from '@mui/material';
+import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button, TableSortLabel, Modal} from '@mui/material';
 import {TablePagination} from '@mui/material';
 import moment from 'moment';
 import {BPColors} from '../../utils/business-process/standards.js';
@@ -39,6 +38,7 @@ export default function LETable(props) {
     setRPP(parseInt(event.target.value, 10));
     props.setPage(0);
   };
+
 
   /**
    *
@@ -263,7 +263,13 @@ export default function LETable(props) {
                           },
                         }}
                       >
-                        <Link href={`/log-detail/${e.id}`} >{e['Log Event']}</Link>
+                        <a
+                          href={`/log-detail/${e.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{textDecoration: 'none', color: 'black'}}>
+                          {e['Log Event']}
+                        </a>
                       </Button>
                     </TableCell>
                   </TableRow>

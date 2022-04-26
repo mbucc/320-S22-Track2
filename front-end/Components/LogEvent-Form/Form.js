@@ -9,7 +9,7 @@ import {BPColors, BPStandards} from '../../utils/business-process/standards.js';
 
 /**
  *
- * @param {*} props state and setState for data, as well as possible filters for
+ * @param {*} props state and setState for data, as well as possible filters from dashboard
  * @return {JSX.Element}
  */
 export default function Form(props) {
@@ -93,8 +93,8 @@ export default function Form(props) {
   const [priorityCheckboxes, setPriorityCheckboxes] = useState(initPriorityCheckboxes);
   const [categoryCheckboxes, setCategoryCheckboxes] = useState(initCategoryCheckboxes);
   const [dropdownValues, setDropdownValues] = useState({'EAI Domain': ['All'], 'Application': ['All'], 'Process/Service': ['All'], 'Business Domain': ['All'], 'Business SubDomain': ['All']});
-  const [fromDate, setFromDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
+  const [fromDate, setFromDate] = useState(props.logEventFilters?.start ? props.logEventFilters.start : null);
+  const [toDate, setToDate] = useState(props.logEventFilters?.end ? props.logEventFilters.end : null);
 
   /* states for errors displayed by input fields */
   const [fromDateError, setFromDateError] = useState(null);
@@ -180,9 +180,8 @@ export default function Form(props) {
     }
   }, []);
 
-  const initialLoad = useRef(true);
   useEffect(()=>{
-    if (initialLoad.current) {
+    if (props.logEventFilters) {
       if (props.logEventFilters?.type && props.logEventFilters?.type === 'severity') {
         switch (props.logEventFilters?.severity) {
           case ('Logs'):
@@ -196,9 +195,9 @@ export default function Form(props) {
             break;
         }
       }
-      initialLoad.current = false;
+      applyButtonRef.current.click();
     }
-  }, [initSeverityCheckboxes, props.logEventFilters?.severity, props.logEventFilters?.type]);
+  }, []);
 
   const saveForm = (event) => {
     const ss = window.sessionStorage;
@@ -215,8 +214,8 @@ export default function Form(props) {
   const filterData = (e, objKeys) => {
     // Date filters
     const compareDate = moment(e['Created Date']);
-    const startDate = moment(fromDate);
-    const endDate = moment(toDate);
+    const startDate = fromDate;
+    const endDate = toDate;
     const dateFilter = compareDate.isBetween(startDate, endDate, undefined, '[]'); // '[]' means inclusive on the left and right
 
     // Checkbox filters
@@ -255,7 +254,6 @@ export default function Form(props) {
     // const categoryKeys = Object.keys(categoryCheckboxes).filter((e) => categoryCheckboxes[e]);
     const objKeys = severityCheckboxes.concat(priorityCheckboxes).concat(categoryCheckboxes);
     const filteredData = props.mockData.filter((e) => filterData(e, objKeys));
-
     filteredData = filteredData.sort(dateComparison('gt'));
     props.setData(filteredData);
     props.setPage(0);
@@ -311,7 +309,7 @@ export default function Form(props) {
               id = 'logevent-datepicker-fromdate'
               label = 'From Date'
               onChange = {(newDate)=>{
-                setFromDate(newDate);
+                setFromDate(moment(newDate));
               }}
               error = {fromDateError}
             />
@@ -319,7 +317,7 @@ export default function Form(props) {
               id = 'logevent-datepicker-todate'
               label = 'To Date'
               onChange = {(newDate)=>{
-                setToDate(newDate);
+                setToDate(moment(newDate));
               }}
               baseDate = {fromDate}
               error = {toDateError}
@@ -331,15 +329,8 @@ export default function Form(props) {
             <BPDomainSelector label = {'Process/Service'} searchPlaceholder = {'Select options'} list = {processServiceOptions} onChange = {changeOptions('Process/Service')} id = {'dropdown-ps'}/>
             <BPDomainSelector label = {'Business Domain'} searchPlaceholder = {'Select options'} list = {BusinessDomainOptions} onChange = {changeOptions('Business Domain')} id = {'dropdown-bd'}/>
             <BPDomainSelector label = {'Business SubDomain'} searchPlaceholder = {'Select options'} list = {BusinessSubDomOptions} onChange = {changeOptions('Business SubDomain')} id = {'dropdown-bsd'}/>
-            {/* <Dropdowns options={applicationOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Application'} testid={'app'}></Dropdowns>
-            <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Process/Service'} testid={'ps'}></Dropdowns>
-            <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business Domain'} testid={'bd'}></Dropdowns>
-            <Dropdowns options={BusinessSubDomOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business SubDomain'} testid={'bsd'}></Dropdowns>*/}
           </div>
           <div style={checkboxesStyle}>
-            {/* <FormCheckbox name="Severity" checkboxes={severityCheckboxes} setCheckboxes={setSeverityCheckboxes} testid = {'severity'}/>
-            <FormCheckbox name="Priority" checkboxes={priorityCheckboxes} setCheckboxes={setPriorityCheckboxes} testid = {'priority'}/>
-          <FormCheckbox name="Category" checkboxes={categoryCheckboxes} setCheckboxes={setCategoryCheckboxes} testid = {'category'}/>*/}
             <div style = {{height: '30%'}}>
               <BPCheckboxGroup
                 id = 'logevent-severity-selector'

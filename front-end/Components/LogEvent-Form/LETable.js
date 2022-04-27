@@ -165,6 +165,39 @@ export default function LETable(props) {
     };
   };
 
+  const rankSeverity = (severity) => {
+    let severityText;
+    if (severity >= 50) {
+      severityText = 'Error';
+    }
+    else if (severity < 50 && severity >= 30) {
+      severityText = 'Warning';
+    }
+    else if (severity < 30 && severity >= 10) {
+      severityText = 'Info';
+    }
+    else {
+      // eslint-disable-next-line no-unused-vars
+      severityText = 'Success';
+    }
+    return severityText;
+  };
+
+  const rankPriority = (priority) => {
+    let priorityText;
+    if (priority === '10') {
+      priorityText = 'Low';
+    }
+    else if (priority === '50') {
+      priorityText = 'Medium';
+    }
+    else {
+      // eslint-disable-next-line no-unused-vars
+      priorityText = 'High';
+    }
+    return priorityText;
+  };
+
   return (
     <div>
       <Typography variant = "h6">
@@ -207,29 +240,8 @@ export default function LETable(props) {
           {props.data
               .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
               .map((e, i)=>{
-                let severityText;
-                let priorityText;
-                if (e.severity >= 50) {
-                  severityText = 'Error';
-                }
-                else if (e.severity < 50 && e.severity >= 30) {
-                  severityText = 'Warning';
-                }
-                else if (e.severity < 30 && e.severity >= 10) {
-                  severityText = 'Info';
-                }
-                else {
-                  severityText = 'Success';
-                }
-                if (e.priority === '10') {
-                  priorityText = 'Low';
-                }
-                else if (e.priority === '50') {
-                  priorityText = 'Medium';
-                }
-                else if (e.priority === '70') {
-                  priorityText = 'High';
-                }
+                const severityText = rankSeverity(e.severity);
+                const priorityText = rankPriority(e.priority);
                 console.log(e.priority);
                 return (
                   <TableRow key = {i}>

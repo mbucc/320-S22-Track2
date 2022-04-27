@@ -187,7 +187,7 @@ export default function LETable(props) {
             </TableCell>
             <TableCell >Category</TableCell>
             <TableCell >
-              <TableSortLabel
+              <TableSortLabel data-testid = "button-sort-date"
                 onClick={()=>setSort(sortHandler(sort != 5 ? 5 : 6))}
                 direction = {(sort%2 === 1 ? 'asc' : 'desc')}>
                 Created Date
@@ -221,7 +221,7 @@ export default function LETable(props) {
                     <TableCell onClick={() => {
                       window.sessionStorage.setItem('isLogDetail', true);
                     }}>
-                      <Button
+                      <Button hyperlink-testid={i}
                         variant="text"
                         sx={{
                           borderRadius: 999,

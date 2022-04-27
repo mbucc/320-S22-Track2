@@ -30,7 +30,7 @@ export default function Login({setLogin}) {
           type="password"
         />
 
-        <Button type="button" color="primary" className="form__custom-button" onClick = {() => setLogin(true) }>
+        <Button data-testid="button-login" type="button" color="primary" className="form__custom-button" onClick = {() => setLogin(true) }>
             Log in
         </Button>
         <Button type="button" color="primary" className="form__custom-button" onClick = {() => setLogin(false) }>

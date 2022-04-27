@@ -224,6 +224,7 @@ export default function Form(props) {
         </div>
         <Button
           type="submit"
+          data-testid='button-apply'
           onClick={saveForm}
           ref={applyButtonRef}
           size={'small'}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <LOG_DETAILS_T> 
+        global_instance_id = "crm_server_000001"
+        business_domain = "CRM"
+        business_subdomain = "Customer"
+        version = "1.0"
+        local_instance_id = "CRM-Customer-CRM_Adapter-Publish_Customer_Update-1212"
+        eai_transaction_id = "eai_crm_server_111111"
+        eai_domain = "EAI_DOMAIN_1"
+        hostname = "crm_server"
+        application = "CRM_Adapter"
+        event_context = "Publish_Customer_Update"
+        component = "Publish_Customer_Update"
+        severity = "10"
+        priority = "10"
+        creation_time = "2020-12-12 01:24:23"
+        reasoning_scope = "INTERNAL"
+        process_id = "1212"
+        category_name = "ReportSituation"
+        activity = "Customer Update Started"
+        msg = "Recieved a customer update start event"
+    </>
+
+
+</dataset>

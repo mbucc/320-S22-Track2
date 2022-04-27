@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button, TableSortLabel, Modal} from '@mui/material';
+import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button, TableSortLabel} from '@mui/material';
 import {TablePagination} from '@mui/material';
 import moment from 'moment';
 import {BPColors} from '../../utils/business-process/standards.js';
@@ -28,7 +28,7 @@ export default function LETable(props) {
    * 5 = by priority descending
    * 6 = by priority descending
    */
-  const [sort, setSort] = useState(5);
+  const [sort, setSort] = useState(6);
 
   /* event handlers for changing number of pages and changing page*/
   const handleChangePage = (event, newPage) => {
@@ -76,36 +76,36 @@ export default function LETable(props) {
     }
   };
 
-  const severityToNum = (severity)=>{
-    switch (severity.toLowerCase()) {
-      case 'success':
-        return 0;
-      case 'info':
-        return 1;
-      case 'warning':
-        return 2;
-      case 'error':
-        return 3;
-    }
-  };
+  // const severityToNum = (severity)=>{
+  //   switch (severity.toLowerCase()) {
+  //     case 'success':
+  //       return 0;
+  //     case 'info':
+  //       return 1;
+  //     case 'warning':
+  //       return 2;
+  //     case 'error':
+  //       return 3;
+  //   }
+  // };
 
-  const priorityToNum = (priority)=>{
-    switch (priority.toLowerCase()) {
-      case 'low':
-        return 0;
-      case 'medium':
-        return 1;
-      case 'high':
-        return 2;
-    }
-  };
+  // const priorityToNum = (priority)=>{
+  //   switch (priority.toLowerCase()) {
+  //     case 'low':
+  //       return 0;
+  //     case 'medium':
+  //       return 1;
+  //     case 'high':
+  //       return 2;
+  //   }
+  // };
 
 
   const severityComparison = (comp)=>{
     // callback used to compare different severities
     return (a, b) =>{
-      const aNum = severityToNum(a['severity']);
-      const bNum = severityToNum(b['severity']);
+      const aNum = a.severity;
+      const bNum = b.severity;
       if (comp === 'gt') {
         if (aNum < bNum) {
           return -1;
@@ -129,8 +129,8 @@ export default function LETable(props) {
 
   const priorityComparison = (comp)=>{
     return (a, b) =>{
-      const aNum = priorityToNum(a['priority']);
-      const bNum = priorityToNum(b['priority']);
+      const aNum = a.priority;
+      const bNum = b.priority;
       if (comp === 'lt') {
         if (aNum < bNum) {
           return 1;
@@ -154,11 +154,13 @@ export default function LETable(props) {
 
   const dateComparison = (comp)=>{
     return (a, b) =>{
+      console.log(a['creation_time']);
+      console.log(moment(a['creation_time']).format('MMDDYYYYHHmmss'));
       if (comp === 'lt') {
-        return moment(a['Created Date']).format('MMDDYYYYHHmmss') - moment(b['Created Date']).format('MMDDYYYYHHmmss');
+        return moment(a['creation_time']).format('MMDDYYYYHHmmss') - moment(b['creation_time']).format('MMDDYYYYHHmmss');
       }
       if (comp === 'gt') {
-        return moment(b['Created Date']).format('MMDDYYYYHHmmss') - moment(a['Created Date']).format('MMDDYYYYHHmmss');
+        return moment(b['creation_time']).format('MMDDYYYYHHmmss') - moment(a['creation_time']).format('MMDDYYYYHHmmss');
       }
     };
   };
@@ -194,7 +196,6 @@ export default function LETable(props) {
               </TableSortLabel>
             </TableCell>
             <TableCell >Application</TableCell>
-            <TableCell >Process/Service</TableCell>
             <TableCell >Activity</TableCell>
             <TableCell >EAI Domain</TableCell>
             <TableCell> Business Domain </TableCell>
@@ -206,52 +207,40 @@ export default function LETable(props) {
           {props.data
               .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
               .map((e, i)=>{
+                console.log(e.priority);
                 return (
                   <TableRow key = {i}>
                     <TableCell
                       style = {
                         {
                           color:
-                            e.severity.toLowerCase() === 'error' ? BPColors.error :
-                            e.severity.toLowerCase() === 'warning' ? BPColors.warning :
-                            e.severity.toLowerCase() === 'info' ? BPColors.info :
+                            e.severity >= 50 ? BPColors.error :
+                            e.severity < 50 && e.severity >= 30 ? BPColors.warning :
+                            e.severity < 30 && e.severity >= 10 ? BPColors.info :
                             BPColors.success,
                           width: '120px',
                         }
                       }
                     >
                       {
-                        e.severity.toLowerCase() === 'error' ? <ErrorIcon style = {{color: BPColors.error, paddingTop: '8px'}}/> :
-                        e.severity.toLowerCase() === 'warning' ? <WarningIcon style = {{color: BPColors.warning, paddingTop: '8px'}}/> :
-                        e.severity.toLowerCase() === 'info' ? <InfoIcon style = {{color: BPColors.info, paddingTop: '8px'}}/> :
+                        e.severity >= 50 ? <ErrorIcon style = {{color: BPColors.error, paddingTop: '8px'}}/> :
+                        e.severity < 50 && e.severity >= 30 ? <WarningIcon style = {{color: BPColors.warning, paddingTop: '8px'}}/> :
+                        e.severity < 30 && e.severity >= 10 ? <InfoIcon style = {{color: BPColors.info, paddingTop: '8px'}}/> :
                         <CheckCircleIcon style = {{color: BPColors.success, paddingTop: '8px'}}/>
                       }
                       <div style = {{display: 'inline-block', alignSelf: 'center', marginLeft: '2px'}}>{e.severity}</div>
                     </TableCell>
-                    <TableCell
-                      style = {
-                        {
-                          color:
-                            e.priority.toLowerCase() === 'high' ? BPColors.error :
-                            e.priority.toLowerCase() === 'medium' ? BPColors.warning :
-                            e.priority.toLowerCase() === 'low' ? '#D6C000' :
-                            BPColors.success,
-                        }
-                      }
-                    >
+                    <TableCell>
                       {e.priority}
                     </TableCell>
-                    <TableCell>{e.category}</TableCell>
-                    <TableCell>{e['Created Date']}</TableCell>
-                    <TableCell>{e['Application']}</TableCell>
-                    <TableCell>{e['Process/Service']}</TableCell>
-                    <TableCell>{e['Activity']}</TableCell>
-                    <TableCell>{e['EAI Domain']}</TableCell>
-                    <TableCell>{e['Business Domain']}</TableCell>
-                    <TableCell>{e['Business SubDomain']}</TableCell>
-                    <TableCell onClick={() => {
-                      window.sessionStorage.setItem('isLogDetail', true);
-                    }}>
+                    <TableCell>{e.category_name}</TableCell>
+                    <TableCell>{e['creation_time']}</TableCell>
+                    <TableCell>{e['application']}</TableCell>
+                    <TableCell>{e['activity']}</TableCell>
+                    <TableCell>{e['eai_domain']}</TableCell>
+                    <TableCell>{e['business_domain']}</TableCell>
+                    <TableCell>{e['business_subdomain']}</TableCell>
+                    <TableCell>
                       <Button
                         variant="text"
                         sx={{
@@ -264,11 +253,11 @@ export default function LETable(props) {
                         }}
                       >
                         <a
-                          href={`/log-detail/${e.id}`}
+                          href={`/log-detail/${e.global_instance_id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{textDecoration: 'none', color: 'black'}}>
-                          {e['Log Event']}
+                          Detail
                         </a>
                       </Button>
                     </TableCell>

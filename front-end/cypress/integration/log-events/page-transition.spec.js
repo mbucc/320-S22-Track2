@@ -5,7 +5,10 @@
 // check out the link below and learn how to write your first test:
 // https://on.cypress.io/writing-first-test
 
-
+/**
+ * WARNING: THIS TEST WILL NOT WORK CURRENTLY. WAITING ON DASHBOARD TEAM TO
+ * FIX ROUTING BEFORE WE CAN FIX THIS TEST.
+ */
 describe('Log Event Button', () => {
   it('At home page', () => {
     cy.visit('http://localhost:3000');

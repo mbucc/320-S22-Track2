@@ -2,7 +2,7 @@
 
 describe('testing table filters', ()=>{
   it('inputs filters', ()=>{
-    cy.visit('http://localhost:3000/LogEvent');
+    cy.visit('http://localhost:3000/log-event/LogEvent');
 
     cy.get(`[data-testid='checkbox-severity']`)
         .find(`[data-testid='checkbox-severity-error']`)

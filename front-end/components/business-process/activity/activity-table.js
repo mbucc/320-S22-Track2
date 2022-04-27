@@ -1,11 +1,13 @@
 import React, {useEffect, useMemo, useState} from 'react';
+import Link from 'next/link';
 
 // WebStorm doesn't understand the imports from react-table and throw warnings like "cannot resolve 'useTable'". It works though.
 import {useTable, useBlockLayout, useSortBy, useResizeColumns} from 'react-table';
 
 import styled from 'styled-components';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
-import {IconArrowsSort, IconSortAscending, IconSortDescending} from '@tabler/icons';
+import {IconArrowRight, IconArrowsSort, IconSortAscending, IconSortDescending} from '@tabler/icons';
+import {BPTextButton} from '../common/button';
 
 /**
  * The root component for the activity table.
@@ -43,23 +45,21 @@ const BPTableRootStructure = styled.div`
       display: flex;
       flex-direction: column;
       padding-bottom: 40px;
-      padding-left: 12px;
-      padding-right: 12px;
+      
+      &:nth-child(2n-1) {
+        background-color: ${BPColors.gray[70]};
+      }
     }
     
     .table-line {
       flex: 1;
+      padding: 0 12px;
       min-width: 100%;
       width: max-content;
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-
-      &:hover {
-        background-color: ${BPColors.gray[100]};
-        border-radius: ${BPDimens.treeRadius};
-      }
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
     }
 
     .table-line-divider {
@@ -86,10 +86,25 @@ const BPTableRootStructure = styled.div`
       justify-content: center;
     }
 
+    .th {
+      font-size: 16px;
+    }
+    
+    .td {
+      font-size: 15px;
+    }
+
     .th,
     .td {
       margin: 0;
       padding: 14px 14px;
+      
+      max-lines: 2;
+      word-wrap: normal;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: block;
+      overflow-x: hidden;
 
       // In this example we use an absolutely position resizer, so this is required.
       position: relative;
@@ -133,6 +148,24 @@ const BPTableRootStructure = styled.div`
   }
 `;
 
+const BPTableDetailButton = styled.a`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  color: ${BPColors.gray[400]};
+  column-gap: 3px;
+  transition: all 0.1s ease-in-out;
+  
+  &:hover {
+    color: ${BPColors.green[600]};
+  }
+`;
+
 /**
  * This is a custom implementation of the react-table `useTable` hook.
  * @param {array} columns
@@ -140,7 +173,7 @@ const BPTableRootStructure = styled.div`
  * @return {JSX.Element}
  * @constructor
  */
-export default function BPTableComponent({columns, data}) {
+export default function BPTableComponent({columns, data, style}) {
   const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
@@ -181,7 +214,9 @@ export default function BPTableComponent({columns, data}) {
 
   // The main table structure.
   return (
-    <BPTableRootStructure>
+    <BPTableRootStructure
+      style={style}
+    >
       <div {...getTableProps()} className="table">
         <div
           className="table-header"
@@ -219,6 +254,7 @@ export default function BPTableComponent({columns, data}) {
                       style={{
                         width: '20px',
                         height: '20px',
+                        display: !column.disableSortBy ? 'flex' : 'none',
                         color: column.isSorted ? BPColors.black : BPColors.gray[300],
                         transition: 'all 0.12s ease-in-out',
                       }}
@@ -270,6 +306,12 @@ export default function BPTableComponent({columns, data}) {
                     display: i === rows.length - 1 ? 'none' : 'flex',
                   }}
                 />
+                <Link href={`/log-detail/${row.original.eai_transaction_id}`}>
+                  <BPTableDetailButton>
+                    <span>Detail</span>
+                    <IconArrowRight width={18} height={18} strokeWidth={2.1}/>
+                  </BPTableDetailButton>
+                </Link>
               </div>
             );
           })}

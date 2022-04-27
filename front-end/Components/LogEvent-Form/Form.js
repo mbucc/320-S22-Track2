@@ -181,7 +181,6 @@ export default function Form(props) {
     const endDate = `endTime=${toDate.format('YYYY-MM-DD HH:mm:ss')}`;
     API_PARAMS.push(startDate);
     API_PARAMS.push(endDate);
-    console.log(startDate);
 
     const severityURL = `severities=${severityCheckboxes.toString()}`;
     const priorityURL = `priorities=${priorityCheckboxes.toString()}`;
@@ -202,7 +201,6 @@ export default function Form(props) {
     BSDURL === ''? null : API_PARAMS.push(BSDURL);
 
     const API_URL = `http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?${API_PARAMS.join('&')}`;
-    console.log(API_URL);
     const res = await axios.get(API_URL);
 
     const data = res.data.sort(dateComparison('gt'));
@@ -370,6 +368,7 @@ export default function Form(props) {
         </div>
         <Button
           onClick={applyHandler}
+          data-testid='button-apply'
           ref={applyButtonRef}
           size={'small'}
           sx={{

@@ -217,7 +217,7 @@ export default function LETable(props) {
             </TableCell>
             <TableCell>Category</TableCell>
             <TableCell>
-              <TableSortLabel
+              <TableSortLabel data-testid = "button-sort-date"
                 onClick={() => setSort(sortHandler(sort != 5 ? 5 : 6))}
                 direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
                     Created Date
@@ -265,7 +265,7 @@ export default function LETable(props) {
                     <TableCell>{e['business_domain']}</TableCell>
                     <TableCell>{e['business_subdomain']}</TableCell>
                     <TableCell>
-                      <Button
+                      <Button hyperlink-testid={i}
                         variant="text"
                         sx={{
                           borderRadius: 999,

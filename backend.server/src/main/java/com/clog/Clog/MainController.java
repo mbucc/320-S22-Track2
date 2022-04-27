@@ -30,6 +30,10 @@ import com.clog.Clog.LogEventFiles.LogEventsSearchCriteria;
 
 import java.sql.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,26 +79,37 @@ public class MainController {
         LogEventFilterSpecification test = new LogEventFilterSpecification(filt);
         return logEventRepo.findAll(test);
     }
-
+    //TODO One to one relations are slow. 
     @GetMapping(path = "/businessProcessTree")
     public @ResponseBody Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getBusinessTree(
             @RequestParam String startTime,
             @RequestParam String endTime,
             @RequestParam(required = false) String[] eaiDomain,
-            @RequestParam(required = false) String[] publishingBusinessDomain) {
+            @RequestParam(required = false) String[] publishingBusinessDomain,
+            @RequestParam(defaultValue = "50") Integer pageLength, @RequestParam(defaultValue = "0") Integer pageNumber, @RequestParam(defaultValue = "eai_transaction_create_time") String sortBy) {
         businessTreeFilter filt = new businessTreeFilter();
         filt.setStartTime(Timestamp.valueOf(startTime));
         filt.setEndTime(Timestamp.valueOf(endTime));
         filt.setEaiDomain(eaiDomain);
         filt.setPublishingBusinessDomain(publishingBusinessDomain);
-        System.out.println(filt.getEndTime());
-        System.out.println(filt.getStartTime());
+
         businessTreeSpecification spec = new businessTreeSpecification(filt);
-        List<EAIdomain> test = busTree.findAll(spec);
+        Long beforeSql =System.currentTimeMillis();
+        Pageable limit = PageRequest.of(pageNumber, pageLength);
+        Page<EAIdomain> test = busTree.findAll(spec,limit);
+        Long afterSql =System.currentTimeMillis() - beforeSql;
+     
+        
+        System.out.println("SQL Time Length: " + afterSql);
         BusinessProcessTreeMap returnMap = new BusinessProcessTreeMap();
+        //System.out.println("Total elements: " + test.size());
+        System.out.println("Total elements: " + test.getTotalElements());
+        beforeSql =System.currentTimeMillis();
         for (EAIdomain x : test) {
             returnMap.addObj(x);
         }
+        afterSql =System.currentTimeMillis() - beforeSql;
+        System.out.println("Time to add to map: " + afterSql);
         return returnMap.getMap();
     }
 
@@ -121,7 +136,6 @@ public class MainController {
         Double intervalLength = timeBack / intervals;
         cal.setTime(startTime);
         while (cal.getTime().before(currentTime)) {
-            System.out.println(intervalLength);
             DashBoardLineGraphFilter filter = new DashBoardLineGraphFilter(severity,
                     new Timestamp(cal.getTimeInMillis()), currentTime);
             cal.setTimeInMillis(cal.getTimeInMillis() + Math.round(intervalLength * 60 * 1000));
@@ -140,7 +154,7 @@ public class MainController {
         Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(timeBack));
         filt.setStartTime(startTime);
         filt.setEndTime(currentTime);
-        String[] filtStrings = { "warning", "error" };
+        String[] filtStrings = { "warning", "error"};
         filt.setSeverities(filtStrings);
         List<LogEvent> toSort = logEventRepo.findAll(new LogEventFilterSpecification(filt));
         for (LogEvent curLog : toSort) {

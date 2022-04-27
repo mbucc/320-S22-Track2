@@ -11,6 +11,7 @@ import axios from 'axios';
 function LogEvent(props) {
   /* just some code to generate a big set of mock data */
   const mockData = [];
+  const [isLoading, setIsLoading] = useState(false);
   const [BusinessDomainOptions, setBusinessDomainOptions] = useState(null);
   const [BusinessSubDomOptions, setBusinessSubDomOptions] = useState(null);
   const [EAIOptions, setEAIOptions] = useState(null);
@@ -115,6 +116,8 @@ function LogEvent(props) {
           applicationOptions={applicationOptions}
           processServiceOptions={processServiceOptions}
           setPage={setPage}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
           {...props}
         />
       </Container>
@@ -125,7 +128,10 @@ function LogEvent(props) {
           page = {page}
           setPage = {setPage}
           rowsPerPage = {rowsPerPage}
-          setRowsPerPage = {setRPP}/>
+          setRowsPerPage = {setRPP}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
       </Container>
     </div>
   );

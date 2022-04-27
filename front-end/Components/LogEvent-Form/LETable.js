@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button, TableSortLabel} from '@mui/material';
+import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button, TableSortLabel, CircularProgress} from '@mui/material';
 import {TablePagination} from '@mui/material';
 import moment from 'moment';
 import {BPColors} from '../../utils/business-process/standards.js';
@@ -169,14 +169,11 @@ export default function LETable(props) {
     let severityText;
     if (severity >= 50) {
       severityText = 'Error';
-    }
-    else if (severity < 50 && severity >= 30) {
-      severityText = 'Warning';
-    }
-    else if (severity < 30 && severity >= 10) {
+    } else if (severity < 50 && severity >= 30) {
+      severityText = 'Warn';
+    } else if (severity < 30 && severity >= 10) {
       severityText = 'Info';
-    }
-    else {
+    } else {
       // eslint-disable-next-line no-unused-vars
       severityText = 'Success';
     }
@@ -187,11 +184,9 @@ export default function LETable(props) {
     let priorityText;
     if (priority === '10') {
       priorityText = 'Low';
-    }
-    else if (priority === '50') {
+    } else if (priority === '50') {
       priorityText = 'Medium';
-    }
-    else {
+    } else {
       // eslint-disable-next-line no-unused-vars
       priorityText = 'High';
     }
@@ -200,76 +195,70 @@ export default function LETable(props) {
 
   return (
     <div>
-      <Typography variant = "h6">
-            Results
-      </Typography>
-      <Table style={tableStyle}>
-        <TableHead >
+      {props.isLoading ? (<CircularProgress color = 'success' />) :
+      <><Typography variant="h6">
+          Results
+      </Typography><Table style={tableStyle}>
+        <TableHead>
           <TableRow>
-            <TableCell >
+            <TableCell>
               <TableSortLabel
-                onClick={()=>setSort(sortHandler(sort != 1 ? 1 : 2))}
-                direction = {(sort%2 === 1 ? 'asc' : 'desc')}>
-                Severity
+                onClick={() => setSort(sortHandler(sort != 1 ? 1 : 2))}
+                direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
+                    Severity
               </TableSortLabel>
             </TableCell>
-            <TableCell >
+            <TableCell>
               <TableSortLabel
-                onClick={()=>setSort(sortHandler(sort != 3 ? 3 : 4))}
-                direction = {(sort%2 === 1 ? 'asc' : 'desc')}>
-                Priority
+                onClick={() => setSort(sortHandler(sort != 3 ? 3 : 4))}
+                direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
+                    Priority
               </TableSortLabel>
             </TableCell>
-            <TableCell >Category</TableCell>
-            <TableCell >
+            <TableCell>Category</TableCell>
+            <TableCell>
               <TableSortLabel
-                onClick={()=>setSort(sortHandler(sort != 5 ? 5 : 6))}
-                direction = {(sort%2 === 1 ? 'asc' : 'desc')}>
-                Created Date
+                onClick={() => setSort(sortHandler(sort != 5 ? 5 : 6))}
+                direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
+                    Created Date
               </TableSortLabel>
             </TableCell>
-            <TableCell >Application</TableCell>
-            <TableCell >Activity</TableCell>
-            <TableCell >EAI Domain</TableCell>
+            <TableCell>Application</TableCell>
+            <TableCell>Activity</TableCell>
+            <TableCell>EAI Domain</TableCell>
             <TableCell> Business Domain </TableCell>
             <TableCell> Business SubDomain </TableCell>
-            <TableCell >Log Event</TableCell>
+            <TableCell>Log Event</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.data
               .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
-              .map((e, i)=>{
+              .map((e, i) => {
                 const severityText = rankSeverity(e.severity);
                 const priorityText = rankPriority(e.priority);
-                console.log(e.priority);
                 return (
-                  <TableRow key = {i}>
+                  <TableRow key={i}>
                     <TableCell
-                      style = {
-                        {
-                          color:
-                            e.severity >= 50 ? BPColors.error :
+                      style={{
+                        color: e.severity >= 50 ? BPColors.error :
                             e.severity < 50 && e.severity >= 30 ? BPColors.warning :
-                            e.severity < 30 && e.severity >= 10 ? BPColors.info :
-                            BPColors.success,
-                          width: '120px',
-                        }
-                      }
+                              e.severity < 30 && e.severity >= 10 ? BPColors.info :
+                                BPColors.success,
+                        width: '120px',
+                      }}
                     >
-                      {
-                        e.severity >= 50 ? <ErrorIcon style = {{color: BPColors.error, paddingTop: '8px'}}/> :
-                        e.severity < 50 && e.severity >= 30 ? <WarningIcon style = {{color: BPColors.warning, paddingTop: '8px'}}/> :
-                        e.severity < 30 && e.severity >= 10 ? <InfoIcon style = {{color: BPColors.info, paddingTop: '8px'}}/> :
-                        <CheckCircleIcon style = {{color: BPColors.success, paddingTop: '8px'}}/>
-                      }
-                      <div style = {{display: 'inline-block', alignSelf: 'center', marginLeft: '2px'}}>{severityText}</div>
+                      {e.severity >= 50 ? <ErrorIcon style={{color: BPColors.error, paddingTop: '8px'}} /> :
+                          e.severity < 50 && e.severity >= 30 ? <WarningIcon style={{color: BPColors.warning, paddingTop: '8px'}} /> :
+                            e.severity < 30 && e.severity >= 10 ? <InfoIcon style={{color: BPColors.info, paddingTop: '8px'}} /> :
+                              <CheckCircleIcon style={{color: BPColors.success, paddingTop: '8px'}} />}
+                      <div style={{display: 'inline-block', alignSelf: 'center', marginLeft: '2px'}}>{severityText}</div>
                     </TableCell>
                     <TableCell>
                       {priorityText}
                     </TableCell>
                     <TableCell>{e.category_name}</TableCell>
-                    <TableCell>{e['creation_time']}</TableCell>
+                    <TableCell>{moment(e['creation_time']).format('MM/DD/YYYY hh:mm:ss')}</TableCell>
                     <TableCell>{e['application']}</TableCell>
                     <TableCell>{e['activity']}</TableCell>
                     <TableCell>{e['eai_domain']}</TableCell>
@@ -292,7 +281,7 @@ export default function LETable(props) {
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{textDecoration: 'none', color: 'black'}}>
-                          Detail
+                            Detail
                         </a>
                       </Button>
                     </TableCell>
@@ -300,15 +289,13 @@ export default function LETable(props) {
                 );
               })}
         </TableBody>
-      </Table>
-      <TablePagination
-        count = {props.data.length}
-        rowsPerPageOptions = {[5, 10, 20, 50]}
-        page = {props.page}
-        onPageChange = {handleChangePage}
-        rowsPerPage = {props.rowsPerPage}
-        onRowsPerPageChange = {handleChangeRPP}
-      />
+      </Table><TablePagination
+        count={props.data.length}
+        rowsPerPageOptions={[5, 10, 20, 50]}
+        page={props.page}
+        onPageChange={handleChangePage}
+        rowsPerPage={props.rowsPerPage}
+        onRowsPerPageChange={handleChangeRPP} /></>}
     </div>
 
   );

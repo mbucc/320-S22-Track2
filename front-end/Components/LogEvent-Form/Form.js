@@ -173,6 +173,8 @@ export default function Form(props) {
       setToDateError('Please enter a date.');
       return;
     }
+
+    props.setIsLoading(true);
     const API_PARAMS = [];
 
     const startDate = `startTime=${fromDate.format('YYYY-MM-DD HH:mm:ss')}`;
@@ -206,6 +208,7 @@ export default function Form(props) {
     const data = res.data.sort(dateComparison('gt'));
     props.setData(data);
     props.setPage(0);
+    props.setIsLoading(false);
   };
   // const applyHandler = (event) => {
   //   event.preventDefault();

@@ -1,7 +1,6 @@
 package com.clog.Clog.LogEventFiles;
 
 import java.sql.Timestamp;
-import java.util.Locale.Category;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,7 +9,6 @@ import javax.persistence.criteria.Root;
 
 import com.clog.Clog.PriorityMap;
 import com.clog.Clog.SeverityMap;
-import com.clog.Clog.BusinessProcess.EAIdomain;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -26,8 +24,8 @@ public class LogEventFilterSpecification implements Specification<LogEvent> {
         // TODO Auto-generated method stub
         //Begin with range of dates possible
         Predicate returnVal = cb.between(root.<Timestamp>get("creation_time"),
-                                         filter.getEndTime(),
-                                         filter.getStartTime());
+                                         filter.getStartTime(),
+                                         filter.getEndTime());
 
         if(filter.getBusinessDomain() != null) {   
             Predicate busPredicate = null;

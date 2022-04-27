@@ -207,6 +207,29 @@ export default function LETable(props) {
           {props.data
               .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
               .map((e, i)=>{
+                let severityText;
+                let priorityText;
+                if (e.severity >= 50) {
+                  severityText = 'Error';
+                }
+                else if (e.severity < 50 && e.severity >= 30) {
+                  severityText = 'Warning';
+                }
+                else if (e.severity < 30 && e.severity >= 10) {
+                  severityText = 'Info';
+                }
+                else {
+                  severityText = 'Success';
+                }
+                if (e.priority === '10') {
+                  priorityText = 'Low';
+                }
+                else if (e.priority === '50') {
+                  priorityText = 'Medium';
+                }
+                else if (e.priority === '70') {
+                  priorityText = 'High';
+                }
                 console.log(e.priority);
                 return (
                   <TableRow key = {i}>
@@ -228,10 +251,10 @@ export default function LETable(props) {
                         e.severity < 30 && e.severity >= 10 ? <InfoIcon style = {{color: BPColors.info, paddingTop: '8px'}}/> :
                         <CheckCircleIcon style = {{color: BPColors.success, paddingTop: '8px'}}/>
                       }
-                      <div style = {{display: 'inline-block', alignSelf: 'center', marginLeft: '2px'}}>{e.severity}</div>
+                      <div style = {{display: 'inline-block', alignSelf: 'center', marginLeft: '2px'}}>{severityText}</div>
                     </TableCell>
                     <TableCell>
-                      {e.priority}
+                      {priorityText}
                     </TableCell>
                     <TableCell>{e.category_name}</TableCell>
                     <TableCell>{e['creation_time']}</TableCell>

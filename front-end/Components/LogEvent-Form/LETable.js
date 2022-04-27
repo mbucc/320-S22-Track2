@@ -202,14 +202,14 @@ export default function LETable(props) {
         <TableHead>
           <TableRow>
             <TableCell>
-              <TableSortLabel
+              <TableSortLabel data-testid = "logevent-button-sort-severity"
                 onClick={() => setSort(sortHandler(sort != 1 ? 1 : 2))}
                 direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
                     Severity
               </TableSortLabel>
             </TableCell>
             <TableCell>
-              <TableSortLabel
+              <TableSortLabel data-testid = "logevent-button-sort-priority"
                 onClick={() => setSort(sortHandler(sort != 3 ? 3 : 4))}
                 direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
                     Priority
@@ -217,7 +217,7 @@ export default function LETable(props) {
             </TableCell>
             <TableCell>Category</TableCell>
             <TableCell>
-              <TableSortLabel data-testid = "button-sort-date"
+              <TableSortLabel data-testid = "logevent-button-sort-date"
                 onClick={() => setSort(sortHandler(sort != 5 ? 5 : 6))}
                 direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
                     Created Date

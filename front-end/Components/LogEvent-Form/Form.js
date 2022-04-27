@@ -57,17 +57,17 @@ export default function Form(props) {
 
   const categoryOptions = [
     {
-      key: 'ReportUpdate',
+      key: 'reportupdate',
       label: 'ReportUpdate',
       color: BPColors.info,
     },
     {
-      key: 'ReportPersisted',
+      key: 'reportpersisted',
       label: 'ReportPersisted',
       color: BPColors.warning,
     },
     {
-      key: 'ReportFail',
+      key: 'reportfail',
       label: 'ReportFail',
       color: BPColors.error,
     },
@@ -77,7 +77,7 @@ export default function Form(props) {
 
   const initPriorityCheckboxes = ['high', 'medium', 'low'];
 
-  const initCategoryCheckboxes = ['ReportUpdate', 'ReportPersisted', 'ReportFail'];
+  const initCategoryCheckboxes = ['reportupdate', 'reportpersisted', 'reportfail'];
 
   /* states storing the currently selected inputs in the form. */
   const [severityCheckboxes, setSeverityCheckboxes] = useState(initSeverityCheckboxes);
@@ -310,6 +310,7 @@ export default function Form(props) {
           </div>
           <div style={checkboxesStyle}>
             <div style = {{height: '30%'}}>
+              {/* logevent-severity-selector-option-{option.key} for checkbox testids */}
               <BPCheckboxGroup
                 id = 'logevent-severity-selector'
                 label = 'Severity'
@@ -328,6 +329,7 @@ export default function Form(props) {
               />
             </div>
             <div style = {{height: '25%'}}>
+              {/* logevent-priority-selector-option-{option.key} for checkbox testids */}
               <BPCheckboxGroup
                 id = 'logevent-priority-selector'
                 label = 'Priority'
@@ -346,6 +348,7 @@ export default function Form(props) {
               />
             </div>
             <div style = {{height: '30%'}}>
+              {/* logevent-category-selector-option-{option.key} for checkbox testids */}
               <BPCheckboxGroup
                 id = 'logevent-category-selector'
                 label = 'Category'
@@ -368,7 +371,7 @@ export default function Form(props) {
         </div>
         <Button
           onClick={applyHandler}
-          data-testid='button-apply'
+          data-testid='logevent-button-apply'
           ref={applyButtonRef}
           size={'small'}
           sx={{

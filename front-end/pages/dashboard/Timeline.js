@@ -47,17 +47,13 @@ export default function Timeline(props) {
     if (targets) {
       const index = targets[0].point;
       const point = props.data[index];
-      if (index == 0) {
-        props.toggleLogEvents(getFilters(point.time, point.time));
-        return;
-      }
-      const filters = getFilters(props.data[index - 1].time, point.time);
+      const filters = getFilters(point.time, point.time);
       props.toggleLogEvents(filters);
     }
   };
 
   const getFilters = (start, end) => {
-    console.log('Get log events of type ' + props.type + ' from ' + start + ' to ' + end);
+    console.log('Get log events of type ' + props.type + ' from ' + start.format() + ' to ' + end.format());
 
     return {start: start, end: end, type: 'severity', severity: props.type};
   };

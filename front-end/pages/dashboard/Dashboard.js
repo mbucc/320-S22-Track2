@@ -31,12 +31,13 @@ export default function Dashboard(props) {
         console.log(data)
         return data.map((e) => {
           const cur = moment().subtract(tf, 'minute')
+          console.log("time: ", Math.floor(moment.duration(cur.diff(moment(e.creation_time))).as('minutes')))
           return {
             priority: getPriority(e.priority),
             type: getSeverity(e.severity),
-            time: moment.duration(cur.diff(moment(Math.floor(e.creation_time)))).as('minutes')
+            time: Math.floor(moment.duration(cur.diff(moment(e.creation_time))).as('minutes'))
           };
-        })
+        }).filter((e) => e.time >= 0).sort((a, b) => b.time - a.time)
       })
   }
 
@@ -62,6 +63,7 @@ export default function Dashboard(props) {
 
   const getData = (tf) => {
     getLogEvents(timeframe).then((data) => {
+      console.log("DATA: ", data)
       setData({
         logEvents: data,
         data: fakeData.filter((e) => e.time <= tf).sort((a, b) => b.time - a.time)
@@ -119,7 +121,11 @@ export default function Dashboard(props) {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Counts toggleLogEvents={props.toggleLogEvents} data={data.logEvents} />
+              <Counts
+                toggleLogEvents={props.toggleLogEvents}
+                data={data.logEvents}
+                start={moment().subtract(timeframe, 'minute')}
+                end={moment()} />
             </Grid>
             <Grid item xs={12}>
               <Grid container item direction='row' spacing={5}>
@@ -127,7 +133,12 @@ export default function Dashboard(props) {
                   <DonutCharts data={data.data} toggleBP={props.toggleBP} timeframe={timeframe} />
                 </Grid>
                 <Grid item xs={5}>
-                  <Timelines toggleLogEvents={props.toggleLogEvents} data={data.data} timeframe={timeframe} />
+                  <Timelines
+                    toggleLogEvents={props.toggleLogEvents}
+                    data={data.logEvents}
+                    timeframe={timeframe}
+                    end={moment()}
+                  />
                 </Grid>
               </Grid>
             </Grid>

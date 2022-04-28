@@ -20,7 +20,7 @@ export default function Timelines(props) {
         numLogs++;
         dataIndex++;
       }
-      points.push({time: moment().subtract(i, 'minute'), logs: numLogs});
+      points.push({time: moment(props.end).subtract(i, 'minute'), logs: numLogs});
     }
     return points;
   };

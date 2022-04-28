@@ -7,7 +7,6 @@ import {useTable, useBlockLayout, useSortBy, useResizeColumns} from 'react-table
 import styled from 'styled-components';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {IconArrowRight, IconArrowsSort, IconSortAscending, IconSortDescending} from '@tabler/icons';
-import {BPTextButton} from '../common/button';
 
 /**
  * The root component for the activity table.

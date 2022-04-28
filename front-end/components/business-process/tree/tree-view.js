@@ -9,7 +9,7 @@ import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/s
 import renderBusinessProcessInstances from './tree-item-log';
 import TreeContextMenu from './tree-context-menu';
 
-const findExpandable = (tree) => {
+export const findExpandable = (tree) => {
   const result = [];
   const stack = [...tree];
   while (stack.length) {
@@ -33,8 +33,11 @@ const rootTreeStyle = {
   '&:hover': {
     backgroundColor: BPColors.gray[70] + '4f',
   },
+  '& > .MuiTreeItem-content > .MuiTreeItem-label': {
+    height: 40,
+  },
   '& > .MuiTreeItem-content': {
-    minHeight: 40,
+    height: 40,
     backgroundColor: BPColors.gray[30],
     borderRadius: BPDimens.treeRadius,
     border: BPStandards.border,
@@ -58,8 +61,11 @@ const subTreeStyle = {
   '&:hover': {
     backgroundColor: BPColors.gray[70] + '4f',
   },
+  '& > .MuiTreeItem-content > .MuiTreeItem-label': {
+    height: 34,
+  },
   '& > .MuiTreeItem-content': {
-    minHeight: 34,
+    height: 34,
     borderRadius: BPDimens.treeRadius,
     '&:hover': {
       backgroundColor: BPColors.gray[100],
@@ -95,7 +101,8 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
         {
           mouseX: event.clientX - 2,
           mouseY: event.clientY - 4,
-          source: source,
+          node: source.node,
+          level: source.level,
         } :
         null,
     );
@@ -117,10 +124,19 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
   // NOTE: For now, needs to be put here to pass in handleContextMenu.
   const renderEAIDomains = (nodes) => (
     <TreeItem
+      className='eai-domain'
       key={nodes.name}
       nodeId={nodes.name}
-      label={nodes.name}
-      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      label={(
+        <div
+          style={{height: '100%', display: 'flex', alignItems: 'center'}}
+          onContextMenu={(e) => {
+            handleContextMenu(e, {node: nodes, level: 0});
+          }}
+        >
+          {nodes.name}
+        </div>
+      )}
       sx={rootTreeStyle}
     >
       {
@@ -133,10 +149,19 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
 
   const renderPublishingBusinessDomains = (nodes) => (
     <TreeItem
+      className='publishing-biz-domain'
       key={nodes.name}
       nodeId={nodes.name}
-      label={nodes.name}
-      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      label={(
+        <div
+          style={{height: '100%', display: 'flex', alignItems: 'center'}}
+          onContextMenu={(e) => {
+            handleContextMenu(e, {node: nodes, level: 1});
+          }}
+        >
+          {nodes.name}
+        </div>
+      )}
       sx={subTreeStyle}
     >
       {
@@ -149,10 +174,19 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
 
   const renderBusinessProcesses = (nodes) => (
     <TreeItem
+      className='biz-process'
       key={nodes.name}
       nodeId={nodes.name}
-      label={nodes.name}
-      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      label={(
+        <div
+          style={{height: '100%', display: 'flex', alignItems: 'center'}}
+          onContextMenu={(e) => {
+            handleContextMenu(e, {node: nodes, level: 2});
+          }}
+        >
+          {nodes.name}
+        </div>
+      )}
       sx={subTreeStyle}
     >
       {
@@ -194,7 +228,11 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
         }}
       >
         <BPTextButton
+          id="expand-collapse-all-button"
           onClick={handleExpandClick}
+          style={{
+            marginLeft: '-6px',
+          }}
         >
           {expanded.length === 0 ? 'Expand All' : 'Collapse All'}
         </BPTextButton>
@@ -232,6 +270,8 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
           }
         </TreeView>
         <TreeContextMenu
+          expanded={expanded}
+          setExpanded={(newExpanded) => setExpanded(newExpanded)}
           contextMenu={contextMenu}
           handleClose={handleClose}
         />

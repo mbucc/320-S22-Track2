@@ -89,8 +89,10 @@ function Navbar(props) {
               },
             }}
           >
-            <Link href="LogEvent" passHref>
-              <a>Log Events</a>
+            <Link href='./LogEvent' passHref>
+              <a>
+                Log Events
+              </a>
             </Link>
           </Button>
         </div>

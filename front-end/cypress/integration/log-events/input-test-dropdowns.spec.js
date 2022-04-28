@@ -3,7 +3,7 @@
 
 describe('input test - dropdowns', ()=>{
   before(()=>{
-    cy.visit('http://localhost:3000/LogEvent');
+    cy.visit('http://localhost:3000/log-event/LogEvent');
   });
 
   it('gives input to eai dropdown', ()=>{

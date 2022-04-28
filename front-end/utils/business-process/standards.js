@@ -6,15 +6,15 @@
  * - The secondary color should usually be gray 400 (or gray 300 if it should not attract users).
  */
 const BPColors = {
-  white: '#ffffff',
-  black: '#000000',
+  white: '#fdfefe',
+  black: '#1A1920',
 
   /**
    * The brand color. Should be used as the primary color for the application.
    */
   brand: '#16a34a', // Temporarily set it to green 600.
 
-  border: '#f2f2f2',
+  border: '#f2f2f3',
   transparent: 'transparent',
 
   gray: {
@@ -113,6 +113,8 @@ const BPDimens = {
    * The height of the toolbar (where has "expand all", "collapse all", and "apply" buttons).
    */
   toolbarHeight: 58,
+
+  letterSpacing: '0',
 };
 
 /**
@@ -121,6 +123,8 @@ const BPDimens = {
  * - The most common cases of using standards are borders and shadows.
  */
 const BPStandards = {
+  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+
   /**
    * The border settings for inactive status.
    */

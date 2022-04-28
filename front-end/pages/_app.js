@@ -3,13 +3,13 @@ import '../styles/Dashboard.css';
 import '../styles/index.css';
 import '../styles/styles.css';
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Navbar from './dashboard/Navbar';
 import Grid from '@mui/material/Grid';
 import Login from './login/Login';
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router';
 
-import { StyledEngineProvider } from '@mui/material';
+import {StyledEngineProvider} from '@mui/material';
 
 /**
  * The Root App Component.
@@ -17,7 +17,7 @@ import { StyledEngineProvider } from '@mui/material';
  * @param {object} pageProps
  * @return {JSX.Element}
  */
-function ClogApp({ Component, pageProps }) {
+function ClogApp({Component, pageProps}) {
   // eslint-disable-next-line no-unused-vars
   const [loggedIn, setLogin] = useState(false);
   const childToParent = (childdata) => {
@@ -28,7 +28,7 @@ function ClogApp({ Component, pageProps }) {
   // eslint-disable-next-line no-unused-vars
   const [logEventFilters, setLogEventFilters] = useState(null);
   // eslint-disable-next-line no-unused-vars
-  const router = useRouter()
+  const router = useRouter();
 
   /*
   * Function to be called by clickable components in Dashboard
@@ -36,8 +36,8 @@ function ClogApp({ Component, pageProps }) {
   * Sets display to business process and passes filters into component view
   */
   const toggleBP = (filters) => {
-    setBPFilters(filters)
-    router.push('./business-process/')
+    setBPFilters(filters);
+    router.push('./business-process/');
   };
 
   /*
@@ -46,14 +46,14 @@ function ClogApp({ Component, pageProps }) {
   * Sets display to log events and passes filters into component view
   */
   const toggleLogEvents = (filters) => {
-    setLogEventFilters(filters)
-    router.push('LogEvent')
+    setLogEventFilters(filters);
+    router.push('LogEvent');
   };
 
   const clearFilters = () => {
-    setLogEventFilters(null)
-    setBPFilters(null)
-  }
+    setLogEventFilters(null);
+    setBPFilters(null);
+  };
 
   if (loggedIn) {
     return (

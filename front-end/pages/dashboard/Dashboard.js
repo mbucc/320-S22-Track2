@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Timelines from './Timelines';
 import Counts from './Counts';
 import Grid from '@mui/material/Grid';
@@ -15,70 +15,70 @@ import LinearProgress from '@mui/material/LinearProgress';
 * @return {JSX.Element}
 */
 export default function Dashboard(props) {
-  const [timeframe, setTimeframe] = useState(60);
+  const [timeframe, setTimeframe] = useState(60)
 
   const [data, setData] = useState({
     logEvents: null,
     data: null,
   });
 
-  const getLogEvents = async (tf) => { // yyyy-mm-dd hh24:mm:ss (String) in GMT
-    const start = moment().subtract(tf, 'minute').format('YYYY-MM-D HH:mm:SS');
-    const end = moment().format('YYYY-MM-D HH:mm:SS');
+  const getLogEvents = async (tf) => { // yyyy-mm-dd hh24:mm:ss (String) in GMT 
+    const start = moment().subtract(tf, 'minute').format('YYYY-MM-D HH:mm:SS')
+    const end = moment().format('YYYY-MM-D HH:mm:SS')
     return fetch('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?endTime=' + end + '&startTime=' + start + '&severities=error,warning,info&priority=medium,high')
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          return data.map((e) => {
-            const cur = moment().subtract(tf, 'minute');
-            return {
-              priority: getPriority(e.priority),
-              type: getSeverity(e.severity),
-              time: moment.duration(cur.diff(moment(Math.floor(e.creation_time)))).as('minutes'),
-            };
-          });
-        });
-  };
+      .then(response => response.json())
+      .then((data) => {
+        console.log(data)
+        return data.map((e) => {
+          const cur = moment().subtract(tf, 'minute')
+          return {
+            priority: getPriority(e.priority),
+            type: getSeverity(e.severity),
+            time: moment.duration(cur.diff(moment(Math.floor(e.creation_time)))).as('minutes')
+          };
+        })
+      })
+  }
 
   const getSeverity = (s) => {
     if (s >= 50) {
-      return 'Error';
+      return 'Error'
     } else if (s <= 30) {
-      return 'Warning';
+      return 'Warning'
     } else {
-      return 'Info';
+      return 'Info'
     }
-  };
+  }
 
   const getPriority = (p) => {
     if (p === '10') {
-      return 'Low';
+      return 'Low'
     } else if (p === '50') {
-      return 'Medium';
+      return 'Medium'
     } else if (p === '70') {
-      return 'High';
+      return 'High'
     }
-  };
+  }
 
   const getData = (tf) => {
     getLogEvents(timeframe).then((data) => {
       setData({
         logEvents: data,
-        data: fakeData.filter((e) => e.time <= tf).sort((a, b) => b.time - a.time),
+        data: fakeData.filter((e) => e.time <= tf).sort((a, b) => b.time - a.time)
       });
-    });
+    })
   };
 
   useEffect(() => {
-    getData(timeframe);
-  }, [timeframe]);
+    getData(timeframe)
+  }, [timeframe])
 
   const changeTimeframe = (tf) => {
-    setData({logEvents: null, data: null});
+    setData({logEvents: null, data: null})
     if (tf == timeframe) {
-      getData(tf);
+      getData(tf)
     } else {
-      setTimeframe(tf);
+      setTimeframe(tf)
     }
   };
 
@@ -95,10 +95,10 @@ export default function Dashboard(props) {
   if (data.data) {
     return (
       <div className='dashboard'>
-        <Box px={6} py={3} sx={{height: '100%', width: '100%'}}>
+        <Box px={6} py={3} sx={{ height: '100%', width: '100%' }}>
           <Grid container direction='row' height={'100%'} spacing={3}>
             <Grid item xs={12}>
-              <Grid container style={{alignItems: 'center'}}>
+              <Grid container style={{ alignItems: 'center' }}>
                 <Grid item xs={6}>
                   <Typography variant="h4">
                     Welcome!
@@ -137,7 +137,7 @@ export default function Dashboard(props) {
     );
   }
   return (
-    <Box sx={{width: '100%'}}>
+    <Box sx={{ width: '100%' }}>
       <LinearProgress />
     </Box>
   );

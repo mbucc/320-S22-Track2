@@ -35,7 +35,7 @@ export default function LETable(props) {
     props.setPage(newPage);
   };
   const handleChangeRPP = (event) => {
-    setRPP(parseInt(event.target.value, 10));
+    props.setRowsPerPage(parseInt(event.target.value, 10));
     props.setPage(0);
   };
 
@@ -154,8 +154,6 @@ export default function LETable(props) {
 
   const dateComparison = (comp)=>{
     return (a, b) =>{
-      console.log(a['creation_time']);
-      console.log(moment(a['creation_time']).format('MMDDYYYYHHmmss'));
       if (comp === 'lt') {
         return moment(a['creation_time']).format('MMDDYYYYHHmmss') - moment(b['creation_time']).format('MMDDYYYYHHmmss');
       }
@@ -258,7 +256,7 @@ export default function LETable(props) {
                       {priorityText}
                     </TableCell>
                     <TableCell>{e.category_name}</TableCell>
-                    <TableCell>{moment(e['creation_time']).format('MM/DD/YYYY hh:mm:ss')}</TableCell>
+                    <TableCell>{moment(e['creation_time']).utc().format('MM/DD/YYYY HH:mm:ss')}</TableCell>
                     <TableCell>{e['application']}</TableCell>
                     <TableCell>{e['activity']}</TableCell>
                     <TableCell>{e['eai_domain']}</TableCell>

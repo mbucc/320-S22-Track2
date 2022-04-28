@@ -73,11 +73,27 @@ export default function Form(props) {
     },
   ];
 
-  const initSeverityCheckboxes = ['success', 'info', 'warning', 'error'];
+  let initSeverityCheckboxes = ['success', 'info', 'warning', 'error'];
 
   const initPriorityCheckboxes = ['high', 'medium', 'low'];
 
   const initCategoryCheckboxes = ['reportupdate', 'reportpersisted', 'reportfail'];
+
+  if (props.logEventFilters) {
+    if (props.logEventFilters?.type && props.logEventFilters?.type === 'severity') {
+      switch (props.logEventFilters?.severity) {
+        case ('Logs'):
+          // We want to show all logs. no change to checkboxes
+          break;
+        case ('Errors'):
+          initSeverityCheckboxes = initSeverityCheckboxes.filter((e) => e === 'error');
+          break;
+        case ('Warnings'):
+          initSeverityCheckboxes = initSeverityCheckboxes.filter((e) => e === 'warning');
+          break;
+      }
+    }
+  }
 
   /* states storing the currently selected inputs in the form. */
   const [severityCheckboxes, setSeverityCheckboxes] = useState(initSeverityCheckboxes);
@@ -146,25 +162,21 @@ export default function Form(props) {
 
   useEffect(()=>{
     if (props.logEventFilters) {
-      if (props.logEventFilters?.type && props.logEventFilters?.type === 'severity') {
-        switch (props.logEventFilters?.severity) {
-          case ('Logs'):
-            // We want to show all logs. no change to checkboxes
-            break;
-          case ('Errors'):
-            setSeverityCheckboxes(initSeverityCheckboxes.filter((e) => e === 'error'));
-            break;
-          case ('Warnings'):
-            setSeverityCheckboxes(initSeverityCheckboxes.filter((e) => e === 'warning'));
-            break;
-        }
-      }
-      applyButtonRef.current.click();
+      // on render, if there are filters passed to this page, the corresponding initial filter states
+      // would have taken care of that earlier, so apply filters.
+      console.log(`from date: ${fromDate}`);
+      console.log(`to date: ${toDate}`);
+      console.log(`filters passed:`);
+      console.log(props.logEventFilters);
+
+      applyHandler(null);
     }
   }, []);
 
   const applyHandler = async (event)=>{
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     if (!fromDate) {
       setFromDateError('Please enter a date.');
       return;
@@ -179,6 +191,8 @@ export default function Form(props) {
 
     const startDate = `startTime=${fromDate.format('YYYY-MM-DD HH:mm:ss')}`;
     const endDate = `endTime=${toDate.format('YYYY-MM-DD HH:mm:ss')}`;
+    console.log(startDate);
+    console.log(endDate);
     API_PARAMS.push(startDate);
     API_PARAMS.push(endDate);
 

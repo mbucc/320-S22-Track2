@@ -9,7 +9,7 @@ describe('input test - Log Details (through log events)', ()=>{
 
   it('Click login', () => {
     cy.get(`[data-testid='button-login']`)
-        .click();
+        .click({timeout: 12000});
   });
 
   it('Choose from date', () => {
@@ -61,7 +61,7 @@ describe('input test - Sorting Results (log events)', ()=>{
 
   it('Click login', () => {
     cy.get(`[data-testid='button-login']`)
-        .click();
+        .click({timeout: 12000});
   });
 
   it('Navigate to LogEvent view', () => {
@@ -114,7 +114,7 @@ describe('input test - Apply Button Functionality', ()=>{
 
   it('Click login', () => {
     cy.get(`[data-testid='button-login']`)
-        .click();
+        .click({timeout: 12000});
   });
 
   it('Choose from date', () => {
@@ -165,7 +165,7 @@ describe('input test - Select medium priority and status', ()=>{
 
   it('Click login', () => {
     cy.get(`[data-testid='button-login']`)
-        .click();
+        .click({timeout: 12000});
   });
 
   it('Choose from date', () => {
@@ -212,7 +212,7 @@ describe('input test - Select warning and success severities', ()=>{
 
   it('Click login', () => {
     cy.get(`[data-testid='button-login']`)
-        .click();
+        .click({timeout: 12000});
   });
 
   it('Choose from date', () => {
@@ -257,7 +257,7 @@ describe('input test - see all events from January 17, 2022 to April 11, 2022', 
 
   it('Click login', () => {
     cy.get(`[data-testid='button-login']`)
-        .click();
+        .click({timeout: 12000});
   });
 
   it('Choose from date', () => {

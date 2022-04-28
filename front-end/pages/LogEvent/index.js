@@ -105,6 +105,8 @@ function LogEvent(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRPP] = useState(10);
 
+  console.log(props);
+
   return (
     <div>
       <Container style = {formContainerStyle}>

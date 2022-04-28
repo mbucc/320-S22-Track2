@@ -119,7 +119,11 @@ export default function Dashboard(props) {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Counts toggleLogEvents={props.toggleLogEvents} data={data.logEvents} />
+              <Counts
+                toggleLogEvents={props.toggleLogEvents}
+                data={data.logEvents}
+                start={moment().subtract(timeframe, 'minute')}
+                end={moment()} />
             </Grid>
             <Grid item xs={12}>
               <Grid container item direction='row' spacing={5}>
@@ -127,7 +131,12 @@ export default function Dashboard(props) {
                   <DonutCharts data={data.data} toggleBP={props.toggleBP} timeframe={timeframe} />
                 </Grid>
                 <Grid item xs={5}>
-                  <Timelines toggleLogEvents={props.toggleLogEvents} data={data.data} timeframe={timeframe} />
+                  <Timelines
+                    toggleLogEvents={props.toggleLogEvents}
+                    data={data.data}
+                    timeframe={timeframe}
+                    end={moment()}
+                  />
                 </Grid>
               </Grid>
             </Grid>

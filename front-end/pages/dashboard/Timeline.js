@@ -53,7 +53,7 @@ export default function Timeline(props) {
   };
 
   const getFilters = (start, end) => {
-    console.log('Get log events of type ' + props.type + ' from ' + start.format() + ' to ' + end.format());
+    // console.log('Get log events of type ' + props.type + ' from ' + start.format() + ' to ' + end.format());
 
     return {start: start, end: end, type: 'severity', severity: props.type};
   };

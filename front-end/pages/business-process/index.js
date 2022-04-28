@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import Head from 'next/head';
 import BPTreeView from '../../components/business-process/tree/core';
 import BPActivityView from '../../components/business-process/activity/core';
-import {BPStandards} from '../../utils/business-process/standards';
 import Split from 'react-split';
 import ReactDOM from 'react-dom';
 

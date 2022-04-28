@@ -34,3 +34,7 @@ export const isValidDateTimeFormat = (date) => {
   const regex = /^\d{1,2}\/\d{1,2}\/\d{4}[ ](?:|\d{1,2}:\d{1,2}:\d{1,2})$/;
   return regex.test(date);
 };
+
+export const convertToAPIFormat = (momentObject) => {
+  return momentObject.format('YYYY-MM-DD HH:mm:ss.SSSSSS');
+};

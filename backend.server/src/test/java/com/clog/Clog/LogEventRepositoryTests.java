@@ -1,6 +1,5 @@
 package com.clog.Clog;
 
-import util.TimeZone;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,81 +57,75 @@ import com.mysql.cj.xdevapi.JsonArray;
 @AutoConfigureMockMvc
 public class LogEventRepositoryTests {
 
-		public boolean compareObjectsControl(JSONArray a, JSONArray b)throws Exception{
+        public boolean compareObjectsControl(JSONArray a, JSONArray b) throws Exception {
                 boolean flag = true;
 
-                for(int i =0;i<a.length();i++){
+                for (int i = 0; i < a.length(); i++) {
 
                         boolean arr_vals[] = new boolean[b.length()];
-                        for(int j = 0; j<b.length();j++){
+                        for (int j = 0; j < b.length(); j++) {
                                 arr_vals[j] = compareObjects(a.getJSONObject(i), b.getJSONObject(j));
                         }
                         int counter = 0;
-                        for(boolean val:arr_vals){
-                               if(val){
-                                       counter++;
-                               } 
+                        for (boolean val : arr_vals) {
+                                if (val) {
+                                        counter++;
+                                }
                         }
-                        if(counter > 1 && counter < 1){
+                        if (counter != 1) {
                                 flag = false;
                                 break;
                         }
 
                 }
-                
+
                 return flag;
         }
-        public boolean compareObjects(JSONObject a1, JSONObject b1) throws Exception{
-                JSONArray keys = b1.names();
 
+        public boolean compareObjects(JSONObject a1, JSONObject b1) throws Exception {
+                JSONArray keys = b1.names();
 
                 boolean flag = true;
 
-                for(int i =0;i < keys.length();i++){
-                        
+                for (int i = 0; i < keys.length(); i++) {
+
                         Object attr = keys.get(i);
                         String attr1 = attr.toString();
                         Object a_val = a1.get(attr1);
                         Object b_val = b1.get(attr1);
 
-                        if(attr1.equals("priority")){ //Numeric values
+                        if (attr1.equals("priority")) { // Numeric values
                                 String a_val1 = a_val.toString();
                                 String b_val1 = b_val.toString();
                                 int a_val11 = Integer.parseInt(a_val1);
                                 int b_val11 = Integer.parseInt(b_val1);
-                                
-                                if(a_val11 == b_val11){
+
+                                if (a_val11 == b_val11) {
                                         continue;
-                                }
-                                else{
+                                } else {
                                         flag = false;
                                         break;
-                                }                              
-                        }
-                        else if(attr1.equals("severity")){
+                                }
+                        } else if (attr1.equals("severity")) {
                                 String a_val1 = a_val.toString();
                                 String b_val1 = b_val.toString();
                                 int a_val11 = Integer.parseInt(a_val1);
                                 int b_val11 = Integer.parseInt(b_val1);
-                                if(a_val11 == b_val11){
+                                if (a_val11 == b_val11) {
                                         continue;
-                                }
-                                else{
+                                } else {
                                         flag = false;
                                         break;
                                 }
 
-                        }
-                        else if(attr1.equals("creation_time")){
-                                continue;  //Ignored for now
-                        }
-                        else{
+                        } else if (attr1.equals("creation_time")) {
+                                continue; // Ignored for now
+                        } else {
                                 String a_val1 = a_val.toString();
                                 String b_val1 = b_val.toString();
-                                if(a_val1.equals(b_val1)){
+                                if (a_val1.equals(b_val1)) {
                                         continue;
-                                }
-                                else{
+                                } else {
                                         flag = false;
                                         break;
                                 }
@@ -145,12 +138,16 @@ public class LogEventRepositoryTests {
         private MockMvc mockMvc;
 
         JSONObject data1;
+        JSONObject data2;
         JSONArray array1;
+        JSONArray array2;
 
         @Before
         public void expectedJsonObjects() throws Exception {
                 data1 = new JSONObject();
+                data2 = new JSONObject();
                 array1 = new JSONArray();
+                array2 = new JSONArray();
                 data1.put("global_instance_id", "crm_server_000001");
                 data1.put("business_domain", "CRM");
                 data1.put("business_subdomain", "Customer");
@@ -166,10 +163,26 @@ public class LogEventRepositoryTests {
                 data1.put("category_name", "ReportSituation");
                 data1.put("activity", "Customer Update Started");
                 array1.put(data1);
+
+                data2.put("global_instance_id", "crm_server_000002");
+                data2.put("business_domain", "BS");
+                data2.put("business_subdomain", "BUSINESS");
+                data2.put("eai_transaction_id", "eai_crm_server_111111");
+                data2.put("eai_domain", "EAI_DOMAIN_2");
+                data2.put("hostname", "crm_server");
+                data2.put("application", "CRM_Adapter");
+                data2.put("event_context", "Business_Update");
+                data2.put("component", "Business_Update");
+                data2.put("severity", "8");
+                data2.put("priority", "25");
+                data2.put("creation_time", "2020-12-12 06:24:23");
+                data2.put("category_name", "ReportSituation");
+                data2.put("activity", "Business Update Started");
+                array1.put(data2);
+
+                array2.put(data2);
         }
 
-        // Severity and Priorities are not drop-downs. Start and end-time, returns
-        // Nothing.
         @Test
         public void testSearchByTime() throws Exception {
                 MvcResult response = this.mockMvc.perform(get("/clog/logEvents")
@@ -177,21 +190,21 @@ public class LogEventRepositoryTests {
                                 .param("endTime", "2020-12-12 01:24:25"))
                                 .andDo(print())
                                 .andExpect(status().isOk())
+                                .andExpect(jsonPath("$", hasSize(2)))
                                 .andReturn();
+
+                // String jsonResponse = response.getResponse().getContentAsString();
+                // JSONArray responseJsonObj = new JSONArray(jsonResponse);
+                // String a = responseJsonObj.getJSONObject(0).get("creation_time").toString();
+
+                // DateFormat idf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                // idf.setTimeZone(java.util.TimeZone.getTimeZone("GMT"));
+                // System.out.println(idf);
 
                 String jsonResponse = response.getResponse().getContentAsString();
                 JSONArray responseJsonObj = new JSONArray(jsonResponse);
-                String a = responseJsonObj.getJSONObject(0).get("creation_time").toString();
-
-                DateFormat idf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                idf.setTimeZone(java.util.TimeZone.getTimeZone("GMT"));
-                System.out.println(idf);
-                
-
-
-                // System.out.println(array1.getJSONObject(0).get(""))
                 boolean flag = compareObjectsControl(responseJsonObj, array1);
-                
+
                 Assert.assertTrue(flag);
 
         }
@@ -203,23 +216,21 @@ public class LogEventRepositoryTests {
                                 .param("endTime", "2020-12-12 01:24:25"))
                                 .andDo(print())
                                 .andExpect(status().isOk())
-                                // .andExpect(jsonPath("$", hasSize(1)))
-                                // .andExpect(content().contentType("application/json"))
+                                .andExpect(jsonPath("$", hasSize(2)))
+                                .andExpect(content().contentType("application/json"))
                                 .andReturn();
+
                 String jsonResponse = response.getResponse().getContentAsString();
                 JSONArray responseJsonObj = new JSONArray(jsonResponse);
-                System.out.println(jsonResponse);
-
-                // boolean flag = compareObjects(responseJsonObj.getJSONObject(0), array1.getJSONObject(0));
                 boolean flag = compareObjectsControl(responseJsonObj, array1);
+
                 Assert.assertTrue(flag);
-                // Assert.assertEquals(array1.equals(responseJsonObj), true);
         }
 
         @Test
         public void testSearchByEaiDomain() throws Exception {
                 MvcResult response = this.mockMvc.perform(get("/clog/logEvents")
-                                .param("eaiDomain", "EAI_DOMAIN_1")
+                                .param("eaiDomain", "EAI_DOMAIN_2")
                                 .param("startTime", "2020-12-12 01:24:20")
                                 .param("endTime", "2020-12-12 01:24:25"))
                                 .andDo(print())
@@ -229,18 +240,15 @@ public class LogEventRepositoryTests {
                                 .andReturn();
                 String jsonResponse = response.getResponse().getContentAsString();
                 JSONArray responseJsonObj = new JSONArray(jsonResponse);
-                System.out.println(jsonResponse);
+                boolean flag = compareObjectsControl(responseJsonObj, array2);
 
-                // boolean flag = compareObjects(responseJsonObj.getJSONObject(0), array1.getJSONObject(0));
-                boolean flag = compareObjectsControl(responseJsonObj, array1);
                 Assert.assertTrue(flag);
-                // Assert.assertEquals(array1.equals(responseJsonObj), true);
         }
 
         @Test
         public void testSearchByBusinessSubDomain() throws Exception {
                 MvcResult response = this.mockMvc.perform(get("/clog/logEvents")
-                                .param("businessSubDomain", "EAI_DOMAIN_1")
+                                .param("businessSubDomain", "BUSINESS")
                                 .param("startTime", "2020-12-12 01:24:20")
                                 .param("endTime", "2020-12-12 01:24:25"))
                                 .andDo(print())
@@ -248,39 +256,34 @@ public class LogEventRepositoryTests {
                                 .andExpect(jsonPath("$", hasSize(1)))
                                 .andExpect(content().contentType("application/json"))
                                 .andReturn();
-        
                 String jsonResponse = response.getResponse().getContentAsString();
                 JSONArray responseJsonObj = new JSONArray(jsonResponse);
-                System.out.println(jsonResponse);
+                boolean flag = compareObjectsControl(responseJsonObj, array2);
 
-                // boolean flag = compareObjects(responseJsonObj.getJSONObject(0), array1.getJSONObject(0));
-                boolean flag = compareObjectsControl(responseJsonObj, array1);
-                Assert.assertTrue(true);
-
-                // Assert.assertEquals(array1.equals(responseJsonObj), true);
+                Assert.assertTrue(flag);
         }
 
         // @Test
         // public void testSearchByPriorityHigh() throws Exception {
-        //         MvcResult response = this.mockMvc.perform(get("/clog/logEvents")
-        //                         .param("priorities", "high")
-        //                         .param("startTime", "2020-12-12 01:24:20")
-        //                         .param("endTime", "2020-12-12 01:24:25"))
-        //                         // .andDo(print())
-        //                         .andExpect(status().isOk())
-        //                         // .andExpect(jsonPath("$", hasSize(1)))
-        //                         // .andExpect(content().contentType("application/json"))
-        //                         .andReturn();
-        //         boolean flag1 = true;
-        //         String jsonResponse = response.getResponse().getContentAsString();
-        //         JSONArray responseJsonObj = new JSONArray(jsonResponse);
-        //         // System.out.println(jsonResponse);
-        //         // Assert.assertEquals(array1.equals(responseJsonObj), true);
+        // MvcResult response = this.mockMvc.perform(get("/clog/logEvents")
+        // .param("priorities", "high")
+        // .param("startTime", "2020-12-12 01:24:20")
+        // .param("endTime", "2020-12-12 01:24:25"))
+        // // .andDo(print())
+        // .andExpect(status().isOk())
+        // // .andExpect(jsonPath("$", hasSize(1)))
+        // // .andExpect(content().contentType("application/json"))
+        // .andReturn();
+        // boolean flag1 = true;
+        // String jsonResponse = response.getResponse().getContentAsString();
+        // JSONArray responseJsonObj = new JSONArray(jsonResponse);
+        // // System.out.println(jsonResponse);
+        // // Assert.assertEquals(array1.equals(responseJsonObj), true);
 
-        //         boolean flag = compareObjects(responseJsonObj.getJSONObject(0), array1.getJSONObject(0));
-                
-                
-        //         Assert.assertTrue(flag1);
+        // boolean flag = compareObjects(responseJsonObj.getJSONObject(0),
+        // array1.getJSONObject(0));
+
+        // Assert.assertTrue(flag1);
         // }
 
         @Test
@@ -297,9 +300,6 @@ public class LogEventRepositoryTests {
                 String jsonResponse = response.getResponse().getContentAsString();
                 JSONArray responseJsonObj = new JSONArray(jsonResponse);
                 System.out.println(jsonResponse);
-                // Assert.assertEquals(array1.equals(responseJsonObj), true);
-
-                // boolean flag = compareObjects(responseJsonObj.getJSONObject(0), array1.getJSONObject(0));
                 boolean flag = compareObjectsControl(responseJsonObj, array1);
                 Assert.assertTrue(flag);
         }
@@ -312,18 +312,14 @@ public class LogEventRepositoryTests {
                                 .param("endTime", "2020-12-12 01:24:25"))
                                 .andDo(print())
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$", hasSize(1)))
+                                .andExpect(jsonPath("$", hasSize(2)))
                                 .andExpect(content().contentType("application/json"))
                                 .andReturn();
                 String jsonResponse = response.getResponse().getContentAsString();
                 JSONArray responseJsonObj = new JSONArray(jsonResponse);
-                System.out.println(jsonResponse);
-                // Assert.assertEquals(array1.equals(responseJsonObj), true);
-
-                // boolean flag = compareObjects(responseJsonObj.getJSONObject(0), array1.getJSONObject(0));
                 boolean flag = compareObjectsControl(responseJsonObj, array1);
-                Assert.assertTrue(flag);
 
+                Assert.assertTrue(flag);
         }
 
         @Test

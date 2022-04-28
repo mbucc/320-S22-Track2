@@ -14,7 +14,7 @@ const dropdownFormat = {
 export default function Dropdown(props) {
   return (
     <div className="Dropdown">
-      <Select defaultValue={60} style={dropdownFormat}>
+      <Select defaultValue={props.timeframe} style={dropdownFormat}>
         <MenuItem value = {15} onClick={function() {
           props.setTimeframe(15); props.setUpdateTime(props.getTime());
         }}>15 mins</MenuItem>

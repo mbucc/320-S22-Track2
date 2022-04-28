@@ -40,7 +40,7 @@ pipeline {
                 dir("front-end") {
                     script {
                         try {
-                            sh 'npm run lint'
+                            sh 'npx next lint --quiet'
                         }
                         catch(exc) {
                             error("It appears not all esLint rules have been met.") //Fail Jenkins build

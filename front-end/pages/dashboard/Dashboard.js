@@ -31,12 +31,13 @@ export default function Dashboard(props) {
         console.log(data)
         return data.map((e) => {
           const cur = moment().subtract(tf, 'minute')
+          console.log("time: ", Math.floor(moment.duration(cur.diff(moment(e.creation_time))).as('minutes')))
           return {
             priority: getPriority(e.priority),
             type: getSeverity(e.severity),
-            time: moment.duration(cur.diff(moment(Math.floor(e.creation_time)))).as('minutes')
+            time: Math.floor(moment.duration(cur.diff(moment(e.creation_time))).as('minutes'))
           };
-        })
+        }).filter((e) => e.time >= 0).sort((a, b) => b.time - a.time)
       })
   }
 
@@ -62,6 +63,7 @@ export default function Dashboard(props) {
 
   const getData = (tf) => {
     getLogEvents(timeframe).then((data) => {
+      console.log("DATA: ", data)
       setData({
         logEvents: data,
         data: fakeData.filter((e) => e.time <= tf).sort((a, b) => b.time - a.time)
@@ -133,7 +135,7 @@ export default function Dashboard(props) {
                 <Grid item xs={5}>
                   <Timelines
                     toggleLogEvents={props.toggleLogEvents}
-                    data={data.data}
+                    data={data.logEvents}
                     timeframe={timeframe}
                     end={moment()}
                   />

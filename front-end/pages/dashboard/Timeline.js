@@ -65,7 +65,7 @@ export default function Timeline(props) {
   const getTotal = () => {
     return props.data.reduce((acc, e) => {
       return acc + e.logs;
-    }, 0) - props.data[0].logs;
+    }, 0);
   };
 
   return (

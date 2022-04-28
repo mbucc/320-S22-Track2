@@ -24,7 +24,7 @@
     "@mui/material": "^5.4.4",
     "axios": "^0.26.1",
     "@tabler/icons": "^1.56.0",
-    "@taci-tech/launchpad-js": "^0.0.1",
+    "@taci-tech/launchpad-js": "0.0.3",
     "chart.js": "^3.7.1",
     "classnames": "^2.3.1",
     "date-fns": "^2.28.0",

@@ -16,6 +16,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 */
 export default function Dashboard(props) {
   const [timeframe, setTimeframe] = useState(60)
+  const timeframeEnd = moment().startOf('minute')
 
   const [data, setData] = useState({
     logEvents: null,
@@ -30,13 +31,12 @@ export default function Dashboard(props) {
       .then((data) => {
         console.log(data)
         return data.map((e) => {
-          const cur = moment().subtract(tf, 'minute')
           return {
             priority: getPriority(e.priority),
             type: getSeverity(e.severity),
-            time: moment.duration(cur.diff(moment(Math.floor(e.creation_time)))).as('minutes')
+            time: moment.duration(timeframeEnd.diff(moment(e.creation_time).startOf('minute'))).as('minutes') 
           };
-        })
+        }).filter((e) => e.time <= tf).sort((a, b) => b.time - a.time)
       })
   }
 
@@ -62,6 +62,7 @@ export default function Dashboard(props) {
 
   const getData = (tf) => {
     getLogEvents(timeframe).then((data) => {
+      console.log("DATA: ", data)
       setData({
         logEvents: data,
         data: fakeData.filter((e) => e.time <= tf).sort((a, b) => b.time - a.time)
@@ -87,6 +88,7 @@ export default function Dashboard(props) {
     const hr = today.getHours();
     const min = today.getMinutes();
     const sec = today.getSeconds();
+    timeframeEnd = moment().startOf('minute')
     return ((hr < 10) ? '0' : '') + hr + ':' + ((min < 10) ? '0' : '') + min + ':' + ((sec < 10) ? '0' : '') + sec;
   };
 
@@ -119,7 +121,11 @@ export default function Dashboard(props) {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Counts toggleLogEvents={props.toggleLogEvents} data={data.logEvents} />
+              <Counts
+                toggleLogEvents={props.toggleLogEvents}
+                data={data.logEvents}
+                start={moment(timeframeEnd).subtract(timeframe, 'minute').local()}
+                end={moment(timeframeEnd).local()} />
             </Grid>
             <Grid item xs={12}>
               <Grid container item direction='row' spacing={5}>
@@ -127,7 +133,12 @@ export default function Dashboard(props) {
                   <DonutCharts data={data.data} toggleBP={props.toggleBP} timeframe={timeframe} />
                 </Grid>
                 <Grid item xs={5}>
-                  <Timelines toggleLogEvents={props.toggleLogEvents} data={data.data} timeframe={timeframe} />
+                  <Timelines
+                    toggleLogEvents={props.toggleLogEvents}
+                    data={data.logEvents}
+                    timeframe={timeframe}
+                    end={timeframeEnd}
+                  />
                 </Grid>
               </Grid>
             </Grid>

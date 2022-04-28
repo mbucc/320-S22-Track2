@@ -2,6 +2,7 @@
 
 before(() => {
   cy.visit('/business-process');
+  cy.get('.MuiButton-root').first().click();
 });
 
 describe('Visit the page.', () => {

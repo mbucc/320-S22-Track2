@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
-import Link from 'next/link';
-import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button, TableSortLabel} from '@mui/material';
+import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button, TableSortLabel, CircularProgress} from '@mui/material';
 import {TablePagination} from '@mui/material';
 import moment from 'moment';
-
+import {BPColors} from '../../utils/business-process/standards.js';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import InfoIcon from '@mui/icons-material/Info';
+import ErrorIcon from '@mui/icons-material/Error';
+import WarningIcon from '@mui/icons-material/Warning';
 
 /**
  *
@@ -16,10 +19,6 @@ export default function LETable(props) {
     width: 'inherit',
   };
 
-  /* states for the table */
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRPP] = useState(10);
-
   /**
    * 0 = default sort
    * 1 = by severity descending
@@ -29,16 +28,17 @@ export default function LETable(props) {
    * 5 = by priority descending
    * 6 = by priority descending
    */
-  const [sort, setSort] = useState(5);
+  const [sort, setSort] = useState(6);
 
   /* event handlers for changing number of pages and changing page*/
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    props.setPage(newPage);
   };
   const handleChangeRPP = (event) => {
     setRPP(parseInt(event.target.value, 10));
-    setPage(0);
+    props.setPage(0);
   };
+
 
   /**
    *
@@ -76,36 +76,36 @@ export default function LETable(props) {
     }
   };
 
-  const severityToNum = (severity)=>{
-    switch (severity.toLowerCase()) {
-      case 'success':
-        return 0;
-      case 'info':
-        return 1;
-      case 'warning':
-        return 2;
-      case 'error':
-        return 3;
-    }
-  };
+  // const severityToNum = (severity)=>{
+  //   switch (severity.toLowerCase()) {
+  //     case 'success':
+  //       return 0;
+  //     case 'info':
+  //       return 1;
+  //     case 'warning':
+  //       return 2;
+  //     case 'error':
+  //       return 3;
+  //   }
+  // };
 
-  const priorityToNum = (priority)=>{
-    switch (priority.toLowerCase()) {
-      case 'low':
-        return 0;
-      case 'medium':
-        return 1;
-      case 'high':
-        return 2;
-    }
-  };
+  // const priorityToNum = (priority)=>{
+  //   switch (priority.toLowerCase()) {
+  //     case 'low':
+  //       return 0;
+  //     case 'medium':
+  //       return 1;
+  //     case 'high':
+  //       return 2;
+  //   }
+  // };
 
 
   const severityComparison = (comp)=>{
     // callback used to compare different severities
     return (a, b) =>{
-      const aNum = severityToNum(a['severity']);
-      const bNum = severityToNum(b['severity']);
+      const aNum = a.severity;
+      const bNum = b.severity;
       if (comp === 'gt') {
         if (aNum < bNum) {
           return -1;
@@ -129,8 +129,8 @@ export default function LETable(props) {
 
   const priorityComparison = (comp)=>{
     return (a, b) =>{
-      const aNum = priorityToNum(a['priority']);
-      const bNum = priorityToNum(b['priority']);
+      const aNum = a.priority;
+      const bNum = b.priority;
       if (comp === 'lt') {
         if (aNum < bNum) {
           return 1;
@@ -154,73 +154,117 @@ export default function LETable(props) {
 
   const dateComparison = (comp)=>{
     return (a, b) =>{
+      console.log(a['creation_time']);
+      console.log(moment(a['creation_time']).format('MMDDYYYYHHmmss'));
       if (comp === 'lt') {
-        return moment(a['Created Date']).format('MMDDYYYYHHmmss') - moment(b['Created Date']).format('MMDDYYYYHHmmss');
+        return moment(a['creation_time']).format('MMDDYYYYHHmmss') - moment(b['creation_time']).format('MMDDYYYYHHmmss');
       }
       if (comp === 'gt') {
-        return moment(b['Created Date']).format('MMDDYYYYHHmmss') - moment(a['Created Date']).format('MMDDYYYYHHmmss');
+        return moment(b['creation_time']).format('MMDDYYYYHHmmss') - moment(a['creation_time']).format('MMDDYYYYHHmmss');
       }
     };
   };
 
+  const rankSeverity = (severity) => {
+    let severityText;
+    if (severity >= 50) {
+      severityText = 'Error';
+    } else if (severity < 50 && severity >= 30) {
+      severityText = 'Warn';
+    } else if (severity < 30 && severity >= 10) {
+      severityText = 'Info';
+    } else {
+      // eslint-disable-next-line no-unused-vars
+      severityText = 'Success';
+    }
+    return severityText;
+  };
+
+  const rankPriority = (priority) => {
+    let priorityText;
+    if (priority === '10') {
+      priorityText = 'Low';
+    } else if (priority === '50') {
+      priorityText = 'Medium';
+    } else {
+      // eslint-disable-next-line no-unused-vars
+      priorityText = 'High';
+    }
+    return priorityText;
+  };
+
   return (
     <div>
-      <Typography variant = "h6">
-            Results
-      </Typography>
-      <Table style={tableStyle}>
-        <TableHead >
+      {props.isLoading ? (<CircularProgress color = 'success' />) :
+      <><Typography variant="h6">
+          Results
+      </Typography><Table style={tableStyle}>
+        <TableHead>
           <TableRow>
-            <TableCell >
-              <TableSortLabel
-                onClick={()=>setSort(sortHandler(sort != 1 ? 1 : 2))}
-                direction = {(sort%2 === 1 ? 'asc' : 'desc')}>
-                Severity
+            <TableCell>
+              <TableSortLabel data-testid = "logevent-button-sort-severity"
+                onClick={() => setSort(sortHandler(sort != 1 ? 1 : 2))}
+                direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
+                    Severity
               </TableSortLabel>
             </TableCell>
-            <TableCell >
-              <TableSortLabel
-                onClick={()=>setSort(sortHandler(sort != 3 ? 3 : 4))}
-                direction = {(sort%2 === 1 ? 'asc' : 'desc')}>
-                Priority
+            <TableCell>
+              <TableSortLabel data-testid = "logevent-button-sort-priority"
+                onClick={() => setSort(sortHandler(sort != 3 ? 3 : 4))}
+                direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
+                    Priority
               </TableSortLabel>
             </TableCell>
-            <TableCell >Category</TableCell>
-            <TableCell >
-              <TableSortLabel data-testid = "button-sort-date"
-                onClick={()=>setSort(sortHandler(sort != 5 ? 5 : 6))}
-                direction = {(sort%2 === 1 ? 'asc' : 'desc')}>
-                Created Date
+            <TableCell>Category</TableCell>
+            <TableCell>
+              <TableSortLabel data-testid = "logevent-button-sort-date"
+                onClick={() => setSort(sortHandler(sort != 5 ? 5 : 6))}
+                direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
+                    Created Date
               </TableSortLabel>
             </TableCell>
-            <TableCell >Application</TableCell>
-            <TableCell >Process/Service</TableCell>
-            <TableCell >Activity</TableCell>
-            <TableCell >EAI Domain</TableCell>
+            <TableCell>Application</TableCell>
+            <TableCell>Activity</TableCell>
+            <TableCell>EAI Domain</TableCell>
             <TableCell> Business Domain </TableCell>
             <TableCell> Business SubDomain </TableCell>
-            <TableCell >Log Event</TableCell>
+            <TableCell>Log Event</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.data
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((e, i)=>{
+              .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
+              .map((e, i) => {
+                const severityText = rankSeverity(e.severity);
+                const priorityText = rankPriority(e.priority);
                 return (
-                  <TableRow key = {i}>
-                    <TableCell>{e.severity}</TableCell>
-                    <TableCell>{e.priority}</TableCell>
-                    <TableCell>{e.category}</TableCell>
-                    <TableCell>{e['Created Date']}</TableCell>
-                    <TableCell>{e['Application']}</TableCell>
-                    <TableCell>{e['Process/Service']}</TableCell>
-                    <TableCell>{e['Activity']}</TableCell>
-                    <TableCell>{e['EAI Domain']}</TableCell>
-                    <TableCell>{e['Business Domain']}</TableCell>
-                    <TableCell>{e['Business SubDomain']}</TableCell>
-                    <TableCell onClick={() => {
-                      window.sessionStorage.setItem('isLogDetail', true);
-                    }}>
+                  <TableRow key={i}>
+                    <TableCell
+                      style={{
+                        color: e.severity >= 50 ? BPColors.error :
+                            e.severity < 50 && e.severity >= 30 ? BPColors.warning :
+                              e.severity < 30 && e.severity >= 10 ? BPColors.info :
+                                BPColors.success,
+                        width: '120px',
+                      }}
+                    >
+                      {e.severity >= 50 ? <ErrorIcon style={{color: BPColors.error, paddingTop: '8px'}} /> :
+                          e.severity < 50 && e.severity >= 30 ? <WarningIcon style={{color: BPColors.warning, paddingTop: '8px'}} /> :
+                            e.severity < 30 && e.severity >= 10 ? <InfoIcon style={{color: BPColors.info, paddingTop: '8px'}} /> :
+                              <CheckCircleIcon style={{color: BPColors.success, paddingTop: '8px'}} />}
+                      <div style={{display: 'inline-block', alignSelf: 'center', marginLeft: '2px'}}>{severityText}</div>
+                    </TableCell>
+                    <TableCell>
+                      {priorityText}
+                    </TableCell>
+                    <TableCell>{e.category_name}</TableCell>
+                    <TableCell>{moment(e['creation_time']).format('MM/DD/YYYY hh:mm:ss')}</TableCell>
+                    <TableCell>{e['application']}</TableCell>
+                    <TableCell>{e['activity']}</TableCell>
+                    <TableCell>{e['eai_domain']}</TableCell>
+                    <TableCell>{e['business_domain']}</TableCell>
+                    <TableCell>{e['business_subdomain']}</TableCell>
+                    <TableCell>
                       <Button hyperlink-testid={i}
                         variant="text"
                         sx={{
@@ -232,22 +276,26 @@ export default function LETable(props) {
                           },
                         }}
                       >
-                        <Link href={`/log-detail/${e.id}`} >{e['Log Event']}</Link>
+                        <a
+                          href={`/log-detail/${e.global_instance_id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{textDecoration: 'none', color: 'black'}}>
+                            Detail
+                        </a>
                       </Button>
                     </TableCell>
                   </TableRow>
                 );
               })}
         </TableBody>
-      </Table>
-      <TablePagination
-        count = {props.data.length}
-        rowsPerPageOptions = {[5, 10, 20, 50]}
-        page = {page}
-        onPageChange = {handleChangePage}
-        rowsPerPage = {rowsPerPage}
-        onRowsPerPageChange = {handleChangeRPP}
-      />
+      </Table><TablePagination
+        count={props.data.length}
+        rowsPerPageOptions={[5, 10, 20, 50]}
+        page={props.page}
+        onPageChange={handleChangePage}
+        rowsPerPage={props.rowsPerPage}
+        onRowsPerPageChange={handleChangeRPP} /></>}
     </div>
 
   );

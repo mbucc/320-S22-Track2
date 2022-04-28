@@ -22,6 +22,7 @@
     "@mui/icons-material": "^5.4.4",
     "@mui/lab": "^5.0.0-alpha.73",
     "@mui/material": "^5.4.4",
+    "axios": "^0.26.1",
     "@tabler/icons": "^1.56.0",
     "@taci-tech/launchpad-js": "^0.0.1",
     "chart.js": "^3.7.1",

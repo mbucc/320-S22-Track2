@@ -25,13 +25,13 @@ export const isValidDateFormat = (date) => {
 
 export const isValidTimeFormat = (date) => {
   // Use regular expression to check if date is valid as en-US format.
-  const regex = /^\d{1,2}:\d{1,2}:\d{1,2}$/;
+  const regex = /^\d{1,2}:\d{2}:\d{2}$/;
   return regex.test(date);
 };
 
 export const isValidDateTimeFormat = (date) => {
   // Use regular expression to check if date is valid as en-US format.
-  const regex = /^\d{1,2}\/\d{1,2}\/\d{4}[ ](?:|\d{1,2}:\d{1,2}:\d{1,2})$/;
+  const regex = /^\d{1,2}\/\d{1,2}\/\d{4}[T, ]+(?:|\d{1,2}:\d{1,2}:\d{1,2})$/;
   return regex.test(date);
 };
 

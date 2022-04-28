@@ -87,7 +87,8 @@ export default function Dashboard(props) {
     const today = new Date;
     const hr = today.getHours();
     const min = today.getMinutes();
-    return hr + ':' + ((min < 10) ? '0' : '') + min;
+    const sec = today.getSeconds();
+    return ((hr < 10) ? '0' : '') + hr + ':' + ((min < 10) ? '0' : '') + min + ':' + ((sec < 10) ? '0' : '') + sec;
   };
 
   const [updateTime, setUpdateTime] = useState(getTime());

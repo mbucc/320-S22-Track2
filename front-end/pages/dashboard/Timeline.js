@@ -81,7 +81,6 @@ export default function Timeline(props) {
           </Typography>
         </Grid>
         <Grid item>
-          {/* Need to change linking to pass filters */}
           <Button
             variant="text"
             onClick={() => props.toggleLogEvents(getFilters(props.data[0].time, props.data[props.data.length - 1].time))}

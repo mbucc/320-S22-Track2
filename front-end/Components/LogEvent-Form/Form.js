@@ -94,10 +94,13 @@ export default function Form(props) {
         case ('Warnings'):
           initSeverityCheckboxes = initSeverityCheckboxes.filter((e) => e === 'warning');
           break;
+        case ('Warning'):
+          initSeverityCheckboxes = initSeverityCheckboxes.filter((e) => e === 'warning');
+          break;
       }
     }
     if (props.logEventFilters?.type && props.logEventFilters?.type === 'priority') {
-      switch (props.logEventFilters?.priority) {
+      switch (props.logEventFilters?.severity) {
         case ('Logs'):
           // We want to show all logs. no change to checkboxes
           break;

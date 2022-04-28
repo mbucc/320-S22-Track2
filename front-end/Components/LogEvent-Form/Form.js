@@ -75,7 +75,7 @@ export default function Form(props) {
 
   let initSeverityCheckboxes = ['success', 'info', 'warning', 'error'];
 
-  const initPriorityCheckboxes = ['high', 'medium', 'low'];
+  let initPriorityCheckboxes = ['high', 'medium', 'low'];
 
   const initCategoryCheckboxes = ['reportupdate', 'reportpersisted', 'reportfail'];
 
@@ -88,8 +88,24 @@ export default function Form(props) {
         case ('Errors'):
           initSeverityCheckboxes = initSeverityCheckboxes.filter((e) => e === 'error');
           break;
+        case ('Error'):
+          initSeverityCheckboxes = initSeverityCheckboxes.filter((e) => e === 'error');
+          break;
         case ('Warnings'):
           initSeverityCheckboxes = initSeverityCheckboxes.filter((e) => e === 'warning');
+          break;
+      }
+    }
+    if (props.logEventFilters?.type && props.logEventFilters?.type === 'priority') {
+      switch (props.logEventFilters?.priority) {
+        case ('Logs'):
+          // We want to show all logs. no change to checkboxes
+          break;
+        case ('Medium'):
+          initPriorityCheckboxes = initPriorityCheckboxes.filter((e) => e === 'medium');
+          break;
+        case ('High'):
+          initPriorityCheckboxes = initPriorityCheckboxes.filter((e) => e === 'high');
           break;
       }
     }
@@ -189,8 +205,13 @@ export default function Form(props) {
     props.setIsLoading(true);
     const API_PARAMS = [];
 
-    const startDate = `startTime=${fromDate.format('YYYY-MM-DD HH:mm:ss')}`;
-    const endDate = `endTime=${toDate.format('YYYY-MM-DD HH:mm:ss')}`;
+    const startDate = `startTime=${fromDate.utc().format('YYYY-MM-DD HH:mm:ss')}`;
+    let endDate = `endTime=${toDate.utc().format('YYYY-MM-DD HH:mm:ss')}`;
+
+    if (fromDate.isSame(toDate)) {
+      endDate = `endTime=${toDate.add(1, 'm').utc().format('YYYY-MM-DD HH:mm:ss')}`;
+    }
+
     console.log(startDate);
     console.log(endDate);
     API_PARAMS.push(startDate);

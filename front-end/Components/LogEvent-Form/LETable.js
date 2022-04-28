@@ -256,7 +256,7 @@ export default function LETable(props) {
                       {priorityText}
                     </TableCell>
                     <TableCell>{e.category_name}</TableCell>
-                    <TableCell>{moment(e['creation_time']).utc().format('MM/DD/YYYY HH:mm:ss')}</TableCell>
+                    <TableCell>{moment(e['creation_time']).format('MM/DD/YYYY HH:mm:ss')}</TableCell>
                     <TableCell>{e['application']}</TableCell>
                     <TableCell>{e['activity']}</TableCell>
                     <TableCell>{e['eai_domain']}</TableCell>

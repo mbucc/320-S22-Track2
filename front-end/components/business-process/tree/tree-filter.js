@@ -37,6 +37,7 @@ const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onC
 
     if (startDate && startDate > new Date()) {
       setStartDateError('Start date must be in the past.');
+      return;
     }
 
     onChange({

@@ -16,6 +16,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 */
 export default function Dashboard(props) {
   const [timeframe, setTimeframe] = useState(60)
+  const timeframeEnd = moment().startOf('minute')
 
   const [data, setData] = useState({
     logEvents: null,
@@ -30,14 +31,12 @@ export default function Dashboard(props) {
       .then((data) => {
         console.log(data)
         return data.map((e) => {
-          const cur = moment().subtract(tf, 'minute')
-          console.log("time: ", Math.floor(moment.duration(cur.diff(moment(e.creation_time))).as('minutes')))
           return {
             priority: getPriority(e.priority),
             type: getSeverity(e.severity),
-            time: Math.floor(moment.duration(cur.diff(moment(e.creation_time))).as('minutes'))
+            time: moment.duration(timeframeEnd.diff(moment(e.creation_time).startOf('minute'))).as('minutes') 
           };
-        }).filter((e) => e.time >= 0).sort((a, b) => b.time - a.time)
+        }).filter((e) => e.time <= tf).sort((a, b) => b.time - a.time)
       })
   }
 
@@ -89,6 +88,7 @@ export default function Dashboard(props) {
     const hr = today.getHours();
     const min = today.getMinutes();
     const sec = today.getSeconds();
+    timeframeEnd = moment().startOf('minute')
     return ((hr < 10) ? '0' : '') + hr + ':' + ((min < 10) ? '0' : '') + min + ':' + ((sec < 10) ? '0' : '') + sec;
   };
 
@@ -124,8 +124,8 @@ export default function Dashboard(props) {
               <Counts
                 toggleLogEvents={props.toggleLogEvents}
                 data={data.logEvents}
-                start={moment().subtract(timeframe, 'minute')}
-                end={moment()} />
+                start={moment(timeframeEnd).subtract(timeframe, 'minute').local()}
+                end={moment(timeframeEnd).local()} />
             </Grid>
             <Grid item xs={12}>
               <Grid container item direction='row' spacing={5}>
@@ -137,7 +137,7 @@ export default function Dashboard(props) {
                     toggleLogEvents={props.toggleLogEvents}
                     data={data.logEvents}
                     timeframe={timeframe}
-                    end={moment()}
+                    end={timeframeEnd}
                   />
                 </Grid>
               </Grid>

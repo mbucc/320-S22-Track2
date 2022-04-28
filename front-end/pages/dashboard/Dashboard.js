@@ -9,7 +9,6 @@ import Dropdown from './Dropdown';
 import fakeData from './fake_data.json';
 import moment from 'moment';
 import LinearProgress from '@mui/material/LinearProgress';
-import CircularProgress from '@mui/material/CircularProgress';
 
 /**
  * @param {Object} props
@@ -139,7 +138,7 @@ export default function Dashboard(props) {
   }
   return (
     <Box sx={{ width: '100%' }} alignItems='center' justifyContent='center'>
-      <CircularProgress />
+      <LinearProgress />
     </Box>
   );
 }

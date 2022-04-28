@@ -104,7 +104,6 @@ export default function Timeline(props) {
           >
           </SplineSeries>
           <ArgumentAxis labelComponent={Label} />
-          {/* <ArgumentAxis /> */}
           <EventTracker onClick={onClickTimeline} />
           <HoverState
             hover={hover}

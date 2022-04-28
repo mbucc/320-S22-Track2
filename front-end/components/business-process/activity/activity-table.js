@@ -305,7 +305,7 @@ export default function BPTableComponent({columns, data, style}) {
                     display: i === rows.length - 1 ? 'none' : 'flex',
                   }}
                 />
-                <Link href={`/log-detail/${row.original.eai_transaction_id}`}>
+                <Link href={`/log-detail/${row.original.eai_transaction_id}`} passHref>
                   <BPTableDetailButton>
                     <span>Detail</span>
                     <IconArrowRight width={18} height={18} strokeWidth={2.1}/>

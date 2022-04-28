@@ -1,35 +1,35 @@
-import React from 'react';
-import {Button} from '@mui/material';
-import Link from 'next/link';
+import React from "react";
+import { Button } from "@mui/material";
+import Link from "next/link";
 
 /**
  * @param {Object} props
-* @return {JSX.Element}
-*/
+ * @return {JSX.Element}
+ */
 function Navbar(props) {
   return (
     // change the way content is justified
     <div
       style={{
-        width: '100%',
-        height: '100%',
-        backgroundColor: '#22c55e',
-        display: 'flex',
+        width: "100%",
+        height: "100%",
+        backgroundColor: "#0C60A8",
+        display: "flex",
         flexShrink: 1,
         padding: 18,
         paddingLeft: 30,
-        justifyContent: 'flex-start',
-        justifyItems: 'stretch',
+        justifyContent: "flex-start",
+        justifyItems: "stretch",
       }}
     >
       <div
         style={{
           flexGrow: 0.1,
-          paddingRight: 40,
-          font: 'sans',
+          paddingRight: 30,
+          font: "sans",
           fontSize: 25,
-          fontWeight: 'bold',
-          color: 'white',
+          fontWeight: "bold",
+          color: "white",
         }}
       >
         ISO CLOG Monitor
@@ -42,54 +42,50 @@ function Navbar(props) {
         {/* nav buttons */}
         <div
           style={{
-            justifyContent: 'space-between',
+            justifyContent: "space-between",
           }}
         >
           <Button
-            size={'small'}
+            size={"small"}
             sx={{
-              color: 'white',
+              color: "white",
               fontSize: 14,
               paddingRight: 2,
 
-              '&:hover': {
-                fontWeight: 'bolder',
+              "&:hover": {
+                fontWeight: "bolder",
               },
             }}
-            onClick={()=>props.clearFilters()}
+            onClick={() => props.clearFilters()}
           >
-            <Link href='/' passHref>
-              <a>
-                Dashboard
-              </a>
+            <Link href="/" passHref>
+              <a>Dashboard</a>
             </Link>
           </Button>
           <Button
-            size={'small'}
+            size={"small"}
             sx={{
-              color: 'white',
+              color: "white",
               fontSize: 14,
               paddingRight: 2,
 
-              '&:hover': {
-                fontWeight: 'bolder',
+              "&:hover": {
+                fontWeight: "bolder",
               },
             }}
           >
-            <Link href='./business-process/' passHref>
-              <a>
-                Business Processes
-              </a>
+            <Link href="./business-process/" passHref>
+              <a>Business Processes</a>
             </Link>
           </Button>
           <Button
-            size={'small'}
+            size={"small"}
             sx={{
-              color: 'white',
+              color: "white",
               fontSize: 14,
 
-              '&:hover': {
-                fontWeight: 'bolder',
+              "&:hover": {
+                fontWeight: "bolder",
               },
             }}
           >
@@ -104,33 +100,31 @@ function Navbar(props) {
       {/* Logout button */}
       <div
         style={{
-          justifyItems: 'end',
-          color: 'white',
+          justifyItems: "end",
+          color: "white",
         }}
       >
         <Button
-          size={'small'}
+          size={"small"}
           sx={{
-            justifyItems: 'end',
-            color: 'white',
+            justifyItems: "end",
+            color: "white",
             fontSize: 14,
 
-            '&:hover': {
-              fontWeight: 'bolder',
+            "&:hover": {
+              fontWeight: "bolder",
             },
           }}
-          onClick = {() => props.setLogin(false) }
+          onClick={() => props.setLogin(false)}
         >
           <Link
             href={{
-              pathname: '/',
-              state: {testVar: 'test'},
+              pathname: "/",
+              state: { testVar: "test" },
             }}
             passHref
           >
-            <a>
-              Log Out
-            </a>
+            <a>Log Out</a>
           </Link>
         </Button>
       </div>

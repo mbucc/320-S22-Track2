@@ -1,9 +1,30 @@
 /* eslint-disable eol-last */
 
 // TODO: Write tests for the tree view.
+
+import {BPTreeMockAPI} from '../../support/business-process/mock-api/tree';
+import moment from 'moment';
+import {generatePath} from '../../support/business-process/utility/path-generator';
+import {convertToAPIFormat} from '../../../utils/business-process/date-options';
+import {goThroughLogin} from '../../support/business-process/utility/general';
+
 before(() => {
   cy.visit('/business-process');
-  cy.get('.MuiButton-root').first().click();
+
+  // This is a minimal example on how to generate a path and then intercept the API request.
+  const currentTime = moment();
+  const past30Minutes = currentTime.clone().subtract(30, 'minutes');
+  const defaultPath = generatePath('/businessProcessTree', {
+    'startTime': convertToAPIFormat(past30Minutes),
+    'endTime': convertToAPIFormat(currentTime),
+  });
+  cy.intercept('GET', defaultPath, {
+    statusCode: 200,
+    body: BPTreeMockAPI.getTreeResult({}),
+  });
+
+  cy.clock(currentTime.toDate().getTime());
+  goThroughLogin();
 });
 
 const TopDomain = 'EAI Domain';

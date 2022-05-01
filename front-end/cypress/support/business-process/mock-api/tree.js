@@ -10,9 +10,9 @@ function getTreeResult({eaiDomains = [], pubDomains = []}) {
   const result = {};
   const treeData = JSON.parse(JSON.stringify(TreeData));
   treeData.forEach((eai) => {
-    if (eaiDomains.includes(eai.name) && eai.children) {
+    if ((eaiDomains.length === 0 || eaiDomains.includes(eai.name)) && eai.children) {
       eai.children.forEach((pub) => {
-        if (pubDomains.includes(pub.name) && pub.children) {
+        if ((pubDomains.length === 0 || pubDomains.includes(pub.name)) && pub.children) {
           result[eai.name] = result[eai.name] || {};
           result[eai.name][pub.name] = {};
           pub.children.forEach((bp) => {
@@ -26,3 +26,7 @@ function getTreeResult({eaiDomains = [], pubDomains = []}) {
   });
   return result;
 }
+
+export const BPTreeMockAPI = {
+  getTreeResult,
+};

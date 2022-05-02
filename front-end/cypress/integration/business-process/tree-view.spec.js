@@ -15,13 +15,14 @@ const MockData = BPTreeMockAPI.getTreeResult({});
 
 function countLogs(MockData) {
   let count = 0;
-  for (const eai in MockData) {
-    for (const pub in eai) {
-      for (const bp in pub) {
-        count += bp.length;
-      }
-    }
-  }
+  Object.keys(MockData).forEach((eai) =>{
+    Object.keys(MockData[eai]).forEach((pub) =>{
+      Object.keys(MockData[eai][pub]).forEach((bp)=>{
+        count += MockData[eai][pub][bp].length
+      })
+    })
+  })
+  
   return count;
 }
 before(() => {
@@ -89,5 +90,6 @@ describe('Manually clicks each node.', ()=>{
         .children().get('li.tree-log').each((log)=>{
           cy.wrap(log).scrollIntoView().should('be.visible');
         });
+    cy.get('.tree-log').should('have.length',countLogs(MockData))
   });
 });

@@ -26,7 +26,38 @@ function getTreeResult({eaiDomains = [], pubDomains = []}) {
   });
   return result;
 }
+/**
+ * This function is used to get EAI Domains
+ * @return {string[]} eaiDomains
+ */
+function getEAIDomain() {
+  const eaiDomains = [];
+  const treeData = JSON.parse(JSON.stringify(TreeData));
+  treeData.forEach((eai) => {
+    eaiDomains.push(eai.name);
+  });
+  return eaiDomains;
+}
+
+/**
+ * This function is used to get Pub Domains
+ * @return {string[]} pubDomains
+ */
+function getPubDomain() {
+  const pubDomains = [];
+  const treeData = JSON.parse(JSON.stringify(TreeData));
+  treeData.forEach((eai) => {
+    if (eai.children) {
+      eai.children.forEach((pub) => {
+        pubDomains.push(pub.name);
+      });
+    }
+  });
+  return pubDomains;
+}
 
 export const BPTreeMockAPI = {
   getTreeResult,
+  getEAIDomain,
+  getPubDomain,
 };

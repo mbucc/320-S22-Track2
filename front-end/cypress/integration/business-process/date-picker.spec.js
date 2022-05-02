@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
 import {dateOptions} from '../../../utils/business-process/date-options';
+import {goThroughLogin} from '../../support/business-process/utility/general';
+
 before(() => {
   cy.visit('/business-process');
-  cy.get('.MuiButton-root').first().click();
+  goThroughLogin();
 });
 
 describe('Magic commands is working properly with shortcut commands.', () => {
@@ -127,7 +129,8 @@ describe('Other tests in DatePicker component', () => {
     const second = baseTime.getSeconds();
     cy.clock(baseTime.getTime(), ['Date']);
     cy.visit('/business-process');
-    cy.get('.MuiButton-root').first().click();
+    goThroughLogin();
+    cy.get('#bp-tree-filter-start-date-picker > .MuiInputBase-root').click();
     cy.get('#bp-tree-filter-start-date-picker-field').clear().type('10/28').type('{enter}').clear();
     const test_date = new Date(2021, 9, 20, 15, 15, second);
     cy.get('#bp-tree-filter-start-date-picker-field').clear().click();

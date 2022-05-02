@@ -33,10 +33,11 @@ before(() => {
     'startTime': convertToAPIFormat(past30Minutes),
     'endTime': convertToAPIFormat(currentTime),
   });
+  // IMPORTANT: Intercepting the corresponding API request when there is one.
   cy.intercept('GET', defaultPath, {
     statusCode: 200,
-    body: MockData,
-  });
+    body: BPTreeMockAPI.getTreeResult({}),
+  }).as('getTree');
 
   cy.clock(currentTime.toDate().getTime());
   goThroughLogin();

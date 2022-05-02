@@ -1,8 +1,9 @@
 // This test is checking if the business process page can be visited successfully.
+import {goThroughLogin} from '../../support/business-process/utility/general';
 
 before(() => {
   cy.visit('/business-process');
-  cy.get('.MuiButton-root').first().click();
+  goThroughLogin();
 });
 
 describe('Visit the page.', () => {

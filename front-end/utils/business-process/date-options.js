@@ -37,7 +37,7 @@ export const isValidDateTimeFormat = (date) => {
 
 /**
  * Convert moment date object to string.
- * @param {Moment} momentObject
+ * @param {moment.Moment} momentObject
  * @return {string}
  */
 export const convertToAPIFormat = (momentObject) => {

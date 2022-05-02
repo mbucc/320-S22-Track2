@@ -1,9 +1,10 @@
 import {isValidTimeFormat} from '../../../utils/business-process/date-options';
+import {goThroughLogin} from '../../support/business-process/utility/general';
 
 // TODO: Write tests for domain selectors.
 before(() => {
   cy.visit('/business-process');
-  cy.get('.MuiButton-root').first().click();
+  goThroughLogin();
 });
 
 describe('EAI domain field is working properly.', () => {

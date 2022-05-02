@@ -1,0 +1,434 @@
+[
+  {
+    "name": "EAI_DOMAIN_1",
+    "children": [
+      {
+        "name": "Sample Pub Domain 1",
+        "children": [
+          {
+            "name": "Sample Business Process 25781",
+            "activities": [
+              {
+                "name": "25781 Activity 1",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25781",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634710479843",
+                "eai_transaction_id": "eai_acc_server_25781_1",
+                "severity": 40
+              },
+              {
+                "name": "25781 Activity 2",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25781",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634710479843",
+                "eai_transaction_id": "eai_acc_server_25781_2",
+                "severity": 20
+              },
+              {
+                "name": "25781 Activity 3",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25781",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634710479843",
+                "eai_transaction_id": "eai_acc_server_25781_3",
+                "severity": 10
+              },
+              {
+                "name": "25781 Activity 4",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25781",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634710479843",
+                "eai_transaction_id": "eai_acc_server_25781_4",
+                "severity": 0
+              },
+              {
+                "name": "25781 Activity 5",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25781",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634710479843",
+                "eai_transaction_id": "eai_acc_server_25781_5",
+                "severity": 60
+              },
+              {
+                "name": "25781 Activity 6",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25781",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634710479843",
+                "eai_transaction_id": "eai_acc_server_25781_6",
+                "severity": 30
+              },
+              {
+                "name": "25781 Activity 7",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25781",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634710479843",
+                "eai_transaction_id": "eai_acc_server_25781_7",
+                "severity": 0
+              },
+              {
+                "name": "25781 Activity 8",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25781",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634710479843",
+                "eai_transaction_id": "eai_acc_server_25781_8",
+                "severity": 30
+              },
+              {
+                "name": "25781 Activity 9",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25781",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634710479843",
+                "eai_transaction_id": "eai_acc_server_25781_9",
+                "severity": 50
+              },
+              {
+                "name": "25781 Activity 10",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25781",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634710479843",
+                "eai_transaction_id": "eai_acc_server_25781_10",
+                "severity": 30
+              }
+            ]
+          },
+          {
+            "name": "Sample Business Process 25781",
+            "activities": [
+              {
+                "name": "25786 Activity 1",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_1",
+                "severity": 0
+              },
+              {
+                "name": "25786 Activity 2",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_2",
+                "severity": 60
+              },
+              {
+                "name": "25786 Activity 3",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_3",
+                "severity": 30
+              },
+              {
+                "name": "25786 Activity 4",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_4",
+                "severity": 50
+              },
+              {
+                "name": "25786 Activity 5",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_5",
+                "severity": 30
+              },
+              {
+                "name": "25786 Activity 6",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_6",
+                "severity": 50
+              },
+              {
+                "name": "25786 Activity 7",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_7",
+                "severity": 10
+              },
+              {
+                "name": "25786 Activity 8",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_8",
+                "severity": 25
+              },
+              {
+                "name": "25786 Activity 9",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_9",
+                "severity": 30
+              },
+              {
+                "name": "25786 Activity 10",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_10",
+                "severity": 50
+              },
+              {
+                "name": "25786 Activity 11",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_11",
+                "severity": 30
+              },
+              {
+                "name": "25786 Activity 12",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_12",
+                "severity": 50
+              },
+              {
+                "name": "25786 Activity 13",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_13",
+                "severity": 30
+              },
+              {
+                "name": "25786 Activity 14",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_14",
+                "severity": 50
+              },
+              {
+                "name": "25786 Activity 15",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_15",
+                "severity": 30
+              },
+              {
+                "name": "25786 Activity 16",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_16",
+                "severity": 40
+              },
+              {
+                "name": "25786 Activity 17",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_17",
+                "severity": 30
+              },
+              {
+                "name": "25786 Activity 18",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "25786",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBYO60634699479843",
+                "eai_transaction_id": "eai_acc_server_25786_18",
+                "severity": 50
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Sample Pub Domain 2",
+        "children": [
+          {
+            "name": "Sample Business Process 37882",
+            "activities": [
+              {
+                "name": "37882 Activity 1",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_1",
+                "severity": 30
+              },
+              {
+                "name": "37882 Activity 2",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_2",
+                "severity": 20
+              },
+              {
+                "name": "37882 Activity 3",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_3",
+                "severity": 30
+              },
+              {
+                "name": "37882 Activity 4",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_4",
+                "severity": 50
+              },
+              {
+                "name": "37882 Activity 5",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_5",
+                "severity": 60
+              },
+              {
+                "name": "37882 Activity 6",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_6",
+                "severity": 0
+              },
+              {
+                "name": "37882 Activity 7",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_7",
+                "severity": 30
+              },
+              {
+                "name": "37882 Activity 8",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_8",
+                "severity": 50
+              },
+              {
+                "name": "37882 Activity 9",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_9",
+                "severity": 60
+              },
+              {
+                "name": "37882 Activity 10",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_10",
+                "severity": 0
+              },
+              {
+                "name": "37882 Activity 11",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_11",
+                "severity": 30
+              },
+              {
+                "name": "37882 Activity 12",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_12",
+                "severity": 50
+              },
+              {
+                "name": "37882 Activity 13",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_13",
+                "severity": 60
+              },
+              {
+                "name": "37882 Activity 14",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "37882",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_37882_14",
+                "severity": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "EAI_DOMAIN_2",
+    "children": [
+      {
+        "name": "Sample Pub Domain from EAI 2",
+        "children": [
+          {
+            "name": "Sample Business Process 99910",
+            "activities": [
+              {
+                "name": "99910 Activity 1",
+                "key1_app_context_name": "Client_Id",
+                "key1_app_context_value": "99910",
+                "key2_app_context_name": "BAN",
+                "key2_app_context_value": "UBY160634699162843",
+                "eai_transaction_id": "eai_acc_server_99910_1",
+                "severity": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

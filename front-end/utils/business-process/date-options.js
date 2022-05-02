@@ -35,6 +35,11 @@ export const isValidDateTimeFormat = (date) => {
   return regex.test(date);
 };
 
+/**
+ * Convert moment date object to string.
+ * @param {moment.Moment} momentObject
+ * @return {string}
+ */
 export const convertToAPIFormat = (momentObject) => {
   return momentObject.format('YYYY-MM-DD HH:mm:ss.SSSSSS');
 };

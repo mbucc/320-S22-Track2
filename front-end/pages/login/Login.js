@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import CustomInput from './CustomInput';
 import Button from './Buttons';
 import logo from './iso_newengland.png';
@@ -6,9 +6,30 @@ import Image from 'next/image';
 
 // eslint-disable-next-line require-jsdoc
 export default function Login({setLogin}) {
+  const [user, setUser] = useState('');
+  const [pass, setPass] = useState('');
+  const [err, setErr] = useState(false);
+
+  const attemptLogin = () => {
+    if (user === '' || pass === '') {
+      setErr(true);
+      return false;
+    }
+    setErr(false);
+    setLogin(true);
+  };
+
+  const handleUserCharge = (event) => {
+    setUser(event.target.value);
+  };
+
+  const handlePassChange = (event) => {
+    setPass(event.target.value);
+  };
+
   return (
     <div className="App">
-      <Image src = {logo} style={{minWidth: '50%', height: '50%'}}/>
+      <Image src={logo} style={{minWidth: '50%', height: '50%'}} />
       <h3>ISO CLOG Monitor</h3>
       <form className="form">
         <CustomInput
@@ -17,8 +38,10 @@ export default function Login({setLogin}) {
           formControlProps={{
             fullWidth: true,
           }}
-          // handleChange={this.handleChange}
+          handleChange={handleUserCharge}
           type="text"
+          error={err && user === ''}
+          errorText={err && user === '' ? 'Please enter an email' : ''}
         />
         <CustomInput
           labelText="Password"
@@ -26,15 +49,16 @@ export default function Login({setLogin}) {
           formControlProps={{
             fullWidth: true,
           }}
-          // handleChange={this.handleChange}
+          handleChange={handlePassChange}
           type="password"
+          error={err && pass === ''}
+          errorText={err && (pass == '' || user == '') ? 'Please enter a password' : 'Invalid credentials'}
         />
-
-        <Button type="button" color="primary" className="form__custom-button" onClick = {() => setLogin(true) }>
-            Log in
+        <Button type="button" color="primary" className="form__custom-button" onClick={() => attemptLogin()}>
+          Log in
         </Button>
-        <Button type="button" color="primary" className="form__custom-button" onClick = {() => setLogin(false) }>
-            Forgot Password
+        <Button type="button" color="primary" className="form__custom-button" onClick={() => setLogin(false)}>
+          Forgot Password
         </Button>
       </form>
     </div>

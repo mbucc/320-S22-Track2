@@ -32,6 +32,8 @@ const RegularButton = React.forwardRef((props, ref) => {
     ...rest
   } = props;
 
+  RegularButton.displayName = 'RegularButton';
+
   const classes = makeComponentStyles();
 
   const btnClasses = classNames({

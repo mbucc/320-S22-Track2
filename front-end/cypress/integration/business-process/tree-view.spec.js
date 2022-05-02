@@ -18,10 +18,11 @@ before(() => {
     'startTime': convertToAPIFormat(past30Minutes),
     'endTime': convertToAPIFormat(currentTime),
   });
+  // IMPORTANT: Intercepting the corresponding API request when there is one.
   cy.intercept('GET', defaultPath, {
     statusCode: 200,
     body: BPTreeMockAPI.getTreeResult({}),
-  });
+  }).as('getTree');
 
   cy.clock(currentTime.toDate().getTime());
   goThroughLogin();
@@ -33,6 +34,7 @@ const BizProcess = 'Business Process';
 
 describe('Visit the page.', () => {
   it('Successfully load the business process page.', () => {
+    cy.wait('@getTree'); // IMPORTANT: Checking if the API request is made successfully.
     cy.get('#bp-root').should('be.visible');
   });
 });

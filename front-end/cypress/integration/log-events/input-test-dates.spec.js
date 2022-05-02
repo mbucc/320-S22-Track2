@@ -1,8 +1,9 @@
 // input test - testing the date component
 
-describe('input test - date picker', ()=>{
+describe.skip('input test - date picker', ()=>{
     beforeEach(()=>{
       cy.visit('http://localhost:3000/LogEvent');
+      cy.get('.MuiButton-root').first().click();
     });
 
     var fromDate = new Date();
@@ -24,7 +25,7 @@ describe('input test - date picker', ()=>{
         .then(fromText => {
           fromDate = new Date(fromText);
           //const toDate = new Date(cy.get('[id="to-date"]', { timeout: 15000 }).invoke('val'));
-        });  
+        });
           //expect(fromDate).to.be.lte(toDate);
         cy
         .get(`[id='to-date']`, { timeout: 15000 })

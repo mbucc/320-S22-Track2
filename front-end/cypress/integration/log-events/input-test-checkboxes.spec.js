@@ -1,8 +1,9 @@
 // input test - testing checkboxes (individual, check all)
 
 describe('gives input to checkboxes', ()=>{
-  before(() =>{
-    cy.visit('http://localhost:3000/log-event/LogEvent');
+  beforeEach(()=>{
+    cy.visit('http://localhost:3000/LogEvent');
+    cy.get('.MuiButton-root').first().click();
   });
 
   it('gives input to severity checkboxes', ()=>{

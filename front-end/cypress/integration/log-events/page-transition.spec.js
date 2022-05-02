@@ -9,7 +9,7 @@
  * WARNING: THIS TEST WILL NOT WORK CURRENTLY. WAITING ON DASHBOARD TEAM TO
  * FIX ROUTING BEFORE WE CAN FIX THIS TEST.
  */
-describe('Log Event Button', () => {
+describe.skip('Log Event Button', () => {
   it('At home page', () => {
     cy.visit('http://localhost:3000');
 
@@ -21,7 +21,7 @@ describe('Log Event Button', () => {
   });
 });
 
-describe('Home Button', () => {
+describe.skip('Home Button', () => {
   it('Brings us to home page', () => {
     cy.visit('http://localhost:3000/LogEvent');
 

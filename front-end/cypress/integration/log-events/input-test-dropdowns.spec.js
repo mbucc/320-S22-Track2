@@ -1,9 +1,10 @@
 // input test - testing the dropdown components
 
 
-describe('input test - dropdowns', ()=>{
-  before(()=>{
-    cy.visit('http://localhost:3000/log-event/LogEvent');
+describe.skip('input test - dropdowns', ()=>{
+  beforeEach(()=>{
+    cy.visit('http://localhost:3000/LogEvent');
+    cy.get('.MuiButton-root').first().click();
   });
 
   it('gives input to eai dropdown', ()=>{

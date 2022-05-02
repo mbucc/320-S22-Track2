@@ -6,7 +6,7 @@ before(() => {
 });
 
 // Cypress Test Example: Check if the date picker component is working properly.
-describe('DatePicker component is working properly.', () => {
+describe.skip('DatePicker component is working properly.', () => { //IMPORTANT: THE SKIP STOPS THIS FROM RUNNING
   // To test if it is working properly, we need to test it from multiple aspects (except the shortcut commands stuff).
   // 1. Check if the date picker component is loaded successfully.
   // 2. Check if the floating date selection box appears after being clicked.

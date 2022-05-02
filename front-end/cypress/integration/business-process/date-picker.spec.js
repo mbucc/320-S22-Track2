@@ -130,7 +130,7 @@ describe('Other tests in DatePicker component', () => {
     cy.clock(baseTime.getTime(), ['Date']);
     cy.visit('/business-process');
     goThroughLogin();
-    cy.get('.MuiButton-root').first().click();
+    cy.get('#bp-tree-filter-start-date-picker > .MuiInputBase-root').click();
     cy.get('#bp-tree-filter-start-date-picker-field').clear().type('10/28').type('{enter}').clear();
     const test_date = new Date(2021, 9, 20, 15, 15, second);
     cy.get('#bp-tree-filter-start-date-picker-field').clear().click();

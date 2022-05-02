@@ -6,7 +6,7 @@ import {useTable, useBlockLayout, useSortBy, useResizeColumns} from 'react-table
 
 import styled from 'styled-components';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
-import {IconArrowRight, IconArrowsSort, IconSortAscending, IconSortDescending} from '@tabler/icons';
+import {IconArrowsSort, IconChevronRight, IconSortAscending, IconSortDescending} from '@tabler/icons';
 
 /**
  * The root component for the activity table.
@@ -152,16 +152,18 @@ const BPTableDetailButton = styled.a`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 6px 12px;
+  padding: 6px 11px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   color: ${BPColors.gray[400]};
-  column-gap: 3px;
-  transition: all 0.1s ease-in-out;
+  column-gap: 2px;
+  transition: all 0.15s ease-in-out;
   
   &:hover {
-    color: ${BPColors.green[600]};
+    color: ${BPColors.black};
+    background-color: ${BPColors.gray[100]};
+    border-radius: 999px;
   }
 `;
 
@@ -305,10 +307,16 @@ export default function BPTableComponent({columns, data, style}) {
                     display: i === rows.length - 1 ? 'none' : 'flex',
                   }}
                 />
-                <Link href={`/log-detail/${row.original.eai_transaction_id}`} passHref>
-                  <BPTableDetailButton>
-                    <span>Detail</span>
-                    <IconArrowRight width={18} height={18} strokeWidth={2.1}/>
+                <Link
+                  href={`/log-detail/${row.original.global_instance_id}`}
+                  passHref
+                >
+                  <BPTableDetailButton
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span style={{paddingLeft: 4}}>Detail</span>
+                    <IconChevronRight width={17} height={17} strokeWidth={2.2}/>
                   </BPTableDetailButton>
                 </Link>
               </div>

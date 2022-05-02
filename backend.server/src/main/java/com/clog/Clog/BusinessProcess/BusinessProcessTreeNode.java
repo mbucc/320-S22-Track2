@@ -1,5 +1,7 @@
 package com.clog.Clog.BusinessProcess;
 
+import java.sql.Timestamp;
+
 public class BusinessProcessTreeNode {
     private String name;
     private String key1_app_context_name;
@@ -8,9 +10,12 @@ public class BusinessProcessTreeNode {
     private String key2_app_context_value;
     private String eai_transaction_id;
     private int severity;
+    private Timestamp eai_transaction_create_time;
     public BusinessProcessTreeNode(String name, String key1_app_context_name,
      String key1_app_context_value, String key2_app_context_name, 
-     String key2_app_context_value, String eai_transaction_id, int severity) {
+     String key2_app_context_value, String eai_transaction_id, int severity,
+     Timestamp eai_transaction_create_time) {
+        this.eai_transaction_create_time = eai_transaction_create_time;
         this.name = name;
         this.key1_app_context_name = key1_app_context_name;
         this.key1_app_context_value = key1_app_context_value;
@@ -18,6 +23,14 @@ public class BusinessProcessTreeNode {
         this.key2_app_context_value = key2_app_context_value;
         this.eai_transaction_id = eai_transaction_id;
         this.severity = severity;
+    }
+
+    public Timestamp getEai_transaction_create_time() {
+        return eai_transaction_create_time;
+    }
+
+    public void setEai_transaction_create_time(Timestamp eai_transaction_create_time) {
+        this.eai_transaction_create_time = eai_transaction_create_time;
     }
 
     public int getSeverity() {

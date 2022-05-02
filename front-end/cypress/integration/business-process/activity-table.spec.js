@@ -1,12 +1,12 @@
 // TODO: Write tests for activity table.
 
 // const { cy } = require("date-fns/locale");
-
+import {goThroughLogin} from '../../support/business-process/utility/general';
 
 describe('Activity Table Behavior', () => {
   beforeEach(() => {
     cy.visit('/business-process');
-    cy.get('.MuiButton-root').first().click();
+    goThroughLogin();
   });
   // checks if clicking component in tree corresponds to the activity showing up in the activity table
   it('Populating activity table by clicking the tree', () => {

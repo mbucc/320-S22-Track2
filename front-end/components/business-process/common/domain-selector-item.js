@@ -44,7 +44,7 @@ export const BPDomainSelectorItem = ({id, item, selected, style, onClick}) => {
           }}
         />
       </div>
-      {item}
+      <span>{item}</span>
     </div>
   );
 };

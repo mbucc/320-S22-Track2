@@ -1,6 +1,5 @@
 package com.clog.Clog;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,8 +74,8 @@ public class MainController {
         filt.setCategories(categories);
         filt.setSeverities(severities);
         filt.setApplication(application);
-        LogEventFilterSpecification test = new LogEventFilterSpecification(filt);
-        return logEventRepo.findAll(test);
+        LogEventFilterSpecification logSpec = new LogEventFilterSpecification(filt);
+        return logEventRepo.findAll(logSpec);
     }
     //TODO One to one relations are slow. 
     @GetMapping(path = "/businessProcessTree")
@@ -87,6 +85,7 @@ public class MainController {
             @RequestParam(required = false) String[] eaiDomain,
             @RequestParam(required = false) String[] publishingBusinessDomain,
             @RequestParam(defaultValue = "50") Integer pageLength, @RequestParam(defaultValue = "0") Integer pageNumber, @RequestParam(defaultValue = "eai_transaction_create_time") String sortBy) {
+        
         businessTreeFilter filt = new businessTreeFilter();
         filt.setStartTime(Timestamp.valueOf(startTime));
         filt.setEndTime(Timestamp.valueOf(endTime));
@@ -94,22 +93,14 @@ public class MainController {
         filt.setPublishingBusinessDomain(publishingBusinessDomain);
 
         businessTreeSpecification spec = new businessTreeSpecification(filt);
-        Long beforeSql =System.currentTimeMillis();
         Pageable limit = PageRequest.of(pageNumber, pageLength);
-        Page<EAIdomain> test = busTree.findAll(spec,limit);
-        Long afterSql =System.currentTimeMillis() - beforeSql;
-     
-        
-        System.out.println("SQL Time Length: " + afterSql);
+        Page<EAIdomain> pageResults = busTree.findAll(spec,limit);
+
         BusinessProcessTreeMap returnMap = new BusinessProcessTreeMap();
-        //System.out.println("Total elements: " + test.size());
-        System.out.println("Total elements: " + test.getTotalElements());
-        beforeSql =System.currentTimeMillis();
-        for (EAIdomain x : test) {
+        for (EAIdomain x : pageResults) {
             returnMap.addObj(x);
         }
-        afterSql =System.currentTimeMillis() - beforeSql;
-        System.out.println("Time to add to map: " + afterSql);
+
         return returnMap.getMap();
     }
 
@@ -118,46 +109,58 @@ public class MainController {
             @RequestParam String eaiTransactionId,
             @RequestParam(required = false) String[] severities,
             @RequestParam(required = false) String[] businessDomain) {
+
         BusinessGridFilter businessFilter = new BusinessGridFilter();
         businessFilter.setEai_transaction_id(eaiTransactionId);
         businessFilter.setBusinessDomainList(businessDomain);
         businessFilter.setSeverities(severities);
+
         BusinessGridSpecification businessGridSpec = new BusinessGridSpecification(businessFilter);
+        
         return logEventRepo.findAll(businessGridSpec);
     }
 
     @GetMapping(path = "/countByType")
-    public @ResponseBody Map<Timestamp, Long> test(@RequestParam String severity, @RequestParam Double intervals,
+    public @ResponseBody Map<Timestamp, Long> countByType(@RequestParam String severity, @RequestParam Double intervals,
             @RequestParam int timeBack) {
-        SortedMap<Timestamp, Long> testObj = new TreeMap<Timestamp, Long>();
+        SortedMap<Timestamp, Long> timeCount = new TreeMap<Timestamp, Long>();
+        //Using millis to attempt to remove issues regarding integer division
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(timeBack));
+        
         Calendar cal = Calendar.getInstance();
         Double intervalLength = timeBack / intervals;
         cal.setTime(startTime);
+
         while (cal.getTime().before(currentTime)) {
             DashBoardLineGraphFilter filter = new DashBoardLineGraphFilter(severity,
                     new Timestamp(cal.getTimeInMillis()), currentTime);
             cal.setTimeInMillis(cal.getTimeInMillis() + Math.round(intervalLength * 60 * 1000));
             filter.setEndTime(new Timestamp(cal.getTimeInMillis()));
-            RecentEventsSpecification test2 = new RecentEventsSpecification(filter);
-            testObj.put(filter.getStartTime(), logEventRepo.count(test2));
+            RecentEventsSpecification countSpec = new RecentEventsSpecification(filter);
+            timeCount.put(filter.getStartTime(), logEventRepo.count(countSpec));
         }
-        return testObj;
+
+        return timeCount;
     }
 
     @GetMapping(path = "/businessProcessPieGraph")
     public @ResponseBody Map<String, Integer[]> getPieGraph(@RequestParam int timeBack) {
         Map<String, Integer[]> returnMap = new HashMap<String, Integer[]>();
         LogEventsSearchCriteria filt = new LogEventsSearchCriteria();
+        
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(timeBack));
         filt.setStartTime(startTime);
         filt.setEndTime(currentTime);
+
         String[] filtStrings = { "warning", "error"};
         filt.setSeverities(filtStrings);
+
+        //Getting all events and sorting locally is faster than a bunch of mysql calls during testing
         List<LogEvent> toSort = logEventRepo.findAll(new LogEventFilterSpecification(filt));
         for (LogEvent curLog : toSort) {
+            //If not already included in return map
             if (!returnMap.containsKey(curLog.getBusiness_domain())) {
                 if (curLog.getSeverity() >= 50) {
                     Integer[] toPut = { 0, 1 };
@@ -166,6 +169,7 @@ public class MainController {
                     Integer[] toPut = { 1, 0 };
                     returnMap.put(curLog.getBusiness_domain(), toPut);
                 }
+                //If In return map
             } else {
                 if (curLog.getSeverity() >= 50) {
                     Integer[] toPut = returnMap.get(curLog.getBusiness_domain());

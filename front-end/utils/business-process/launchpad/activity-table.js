@@ -1,4 +1,5 @@
 import {RequestHandler, RMContentType} from '@taci-tech/launchpad-js';
+import {sortSeverityTags} from '../severity';
 
 export const getActivityGrid = () => {
   return {
@@ -17,7 +18,7 @@ export const getActivityGrid = () => {
       const newEntry = {
         'eaiTransactionId': eaiTransactionId,
         'businessDomain': businessDomains,
-        'severities': severities,
+        'severities': sortSeverityTags(severities),
       };
 
       setIsLoading(true);

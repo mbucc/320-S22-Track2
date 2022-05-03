@@ -7,6 +7,7 @@ import {useTable, useBlockLayout, useSortBy, useResizeColumns} from 'react-table
 import styled from 'styled-components';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {IconArrowsSort, IconChevronRight, IconSortAscending, IconSortDescending} from '@tabler/icons';
+import {Tooltip, tooltipClasses} from "@mui/material";
 
 /**
  * The root component for the activity table.
@@ -167,6 +168,20 @@ const BPTableDetailButton = styled.a`
   }
 `;
 
+const LightTooltip = styled(({className, ...props}) => (
+  <Tooltip {...props} classes={{popper: className}}/>
+))(({theme}) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: BPColors.black,
+  },
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: BPColors.black,
+    color: BPColors.white,
+    fontSize: 11,
+    marginTop: '0px !important',
+  },
+}));
+
 /**
  * This is a custom implementation of the react-table `useTable` hook.
  * @param {array} columns
@@ -295,9 +310,16 @@ export default function BPTableComponent({columns, data, style}) {
                   {row.cells.map((cell) => {
                     return (
                       // eslint-disable-next-line react/jsx-key
-                      <div {...cell.getCellProps()} className="td">
-                        {cell.render('Cell')}
-                      </div>
+                      <LightTooltip
+                        title={cell.value}
+                        enterDelay={2100}
+                        leaveDelay={100}
+                        arrow
+                      >
+                        <div {...cell.getCellProps()} className="td">
+                          {cell.render('Cell')}
+                        </div>
+                      </LightTooltip>
                     );
                   })}
                 </div>

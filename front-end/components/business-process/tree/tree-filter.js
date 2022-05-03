@@ -16,18 +16,10 @@ const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onC
 
   // Track the common date picker error.
   useEffect(() => {
-    if (startDate && startDate > new Date()) {
+    if (startDate && startDate.getTime() > new Date().getTime()) {
       setStartDateError('Start date must be in the past.');
-    } else {
-      setStartDateError(null);
     }
   }, [startDate]);
-
-  useEffect(() => {
-    if (endDate) {
-      setEndDateError(null);
-    }
-  }, [endDate]);
 
   const onApplyClick = () => {
     if (startDate && endDate && startDate > endDate) {
@@ -35,7 +27,7 @@ const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onC
       return;
     }
 
-    if (startDate && startDate > new Date()) {
+    if (startDate && startDate.getTime() > new Date().getTime()) {
       setStartDateError('Start date must be in the past.');
       return;
     }
@@ -105,6 +97,7 @@ const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onC
           id={'bp-tree-filter-start-date-picker'}
           label={'Start Date'}
           onChange={(newDate)=> {
+            setStartDateError(null);
             setStartDate(newDate);
           }}
           error={startDateError}
@@ -114,6 +107,7 @@ const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onC
           id={'bp-tree-filter-end-date-picker'}
           label={'End Date'}
           onChange={(newDate)=> {
+            setEndDateError(null);
             setEndDate(newDate);
           }}
           baseDate={startDate}

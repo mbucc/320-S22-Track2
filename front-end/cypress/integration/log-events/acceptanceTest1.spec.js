@@ -5,7 +5,11 @@ describe('testing functionality of login and log detail', ()=>{
 
   it('visits main page', ()=>{
     cy.visit('http://localhost:3000/LogEvent');
-    cy.get(`[data-testid='button-login']`).click();
+
+
+    cy.get(':nth-child(1) > .MuiInput-root > #standard-basic').type('anything');
+    cy.get(':nth-child(2) > .MuiInput-root > #standard-basic').type('anything');
+    cy.get('.form > :nth-child(3)').click();
   });
 });
 

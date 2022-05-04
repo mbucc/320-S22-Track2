@@ -3,12 +3,12 @@ import '../styles/Dashboard.css';
 import '../styles/index.css';
 import '../styles/styles.css';
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Navbar from './dashboard/Navbar';
 import Grid from '@mui/material/Grid';
 import Login from './login/Login';
-import { useRouter } from 'next/router';
-import { StyledEngineProvider } from '@mui/material';
+import {useRouter} from 'next/router';
+import {StyledEngineProvider} from '@mui/material';
 
 /**
  * The Root App Component.
@@ -16,9 +16,9 @@ import { StyledEngineProvider } from '@mui/material';
  * @param {object} pageProps
  * @return {JSX.Element}
  */
-function ClogApp({ Component, pageProps }) {
+function ClogApp({Component, pageProps}) {
   if (typeof window === 'undefined') {
-    return (<div></div>)
+    return (<div></div>);
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -49,7 +49,7 @@ function ClogApp({ Component, pageProps }) {
   * Sets display to log events and passes filters into component view
   */
   const toggleLogEvents = (filters) => {
-    console.log("toggling log events: ", filters)
+    console.log('toggling log events: ', filters);
     setLogEventFilters(filters);
     router.push('LogEvent');
   };

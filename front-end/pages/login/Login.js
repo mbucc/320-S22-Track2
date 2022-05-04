@@ -18,7 +18,7 @@ export default function Login({setLogin}) {
     }
     setErr(false);
     setLogin(true);
-    document.cookie = "loggedIn=true; expires=" + moment().add(2, 'hour').format('ddd, DD YYYY hh:mm:ss UTC');
+    document.cookie = 'loggedIn=true; expires=' + moment().add(2, 'hour').format('ddd, DD YYYY hh:mm:ss UTC');
   };
 
   const handleUserCharge = (event) => {

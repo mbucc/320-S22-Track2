@@ -8,11 +8,10 @@ import moment from 'moment';
  * @return {JSX.Element}
  */
 function Navbar(props) {
-
   const logout = () => {
-    document.cookie = "loggedIn=; expires=" + moment().subtract(1, 'minute').format('ddd, DD YYYY hh:mm:ss UTC');
-    props.setLogin(false)
-  }
+    document.cookie = 'loggedIn=; expires=' + moment().subtract(1, 'minute').format('ddd, DD YYYY hh:mm:ss UTC');
+    props.setLogin(false);
+  };
 
   return (
     // change the way content is justified

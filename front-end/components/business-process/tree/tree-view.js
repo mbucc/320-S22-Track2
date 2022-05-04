@@ -9,17 +9,17 @@ import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/s
 import renderBusinessProcessInstances from './tree-item-log';
 import TreeContextMenu from './tree-context-menu';
 
-const findExpandable = (tree) => {
+export const findExpandable = (tree) => {
   const result = [];
   const stack = [...tree];
   while (stack.length) {
     const node = stack.pop();
     if (Array.isArray(node.children)) {
-      result.push(node.name);
+      result.push(node.nodeId);
       node.children.forEach((n) => stack.push(n));
     }
     if (Array.isArray(node.activities)) {
-      result.push(node.name);
+      result.push(node.nodeId);
     }
   }
   return result;
@@ -33,8 +33,11 @@ const rootTreeStyle = {
   '&:hover': {
     backgroundColor: BPColors.gray[70] + '4f',
   },
+  '& > .MuiTreeItem-content > .MuiTreeItem-label': {
+    height: 40,
+  },
   '& > .MuiTreeItem-content': {
-    minHeight: 40,
+    height: 40,
     backgroundColor: BPColors.gray[30],
     borderRadius: BPDimens.treeRadius,
     border: BPStandards.border,
@@ -58,8 +61,11 @@ const subTreeStyle = {
   '&:hover': {
     backgroundColor: BPColors.gray[70] + '4f',
   },
+  '& > .MuiTreeItem-content > .MuiTreeItem-label': {
+    height: 34,
+  },
   '& > .MuiTreeItem-content': {
-    minHeight: 34,
+    height: 34,
     borderRadius: BPDimens.treeRadius,
     '&:hover': {
       backgroundColor: BPColors.gray[100],
@@ -78,9 +84,9 @@ const subTreeStyle = {
  */
 export default function BPTreeComponent({data: dataProp, onChange}) {
   const [data, setData] = useState(dataProp);
-  const [expanded, setExpanded] = React.useState([]);
+  const [expanded, setExpanded] = useState([]);
   const [expandable, setExpandable] = useState([]);
-  const [contextMenu, setContextMenu] = React.useState(null);
+  const [contextMenu, setContextMenu] = useState(null);
 
   useEffect(() => {
     setData(dataProp);
@@ -95,7 +101,8 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
         {
           mouseX: event.clientX - 2,
           mouseY: event.clientY - 4,
-          source: source,
+          node: source.node,
+          level: source.level,
         } :
         null,
     );
@@ -117,10 +124,19 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
   // NOTE: For now, needs to be put here to pass in handleContextMenu.
   const renderEAIDomains = (nodes) => (
     <TreeItem
-      key={nodes.name}
-      nodeId={nodes.name}
-      label={nodes.name}
-      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      className='eai-domain'
+      key={nodes.nodeId}
+      nodeId={nodes.nodeId}
+      label={(
+        <div
+          style={{height: '100%', display: 'flex', alignItems: 'center'}}
+          onContextMenu={(e) => {
+            handleContextMenu(e, {node: nodes, level: 0});
+          }}
+        >
+          {nodes.name}
+        </div>
+      )}
       sx={rootTreeStyle}
     >
       {
@@ -133,10 +149,19 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
 
   const renderPublishingBusinessDomains = (nodes) => (
     <TreeItem
-      key={nodes.name}
-      nodeId={nodes.name}
-      label={nodes.name}
-      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      className='publishing-biz-domain'
+      key={nodes.nodeId}
+      nodeId={nodes.nodeId}
+      label={(
+        <div
+          style={{height: '100%', display: 'flex', alignItems: 'center'}}
+          onContextMenu={(e) => {
+            handleContextMenu(e, {node: nodes, level: 1});
+          }}
+        >
+          {nodes.name}
+        </div>
+      )}
       sx={subTreeStyle}
     >
       {
@@ -149,19 +174,30 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
 
   const renderBusinessProcesses = (nodes) => (
     <TreeItem
-      key={nodes.name}
-      nodeId={nodes.name}
-      label={nodes.name}
-      onContextMenu={(e) => handleContextMenu(e, nodes.name)}
+      className='biz-process'
+      key={nodes.nodeId}
+      nodeId={nodes.nodeId}
+      label={(
+        <div
+          style={{height: '100%', display: 'flex', alignItems: 'center'}}
+          onContextMenu={(e) => {
+            handleContextMenu(e, {node: nodes, level: 2});
+          }}
+        >
+          {nodes.name}
+        </div>
+      )}
       sx={subTreeStyle}
     >
       {
         Array.isArray(nodes.activities) ?
-          nodes.activities.map((log) => renderBusinessProcessInstances(log, (log) => {
-            if (onChange) {
-              onChange(log);
-            }
-          })) :
+          nodes.activities.map((log, index) => {
+            return renderBusinessProcessInstances(log, index, (log) => {
+              if (onChange) {
+                onChange(log);
+              }
+            });
+          }) :
           null
       }
     </TreeItem>
@@ -172,7 +208,7 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
       style={{
         width: '100%',
         height: '100%',
-        display: 'flex',
+        display: data.length > 0 ? 'flex' : 'none',
         flexDirection: 'column',
       }}
     >
@@ -194,7 +230,11 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
         }}
       >
         <BPTextButton
+          id="expand-collapse-all-button"
           onClick={handleExpandClick}
+          style={{
+            marginLeft: '-6px',
+          }}
         >
           {expanded.length === 0 ? 'Expand All' : 'Collapse All'}
         </BPTextButton>
@@ -214,24 +254,23 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
           overflowX: 'hidden',
           overflowY: 'auto',
         }}
-        onContextMenu={(e) => e.preventDefault()} // Disable the default context menu on BPTreeView.
       >
         <TreeView
-          aria-label="controlled"
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
           expanded={expanded}
           onNodeToggle={handleToggle}
           sx={{
-            padding: '20px 20px',
+            padding: '20px',
           }}
-          multiSelect
         >
           {
             data.map((nodes) => renderEAIDomains(nodes))
           }
         </TreeView>
         <TreeContextMenu
+          expanded={expanded}
+          setExpanded={(newExpanded) => setExpanded(newExpanded)}
           contextMenu={contextMenu}
           handleClose={handleClose}
         />

@@ -1,9 +1,11 @@
 // This function is a mix of the `addAction` and `minusAction` functions because we can pass a negative value in.
-
 const changeDateByAmount = (base, amount, flag) => {
   const baseDate = new Date(base);
 
   switch (flag) {
+    case 's':
+      baseDate.setTime(baseDate.getTime() + (amount * 1000));
+      break;
     case 'h':
       baseDate.setTime(baseDate.getTime() + (amount * 60 * 60 * 1000));
       break;
@@ -77,10 +79,6 @@ export function isInDaylightSavingConflictTime(date) {
  * @return {Date} - The date with the timezone set.
  */
 export function setTimezoneByOffset(date, offset) {
-  if (!offset) {
-    return date;
-  }
-
   const newDate = new Date(date);
   newDate.setTime(date.getTime() - (date.getTimezoneOffset() - offset) * 60 * 1000);
   return newDate;
@@ -113,9 +111,14 @@ export function setTimezoneByOffset(date, offset) {
 export function parseDate(userInput, baseDate) {
   // The date object to be returned.
   let updatedDate = new Date(baseDate);
-
   // Separate the user input string into an array of strings (in order to determine each modifier).
   const modifiers = userInput.split(/[ ,]+/);
+
+  let gmtFlag = false;
+  if (modifiers[0].toLowerCase() === 'gmt') {
+    gmtFlag = true;
+    modifiers.shift();
+  }
 
   while (modifiers.length > 0) {
     // Get the first element from the array.
@@ -126,6 +129,43 @@ export function parseDate(userInput, baseDate) {
     }
 
     if (
+      // Match the ISO 8601 format. Experimental!
+      currentModifier.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d+)?)(Z|([+-])(\d{2}):(\d{2}))$/)
+    ) {
+      const matches = currentModifier.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d+)?)(Z|([+-])(\d{2}):(\d{2}))$/);
+      const year = parseInt(matches[1], 0);
+      const month = parseInt(matches[2], 0) - 1;
+      const day = parseInt(matches[3], 0);
+      const hour = parseInt(matches[4], 0);
+      const minute = parseInt(matches[5], 0);
+      const secondAndMillisecond = matches[6].split('.');
+      const [second, millisecond] = (
+        secondAndMillisecond.length > 1 ?
+          [parseInt(secondAndMillisecond[0]), parseInt(secondAndMillisecond[1])] :
+          [parseInt(secondAndMillisecond[0]), 0]
+      );
+      const timezone = matches[7];
+
+      if (timezone !== 'Z') {
+        // In non-UTC timezone.
+        const timezonePrefix = matches[8];
+        const timezoneHour = parseInt(matches[9], 0);
+        const timezoneMinute = parseInt(matches[10], 0);
+        const timezoneOffset = (timezonePrefix === '-' ? 1 : -1) * timezoneHour * 60 + timezoneMinute;
+        updatedDate = new Date(
+            year,
+            month,
+            day,
+            hour,
+            minute,
+            second,
+            millisecond,
+        );
+        updatedDate = setTimezoneByOffset(updatedDate, timezoneOffset);
+      } else {
+        updatedDate = new Date(Date.UTC(year, month, day, hour, minute, second, millisecond));
+      }
+    } else if (
       /* If this is a date modifier. */
       ['-', '+'].includes(currentModifier.charAt(0))
     ) {
@@ -145,10 +185,13 @@ export function parseDate(userInput, baseDate) {
       updatedDate = new Date();
     } else if (
       /* If this is a time. */
-      currentModifier.toLowerCase().match(/^\d+:?\d*(am|pm)?$/g)
+      currentModifier.toLowerCase().match(/^\d{1,2}(?::\d{2}){0,2}(am|pm)?$/g)
     ) {
       // Parse the time.
-      const matches = currentModifier.toLowerCase().match(/^\d+:?\d*(am|pm)?$/);
+      const matches = currentModifier
+          .toLowerCase()
+          .match(/^\d{1,2}(?::\d{2}){0,2}(am|pm)?$/);
+
       if (matches.length < 1) {
         continue;
       }
@@ -157,19 +200,24 @@ export function parseDate(userInput, baseDate) {
       const timeArray = time.split(':');
       const hour = timeArray[0];
       const minute = timeArray[1] || 0;
+      const second = timeArray[2] || 0;
 
       if (hour >= 24) {
         throw new Error('Invalid hour. The hour must be between 0 and 23.');
       } else if (minute >= 60) {
         throw new Error('Invalid minute. The minute must be between 0 and 59.');
+      } else if (second >= 60) {
+        throw new Error('Invalid second. The second must be between 0 and 59.');
       }
-
       // If the user types `12am`, we need to set the hour to 0.
       const hourInt = hour === '12' ? 0 : parseInt(hour);
       const minuteInt = parseInt(minute);
+      const secondInt = parseInt(second);
       const ampmInt = (matches[1] || 'am') === 'am' ? 0 : (hourInt > 11 ? 0 : 12);
+
       updatedDate.setHours(hourInt + ampmInt);
       updatedDate.setMinutes(minuteInt);
+      updatedDate.setSeconds(secondInt);
     } else if (
       /* If this is a date. */
       currentModifier.toLowerCase().match(/^\d{1,2}\/\d{1,2}(?:|\/\d{2}|\/\d{4})$/g)
@@ -178,6 +226,7 @@ export function parseDate(userInput, baseDate) {
       const matches = currentModifier.toLowerCase().match(
           /^(\d{1,2}\/\d{1,2}(?:|\/\d{2}|\/\d{4}))$/
       );
+
       if (matches.length < 1) {
         continue;
       }
@@ -228,6 +277,11 @@ export function parseDate(userInput, baseDate) {
       throw new Error('Invalid format.');
     }
   }
+  if (gmtFlag) {
+    const utcTime = Date.UTC(updatedDate.getFullYear(), updatedDate.getMonth(), updatedDate.getDate(), updatedDate.getHours(), updatedDate.getMinutes(), updatedDate.getSeconds(), updatedDate.getMilliseconds());
 
+    // Convert the date to GMT without changing the absolute value of each term.
+    return new Date(utcTime);
+  }
   return updatedDate;
 }

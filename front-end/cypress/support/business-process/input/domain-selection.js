@@ -39,7 +39,7 @@ export const domainSelection = (count, id) => {
           });
         }
       });
-  cy.get('body').click(0, 0);
+  cy.get(boxSelector).click({force: true});
   return cy.get('@selectedOptions').then((selectedOptions) => {
     // Sort selectedOptions object by key, so they lay in the same order as Launchpad.
     const sortedSelectedOptions = [];

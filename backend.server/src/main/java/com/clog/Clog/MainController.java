@@ -187,7 +187,10 @@ public class MainController {
     }
 
     @GetMapping(path = "/businessDomains")
-    public @ResponseBody List<String> getBusinessDomains() {
+    public @ResponseBody List<String> getBusinessDomains(@RequestParam(required = false) String eaiTransactionId) {
+        if(eaiTransactionId != null) {
+            return logEventRepo.findDistinctBusinessDomains(eaiTransactionId);
+        }
         return logEventRepo.findDistinctBusinessDomains();
     }
 

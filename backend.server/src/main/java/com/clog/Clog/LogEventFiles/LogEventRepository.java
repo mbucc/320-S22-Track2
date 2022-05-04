@@ -19,6 +19,9 @@ public interface LogEventRepository extends JpaRepository<LogEvent, String>, Jpa
     @Query("SELECT DISTINCT a.business_domain FROM LogEvent a")
     List<String> findDistinctBusinessDomains();
 
+    @Query("SELECT DISTINCT a.business_domain FROM LogEvent a where a.eai_transaction_id = ?1")
+    List<String> findDistinctBusinessDomains(String eaiTransactionId);
+
     @Cacheable("businessSubDomain")
     @Query("SELECT DISTINCT a.business_subdomain FROM LogEvent a")
     List<String> findDistinctBusinessSubDomains();

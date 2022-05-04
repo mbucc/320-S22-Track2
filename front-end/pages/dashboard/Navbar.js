@@ -1,12 +1,19 @@
 import React from 'react';
 import {Button} from '@mui/material';
 import Link from 'next/link';
+import moment from 'moment';
 
 /**
  * @param {Object} props
  * @return {JSX.Element}
  */
 function Navbar(props) {
+
+  const logout = () => {
+    document.cookie = "loggedIn=; expires=" + moment().subtract(1, 'minute').format('ddd, DD YYYY hh:mm:ss UTC');
+    props.setLogin(false)
+  }
+
   return (
     // change the way content is justified
     <div
@@ -115,7 +122,7 @@ function Navbar(props) {
               fontWeight: 'bolder',
             },
           }}
-          onClick={() => props.setLogin(false)}
+          onClick={() => logout}
         >
           <Link
             href={{

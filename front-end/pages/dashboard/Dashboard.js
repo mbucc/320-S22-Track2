@@ -16,7 +16,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 */
 export default function Dashboard(props) {
   const [timeframe, setTimeframe] = useState(60);
-  const timeframeEnd = moment().startOf('minute');
+  let timeframeEnd = moment().startOf('minute');
 
   const [data, setData] = useState({
     logEvents: null,

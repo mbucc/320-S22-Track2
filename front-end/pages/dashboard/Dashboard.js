@@ -39,7 +39,16 @@ export default function Dashboard(props) {
         }).filter((e) => e.time <= tf).sort((a, b) => b.time - a.time)
       })
   }
-
+  // const getBPData = async (tf) => { // yyyy-mm-dd hh24:mm:ss (String) in GMT 
+  //   // const start = moment().subtract(tf, 'minute').format('YYYY-MM-D HH:mm:SS')
+  //   // const end = moment().format('YYYY-MM-D HH:mm:SS')
+  //   return fetch('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/businessProcessPieGraph?timeBack='+tf)
+  //     .then((response) => {
+  //       console.log("HERE IS THE DATA");
+  //       console.log(response.json())
+  //     })
+  // }
+  // getBPData(timeframe)
   const getSeverity = (s) => {
     if (s >= 50) {
       return 'Error'

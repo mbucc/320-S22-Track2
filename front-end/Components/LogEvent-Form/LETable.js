@@ -7,6 +7,9 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import InfoIcon from '@mui/icons-material/Info';
 import ErrorIcon from '@mui/icons-material/Error';
 import WarningIcon from '@mui/icons-material/Warning';
+import LogDetail from '../../pages/log-detail/LogDetail.js';
+import axios from 'axios';
+
 
 /**
  *
@@ -17,6 +20,33 @@ export default function LETable(props) {
   const tableStyle = {
     marginTop: '20px',
     width: 'inherit',
+  };
+
+  /**
+   * modal state for detail dialog
+   */
+  const [modalState, setModalState] = useState(false);
+  const [modalData, setModalData] = useState(null);
+
+  /**
+   * loading state for the log detail
+   */
+  const [detailIsLoading, setDetailIsLoading] = useState(false);
+
+  const openModal = async (logid)=>{
+    setModalState(true);
+    // while the data is getting fetched, loading state = true
+    setDetailIsLoading(true);
+    const res = await axios.get(`http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logDetail?id=${logid}`);
+    const data = res.data;
+    setModalData(data);
+    // once modal receives data, set loading = false
+    setDetailIsLoading(false);
+  };
+
+  const closeModal = ()=>{
+    setModalData(null);
+    setModalState(false);
   };
 
   /**
@@ -273,15 +303,22 @@ export default function LETable(props) {
                             backgroundColor: '#00000008',
                           },
                         }}
+                        onClick = {()=>openModal(e.global_instance_id)}
                       >
-                        <a
+                        {/* <a
                           href={`/log-detail/${e.global_instance_id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{textDecoration: 'none', color: 'black'}}>
                             Detail
-                        </a>
+                        </a> */}
+                        Detail
                       </Button>
+                      <LogDetail
+                        data = {modalData}
+                        modalState = {modalState}
+                        closeModal = {closeModal}
+                        isLoading = {detailIsLoading} />
                     </TableCell>
                   </TableRow>
                 );

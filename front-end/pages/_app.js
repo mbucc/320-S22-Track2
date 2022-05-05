@@ -2,6 +2,8 @@ import '../styles/globals.css';
 import '../styles/Dashboard.css';
 import '../styles/index.css';
 import '../styles/styles.css';
+import '../styles/logdetail.css';
+
 
 import React, {useState} from 'react';
 import Navbar from './dashboard/Navbar';

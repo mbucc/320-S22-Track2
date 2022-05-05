@@ -23,7 +23,7 @@ function ClogApp({ Component, pageProps }) {
 
   // eslint-disable-next-line no-unused-vars
   const [loggedIn, setLogin] = useState(
-    document.cookie.includes("loggedIn=false")
+    document.cookie.includes("loggedIn=true")
   );
   const childToParent = (childdata) => {
     setLogin(childdata);

@@ -11,6 +11,7 @@ function Navbar(props) {
   const logout = () => {
     document.cookie = 'loggedIn=; expires=' + moment().subtract(1, 'minute').format('ddd, DD YYYY hh:mm:ss UTC');
     props.setLogin(false);
+    console.log("logging out")
   };
 
   return (
@@ -121,7 +122,7 @@ function Navbar(props) {
               fontWeight: 'bolder',
             },
           }}
-          onClick={() => logout}
+          onClick={() => logout()}
         >
           <Link
             href={{

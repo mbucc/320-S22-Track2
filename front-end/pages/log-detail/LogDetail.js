@@ -3,11 +3,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import {Box} from '@mui/system';
 // import {useRouter} from 'next/router';
 
+
 /**
- *
+ * alternate log detail component, displays a dialog instead of popping into a new page.
+ * if using this component, be sure to uncomment the modal and loading states for log detail in LETable.js
  * @return {JSX.Element}
  */
-export default function LogDetail({data, logID, modalState, closeModal, detailIsLoading}) {
+export default function LogDetail({data, modalState, closeModal, detailIsLoading}) {
   const keys = data ? Object.keys(data) : null;
 
   const titleStyle = {

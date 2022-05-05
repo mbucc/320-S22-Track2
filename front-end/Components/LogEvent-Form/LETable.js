@@ -303,22 +303,21 @@ export default function LETable(props) {
                             backgroundColor: '#00000008',
                           },
                         }}
-                        onClick = {()=>openModal(e.global_instance_id)}
+                        // onClick = {()=>openModal(e.global_instance_id)}
                       >
-                        {/* <a
+                        <a
                           href={`/log-detail/${e.global_instance_id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{textDecoration: 'none', color: 'black'}}>
                             Detail
-                        </a> */}
-                        Detail
+                        </a>
                       </Button>
-                      <LogDetail
+                      {/* <LogDetail
                         data = {modalData}
                         modalState = {modalState}
                         closeModal = {closeModal}
-                        isLoading = {detailIsLoading} />
+                        isLoading = {detailIsLoading} /> */}
                     </TableCell>
                   </TableRow>
                 );

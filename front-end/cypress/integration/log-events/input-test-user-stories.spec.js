@@ -56,16 +56,12 @@ describe('input test - Log Details (through log events)', ()=>{
 
 describe('input test - Sorting Results (log events)', ()=>{
   before(()=>{
-    cy.visit('http://localhost:3000/');
+    cy.visit('http://localhost:3000/LogEvent');
   });
 
   it('Click login', () => {
     cy.get(`[data-testid='button-login']`)
         .click({timeout: 12000});
-  });
-
-  it('Navigate to LogEvent view', () => {
-    cy.get('.css-8nsog4-MuiButtonBase-root-MuiButton-root > a').click();
   });
 
   it('Choose from date', () => {
@@ -74,7 +70,7 @@ describe('input test - Sorting Results (log events)', ()=>{
   });
 
   it('Choose to date', () => {
-    cy.get(`[id='logevent-datepicker-todate-field']`).type('03/01/2022 00:00')
+    cy.get(`[id='logevent-datepicker-todate-field']`).type('05/01/2022 00:00')
         .type('{enter}');
   });
 
@@ -174,7 +170,7 @@ describe('input test - Select medium priority and status', ()=>{
   });
 
   it('Choose to date', () => {
-    cy.get(`[id='logevent-datepicker-todate-field']`).type('02/01/2022 00:00')
+    cy.get(`[id='logevent-datepicker-todate-field']`).type('05/01/2022 00:00')
         .type('{enter}');
   });
 
@@ -221,7 +217,7 @@ describe('input test - Select warning and success severities', ()=>{
   });
 
   it('Choose to date', () => {
-    cy.get(`[id='logevent-datepicker-todate-field']`).type('02/01/2022 00:00')
+    cy.get(`[id='logevent-datepicker-todate-field']`).type('05/01/2022 00:00')
         .type('{enter}');
   });
 

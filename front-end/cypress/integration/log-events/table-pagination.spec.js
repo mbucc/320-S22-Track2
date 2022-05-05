@@ -16,5 +16,13 @@ describe('testing pagination of the log event table', ()=>{
   });
 
   it('inputs filters', ()=>{
+    cy.get(`[id='logevent-datepicker-fromdate-field']`).type('05/01/2022 00:00')
+        .type('{enter}');
+    cy.get(`[id='logevent-datepicker-todate-field']`).type('05/02/2022 00:00')
+        .type('{enter}');
+  });
+
+  it('paginates', ()=>{
+
   });
 });

@@ -3,15 +3,43 @@ import TreeItem from '@mui/lab/TreeItem';
 
 import {BPColors, BPDimens} from '../../../utils/business-process/standards';
 import {BPActivitySeverityIcon, getColorBySeverityValue} from '../../../utils/business-process/severity';
-import {getDateStringByValue} from '../../../utils/business-process/date-options';
 
-const renderBusinessProcessInstances = (log, onChange) =>(
+const contextTag = (name, value) => {
+  return (
+    <span style={{
+      color: BPColors.black,
+      fontSize: 15,
+      fontWeight: '400',
+    }}>
+      <span style={{color: BPColors.gray[400]}}>{name}:</span> {value}
+    </span>
+  );
+};
+
+const renderBusinessProcessInstances = (log, index, onChange) => (
   <TreeItem
     className='tree-log'
-    key={log.id}
-    nodeId={log.id}
+    key={log.nodeId}
+    nodeId={`bp-tree-instance-${log.eai_transaction_id || log.nodeId}`}
     icon={<BPActivitySeverityIcon severity={log.severity}/>}
-    label={getDateStringByValue(log.logEventCreatedDate)}
+    label={(
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          columnGap: 15,
+        }}
+      >
+        <span id={`bp-tree-instance-name-${log.eai_transaction_id || log.nodeId}`}>
+          {log.name}
+        </span>
+        {contextTag(log.key1_app_context_name, log.key1_app_context_value)}
+        {contextTag(log.key2_app_context_name, log.key2_app_context_value)}
+      </div>
+    )}
     onClick={() => {
       if (onChange) {
         onChange(log);

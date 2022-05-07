@@ -2,12 +2,16 @@
 
 // const { cy } = require("date-fns/locale");
 
+beforeEach(() => {
+  cy.visit('/business-process');
+  cy.get('form input').first().type("A");
+  cy.get('form input').eq(1).type("A");
 
-describe('Activity Table Behavior', () => {
-  beforeEach(() => {
-    cy.visit('/business-process');
-    cy.get('.MuiButton-root').first().click();
-  });
+  cy.get('.MuiButton-root').first().click();
+});
+
+describe.skip('Activity Table Behavior', () => {
+
   // checks if clicking component in tree corresponds to the activity showing up in the activity table
   it('Populating activity table by clicking the tree', () => {
     cy.get('#mui-1-EAI\\ Domain\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
@@ -70,7 +74,7 @@ var originalData = [[], [], [], [], []];
 var sortedAccending = [[], [], [], [], []];
 var sortedDecending = [[], [], [], [], []];
 var sortedUnordered = [[], [], [], [], []];
-describe('Table Sorts correctly based on date', () => {
+describe.skip('Table Sorts correctly based on date', () => {
   beforeEach(() => {
     cy.visit('/business-process');
     cy.get('.MuiButton-root').first().click();
@@ -116,7 +120,7 @@ describe('Table Sorts correctly based on date', () => {
 });
 
 
-describe('Table Sorts correctly based on severity', () => {
+describe.skip('Table Sorts correctly based on severity', () => {
   beforeEach(() => {
     cy.visit('/business-process');
     cy.get('.MuiButton-root').first().click();
@@ -191,5 +195,3 @@ describe('Table Sorts correctly based on severity', () => {
     arrayAreEqual(originalData, sortedUnordered);
   });
 });
-
-

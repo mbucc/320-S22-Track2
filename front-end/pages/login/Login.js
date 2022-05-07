@@ -3,6 +3,7 @@ import CustomInput from './CustomInput';
 import Button from './Buttons';
 import logo from './iso_newengland.png';
 import Image from 'next/image';
+import moment from 'moment';
 
 // eslint-disable-next-line require-jsdoc
 export default function Login({setLogin}) {
@@ -17,6 +18,7 @@ export default function Login({setLogin}) {
     }
     setErr(false);
     setLogin(true);
+    document.cookie = 'loggedIn=true; expires=' + moment().add(2, 'hour').format('ddd, DD YYYY hh:mm:ss UTC');
   };
 
   const handleUserCharge = (event) => {

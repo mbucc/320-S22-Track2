@@ -1,12 +1,21 @@
 import React from "react";
 import { Button } from "@mui/material";
 import Link from "next/link";
+import moment from "moment";
 
 /**
  * @param {Object} props
  * @return {JSX.Element}
  */
 function Navbar(props) {
+  const logout = () => {
+    document.cookie =
+      "loggedIn=false; expires=" +
+      moment().subtract(1, "minute").format("ddd, DD YYYY hh:mm:ss UTC");
+    props.setLogin(false);
+    console.log("logging out")
+  };
+
   return (
     // change the way content is justified
     <div
@@ -89,10 +98,8 @@ function Navbar(props) {
               },
             }}
           >
-            <Link href='./LogEvent' passHref>
-              <a>
-                Log Events
-              </a>
+            <Link href="/LogEvent" passHref>
+              <a>Log Events</a>
             </Link>
           </Button>
         </div>
@@ -115,12 +122,11 @@ function Navbar(props) {
               fontWeight: "bolder",
             },
           }}
-          onClick={() => props.setLogin(false)}
+          onClick={() => logout()}
         >
           <Link
             href={{
               pathname: "/",
-              state: { testVar: "test" },
             }}
             passHref
           >

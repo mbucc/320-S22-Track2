@@ -1,8 +1,8 @@
 // run through a quick filter and test table pagination
 
+
 before(() => {
   cy.visit('/LogEvent');
-  cy.get('.MuiButton-root').first().click();
 });
 
 describe('testing pagination of the log event table', ()=>{
@@ -16,13 +16,29 @@ describe('testing pagination of the log event table', ()=>{
   });
 
   it('inputs filters', ()=>{
-    cy.get(`[id='logevent-datepicker-fromdate-field']`).type('05/01/2022 00:00')
+    cy.get(`[id='logevent-datepicker-fromdate-field']`).type('05/01/2022 9:00 AM')
         .type('{enter}');
-    cy.get(`[id='logevent-datepicker-todate-field']`).type('05/02/2022 00:00')
+    cy.get(`[id='logevent-datepicker-todate-field']`).type('05/01/2022 9:10 AM')
         .type('{enter}');
   });
 
-  it('paginates', ()=>{
+  it('clicks apply', ()=>{
+    cy.get(`[data-testid='logevent-button-apply']`)
+        .click();
+  });
 
+  it('goes to the last page', ()=>{
+    const visitNextPage = ()=>{
+      cy.get('[title="Go to next page"]').then(($next)=>{
+        if ($next.hasClass('Mui-disabled')) {
+          return;
+        }
+        console.log($next);
+
+        cy.get('[title="Go to next page"]').click();
+        visitNextPage();
+      });
+    };
+    visitNextPage();
   });
 });

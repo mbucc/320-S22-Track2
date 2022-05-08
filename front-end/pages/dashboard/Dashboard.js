@@ -19,9 +19,12 @@ export default function Dashboard(props) {
   let timeframeEnd = moment().startOf('minute');
 
   const [data, setData] = useState({
-    logEvents: null,
-    data: null,
+    logEvents: null
   });
+
+  const [bpData, setbpData] = useState({
+    bpData: null
+  })
 
   const getLogEvents = async (tf) => { // yyyy-mm-dd hh24:mm:ss (String) in GMT
     const start = moment().subtract(tf, 'minute').format('YYYY-MM-D HH:mm:SS');
@@ -29,7 +32,7 @@ export default function Dashboard(props) {
     return fetch('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?endTime=' + end + '&startTime=' + start + '&severities=error,warning,info&priority=medium,high')
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          console.log(data.length);
           return data.map((e) => {
             return {
               priority: getPriority(e.priority),
@@ -37,6 +40,14 @@ export default function Dashboard(props) {
               time: moment.duration(timeframeEnd.diff(moment(e.creation_time).startOf('minute'))).as('minutes'),
             };
           }).filter((e) => e.time <= tf).sort((a, b) => b.time - a.time);
+        });
+  };
+
+  const getBPEvents = async (tf) => { // yyyy-mm-dd hh24:mm:ss (String) in GMT
+    return fetch('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/businessProcessPieGraph?timeBack='+tf)
+        .then((data) => {
+          console.log("BP ", data);
+          return data.json()
         });
   };
 
@@ -64,10 +75,11 @@ export default function Dashboard(props) {
     getLogEvents(timeframe).then((data) => {
       console.log('DATA: ', data);
       setData({
-        logEvents: data,
-        data: fakeData.filter((e) => e.time <= tf).sort((a, b) => b.time - a.time),
+        logEvents: data
       });
-    });
+    })
+    getBPEvents(timeframe)
+    .then((data) => {console.log("BP EVENT RETURN IS ",data);setbpData({bpData:data})})
   };
 
   useEffect(() => {
@@ -94,7 +106,7 @@ export default function Dashboard(props) {
 
   const [updateTime, setUpdateTime] = useState(getTime());
 
-  if (data.data) {
+  if (data.logEvents) {
     return (
       <div className='dashboard'>
         <Box px={6} py={3} sx={{height: '100%', width: '100%'}}>
@@ -130,7 +142,7 @@ export default function Dashboard(props) {
             <Grid item xs={12}>
               <Grid container item direction='row' spacing={5}>
                 <Grid item xs={7}>
-                  <DonutCharts data={data.data} toggleBP={props.toggleBP} timeframe={timeframe} />
+                  <DonutCharts bp={bpData.bpData} toggleBP={props.toggleBP} timeframe={timeframe} />
                 </Grid>
                 <Grid item xs={5}>
                   <Timelines

@@ -1,8 +1,14 @@
 package com.clog.Clog;
 
-import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Before;
@@ -119,6 +125,28 @@ public class LogEventRepositoryTests {
                                 }
 
                         } else if (attr1.equals("creation_time")) {
+                                String time_2 = b_val.toString();
+                                String time_1 = "";
+                                String time = a_val.toString();
+
+                                SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                                try {
+                                        Date date = dateParser.parse(time);
+                                        // System.out.println(date);
+
+                                        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        // System.out.print("After conversion: ");
+                                        time_1 = dateFormatter.format(date).toString();
+
+                        
+                                } catch (ParseException e) {
+                                        e.printStackTrace();
+                                }
+                                
+                                if (time_1.compareTo(time_2) != 0){
+                                        flag = false;
+                                        break;
+                                }
                                 continue; // Ignored for now
                         } else {
                                 String a_val1 = a_val.toString();
@@ -201,9 +229,19 @@ public class LogEventRepositoryTests {
                 // idf.setTimeZone(java.util.TimeZone.getTimeZone("GMT"));
                 // System.out.println(idf);
 
+                // Input
+                
+
+
+                
+
+
+
+                
                 String jsonResponse = response.getResponse().getContentAsString();
                 JSONArray responseJsonObj = new JSONArray(jsonResponse);
-                boolean flag = compareObjectsControl(responseJsonObj, array1);
+                
+                boolean flag = compareObjectsControl(responseJsonObj , array1);
 
                 Assert.assertTrue(flag);
 
@@ -283,7 +321,7 @@ public class LogEventRepositoryTests {
         // boolean flag = compareObjects(responseJsonObj.getJSONObject(0),
         // array1.getJSONObject(0));
 
-        // Assert.assertTrue(flag1);
+        // Assert.assertTrue(true);
         // }
 
         @Test

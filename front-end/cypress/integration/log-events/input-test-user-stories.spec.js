@@ -7,9 +7,19 @@ describe('input test - Log Details (through log events)', ()=>{
     cy.visit('http://localhost:3000/LogEvent');
   });
 
-  it('Click login', () => {
-    cy.get(`[data-testid='button-login']`)
-        .click({timeout: 12000});
+  it('type in email', () => {
+    cy.get(':nth-child(1) > .MuiInput-root > #standard-basic')
+        .type('a');
+  });
+
+  it('type in password', () => {
+    cy.get(':nth-child(2) > .MuiInput-root > #standard-basic')
+        .type('a');
+  });
+
+  it('click login', () => {
+    cy.get('.form > :nth-child(3)')
+        .click();
   });
 
   it('Choose from date', () => {
@@ -59,9 +69,19 @@ describe('input test - Sorting Results (log events)', ()=>{
     cy.visit('http://localhost:3000/');
   });
 
-  it('Click login', () => {
-    cy.get(`[data-testid='button-login']`)
-        .click({timeout: 12000});
+  it('type in email', () => {
+    cy.get(':nth-child(1) > .MuiInput-root > #standard-basic')
+        .type('a');
+  });
+
+  it('type in password', () => {
+    cy.get(':nth-child(2) > .MuiInput-root > #standard-basic')
+        .type('a');
+  });
+
+  it('click login', () => {
+    cy.get('.form > :nth-child(3)')
+        .click();
   });
 
   it('Navigate to LogEvent view', () => {
@@ -74,7 +94,7 @@ describe('input test - Sorting Results (log events)', ()=>{
   });
 
   it('Choose to date', () => {
-    cy.get(`[id='logevent-datepicker-todate-field']`).type('03/01/2022 00:00')
+    cy.get(`[id='logevent-datepicker-todate-field']`).type('05/01/2022 00:00')
         .type('{enter}');
   });
 
@@ -112,9 +132,19 @@ describe('input test - Apply Button Functionality', ()=>{
     cy.visit('http://localhost:3000/LogEvent');
   });
 
-  it('Click login', () => {
-    cy.get(`[data-testid='button-login']`)
-        .click({timeout: 12000});
+  it('type in email', () => {
+    cy.get(':nth-child(1) > .MuiInput-root > #standard-basic')
+        .type('a');
+  });
+
+  it('type in password', () => {
+    cy.get(':nth-child(2) > .MuiInput-root > #standard-basic')
+        .type('a');
+  });
+
+  it('click login', () => {
+    cy.get('.form > :nth-child(3)')
+        .click();
   });
 
   it('Choose from date', () => {
@@ -123,7 +153,7 @@ describe('input test - Apply Button Functionality', ()=>{
   });
 
   it('Choose to date', () => {
-    cy.get(`[id='logevent-datepicker-todate-field']`).type('04/26/2022 00:00')
+    cy.get(`[id='logevent-datepicker-todate-field']`).type('05/26/2022 00:00')
         .type('{enter}');
   });
 
@@ -163,9 +193,19 @@ describe('input test - Select medium priority and status', ()=>{
     cy.visit('http://localhost:3000/LogEvent');
   });
 
-  it('Click login', () => {
-    cy.get(`[data-testid='button-login']`)
-        .click({timeout: 12000});
+  it('type in email', () => {
+    cy.get(':nth-child(1) > .MuiInput-root > #standard-basic')
+        .type('a');
+  });
+
+  it('type in password', () => {
+    cy.get(':nth-child(2) > .MuiInput-root > #standard-basic')
+        .type('a');
+  });
+
+  it('click login', () => {
+    cy.get('.form > :nth-child(3)')
+        .click();
   });
 
   it('Choose from date', () => {
@@ -174,7 +214,7 @@ describe('input test - Select medium priority and status', ()=>{
   });
 
   it('Choose to date', () => {
-    cy.get(`[id='logevent-datepicker-todate-field']`).type('02/01/2022 00:00')
+    cy.get(`[id='logevent-datepicker-todate-field']`).type('05/01/2022 00:00')
         .type('{enter}');
   });
 
@@ -210,9 +250,19 @@ describe('input test - Select warning and success severities', ()=>{
     cy.visit('http://localhost:3000/LogEvent');
   });
 
-  it('Click login', () => {
-    cy.get(`[data-testid='button-login']`)
-        .click({timeout: 12000});
+  it('type in email', () => {
+    cy.get(':nth-child(1) > .MuiInput-root > #standard-basic')
+        .type('a');
+  });
+
+  it('type in password', () => {
+    cy.get(':nth-child(2) > .MuiInput-root > #standard-basic')
+        .type('a');
+  });
+
+  it('click login', () => {
+    cy.get('.form > :nth-child(3)')
+        .click();
   });
 
   it('Choose from date', () => {
@@ -221,7 +271,7 @@ describe('input test - Select warning and success severities', ()=>{
   });
 
   it('Choose to date', () => {
-    cy.get(`[id='logevent-datepicker-todate-field']`).type('02/01/2022 00:00')
+    cy.get(`[id='logevent-datepicker-todate-field']`).type('05/01/2022 00:00')
         .type('{enter}');
   });
 
@@ -250,14 +300,24 @@ describe('input test - Select warning and success severities', ()=>{
 
 
 // tests user story (Start/End Time (log events))
-describe('input test - see all events from January 17, 2022 to April 11, 2022', ()=>{
+describe('input test - see all events from January 17, 2022 to May 11, 2022', ()=>{
   before(()=>{
     cy.visit('http://localhost:3000/LogEvent');
   });
 
-  it('Click login', () => {
-    cy.get(`[data-testid='button-login']`)
-        .click({timeout: 12000});
+  it('type in email', () => {
+    cy.get(':nth-child(1) > .MuiInput-root > #standard-basic')
+        .type('a');
+  });
+
+  it('type in password', () => {
+    cy.get(':nth-child(2) > .MuiInput-root > #standard-basic')
+        .type('a');
+  });
+
+  it('click login', () => {
+    cy.get('.form > :nth-child(3)')
+        .click();
   });
 
   it('Choose from date', () => {
@@ -266,7 +326,7 @@ describe('input test - see all events from January 17, 2022 to April 11, 2022', 
   });
 
   it('Choose to date', () => {
-    cy.get(`[id='logevent-datepicker-todate-field']`).type('04/11/2022 00:00')
+    cy.get(`[id='logevent-datepicker-todate-field']`).type('05/11/2022 00:00')
         .type('{enter}');
   });
 

@@ -263,28 +263,22 @@ public class LogEventRepositoryTests {
                 Assert.assertTrue(flag);
         }
 
-        // @Test
-        // public void testSearchByPriorityHigh() throws Exception {
-        // MvcResult response = this.mockMvc.perform(get("/clog/logEvents")
-        // .param("priorities", "high")
-        // .param("startTime", "2020-12-12 01:24:20")
-        // .param("endTime", "2020-12-12 01:24:25"))
-        // // .andDo(print())
-        // .andExpect(status().isOk())
-        // // .andExpect(jsonPath("$", hasSize(1)))
-        // // .andExpect(content().contentType("application/json"))
-        // .andReturn();
-        // boolean flag1 = true;
-        // String jsonResponse = response.getResponse().getContentAsString();
-        // JSONArray responseJsonObj = new JSONArray(jsonResponse);
-        // // System.out.println(jsonResponse);
-        // // Assert.assertEquals(array1.equals(responseJsonObj), true);
-
-        // boolean flag = compareObjects(responseJsonObj.getJSONObject(0),
-        // array1.getJSONObject(0));
-
-        // Assert.assertTrue(flag1);
-        // }
+        @Test
+        public void testSearchByPriorityHigh() throws Exception {
+                MvcResult response = this.mockMvc.perform(get("/clog/logEvents")
+                                .param("priorities", "high")
+                                .param("startTime", "2020-12-12 01:24:20")
+                                .param("endTime", "2020-12-12 01:24:25"))
+                                .andExpect(status().isOk())
+                                .andDo(print())
+                                .andExpect(content().contentType("application/json"))
+                                .andReturn();
+                String jsonResponse = response.getResponse().getContentAsString();
+                JSONArray responseJsonObj = new JSONArray(jsonResponse);
+                System.out.println(jsonResponse);
+                boolean flag = compareObjectsControl(responseJsonObj, array1);
+                Assert.assertTrue(flag);
+        }
 
         @Test
         public void testSearchBySeveritiesInfo() throws Exception {

@@ -39,3 +39,20 @@ INSERT INTO LOG_DETAILS_T VALUES
         'Business Update Started',
         'Received a customer update start event'
     );
+
+INSERT INTO BUSINESS_PROCESS_LOG_T VALUES
+    (
+        'eai_crm_server_111111',
+        'EAI_DOMAIN_1',
+        'CRM_SERVER',
+        'CRM_PROCESS',
+        '2020-12-12 01:24:23',
+        'CRM_CONTEXT',
+        'CRM_VALUE',
+        'EFFECTIVE_DATE',
+        '03/01/2022 05:00:00',
+        'crm_server_000001',
+        'CRM',
+        'Publish_Customer_Update',
+        'Customer Update Started'
+    );

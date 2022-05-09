@@ -49,7 +49,7 @@ export default function LogDetail({data}) {
                 <List>
                   {keys.map((key, i)=>{
                     return (
-                      <ListItem key={i} divider>
+                      <ListItem key={i} divider data-testid={`logdetail-${key}`}>
                         <Typography variant='subtitle1' sx={subtitleStyle}>
                           {`${key}:`}
                         </Typography>

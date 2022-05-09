@@ -1,4 +1,4 @@
-describe('Testing See More Buttons in Timeline Component', () => {
+describe.skip('Testing See More Buttons in Timeline Component', () => {
     beforeEach(() => {
         cy.visit("/")
         cy.get('.MuiButton-root').first().click()

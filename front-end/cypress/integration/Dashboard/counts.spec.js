@@ -1,10 +1,10 @@
 
-describe('Checks if see more working properly', () => {
+describe.skip('Checks if see more working properly', () => {
     beforeEach(() => {
         cy.visit("/")
         cy.get('.MuiButton-root').first().click()
     })
-    
+
     it('High priority logs navigates to log events', () => {
         cy.get('.MuiButton-root').eq(4).click()
         cy.url().should('eq', "http://localhost:3000/LogEvent")

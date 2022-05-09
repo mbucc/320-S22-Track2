@@ -10,13 +10,13 @@ const TopDomain = 'EAI Domain';
 const BizDomain = 'Publishing Business Domain';
 const BizProcess = 'Business Process';
 
-describe('Visit the page.', () => {
+describe.skip('Visit the page.', () => {
   it('Successfully load the business process page.', () => {
     cy.get('#bp-root').should('be.visible');
   });
 });
 
-describe('Expand all shows all elements, and collapse all hides all elements.', ()=>{
+describe.skip('Expand all shows all elements, and collapse all hides all elements.', ()=>{
   it('Clicks expand all.', () => {
     cy.get('#expand-collapse-all-button').contains('Expand').click();
     cy.get('.tree-log').each((log, index, list) =>{

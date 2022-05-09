@@ -7,6 +7,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import InfoIcon from '@mui/icons-material/Info';
 import ErrorIcon from '@mui/icons-material/Error';
 import WarningIcon from '@mui/icons-material/Warning';
+import axios from 'axios';
+
 
 /**
  *
@@ -17,6 +19,33 @@ export default function LETable(props) {
   const tableStyle = {
     marginTop: '20px',
     width: 'inherit',
+  };
+
+  /**
+   * modal state for detail dialog
+   */
+  const [modalState, setModalState] = useState(false);
+  const [modalData, setModalData] = useState(null);
+
+  /**
+   * loading state for the log detail
+   */
+  const [detailIsLoading, setDetailIsLoading] = useState(false);
+
+  const openModal = async (logid)=>{
+    setModalState(true);
+    // while the data is getting fetched, loading state = true
+    setDetailIsLoading(true);
+    const res = await axios.get(`http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logDetail?id=${logid}`);
+    const data = res.data;
+    setModalData(data);
+    // once modal receives data, set loading = false
+    setDetailIsLoading(false);
+  };
+
+  const closeModal = ()=>{
+    setModalData(null);
+    setModalState(false);
   };
 
   /**
@@ -236,8 +265,8 @@ export default function LETable(props) {
                 const severityText = rankSeverity(e.severity);
                 const priorityText = rankPriority(e.priority);
                 return (
-                  <TableRow key={i}>
-                    <TableCell
+                  <TableRow key={i} data-testid='logevent-table-row'>
+                    <TableCell data-testid="logevent-table-cell-severity"
                       style={{
                         color: e.severity >= 50 ? BPColors.error :
                             e.severity < 50 && e.severity >= 30 ? BPColors.warning :
@@ -252,17 +281,17 @@ export default function LETable(props) {
                               <CheckCircleIcon style={{color: BPColors.success, paddingTop: '8px'}} />}
                       <div style={{display: 'inline-block', alignSelf: 'center', marginLeft: '2px'}}>{severityText}</div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell data-testid="logevent-table-cell-priority">
                       {priorityText}
                     </TableCell>
-                    <TableCell>{e.category_name}</TableCell>
-                    <TableCell>{moment(e['creation_time']).format('MM/DD/YYYY HH:mm:ss')}</TableCell>
-                    <TableCell>{e['application']}</TableCell>
-                    <TableCell>{e['activity']}</TableCell>
-                    <TableCell>{e['eai_domain']}</TableCell>
-                    <TableCell>{e['business_domain']}</TableCell>
-                    <TableCell>{e['business_subdomain']}</TableCell>
-                    <TableCell>
+                    <TableCell data-testid="logevent-table-cell-category">{e.category_name}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-date">{moment(e['creation_time']).format('MM/DD/YYYY HH:mm:ss')}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-app">{e['application']}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-ps">{e['activity']}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-eai">{e['eai_domain']}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-bd">{e['business_domain']}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-bsd">{e['business_subdomain']}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-detail">
                       <Button hyperlink-testid={i}
                         variant="text"
                         sx={{
@@ -273,6 +302,7 @@ export default function LETable(props) {
                             backgroundColor: '#00000008',
                           },
                         }}
+                        // onClick = {()=>openModal(e.global_instance_id)}
                       >
                         <a
                           href={`/log-detail/${e.global_instance_id}`}
@@ -282,12 +312,19 @@ export default function LETable(props) {
                             Detail
                         </a>
                       </Button>
+                      {/* <LogDetail
+                        data = {modalData}
+                        modalState = {modalState}
+                        closeModal = {closeModal}
+                        isLoading = {detailIsLoading} /> */}
                     </TableCell>
                   </TableRow>
                 );
               })}
         </TableBody>
-      </Table><TablePagination
+      </Table>
+      <TablePagination
+        data-testid={'logevent-table-pagination'}
         count={props.data.length}
         rowsPerPageOptions={[5, 10, 20, 50]}
         page={props.page}

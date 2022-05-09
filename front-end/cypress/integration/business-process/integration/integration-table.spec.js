@@ -6,28 +6,37 @@ import {convertToAPIFormat} from '../../../../utils/business-process/date-option
 import {BPTreeMockAPI} from '../../../support/business-process/mock-api/tree';
 import {selectTreeItem} from '../../../support/business-process/input/tree-selection';
 import {severityOptions, sortSeverityTags} from '../../../../utils/business-process/severity';
+import {inputEndDate, inputStartDate} from '../../../support/business-process/input/date-picker';
 
-const testingEAITransactionId = 'eai_acc_server_25781_1';
+const testingEAITransactionId = 'eai-trans-id-ksjIfH-725332';
+const testingTime = '2022-05-03T13:42:00Z';
 
 // Call before every test to prepare the environment.
 const prepare = () => {
   before(() => {
     // This is a minimal example on how to generate a path and then intercept the API request.
-    const currentTime = moment();
+    const currentTime = moment(testingTime).add(5, 'minutes');
     const past30Minutes = currentTime.clone().subtract(30, 'minutes');
     const treePath = generatePath('/businessProcessTree', {
-      'startTime': convertToAPIFormat(past30Minutes),
-      'endTime': convertToAPIFormat(currentTime),
+      'startTime': convertToAPIFormat(past30Minutes.clone()),
+      'endTime': convertToAPIFormat(currentTime.clone()),
     });
     // IMPORTANT: Intercepting the corresponding API request when there is one.
     cy.intercept('GET', treePath, {
       statusCode: 200,
-      body: BPTreeMockAPI.getTreeResult({}),
+      body: BPTreeMockAPI.getTreeResult({
+        startDate: past30Minutes.clone(),
+        endDate: currentTime.clone(),
+      }),
     }).as('getTree');
 
     cy.visit('/business-process');
-    cy.clock(currentTime.toDate().getTime());
+    cy.clock(moment(testingTime).utc().toDate().getTime());
     goThroughLogin();
+
+    inputStartDate(past30Minutes.format('MM/DD/YYYY HH:mm:ss'));
+    inputEndDate(currentTime.format('MM/DD/YYYY HH:mm:ss'));
+    cy.get('#bp-tree-filter-apply-button').click();
 
     const gridPath = generatePath('/businessProcessGrid', {
       'eaiTransactionId': testingEAITransactionId,

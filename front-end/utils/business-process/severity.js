@@ -52,6 +52,21 @@ export const getSeverityRangeValueByTag = (tag) => {
   }
 };
 
+export const isValidSeverityValue = (allowedSeverities, givenValue) => {
+  if (!allowedSeverities || allowedSeverities.length === 0) {
+    return true;
+  }
+  if (givenValue < 10) {
+    return allowedSeverities.includes('success');
+  } else if (givenValue < 30) {
+    return allowedSeverities.includes('info');
+  } else if (givenValue < 50) {
+    return allowedSeverities.includes('warning');
+  } else {
+    return allowedSeverities.includes('error');
+  }
+};
+
 export const getNameBySeverityAccessor = (severity) => {
   switch (severity) {
     case 'success':

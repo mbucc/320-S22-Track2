@@ -1,6 +1,6 @@
 // import GridData from '../../../fixtures/business-process/grid.json';
 import LogEventTable from '../../../fixtures/business-process/log-event-table.json';
-import {getSeverityRangeValueByTag} from '../../../../utils/business-process/severity';
+import {isValidSeverityValue} from '../../../../utils/business-process/severity';
 
 /**
  * This function is used to mock the api call for the grid
@@ -9,19 +9,20 @@ import {getSeverityRangeValueByTag} from '../../../../utils/business-process/sev
  * @param {string} severity - Only one.
  * @return {object[]}
  */
-function getGridResult({eaiTransactionId = '', businessDomains = [], severity}) {
+function getGridResult({eaiTransactionId = '', businessDomains = [], severities}) {
   const result = [];
 
   const leTable = LogEventTable;
 
-  // Severity range will be undefined if the severity is not defined.
-  const severityRange = severity && getSeverityRangeValueByTag(severity);
-
   leTable.forEach((le) => {
     if (
       le.eai_transaction_id === eaiTransactionId &&
-      (businessDomains.length === 0 || businessDomains.contains(le.business_domain)) &&
-      (!severityRange || (le.severity >= severityRange[0] && le.severity < severityRange[1]))
+      (
+        !businessDomains ||
+        businessDomains.length === 0 ||
+        businessDomains.includes(le.business_domain)
+      ) &&
+      isValidSeverityValue(severities, le.severity)
     ) {
       result.push(le);
     }
@@ -38,6 +39,22 @@ function getGridResult({eaiTransactionId = '', businessDomains = [], severity}) 
   return result;
 }
 
+// eslint-disable-next-line require-jsdoc
+function getBusinessDomainList() {
+  const businessDomains = new Set();
+
+  const leTable = LogEventTable;
+
+  leTable.forEach((le) => {
+    if (le.business_domain) {
+      businessDomains.add(le.business_domain);
+    }
+  });
+
+  return [...businessDomains];
+}
+
 export const BPGridMockAPI = {
   getGridResult,
+  getBusinessDomainList,
 };

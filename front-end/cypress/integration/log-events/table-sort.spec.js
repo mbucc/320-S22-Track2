@@ -118,12 +118,12 @@ describe('Sorting', ()=>{
     cy.get('tbody>tr').each(($el, index, $list)=>{
       // test the first 10 entries
       if (index < 9) {
-        // get date of current entry
+        // get severity of current entry
         cy.wrap($el)
             .find('[data-testid="logevent-table-cell-severity"]')
             .invoke('text')
             .then(($severity)=>{
-              // get date of next entry
+              // get severity of next entry
               cy.wrap($el)
                   .next()
                   .find('[data-testid="logevent-table-cell-date"]')
@@ -143,12 +143,12 @@ describe('Sorting', ()=>{
     cy.get('tbody>tr').each(($el, index, $list)=>{
       // test the first 10 entries
       if (index < 9) {
-        // get date of current entry
+        // get severity of current entry
         cy.wrap($el)
             .find('[data-testid="logevent-table-cell-severity"]')
             .invoke('text')
             .then(($severity)=>{
-              // get date of next entry
+              // get severity of next entry
               cy.wrap($el)
                   .next()
                   .find('[data-testid="logevent-table-cell-severity"]')
@@ -168,12 +168,12 @@ describe('Sorting', ()=>{
     cy.get('tbody>tr').each(($el, index, $list)=>{
       // test the first 10 entries
       if (index < 9) {
-        // get date of current entry
+        // get priority of current entry
         cy.wrap($el)
             .find('[data-testid="logevent-table-cell-priority"]')
             .invoke('text')
             .then(($priority)=>{
-              // get date of next entry
+              // get priority of next entry
               cy.wrap($el)
                   .next()
                   .find('[data-testid="logevent-table-cell-priority"]')
@@ -193,12 +193,12 @@ describe('Sorting', ()=>{
     cy.get('tbody>tr').each(($el, index, $list)=>{
       // test the first 10 entries
       if (index < 9) {
-        // get date of current entry
+        // get date of current priority
         cy.wrap($el)
             .find('[data-testid="logevent-table-cell-priority"]')
             .invoke('text')
             .then(($priority)=>{
-              // get date of next entry
+              // get date of next priority
               cy.wrap($el)
                   .next()
                   .find('[data-testid="logevent-table-cell-priority"]')

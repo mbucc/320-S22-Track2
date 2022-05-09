@@ -125,9 +125,11 @@ public class LogEventRepositoryTests {
                                 }
 
                         } else if (attr1.equals("creation_time")) {
+                                // String abc = "";
                                 String time_2 = b_val.toString();
                                 String time_1 = "";
                                 String time = a_val.toString();
+
 
                                 SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                                 try {

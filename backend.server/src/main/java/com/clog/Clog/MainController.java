@@ -77,14 +77,14 @@ public class MainController {
         LogEventFilterSpecification logSpec = new LogEventFilterSpecification(filt);
         return logEventRepo.findAll(logSpec);
     }
-    //TODO One to one relations are slow. 
+    //One to one relations are slow. 
     @GetMapping(path = "/businessProcessTree")
-    public @ResponseBody Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getBusinessTree(
+    public @ResponseBody BusinessProcessTreeMap getBusinessTree(
             @RequestParam String startTime,
             @RequestParam String endTime,
             @RequestParam(required = false) String[] eaiDomain,
             @RequestParam(required = false) String[] publishingBusinessDomain,
-            @RequestParam(defaultValue = "50") Integer pageLength, @RequestParam(defaultValue = "0") Integer pageNumber, @RequestParam(defaultValue = "eai_transaction_create_time") String sortBy) {
+            @RequestParam(defaultValue = "50") Integer pageLength, @RequestParam(defaultValue = "0") Integer pageNumber) {
         
         businessTreeFilter filt = new businessTreeFilter();
         filt.setStartTime(Timestamp.valueOf(startTime));
@@ -97,11 +97,12 @@ public class MainController {
         Page<EAIdomain> pageResults = busTree.findAll(spec,limit);
 
         BusinessProcessTreeMap returnMap = new BusinessProcessTreeMap();
+        returnMap.setSize(pageResults.getTotalElements());
         for (EAIdomain x : pageResults) {
             returnMap.addObj(x);
         }
 
-        return returnMap.getMap();
+        return returnMap;
     }
 
     @GetMapping(path = "/businessProcessGrid")

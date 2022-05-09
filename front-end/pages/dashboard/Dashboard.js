@@ -29,7 +29,9 @@ export default function Dashboard(props) {
   const getLogEvents = async (tf) => { // yyyy-mm-dd hh24:mm:ss (String) in GMT
     const start = moment().subtract(tf, 'minute').format('YYYY-MM-D HH:mm:SS');
     const end = moment().format('YYYY-MM-D HH:mm:SS');
-    return fetch('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?endTime=' + end + '&startTime=' + start + '&severities=error,warning,info&priority=medium,high')
+    let url = 'http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?endTime=' + end + '&startTime=' + start + '&severities=error,warning,info&priority=high,medium,low'
+    console.log(url)
+    return fetch(url)
         .then((response) => response.json())
         .then((data) => {
           console.log(data.length);
@@ -54,7 +56,7 @@ export default function Dashboard(props) {
   const getSeverity = (s) => {
     if (s >= 50) {
       return 'Error';
-    } else if (s <= 30) {
+    } else if (s >= 30) {
       return 'Warning';
     } else {
       return 'Info';

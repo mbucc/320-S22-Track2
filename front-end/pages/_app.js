@@ -41,6 +41,7 @@ function ClogApp({ Component, pageProps }) {
    * Sets display to business process and passes filters into component view
    */
   const toggleBP = (filters) => {
+    console.log(filters)
     setBPFilters(filters);
     router.push("./business-process/");
   };

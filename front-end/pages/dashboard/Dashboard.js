@@ -19,17 +19,22 @@ export default function Dashboard(props) {
   let timeframeEnd = moment().startOf('minute');
 
   const [data, setData] = useState({
-    logEvents: null,
-    data: null,
+    logEvents: null
   });
+
+  const [bpData, setbpData] = useState({
+    bpData: null
+  })
 
   const getLogEvents = async (tf) => { // yyyy-mm-dd hh24:mm:ss (String) in GMT
     const start = moment().subtract(tf, 'minute').format('YYYY-MM-D HH:mm:SS');
     const end = moment().format('YYYY-MM-D HH:mm:SS');
-    return fetch('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?endTime=' + end + '&startTime=' + start + '&severities=error,warning,info&priority=medium,high')
+    let url = 'http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?endTime=' + end + '&startTime=' + start + '&severities=error,warning,info&priority=high,medium,low'
+    console.log(url)
+    return fetch(url)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          console.log(data.length);
           return data.map((e) => {
             return {
               priority: getPriority(e.priority),
@@ -40,10 +45,18 @@ export default function Dashboard(props) {
         });
   };
 
+  const getBPEvents = async (tf) => { // yyyy-mm-dd hh24:mm:ss (String) in GMT
+    return fetch('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/businessProcessPieGraph?timeBack='+tf)
+        .then((data) => {
+          console.log("BP ", data);
+          return data.json()
+        });
+  };
+
   const getSeverity = (s) => {
     if (s >= 50) {
       return 'Error';
-    } else if (s <= 30) {
+    } else if (s >= 30) {
       return 'Warning';
     } else {
       return 'Info';
@@ -64,10 +77,11 @@ export default function Dashboard(props) {
     getLogEvents(timeframe).then((data) => {
       console.log('DATA: ', data);
       setData({
-        logEvents: data,
-        data: fakeData.filter((e) => e.time <= tf).sort((a, b) => b.time - a.time),
+        logEvents: data
       });
-    });
+    })
+    getBPEvents(timeframe)
+    .then((data) => {console.log("BP EVENT RETURN IS ",data);setbpData({bpData:data})})
   };
 
   useEffect(() => {
@@ -94,7 +108,7 @@ export default function Dashboard(props) {
 
   const [updateTime, setUpdateTime] = useState(getTime());
 
-  if (data.data) {
+  if (data.logEvents) {
     return (
       <div className='dashboard'>
         <Box px={6} py={2} sx={{height: '100%', width: '100%'}}>
@@ -129,10 +143,11 @@ export default function Dashboard(props) {
                         toggleLogEvents={props.toggleLogEvents}
                         data={data.logEvents}
                         start={moment(timeframeEnd).subtract(timeframe, 'minute').local()}
-                        end={moment(timeframeEnd).local()} />
+                        end={moment(timeframeEnd).local()}
+                      />
                     </Grid>
                     <Grid item xs={12}>
-                      <DonutCharts data={data.data} toggleBP={props.toggleBP} timeframe={timeframe} />
+                      <DonutCharts bp={bpData.bpData} toggleBP={props.toggleBP} timeframe={timeframe} />
                     </Grid>
                   </Grid>
                 </Grid>

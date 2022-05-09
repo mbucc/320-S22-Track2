@@ -1,6 +1,8 @@
 describe.skip('Testing See More Buttons in Timeline Component', () => {
     beforeEach(() => {
         cy.visit("/")
+        cy.get('#email').first().type('a')
+        cy.get('#password').first().type('ab')
         cy.get('.MuiButton-root').first().click()
     })
     it('Check if Total Logs Navigates to Log Events', () => {

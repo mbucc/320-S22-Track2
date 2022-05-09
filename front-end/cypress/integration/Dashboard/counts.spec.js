@@ -2,6 +2,8 @@
 describe.skip('Checks if see more working properly', () => {
     beforeEach(() => {
         cy.visit("/")
+        cy.get('#email').first().type('a')
+        cy.get('#password').first().type('ab')
         cy.get('.MuiButton-root').first().click()
     })
 

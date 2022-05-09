@@ -8,12 +8,12 @@ const sorted = (direction, by, a, b)=>{
   let aNum; let bNum;
   if (direction === 'desc') {
     if (by === 'priority') {
-      aNum = priorityOrder.indexOf(a);
-      bNum = priorityOrder.indexOf(b);
+      aNum = priorityOrder.indexOf(a.toLowerCase());
+      bNum = priorityOrder.indexOf(b.toLowerCase());
       return aNum >= bNum;
     } else if (by === 'severity') {
-      aNum = severityOrder.indexOf(a);
-      bNum = severityOrder.indexOf(b);
+      aNum = severityOrder.indexOf(a.toLowerCase());
+      bNum = severityOrder.indexOf(b.toLowerCase());
       return aNum >= bNum;
     } else if (by === 'date') {
       const aMoment = moment(a);
@@ -24,12 +24,12 @@ const sorted = (direction, by, a, b)=>{
     }
   } else if (direction === 'asc') {
     if (by === 'priority') {
-      aNum = priorityOrder.indexOf(a);
-      bNum = priorityOrder.indexOf(b);
+      aNum = priorityOrder.indexOf(a.toLowerCase());
+      bNum = priorityOrder.indexOf(b.toLowerCase());
       return bNum >= aNum;
     } else if (by === 'severity') {
-      aNum = severityOrder.indexOf(a);
-      bNum = severityOrder.indexOf(b);
+      aNum = severityOrder.indexOf(a.toLowerCase());
+      bNum = severityOrder.indexOf(b.toLowerCase());
       return bNum >= aNum;
     } else if (by === 'date') {
       const aMoment = moment(a);

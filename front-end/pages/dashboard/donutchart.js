@@ -44,7 +44,7 @@ function DonutCharts(props) {
   };
   return (
     <div className='donuts'>
-      <Paper elevation={3} sx={{height: '100%'}}>
+      <Paper elevation={3} sx={{height: '101.5%'}}>
         <Box pt={3}>
           <Typography variant="h5" gutterBottom component="div" align='center'>
             Business Processes Summary

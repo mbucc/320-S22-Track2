@@ -7,13 +7,16 @@
 ```bash
 git clone https://github.com/david-fisher/320-S22-Track2.git
 ```
- After the repository is cloned switch to the `cafebabe_dev` branch
+### 2. Install Maven
+Use this link to auto install Maven to your maching </br>
+https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.8.4/apache-maven-3.8.4-bin.zip
 
-```bash
-git checkout cafebabe_dev
-```
+### 3. Make sure you have the right JDk
+This project uses Java 11 </br>
+Use this link to install the correct JDK </br>
+https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html
 
-### 2. Get spring boot to run on your machine
+### 4. Get spring boot to run on your machine
  In order to get code run, follow steps 
  1. In  `320-S22-Track2/backend.server/src/main/resource` open the templates folder
  2. In the templates folder there is `applicationTemplate.properties`
@@ -23,6 +26,15 @@ git checkout cafebabe_dev
  5. Navigate to `320-S22-Track2/backend.server/src/main/java/com/clog/Clog`
  6. Then open the `MainController.java` file 
  7. Running this file will get the springboot server running no your local machine
+
+### 5. To run from the command line
+Navigate to  `320-S22-Track2/backend.server`</br>
+Use this command to run the server
+
+```bash
+mvn spring-boot:run
+```
+This command will download all depdencies, then build and deploy the server
 
 <h2>Use these URL's to ensure yout spring boot it running </h2>
 

@@ -79,6 +79,7 @@ export default function Form(props) {
 
   const initCategoryCheckboxes = ['reportupdate', 'reportpersisted', 'reportfail'];
 
+  /* handle incoming filters from dashboard on render */
   if (props.logEventFilters) {
     if (props.logEventFilters?.type && props.logEventFilters?.type === 'severity') {
       switch (props.logEventFilters?.severity) {
@@ -241,7 +242,7 @@ export default function Form(props) {
     const API_URL = `http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?${API_PARAMS.join('&')}`;
     const res = await axios.get(API_URL);
 
-    const data = res.data.sort(dateComparison('gt'));
+    const data = res.data.sort(dateComparison('desc'));
     props.setData(data);
     props.setPage(0);
     props.setIsLoading(false);
@@ -283,10 +284,10 @@ export default function Form(props) {
 
   const dateComparison = (comp)=>{
     return (a, b) =>{
-      if (comp === 'lt') {
+      if (comp === 'asc') {
         return moment(a['creation_time']).format('MMDDYYYYHHmmss') - moment(b['creation_time']).format('MMDDYYYYHHmmss');
       }
-      if (comp === 'gt') {
+      if (comp === 'desc') {
         return moment(b['creation_time']).format('MMDDYYYYHHmmss') - moment(a['creation_time']).format('MMDDYYYYHHmmss');
       }
     };

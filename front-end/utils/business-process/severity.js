@@ -39,6 +39,19 @@ export const getColorBySeverityValue = (severity) => {
   }
 };
 
+export const getSeverityRangeValueByTag = (tag) => {
+  switch (tag) {
+    case 'success':
+      return [0, 10];
+    case 'info':
+      return [10, 30];
+    case 'warning':
+      return [30, 50];
+    case 'error':
+      return [50, 100];
+  }
+};
+
 export const getNameBySeverityAccessor = (severity) => {
   switch (severity) {
     case 'success':

@@ -2,6 +2,18 @@ import {BPColors} from './standards';
 import Image from 'next/image';
 import React from 'react';
 
+export const severityOptions = ['success', 'info', 'warning', 'error'];
+export const sortSeverityTags = (severities) => {
+  if (!severities || severities.length === 0) {
+    return undefined;
+  }
+  // In the order of 'success', 'info', 'warning', 'error'.
+  severities.sort((a, b) => {
+    return severityOptions.indexOf(a) - severityOptions.indexOf(b);
+  });
+  return severities;
+};
+
 export const getColorBySeverityAccessor = (severity) => {
   switch (severity) {
     case 'success':

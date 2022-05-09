@@ -4,7 +4,13 @@ import {BPTestMeta} from './meta';
 export const generatePath = (path, query) => {
   const queryEntires = [];
   Object.keys(query).forEach((key) => {
-    const value = query[key].replaceAll(' ', '%20');
+    let value = query[key];
+    if (Array.isArray(value)) {
+      value = value.join(',');
+    }
+    if (typeof value === 'string') {
+      value = value.replaceAll(' ', '%20');
+    }
     queryEntires.push(`${key}=${value}`);
   });
   return `${BPTestMeta.rootUrl}${path}?${queryEntires.join('&')}`;

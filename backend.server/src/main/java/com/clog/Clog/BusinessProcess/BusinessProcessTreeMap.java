@@ -8,9 +8,24 @@ import java.util.Map;
 
 
 public class BusinessProcessTreeMap {
-    private Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> eai_domainTopLevel;
+    private Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> eaiMap;
+    private long size;
+    
+    public long getSize() {
+        return size;
+    }
     public BusinessProcessTreeMap() {
-        eai_domainTopLevel = new HashMap<String,Map<String,Map<String,List<BusinessProcessTreeNode>>>>();
+        this.eaiMap = new HashMap<String,Map<String,Map<String,List<BusinessProcessTreeNode>>>>();
+    }
+    
+    public Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getEaiMap() {
+        return eaiMap;
+    }
+    public void setEaiMap(Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> eaiMap) {
+        this.eaiMap = eaiMap;
+    }
+    public void setSize(long size) {
+        this.size = size;
     }
     public void addObj(EAIdomain treeEntry) {
         //If EAI in top level map
@@ -21,8 +36,8 @@ public class BusinessProcessTreeMap {
         BusinessProcessTreeNode toAddNode = new BusinessProcessTreeNode(treeEntry.getBusiness_process(), treeEntry.getKey1_app_context_name(), 
         treeEntry.getKey1_app_context_value(), treeEntry.getKey2_app_context_name(),
          treeEntry.getKey2_app_context_value(), treeEntry.getEai_transaction_id(), sev, treeEntry.getEai_transaction_create_time());
-        if(eai_domainTopLevel.containsKey(treeEntry.getEai_domain())) {
-            Map<String, Map<String, List<BusinessProcessTreeNode>>> EaiMap = eai_domainTopLevel.get(treeEntry.getEai_domain());
+        if(eaiMap.containsKey(treeEntry.getEai_domain())) {
+            Map<String, Map<String, List<BusinessProcessTreeNode>>> EaiMap = eaiMap.get(treeEntry.getEai_domain());
             //Check if publishing business Domain is in EAI map
             if (EaiMap.containsKey(treeEntry.getPublishing_business_domain())) {
                 Map<String, List<BusinessProcessTreeNode>> pubbusProc = EaiMap.get(treeEntry.getPublishing_business_domain());
@@ -58,15 +73,12 @@ public class BusinessProcessTreeMap {
             listToAdd.add(toAddNode);
             pubbusProc.put(treeEntry.getBusiness_process(), listToAdd);
             EaiMap2.put(treeEntry.getPublishing_business_domain(), pubbusProc);
-            eai_domainTopLevel.put(treeEntry.getEai_domain(), EaiMap2);
+            eaiMap.put(treeEntry.getEai_domain(), EaiMap2);
         }
         //If EAI not in top level map
             //Add new entry to top level map for string pointing map for all business process related to that one
 
 
     }
-    public Map<String, Map<String, Map<String, List<BusinessProcessTreeNode>>>> getMap() {
-        return this.eai_domainTopLevel;
-    }
-
+    
 }

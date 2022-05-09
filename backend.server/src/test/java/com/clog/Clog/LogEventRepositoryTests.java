@@ -147,7 +147,7 @@ public class LogEventRepositoryTests {
                                         flag = false;
                                         break;
                                 }
-                                continue; // Ignored for now
+                                // continue; // Ignored for now
                         } else {
                                 String a_val1 = a_val.toString();
                                 String b_val1 = b_val.toString();

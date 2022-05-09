@@ -34,7 +34,6 @@ public interface LogEventRepository extends JpaRepository<LogEvent, String>, Jpa
     @Query("SELECT DISTINCT a.event_context FROM LogEvent a")
     List<String> findDistinctServices();
 
-    //@Cacheable("time")
     long count(Specification<LogEvent> specEvent);
 
     List<LogEvent> findAll(@Nullable Specification<LogEvent> spec);

@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 import com.clog.Clog.BusinessProcess.BusinessGridFilter;
 import com.clog.Clog.BusinessProcess.BusinessGridSpecification;
 import com.clog.Clog.BusinessProcess.BusinessProcessTreeMap;
-import com.clog.Clog.BusinessProcess.BusinessProcessTreeNode;
 import com.clog.Clog.BusinessProcess.BusinessTreeRepository;
 import com.clog.Clog.BusinessProcess.EAIdomain;
 
@@ -41,7 +40,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(path = "/clog")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000") // allow cross origin access so front end teams can integrate with the live server
 public class MainController {
 
     @Autowired

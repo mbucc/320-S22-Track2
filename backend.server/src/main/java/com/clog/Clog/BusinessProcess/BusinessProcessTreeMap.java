@@ -30,7 +30,7 @@ public class BusinessProcessTreeMap {
     public void addObj(EAIdomain treeEntry) {
         //If EAI in top level map
         int sev = -1;
-       if(treeEntry.getLog() != null) {
+        if(treeEntry.getLog() != null) {
            sev = treeEntry.getLog().getSeverity();
         }
         BusinessProcessTreeNode toAddNode = new BusinessProcessTreeNode(treeEntry.getBusiness_process(), treeEntry.getKey1_app_context_name(), 
@@ -75,9 +75,6 @@ public class BusinessProcessTreeMap {
             EaiMap2.put(treeEntry.getPublishing_business_domain(), pubbusProc);
             eaiMap.put(treeEntry.getEai_domain(), EaiMap2);
         }
-        //If EAI not in top level map
-            //Add new entry to top level map for string pointing map for all business process related to that one
-
 
     }
     

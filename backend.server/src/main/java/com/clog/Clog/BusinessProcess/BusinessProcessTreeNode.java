@@ -11,10 +11,11 @@ public class BusinessProcessTreeNode {
     private String eai_transaction_id;
     private int severity;
     private Timestamp eai_transaction_create_time;
+    
     public BusinessProcessTreeNode(String name, String key1_app_context_name,
-     String key1_app_context_value, String key2_app_context_name, 
-     String key2_app_context_value, String eai_transaction_id, int severity,
-     Timestamp eai_transaction_create_time) {
+        String key1_app_context_value, String key2_app_context_name, 
+        String key2_app_context_value, String eai_transaction_id, int severity,
+        Timestamp eai_transaction_create_time) {
         this.eai_transaction_create_time = eai_transaction_create_time;
         this.name = name;
         this.key1_app_context_name = key1_app_context_name;

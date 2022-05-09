@@ -21,7 +21,6 @@ public class LogEventFilterSpecification implements Specification<LogEvent> {
     }
     @Override
     public Predicate toPredicate(Root<LogEvent> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-        // TODO Auto-generated method stub
         //Begin with range of dates possible
         Predicate returnVal = cb.between(root.<Timestamp>get("creation_time"),
                                          filter.getStartTime(),

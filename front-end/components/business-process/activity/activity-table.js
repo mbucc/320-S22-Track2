@@ -305,7 +305,7 @@ export default function BPTableComponent({columns, data, style}) {
             prepareRow(row);
             return (
               // eslint-disable-next-line react/jsx-key
-              <div key={row.getRowProps().key} className="table-line">
+              <div key={row.values['global_instance_id'] || i} className="table-line">
                 <div {...row.getRowProps()} className="tr">
                   {row.cells.map((cell) => {
                     return (

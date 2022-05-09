@@ -57,6 +57,9 @@ def main():
                     eai_transaction_id = fake.bothify(text='eai-trans-id-??????-######')
                     bp_instance_object = dict()
                     bp_instance_object['name'] = bp_instance_name
+                    bp_instance_object['eai_domain'] = eai_name
+                    bp_instance_object['pub_domain'] = pub_name
+                    bp_instance_object['business_process'] = bp_name
                     bp_instance_object['eai_transaction_id'] = eai_transaction_id
                     bp_instance_object['eai_transaction_create_time'] =\
                         bp_instance_creation_time.isoformat()

@@ -56,23 +56,3 @@ INSERT INTO BUSINESS_PROCESS_LOG_T VALUES
         'Publish_Customer_Update',
         'Customer Update Started'
     );
-
-INSERT INTO BUSINESS_PROCESS_T VALUES
-    (
-        'CRM_APP',
-        'crm_app',
-        '',
-        ''
-    ),
-    (
-        'CUSTOMER_APP',
-        'customer_app',
-        '',
-        ''
-    ),
-    (
-        'ACCOUNTING_APP',
-        'accounting_app',
-        '',
-        ''
-    );

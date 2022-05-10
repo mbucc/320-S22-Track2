@@ -5,31 +5,55 @@
 // check out the link below and learn how to write your first test:
 // https://on.cypress.io/writing-first-test
 
+
+
+
 /**
  * WARNING: THIS TEST WILL NOT WORK CURRENTLY. WAITING ON DASHBOARD TEAM TO
  * FIX ROUTING BEFORE WE CAN FIX THIS TEST.
  */
-describe.skip('Log Event Button', () => {
+
+
+describe('Log Event Button', () => {
   it('At home page', () => {
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
+    cy.get(`input`).first().type('a')
+    cy.get('input').last().type('a')
+    cy.get('button').contains('Log in').click()
 
     // click Log Event page button in header
-    cy.get('button').contains('CLICK TO SEE LOG EVENT PAGE').click();
+    cy.get('button').contains('Log Events').click();
 
     // should take us back to Log Event page
-    cy.url().should('eq', 'http://localhost:3000/LogEvent');
+    cy.url().should('includes', '/LogEvent');
   });
 });
 
-describe.skip('Home Button', () => {
+describe('Dashboard from Log Events', () => {
   it('Brings us to home page', () => {
-    cy.visit('http://localhost:3000/LogEvent');
+    cy.visit('/LogEvent');
+
+    cy.get(`input`).first().type('a')
+    cy.get('input').last().type('a')
+    cy.get('button').contains('Log in').click()
 
     // click menun button in header
-    cy.get('.MuiIconButton-root').first().click();
-    cy.get('.MuiMenuItem-root').first().click();
-
+    cy.get('button').contains('Dashboard').click()
     // should take us back to home page
-    cy.url().should('eq', 'http://localhost:3000/');
+    cy.url().should('includes', '/');
+  });
+});
+
+describe('Business Process from Log Events', () => {
+  it('Brings us to Business Process', () => {
+    cy.visit('/LogEvent');
+    cy.get(`input`).first().type('a')
+    cy.get('input').last().type('a')
+    cy.get('button').contains('Log in').click()
+
+    // click menun button in header
+    cy.get('button').contains('Business Process').click()
+    // should take us back to home page
+    cy.url().should('includes', 'business-process');
   });
 });

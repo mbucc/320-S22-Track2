@@ -39,7 +39,7 @@ const PaginationInput = styled.input`
   }
 `;
 
-const paginationButtonCount = 7;
+const paginationButtonCount = 5;
 
 /**
  * [BP] Pagination Controller
@@ -113,24 +113,26 @@ export const BPPaginationController = ({pageState, onChange, pageCount, style}) 
           {i + 1}
         </PaginationButton>
       ))}
-      <PaginationButton
-        isActive={false}
-        onClick={() => {
-          if (onChange && pageState !== pageCount - 1) {
-            onChange(pageCount - 1);
-          }
-        }}
-        style={{
-          paddingLeft: '6px',
-          color: BPColors.gray[300],
-        }}
-      >
-        <IconArrowBarToRight
-          width={28}
-          height={28}
-          strokeWidth={2.1}
-        />
-      </PaginationButton>
+      {pageState !== pageCount - 1 && (
+        <PaginationButton
+          isActive={false}
+          onClick={() => {
+            if (onChange && pageState !== pageCount - 1) {
+              onChange(pageCount - 1);
+            }
+          }}
+          style={{
+            paddingLeft: '6px',
+            color: BPColors.gray[300],
+          }}
+        >
+          <IconArrowBarToRight
+            width={28}
+            height={28}
+            strokeWidth={2.1}
+          />
+        </PaginationButton>
+      )}
       <div
         style={{
           borderRadius: '999px',

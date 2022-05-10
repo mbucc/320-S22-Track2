@@ -79,6 +79,7 @@ export default function Form(props) {
 
   const initCategoryCheckboxes = ['reportupdate', 'reportpersisted', 'reportfail'];
 
+  /* handle incoming filters from dashboard on render */
   if (props.logEventFilters) {
     if (props.logEventFilters?.type && props.logEventFilters?.type === 'severity') {
       switch (props.logEventFilters?.severity) {
@@ -241,7 +242,7 @@ export default function Form(props) {
     const API_URL = `http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?${API_PARAMS.join('&')}`;
     const res = await axios.get(API_URL);
 
-    const data = res.data.sort(dateComparison('gt'));
+    const data = res.data.sort(dateComparison('desc'));
     props.setData(data);
     props.setPage(0);
     props.setIsLoading(false);
@@ -283,10 +284,10 @@ export default function Form(props) {
 
   const dateComparison = (comp)=>{
     return (a, b) =>{
-      if (comp === 'lt') {
+      if (comp === 'asc') {
         return moment(a['creation_time']).format('MMDDYYYYHHmmss') - moment(b['creation_time']).format('MMDDYYYYHHmmss');
       }
-      if (comp === 'gt') {
+      if (comp === 'desc') {
         return moment(b['creation_time']).format('MMDDYYYYHHmmss') - moment(a['creation_time']).format('MMDDYYYYHHmmss');
       }
     };
@@ -336,11 +337,11 @@ export default function Form(props) {
             />
           </div>
           <div style={dropdownStyle}>
-            {props.EAIOptions === null ? null : <BPDomainSelector label = {'EAI Domain'} searchPlaceholder = {'Select options'} list = {props.EAIOptions} onChange = {changeOptions('EAI Domain')} id = {'dropdown-eai'}/>}
-            {props.applicationOptions === null ? null : <BPDomainSelector label = {'Application'} searchPlaceholder = {'Select options'} list = {props.applicationOptions} onChange = {changeOptions('Application')} id = {'dropdown-app'}/>}
-            {props.processServiceOptions === null? null :<BPDomainSelector label = {'Process/Service'} searchPlaceholder = {'Select options'} list = {props.processServiceOptions} onChange = {changeOptions('Process/Service')} id = {'dropdown-ps'}/>}
-            {props.BusinessDomainOptions === null ? null : <BPDomainSelector label = {'Business Domain'} searchPlaceholder = {'Select options'} list = {props.BusinessDomainOptions} onChange = {changeOptions('Business Domain')} id = {'dropdown-bd'}/>}
-            {props.BusinessSubDomOptions === null ? null : <BPDomainSelector label = {'Business SubDomain'} searchPlaceholder = {'Select options'} list = {props.BusinessSubDomOptions} onChange = {changeOptions('Business SubDomain')} id = {'dropdown-bsd'}/>}
+            {props.EAIOptions === null ? null : <BPDomainSelector label = {'EAI Domain'} searchPlaceholder = {'Select options'} list = {props.EAIOptions} onChange = {changeOptions('EAI Domain')} id = {'logevent-dropdown-eai'}/>}
+            {props.applicationOptions === null ? null : <BPDomainSelector label = {'Application'} searchPlaceholder = {'Select options'} list = {props.applicationOptions} onChange = {changeOptions('Application')} id = {'logevent-dropdown-app'}/>}
+            {props.processServiceOptions === null? null :<BPDomainSelector label = {'Process/Service'} searchPlaceholder = {'Select options'} list = {props.processServiceOptions} onChange = {changeOptions('Process/Service')} id = {'logevent-dropdown-ps'}/>}
+            {props.BusinessDomainOptions === null ? null : <BPDomainSelector label = {'Business Domain'} searchPlaceholder = {'Select options'} list = {props.BusinessDomainOptions} onChange = {changeOptions('Business Domain')} id = {'logevent-dropdown-bd'}/>}
+            {props.BusinessSubDomOptions === null ? null : <BPDomainSelector label = {'Business SubDomain'} searchPlaceholder = {'Select options'} list = {props.BusinessSubDomOptions} onChange = {changeOptions('Business SubDomain')} id = {'logevent-dropdown-bsd'}/>}
             {/* <Dropdowns options={applicationOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Application'} testid={'app'}></Dropdowns>
             <Dropdowns options={processServiceOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Process/Service'} testid={'ps'}></Dropdowns>
             <Dropdowns options={BusinessDomainOptions} setOptions={setDropdownValues} dropdownValue={dropdownValues} name={'Business Domain'} testid={'bd'}></Dropdowns>

@@ -27,9 +27,11 @@ describe('log detail', ()=>{
         .find('[data-testid="logevent-table-cell-date"]')
         .invoke('text')
         .then(($date)=>{
+          // find detail button and click it to open new window.
           cy.get('[data-testid="logevent-table-cell-detail"]')
               .first()
               .click();
+          // find detail button and follow its link in this test window.
           cy.get('[data-testid="logevent-table-cell-detail"]')
               .first()
               .find('a')

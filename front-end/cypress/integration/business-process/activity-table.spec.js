@@ -1,26 +1,14 @@
-// TODO: Write tests for activity table.
-
-// const { cy } = require("date-fns/locale");
 import {goThroughLogin} from '../../support/business-process/utility/general';
-
-describe('Activity Table Behavior', () => {
-  beforeEach(() => {
-    cy.visit('/business-process');
-    goThroughLogin();
-  });
-  // checks if clicking component in tree corresponds to the activity showing up in the activity table
-  it('Populating activity table by clicking the tree', () => {
-    cy.get('#mui-1-EAI\\ Domain\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-Publishing\\ Business\\ Domain\\ 1\\ from\\ EAI\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-Business\\ Process\\ 1001 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get(':nth-child(1) > .tr > [style="display: inline-block; box-sizing: border-box; width: 140px;"]').should('exist');
-  });
-});
+import {domainSelection} from '../../support/business-process/input/domain-selection';
+import moment from 'moment';
+import {generatePath} from '../../support/business-process/utility/path-generator';
+import {convertToAPIFormat} from '../../../utils/business-process/date-options';
+import {BPTreeMockAPI} from '../../support/business-process/mock-api/tree';
+import {selectTreeItem} from '../../support/business-process/input/tree-selection';
+import {severityOptions, sortSeverityTags} from '../../../utils/business-process/severity';
+import {inputEndDate, inputStartDate} from '../../support/business-process/input/date-picker';
+import {interceptActivityFilter, interceptGridAPI} from '../../support/business-process/utility/intercept';
+import {clickTableApplyButton, clickTreeApplyButton} from '../../support/business-process/input/apply-button';
 
 const tableToArray = (arr) => {
   cy.get('.table-body .tr').each(($e, index) => {
@@ -34,7 +22,47 @@ const tableToArray = (arr) => {
   });
 };
 
+const testingEAITransactionId = 'eai-trans-id-XQShJj-596835';
+const testingTime = '2022-05-03T21:34:00+00:00';
 
+// Call before every test to prepare the environment.
+const prepare = () => {
+  before(() => {
+    // This is a minimal example on how to generate a path and then intercept the API request.
+    const currentTime = moment(testingTime);
+    const past30Minutes = currentTime.clone().subtract(30, 'minutes'); 
+    const treePath = generatePath('/businessProcessTree', { //
+      'startTime': convertToAPIFormat(past30Minutes.clone()),
+      'endTime': convertToAPIFormat(currentTime.clone()),
+    });
+    // IMPORTANT: Intercepting the corresponding API request when there is one.
+    cy.intercept('GET', treePath, {
+      statusCode: 200,
+      body: BPTreeMockAPI.getTreeResult({
+        startDate: past30Minutes.clone(),
+        endDate: currentTime.clone(),
+      }), //
+    }).as('getTree');
+
+    cy.visit('/business-process');
+    cy.clock(moment(testingTime).utc().toDate().getTime());
+    goThroughLogin();
+
+    inputStartDate(past30Minutes.format('MM/DD/YYYY HH:mm:ss'));
+    inputEndDate(currentTime.format('MM/DD/YYYY HH:mm:ss'));
+    clickTreeApplyButton();
+
+    interceptGridAPI({
+      eaiTransactionId: testingEAITransactionId,
+    }).as('getGrid');
+
+    // Select the first tree item in order to test the grid.
+    selectTreeItem(testingEAITransactionId);
+    cy.wait('@getGrid');
+
+    interceptActivityFilter();
+  });
+};
 // flag indicates whether to sort in decs or asc order(true-> asc and false-> decs)
 // f is a function that determines
 // cI is the index of column to sort based on that
@@ -64,42 +92,34 @@ let sortedAscending = [];
 let sortedDescending = [];
 let sortedUnordered = [];
 
+
 describe('Table Sorts correctly based on date', () => {
-  beforeEach(() => {
-    cy.visit('/business-process');
-  });
+  prepare();
 
   it('copy values', () => {
-    cy.get('#mui-1-EAI\\ Domain\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-Publishing\\ Business\\ Domain\\ 1\\ from\\ EAI\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-Business\\ Process\\ 1001 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
     tableToArray(originalData);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 265px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(2) > .table-header-sorter').click();
 
     tableToArray(sortedDescending);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 265px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(2) > .table-header-sorter').click();
 
     tableToArray(sortedAscending);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 265px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(2) > .table-header-sorter').click();
 
     tableToArray(sortedUnordered);
   });
 
-  it('Date sorted in ascending order works correctly', () => {
+  it('Date sorted in descending order works correctly', () => {
     const arr = sortArray(originalData, true, 1, (a) => new Date(a));
     arrayAreEqual(arr, sortedDescending);
   });
 
   it('Date sorted in descending order works correctly', () => {
-    const arr = sortArray(originalData, false, 1, (a) => new Date(a));
+    const arr = sortArray(originalData, true, 1, (a) => new Date(a));
+    arr.reverse();
     arrayAreEqual(arr, sortedAscending);
   });
 
@@ -110,41 +130,30 @@ describe('Table Sorts correctly based on date', () => {
 
 
 describe('Table Sorts correctly based on severity', () => {
-  beforeEach(() => {
-    cy.visit('/business-process');
-  });
+  prepare();
 
   it('copy values', () => {
     originalData = [];
     sortedAscending = [];
     sortedDescending = [];
     sortedUnordered = [];
-
-    cy.get('#mui-1-EAI\\ Domain\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-Publishing\\ Business\\ Domain\\ 1\\ from\\ EAI\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-Business\\ Process\\ 1001 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
     tableToArray(originalData);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 140px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(1) > .table-header-sorter').click();
 
     tableToArray(sortedDescending);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 140px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(1) > .table-header-sorter').click();
 
     tableToArray(sortedAscending);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 140px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(1) > .table-header-sorter').click();
 
     tableToArray(sortedUnordered);
   });
 
-  it('sevirity sorted in ascending order works correctly', () => {
-    const arr = sortArray(originalData, true, 0, (a) => {
+  it('sevirity sorted in descending order works correctly', () => {
+    const arr = sortArray(originalData, false, 0, (a) => {
       if (a == 'Error') {
         return 4;
       }
@@ -158,10 +167,11 @@ describe('Table Sorts correctly based on severity', () => {
         return 1;
       }
     });
+    arr.reverse()
     arrayAreEqual(arr, sortedDescending);
   });
 
-  it('sevirity sorted in descending order works correctly', () => {
+  it('sevirity sorted in ascending order works correctly', () => {
     const arr = sortArray(originalData, false, 0, (a) => {
       if (a == 'Error') {
         return 4;
@@ -186,41 +196,30 @@ describe('Table Sorts correctly based on severity', () => {
 
 
 describe('Table Sorts correctly based on buisiness domain', () => {
-  beforeEach(() => {
-    cy.visit('/business-process');
-  });
+  prepare();
 
   it('copy values', () => {
     originalData = [];
     sortedAscending = [];
     sortedDescending = [];
     sortedUnordered = [];
-
-    cy.get('#mui-1-EAI\\ Domain\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-Publishing\\ Business\\ Domain\\ 1\\ from\\ EAI\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-Business\\ Process\\ 1001 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
     tableToArray(originalData);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 220px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(3) > .table-header-sorter').click();
 
     tableToArray(sortedDescending);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 220px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(3) > .table-header-sorter').click();
 
     tableToArray(sortedAscending);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 220px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(3) > .table-header-sorter').click();
 
     tableToArray(sortedUnordered);
   });
 
 
-  it('sevirity sorted in ascending order works correctly', () => {
+  it('sevirity sorted in descending order works correctly', () => {
     const arr = originalData.slice().sort((a, b) => {
       if (a[2] < b[2]) {
         return -1;
@@ -234,7 +233,7 @@ describe('Table Sorts correctly based on buisiness domain', () => {
   });
 
 
-  it('sevirity sorted in descending order works correctly', () => {
+  it('sevirity sorted in ascending order works correctly', () => {
     const arr = originalData.slice().sort((a, b) => {
       if (a[2] < b[2]) {
         return -1;
@@ -252,41 +251,30 @@ describe('Table Sorts correctly based on buisiness domain', () => {
 });
 
 describe('Table Sorts correctly based on Application', () => {
-  beforeEach(() => {
-    cy.visit('/business-process');
-  });
+  prepare();
 
   it('copy values', () => {
     originalData = [];
     sortedAscending = [];
     sortedDescending = [];
     sortedUnordered = [];
-
-    cy.get('#mui-1-EAI\\ Domain\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-Publishing\\ Business\\ Domain\\ 1\\ from\\ EAI\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-Business\\ Process\\ 1001 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
     tableToArray(originalData);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 210px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(4) > .table-header-sorter').click();
 
     tableToArray(sortedDescending);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 210px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(4) > .table-header-sorter').click();
 
     tableToArray(sortedAscending);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 210px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(4) > .table-header-sorter').click();
 
     tableToArray(sortedUnordered);
   });
 
 
-  it('sevirity sorted in ascending order works correctly', () => {
+  it('sevirity sorted in descending order works correctly', () => {
     const arr = originalData.slice().sort((a, b) => {
       if (a[3] < b[3]) {
         return -1;
@@ -300,7 +288,7 @@ describe('Table Sorts correctly based on Application', () => {
   });
 
 
-  it('sevirity sorted in descending order works correctly', () => {
+  it('sevirity sorted in ascending order works correctly', () => {
     const arr = originalData.slice().sort((a, b) => {
       if (a[3] < b[3]) {
         return -1;
@@ -318,41 +306,30 @@ describe('Table Sorts correctly based on Application', () => {
 });
 
 describe('Table Sorts correctly based on Activity', () => {
-  beforeEach(() => {
-    cy.visit('/business-process');
-  });
+  prepare();
 
   it('copy values', () => {
     originalData = [];
     sortedAscending = [];
     sortedDescending = [];
     sortedUnordered = [];
-
-    cy.get('#mui-1-EAI\\ Domain\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-Publishing\\ Business\\ Domain\\ 1\\ from\\ EAI\\ 1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-Business\\ Process\\ 1001 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
-    cy.get('#mui-1-1 > .css-1g86id8-MuiTreeItem-content > .MuiTreeItem-label').click();
-
     tableToArray(originalData);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 240px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(5) > .table-header-sorter').click();
 
     tableToArray(sortedDescending);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 240px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(5) > .table-header-sorter').click();
 
     tableToArray(sortedAscending);
 
-    cy.get('[style="display: inline-block; box-sizing: border-box; width: 240px; position: relative;"] > .table-header-sorter').click();
+    cy.get(':nth-child(5) > .table-header-sorter').click();
 
     tableToArray(sortedUnordered);
   });
 
 
-  it('sevirity sorted in ascending order works correctly', () => {
+  it('sevirity sorted in descending order works correctly', () => {
     const arr = originalData.slice().sort((a, b) => {
       if (a[4] < b[4]) {
         return -1;
@@ -366,7 +343,7 @@ describe('Table Sorts correctly based on Activity', () => {
   });
 
 
-  it('sevirity sorted in descending order works correctly', () => {
+  it('sevirity sorted in ascending order works correctly', () => {
     const arr = originalData.slice().sort((a, b) => {
       if (a[4] < b[4]) {
         return -1;
@@ -382,5 +359,4 @@ describe('Table Sorts correctly based on Activity', () => {
     arrayAreEqual(originalData, sortedUnordered);
   });
 });
-
 

@@ -18,8 +18,8 @@ const prepare = () => {
   before(() => {
     // This is a minimal example on how to generate a path and then intercept the API request.
     const currentTime = moment(testingTime);
-    const past30Minutes = currentTime.clone().subtract(30, 'minutes');
-    const treePath = generatePath('/businessProcessTree', {
+    const past30Minutes = currentTime.clone().subtract(30, 'minutes'); 
+    const treePath = generatePath('/businessProcessTree', { //
       'startTime': convertToAPIFormat(past30Minutes.clone()),
       'endTime': convertToAPIFormat(currentTime.clone()),
     });
@@ -29,7 +29,7 @@ const prepare = () => {
       body: BPTreeMockAPI.getTreeResult({
         startDate: past30Minutes.clone(),
         endDate: currentTime.clone(),
-      }),
+      }), //
     }).as('getTree');
 
     cy.visit('/business-process');

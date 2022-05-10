@@ -70,7 +70,7 @@ var originalData = [[], [], [], [], []];
 var sortedAccending = [[], [], [], [], []];
 var sortedDecending = [[], [], [], [], []];
 var sortedUnordered = [[], [], [], [], []];
-describe('Table Sorts correctly based on date', () => {
+describe.skip('Table Sorts correctly based on date', () => {
   beforeEach(() => {
     cy.visit('/business-process');
     cy.get('.MuiButton-root').first().click();
@@ -116,7 +116,7 @@ describe('Table Sorts correctly based on date', () => {
 });
 
 
-describe('Table Sorts correctly based on severity', () => {
+describe.skip('Table Sorts correctly based on severity', () => {
   beforeEach(() => {
     cy.visit('/business-process');
     cy.get('.MuiButton-root').first().click();
@@ -191,5 +191,3 @@ describe('Table Sorts correctly based on severity', () => {
     arrayAreEqual(originalData, sortedUnordered);
   });
 });
-
-

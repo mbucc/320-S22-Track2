@@ -7,7 +7,7 @@ before(() => {
   goThroughLogin();
 });
 
-describe('Magic commands is working properly with shortcut commands.', () => {
+describe.skip('Magic commands is working properly with shortcut commands.', () => {
   it('Support rough date format.', () => {
     const rough1 = '12/20/2021 9am';
     const rough2 = '12/20/2021 9:00';
@@ -71,7 +71,7 @@ describe('Magic commands is working properly with shortcut commands.', () => {
   });
 });
 
-describe('Date format is parsed correctly', () => {
+describe.skip('Date format is parsed correctly', () => {
   it('Support seconds input correctly.', () => {
     const baseTime = new Date();
     cy.get('#bp-tree-filter-start-date-picker-field').clear();
@@ -119,7 +119,7 @@ describe('Date format is parsed correctly', () => {
   });
 });
 
-describe('Other tests in DatePicker component', () => {
+describe.skip('Other tests in DatePicker component', () => {
   it('Popper should be dismissed when we click outside.', () => {
     cy.get('body').click(0, 0);
     cy.get('#bp-tree-filter-start-date-picker-popper').should('not.exist');
@@ -157,4 +157,3 @@ describe('Other tests in DatePicker component', () => {
     cy.get('#bp-tree-filter-end-date-picker-field').type('3/14/2021 2:30 AM').type('{enter}').should('have.value', '3/14/2021, 3:30:00 AM');
   });
 });
-

@@ -7,7 +7,7 @@ before(() => {
   goThroughLogin();
 });
 
-describe('EAI domain field is working properly.', () => {
+describe.skip('EAI domain field is working properly.', () => {
   it('Click at (0, 0) to reset pop-ups', () => {
     cy.get('body').click(0, 0);
   });
@@ -48,7 +48,7 @@ describe('EAI domain field is working properly.', () => {
   });
 });
 
-describe('Publishing Business domain field is working properly.', () => {
+describe.skip('Publishing Business domain field is working properly.', () => {
   it('Click at (0, 0) to reset pop-ups', () => {
     cy.get('body').click(0, 0);
   });
@@ -82,4 +82,3 @@ describe('Publishing Business domain field is working properly.', () => {
 
   });
 });
-

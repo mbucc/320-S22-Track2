@@ -1,7 +1,7 @@
 import Count from './Count';
 import Grid from '@mui/material/Grid';
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
-import { red } from '@mui/material/colors';
+import {red} from '@mui/material/colors';
 
 /**
  * @param {Object} props
@@ -45,11 +45,11 @@ export default function Counts(props) {
     return sum;
   };
   return (
-    <Grid container direction='row' spacing={2}>
+    <Grid container direction='row' spacing={2} align='center'>
       <Grid item xs={3}>
         <Count
           icon={<ErrorOutlineRoundedIcon
-            sx={{ color: red[500] }} />}
+            sx={{color: red[500]}} />}
           countTitle={'High Priority Logs'}
           total={sumHighPriority()}
           onClick={props.toggleLogEvents}
@@ -85,12 +85,12 @@ export default function Counts(props) {
         <Count
           countTitle={'Warning Logs'}
           total={sumWarnings()}
-          onClick={props.toggleLogEvents} 
+          onClick={props.toggleLogEvents}
           type='severity'
           severity='Warning'
           start={props.start}
           end={props.end}
-          />
+        />
       </Grid>
     </Grid>
   );

@@ -49,14 +49,14 @@ before(() => {
 // const BizProcess = 'Business Process';
 
 
-describe('Populate the tree with test data.', ()=>{
+describe('Populate the tree with test data.', () => {
   it('Enters mock start and end date', () => {
     cy.get('#bp-tree-filter-end-date-picker-field').type('now').type('{enter}');
     cy.get('#bp-tree-filter-start-date-picker-field').type('-30m').type('{enter}');
   });
 });
 
-describe('Expand all shows all elements, and collapse all hides all elements.', ()=>{
+describe('Expand all shows all elements, and collapse all hides all elements.', () => {
   it('Clicks expand all.', () => {
     cy.get('#expand-collapse-all-button').contains('Expand').click();
     cy.get('.tree-log').each((log, index, list) =>{

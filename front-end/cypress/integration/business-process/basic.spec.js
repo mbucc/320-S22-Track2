@@ -6,7 +6,7 @@ before(() => {
   goThroughLogin();
 });
 
-describe('Visit the page.', () => {
+describe.skip('Visit the page.', () => {
   it('Successfully load the business process page.', () => {
     cy.get('#bp-root').should('be.visible');
   });

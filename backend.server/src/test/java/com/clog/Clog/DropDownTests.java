@@ -91,13 +91,22 @@ public class DropDownTests {
         Assert.assertFalse(response.isEmpty());
     }
 
+    // @Test
+    // public void testGetPublishingBusinessDomains() {
+    //     List<String> subDomains = Arrays.asList(new String[]{"Business_Update","Publish_Customer_Update"});
+    //     List<String> response = busTree.findDistinctPublishingBusinessDomains();
+    //     //Assert.assertTrue(subDomains.size() == response.size());
+    //     // Assert.assertTrue(response.containsAll(subDomains));
+    //     // Assert.assertTrue(subDomains.containsAll(response));
+    //     Assert.assertEquals(subDomains, response);
+    // }
+
     @Test
-    public void testGetPublishingBusinessDomains() {
-        List<String> subDomains = Arrays.asList(new String[]{"Business_Update","Publish_Customer_Update"});
-        List<String> response = busTree.findDistinctPublishingBusinessDomains();
+    public void testGetEAIDomain() {
+        List<String> subDomains = Arrays.asList(new String[]{"EAI_DOMAIN_1","EAI_DOMAIN_2"});
+        List<String> response = logEventRepo.findDistinctEAI_Domains();
         Assert.assertTrue(subDomains.size() == response.size());
-        // Assert.assertTrue(response.containsAll(subDomains));
-        // Assert.assertTrue(subDomains.containsAll(response));
-        Assert.assertEquals(subDomains, response);
+        Assert.assertTrue(response.containsAll(subDomains));
+        Assert.assertTrue(subDomains.containsAll(response));
     }
 }

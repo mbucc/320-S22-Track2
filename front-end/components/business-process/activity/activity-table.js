@@ -7,7 +7,7 @@ import {useTable, useBlockLayout, useSortBy, useResizeColumns} from 'react-table
 import styled from 'styled-components';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {IconArrowsSort, IconChevronRight, IconSortAscending, IconSortDescending} from '@tabler/icons';
-import {Tooltip, tooltipClasses} from "@mui/material";
+import {Tooltip, tooltipClasses} from '@mui/material';
 
 /**
  * The root component for the activity table.

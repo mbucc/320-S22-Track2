@@ -62,10 +62,12 @@ public class DropDownTests {
         Assert.assertTrue(subDomains.containsAll(response));
     }
 
-    // @Test
-    // public void testFindIdEmptyString() {
-    //     String id = "";
-    //     Optional<LogDetail> response = logRepo.findById(id);
-    //     Assert.assertEquals(response.isPresent(), false);
-    // }
+    @Test
+    public void testGetApplicationsNotEmpty() {
+        List<String> subDomains = Arrays.asList(new String[]{});
+        List<String> response = logEventRepo.findDistinctApplications();
+        Assert.assertFalse(subDomains.size() == response.size());
+        Assert.assertFalse(subDomains.containsAll(response));
+        Assert.assertFalse(response.isEmpty());
+    }
 }

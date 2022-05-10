@@ -6,7 +6,8 @@ import {useTable, useBlockLayout, useSortBy, useResizeColumns} from 'react-table
 
 import styled from 'styled-components';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
-import {IconArrowRight, IconArrowsSort, IconSortAscending, IconSortDescending} from '@tabler/icons';
+import {IconArrowsSort, IconChevronRight, IconSortAscending, IconSortDescending} from '@tabler/icons';
+import {Tooltip, tooltipClasses} from "@mui/material";
 
 /**
  * The root component for the activity table.
@@ -152,18 +153,34 @@ const BPTableDetailButton = styled.a`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 6px 12px;
+  padding: 6px 11px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   color: ${BPColors.gray[400]};
-  column-gap: 3px;
-  transition: all 0.1s ease-in-out;
+  column-gap: 2px;
+  transition: all 0.15s ease-in-out;
   
   &:hover {
-    color: ${BPColors.green[600]};
+    color: ${BPColors.black};
+    background-color: ${BPColors.gray[100]};
+    border-radius: 999px;
   }
 `;
+
+const LightTooltip = styled(({className, ...props}) => (
+  <Tooltip {...props} classes={{popper: className}}/>
+))(({theme}) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: BPColors.black,
+  },
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: BPColors.black,
+    color: BPColors.white,
+    fontSize: 11,
+    marginTop: '0px !important',
+  },
+}));
 
 /**
  * This is a custom implementation of the react-table `useTable` hook.
@@ -288,14 +305,21 @@ export default function BPTableComponent({columns, data, style}) {
             prepareRow(row);
             return (
               // eslint-disable-next-line react/jsx-key
-              <div key={row.getRowProps().key} className="table-line">
+              <div key={row.values['global_instance_id'] || i} className="table-line">
                 <div {...row.getRowProps()} className="tr">
                   {row.cells.map((cell) => {
                     return (
                       // eslint-disable-next-line react/jsx-key
-                      <div {...cell.getCellProps()} className="td">
-                        {cell.render('Cell')}
-                      </div>
+                      <LightTooltip
+                        title={cell.value}
+                        enterDelay={2100}
+                        leaveDelay={100}
+                        arrow
+                      >
+                        <div {...cell.getCellProps()} className="td">
+                          {cell.render('Cell')}
+                        </div>
+                      </LightTooltip>
                     );
                   })}
                 </div>
@@ -305,10 +329,16 @@ export default function BPTableComponent({columns, data, style}) {
                     display: i === rows.length - 1 ? 'none' : 'flex',
                   }}
                 />
-                <Link href={`/log-detail/${row.original.eai_transaction_id}`} passHref>
-                  <BPTableDetailButton>
-                    <span>Detail</span>
-                    <IconArrowRight width={18} height={18} strokeWidth={2.1}/>
+                <Link
+                  href={`/log-detail/${row.original.global_instance_id}`}
+                  passHref
+                >
+                  <BPTableDetailButton
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span style={{paddingLeft: 4}}>Detail</span>
+                    <IconChevronRight width={17} height={17} strokeWidth={2.2}/>
                   </BPTableDetailButton>
                 </Link>
               </div>

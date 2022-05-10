@@ -41,5 +41,5 @@ export const isValidDateTimeFormat = (date) => {
  * @return {string}
  */
 export const convertToAPIFormat = (momentObject) => {
-  return momentObject.format('YYYY-MM-DD HH:mm:ss.SSSSSS');
+  return momentObject.utc().format('YYYY-MM-DD HH:mm:ss.SSSSSS');
 };

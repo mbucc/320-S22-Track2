@@ -2,30 +2,13 @@ import {goThroughLogin} from '../../../support/business-process/utility/general'
 import moment from 'moment';
 import {generatePath} from '../../../support/business-process/utility/path-generator';
 import {convertToAPIFormat} from '../../../../utils/business-process/date-options';
-import {domainSelection} from '../../../support/business-process/input/domain-selection';
+import {selectEAIDomain, selectPubDomain} from '../../../support/business-process/input/domain-selection';
+import {inputEndDate, inputStartDate} from '../../../support/business-process/input/date-picker';
 
 beforeEach(() => {
   cy.visit('/business-process');
   goThroughLogin();
 });
-
-const inputStartDate = (content) => {
-  cy.get('#bp-tree-filter-start-date-picker-field').clear();
-  cy.get('#bp-tree-filter-start-date-picker-field').type(content).type('{enter}');
-};
-
-const inputEndDate = (content) => {
-  cy.get('#bp-tree-filter-end-date-picker-field').clear();
-  cy.get('#bp-tree-filter-end-date-picker-field').type(content).type('{enter}');
-};
-
-const selectEAIDomain = (count) => {
-  return domainSelection(count, '#bp-tree-filter-eai-domain');
-};
-
-const selectPubDomain = (count, then) => {
-  return domainSelection(count, '#bp-tree-filter-publishing-business-domain');
-};
 
 describe('Tree Filter Integration with timing only', () => {
   it('API path is matched.', () => {

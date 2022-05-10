@@ -36,12 +36,20 @@ public class DropDownTests {
     private LogEventRepository logEventRepo;
 
     @Test
-    public void testCorrectSubDomains() {
+    public void testFindDistinctBusinessSubDomains() {
         List<String> subDomains = Arrays.asList(new String[]{"Customer","BUSINESS"});
         List<String> response = logEventRepo.findDistinctBusinessSubDomains();
         Assert.assertTrue(subDomains.size() == response.size());
         Assert.assertTrue(response.containsAll(subDomains));
         Assert.assertTrue(subDomains.containsAll(response));
+    }
+
+    @Test
+    public void testFindDistinctBusinessSubDomainsNotEmpty() {
+        List<String> subDomains = Arrays.asList(new String[]{});
+        List<String> response = logEventRepo.findDistinctBusinessSubDomains();
+        Assert.assertFalse(subDomains.size() == response.size());
+        Assert.assertFalse(subDomains.containsAll(response));
     }
 
     // @Test

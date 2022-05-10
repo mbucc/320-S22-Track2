@@ -7,6 +7,7 @@ import {useLPSession} from '@taci-tech/launchpad-js';
 import {BPLaunchpad} from '../../../utils/business-process/launchpad/core';
 import BPLoader from '../common/loader';
 import {IconMoodEmpty} from '@tabler/icons';
+import {BPPaginationController} from '../common/pagination-controller';
 
 const BPTreeView = ({
   onChange,
@@ -101,6 +102,15 @@ const BPTreeView = ({
             Loading...
           </div>
         </div>
+        <BPPaginationController
+          pageState={1}
+          pageCount={5}
+          style={{
+            position: 'absolute',
+            bottom: '22px',
+            right: '23px',
+          }}
+        />
         <div
           style={{
             display: !isLoading && data.length === 0 ? 'flex' : 'none',

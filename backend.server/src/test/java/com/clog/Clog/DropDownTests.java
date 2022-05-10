@@ -70,4 +70,13 @@ public class DropDownTests {
         Assert.assertFalse(subDomains.containsAll(response));
         Assert.assertFalse(response.isEmpty());
     }
+
+    @Test
+    public void testGetServices() {
+        List<String> subDomains = Arrays.asList(new String[]{"Business_Update","Publish_Customer_Update"});
+        List<String> response = logEventRepo.findDistinctServices();
+        Assert.assertTrue(subDomains.size() == response.size());
+        Assert.assertTrue(response.containsAll(subDomains));
+        Assert.assertTrue(subDomains.containsAll(response));
+    }
 }

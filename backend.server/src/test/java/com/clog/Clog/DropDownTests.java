@@ -36,7 +36,7 @@ public class DropDownTests {
     private LogEventRepository logEventRepo;
 
     @Test
-    public void testFindDistinctBusinessSubDomains() {
+    public void testGetBusinessSubDomains() {
         List<String> subDomains = Arrays.asList(new String[]{"Customer","BUSINESS"});
         List<String> response = logEventRepo.findDistinctBusinessSubDomains();
         Assert.assertTrue(subDomains.size() == response.size());
@@ -45,7 +45,7 @@ public class DropDownTests {
     }
 
     @Test
-    public void testFindDistinctBusinessSubDomainsNotEmpty() {
+    public void testGetBusinessSubDomainsNotEmpty() {
         List<String> subDomains = Arrays.asList(new String[]{});
         List<String> response = logEventRepo.findDistinctBusinessSubDomains();
         Assert.assertFalse(subDomains.size() == response.size());
@@ -53,12 +53,14 @@ public class DropDownTests {
         Assert.assertFalse(response.isEmpty());
     }
 
-    // @Test
-    // public void testCorrectApplications() {
-    //     String[] apps = {"CRM_Adapter","OPER_Adapter","ACCOUNT_Adapter","ACCOUNT_application","OPER_application","CRM_application"};
-    //     Optional<LogDetail> response = logDetail.findById(id);
-    //     Assert.assertEquals(response.isPresent(), false);
-    // }
+    @Test
+    public void testgetApplications() {
+        List<String> subDomains = Arrays.asList(new String[]{"CRM_Adapter"});
+        List<String> response = logEventRepo.findDistinctApplications();
+        Assert.assertTrue(subDomains.size() == response.size());
+        Assert.assertTrue(response.containsAll(subDomains));
+        Assert.assertTrue(subDomains.containsAll(response));
+    }
 
     // @Test
     // public void testFindIdEmptyString() {

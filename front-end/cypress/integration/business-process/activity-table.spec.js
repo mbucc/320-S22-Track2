@@ -3,7 +3,7 @@
 // const { cy } = require("date-fns/locale");
 import {goThroughLogin} from '../../support/business-process/utility/general';
 
-describe('Activity Table Behavior', () => {
+describe.skip('Activity Table Behavior', () => {
   beforeEach(() => {
     cy.visit('/business-process');
     goThroughLogin();

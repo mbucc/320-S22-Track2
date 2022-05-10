@@ -1,13 +1,14 @@
 import {goThroughLogin} from '../../../support/business-process/utility/general';
-import {domainSelection} from '../../../support/business-process/input/domain-selection';
+import {selectBusinessDomain} from '../../../support/business-process/input/domain-selection';
 import moment from 'moment';
-import {generatePath} from '../../../support/business-process/utility/path-generator';
-import {convertToAPIFormat} from '../../../../utils/business-process/date-options';
-import {BPTreeMockAPI} from '../../../support/business-process/mock-api/tree';
 import {selectTreeItem} from '../../../support/business-process/input/tree-selection';
 import {severityOptions, sortSeverityTags} from '../../../../utils/business-process/severity';
 import {inputEndDate, inputStartDate} from '../../../support/business-process/input/date-picker';
-import {interceptActivityFilter, interceptGridAPI} from '../../../support/business-process/utility/intercept';
+import {
+  interceptBusinessDomainList,
+  interceptGridAPI,
+  interceptTreeAPI,
+} from '../../../support/business-process/utility/intercept';
 import {clickTableApplyButton, clickTreeApplyButton} from '../../../support/business-process/input/apply-button';
 
 const testingEAITransactionId = 'eai-trans-id-XQShJj-596835';
@@ -19,17 +20,9 @@ const prepare = () => {
     // This is a minimal example on how to generate a path and then intercept the API request.
     const currentTime = moment(testingTime);
     const past30Minutes = currentTime.clone().subtract(30, 'minutes');
-    const treePath = generatePath('/businessProcessTree', {
-      'startTime': convertToAPIFormat(past30Minutes.clone()),
-      'endTime': convertToAPIFormat(currentTime.clone()),
-    });
-    // IMPORTANT: Intercepting the corresponding API request when there is one.
-    cy.intercept('GET', treePath, {
-      statusCode: 200,
-      body: BPTreeMockAPI.getTreeResult({
-        startDate: past30Minutes.clone(),
-        endDate: currentTime.clone(),
-      }),
+    interceptTreeAPI({
+      startDate: past30Minutes,
+      endDate: currentTime,
     }).as('getTree');
 
     cy.visit('/business-process');
@@ -48,12 +41,8 @@ const prepare = () => {
     selectTreeItem(testingEAITransactionId);
     cy.wait('@getGrid');
 
-    interceptActivityFilter();
+    interceptBusinessDomainList();
   });
-};
-
-const selectBusinessDomain = (count) => {
-  return domainSelection(count, '#bp-activity-filter-business-domain');
 };
 
 // Click on a severity tag by option key.

@@ -81,6 +81,10 @@ export const selectPubDomain = (count) => {
   return domainSelection(count, '#bp-tree-filter-publishing-business-domain');
 };
 
+export const selectBusinessDomain = (count) => {
+  return domainSelection(count, '#bp-activity-filter-business-domain');
+};
+
 // Use this function to select a specific EAI domain.
 export const selectSpecificEAIDomain = (domainName) => {
   return selectSpecificDomain('#bp-tree-filter-eai-domain', domainName);

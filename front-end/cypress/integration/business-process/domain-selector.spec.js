@@ -1,6 +1,5 @@
-import { isValidTimeFormat } from '../../../utils/business-process/date-options';
-import { goThroughLogin } from '../../support/business-process/utility/general';
-import { domainSelection } from '../../support/business-process/input/domain-selection';
+import {goThroughLogin} from '../../support/business-process/utility/general';
+import {domainSelection} from '../../support/business-process/input/domain-selection';
 
 // TODO: Write tests for domain selectors.
 before(() => {
@@ -37,8 +36,6 @@ describe('EAI domain field is working properly.', () => {
     cy.get('#bp-tree-filter-eai-domain-selector-popper-list').should('not.exist');
   });
 
-  const entry = '';
-
   it('Selecting an entry in the list displays it in the field.', () => {
     selectEAIDomain(1).then((firstVal) => {
       cy.get('#bp-tree-filter-eai-domain-selector-selected-items').children().its(0).invoke('text').should((selectedVal) => {
@@ -48,20 +45,17 @@ describe('EAI domain field is working properly.', () => {
   });
 
   it('If something is typed into the search bar, all entries will contain the searched keyword.', () => {
-
     cy.get('#bp-tree-filter-eai-domain-selector-selected-items').children().its(0).invoke('text').then((selectedVal) => {
       console.log(selectedVal);
       cy.get('#bp-tree-filter-eai-domain-selector').click();
       cy.get('#bp-tree-filter-eai-domain-selector-popper-search-field').type(selectedVal.substring(0, 3));
       let i = 0;
-      cy.get('#bp-tree-filter-eai-domain-selector-popper-list').children().each(result => {
+      cy.get('#bp-tree-filter-eai-domain-selector-popper-list').children().each((result) => {
         if (i != 0) {
           i++;
-          expect(cy.wrap(result).contains(selectedVal.substring(0, 3)) != null).to.eq(true); //still WIP
+          expect(cy.wrap(result).contains(selectedVal.substring(0, 3)) != null).to.eq(true);
         }
       });
-
-
     });
   });
 });
@@ -92,20 +86,17 @@ describe('Publishing Business domain field is working properly.', () => {
   });
 
   it('If something is typed into the search bar, all entries will contain the searched keyword.', () => {
-
     cy.get('#bp-tree-filter-publishing-business-domain-selector-selected-items').children().its(0).invoke('text').then((selectedVal) => {
       console.log(selectedVal);
       cy.get('#bp-tree-filter-publishing-business-domain-selector').click();
       cy.get('#bp-tree-filter-publishing-business-domain-selector-popper-search-field').type(selectedVal.substring(0, 3));
       let i = 0;
-      cy.get('#bp-tree-filter-publishing-business-domain-selector-popper-list').children().each(result => {
+      cy.get('#bp-tree-filter-publishing-business-domain-selector-popper-list').children().each((result) => {
         if (i != 0) {
           i++;
-          expect(cy.wrap(result).contains(selectedVal.substring(0, 3)) != null).to.eq(true); //still WIP
+          expect(cy.wrap(result).contains(selectedVal.substring(0, 3)) != null).to.eq(true);
         }
       });
-
-
     });
   });
 });
@@ -136,20 +127,17 @@ describe('Activities Filter\'s Business Domain field is working properly.', () =
   });
 
   it('If something is typed into the search bar, all entries will contain the searched keyword.', () => {
-
     cy.get('#bp-activity-filter-business-domain-selector-selected-items').children().its(0).invoke('text').then((selectedVal) => {
       console.log(selectedVal);
       cy.get('#bp-activity-filter-business-domain-selector').click();
       cy.get('#bp-activity-filter-business-domain-selector-popper-search-field').type(selectedVal.substring(0, 3));
       let i = 0;
-      cy.get('#bp-activity-filter-business-domain-selector-popper-list').children().each(result => {
+      cy.get('#bp-activity-filter-business-domain-selector-popper-list').children().each((result) => {
         if (i != 0) {
           i++;
-          expect(cy.wrap(result).contains(selectedVal.substring(0, 3)) != null).to.eq(true); //still WIP
+          expect(cy.wrap(result).contains(selectedVal.substring(0, 3)) != null).to.eq(true);
         }
       });
-
-
     });
   });
 });

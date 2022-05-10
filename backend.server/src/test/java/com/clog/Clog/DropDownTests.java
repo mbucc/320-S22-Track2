@@ -109,4 +109,13 @@ public class DropDownTests {
         Assert.assertTrue(response.containsAll(subDomains));
         Assert.assertTrue(subDomains.containsAll(response));
     }
+
+    @Test
+    public void testGetEAIDomainNotEmpty() {
+        List<String> subDomains = Arrays.asList(new String[]{});
+        List<String> response = logEventRepo.findDistinctEAI_Domains();
+        Assert.assertFalse(subDomains.size() == response.size());
+        Assert.assertFalse(subDomains.containsAll(response));
+        Assert.assertFalse(response.isEmpty());
+    }
 }

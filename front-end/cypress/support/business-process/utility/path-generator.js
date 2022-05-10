@@ -1,10 +1,13 @@
 import {BPTestMeta} from './meta';
 
 // Use this function to generate the path easily.
-export const generatePath = (path, query) => {
+export const generatePath = (path, query = {}) => {
   const queryEntires = [];
   Object.keys(query).forEach((key) => {
     let value = query[key];
+    if (value === undefined) {
+      return;
+    }
     if (Array.isArray(value)) {
       value = value.join(',');
     }

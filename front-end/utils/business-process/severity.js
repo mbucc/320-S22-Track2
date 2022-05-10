@@ -39,6 +39,34 @@ export const getColorBySeverityValue = (severity) => {
   }
 };
 
+export const getSeverityRangeValueByTag = (tag) => {
+  switch (tag) {
+    case 'success':
+      return [0, 10];
+    case 'info':
+      return [10, 30];
+    case 'warning':
+      return [30, 50];
+    case 'error':
+      return [50, 100];
+  }
+};
+
+export const isValidSeverityValue = (allowedSeverities, givenValue) => {
+  if (!allowedSeverities || allowedSeverities.length === 0) {
+    return true;
+  }
+  if (givenValue < 10) {
+    return allowedSeverities.includes('success');
+  } else if (givenValue < 30) {
+    return allowedSeverities.includes('info');
+  } else if (givenValue < 50) {
+    return allowedSeverities.includes('warning');
+  } else {
+    return allowedSeverities.includes('error');
+  }
+};
+
 export const getNameBySeverityAccessor = (severity) => {
   switch (severity) {
     case 'success':

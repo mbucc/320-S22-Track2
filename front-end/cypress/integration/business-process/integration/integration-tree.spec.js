@@ -1,85 +1,93 @@
 import {goThroughLogin} from '../../../support/business-process/utility/general';
 import moment from 'moment';
-import {generatePath} from '../../../support/business-process/utility/path-generator';
-import {convertToAPIFormat} from '../../../../utils/business-process/date-options';
 import {selectEAIDomain, selectPubDomain} from '../../../support/business-process/input/domain-selection';
 import {inputEndDate, inputStartDate} from '../../../support/business-process/input/date-picker';
+import {interceptTreeAPI} from '../../../support/business-process/utility/intercept';
 
 beforeEach(() => {
   cy.visit('/business-process');
   goThroughLogin();
 });
 
-describe('Tree Filter Integration with timing only', () => {
-  it('API path is matched.', () => {
+const testDatePickerIntegration = (startDate, endDate) => {
+  // Lock the current time (so the generated API time will be the same with the test time).
+  cy.clock(endDate.toDate().getTime());
+  inputStartDate(startDate.format('MM/DD/YYYY HH:mm:ss A'));
+  inputEndDate(endDate.format('MM/DD/YYYY HH:mm:ss A'));
+  interceptTreeAPI({
+    startDate: startDate,
+    endDate: endDate,
+  }).as('getTree');
+  cy.get('#bp-tree-filter-apply-button').click();
+  cy.wait('@getTree');
+};
+
+const testEAIDomain = (testTitle) => {
+  it(testTitle, () => {
     // This is a minimal example on how to generate a path and then intercept the API request.
     const currentTime = moment();
     const past30Minutes = currentTime.clone().subtract(30, 'minutes');
     // Lock the current time (so the generated API time will be the same with the test time).
     cy.clock(currentTime.toDate().getTime());
-    inputStartDate(past30Minutes.format('MM/DD/YYYY HH:mm:ss'));
-    inputEndDate(currentTime.format('MM/DD/YYYY HH:mm:ss'));
-    const defaultPath = generatePath('/businessProcessTree', {
-      'startTime': convertToAPIFormat(past30Minutes),
-      'endTime': convertToAPIFormat(currentTime),
+    inputStartDate(past30Minutes.format('MM/DD/YYYY HH:mm:ss A'));
+    inputEndDate(currentTime.format('MM/DD/YYYY HH:mm:ss A'));
+    selectEAIDomain(2).then((selectedDomain) => {
+      interceptTreeAPI({
+        startDate: past30Minutes,
+        endDate: currentTime,
+        eaiDomains: selectedDomain,
+      }).as('getTree');
+      cy.get('#bp-tree-filter-apply-button').click();
+      cy.wait('@getTree');
     });
-    cy.intercept('GET', defaultPath, {
-      statusCode: 200,
-      body: {},
-    }).as('getTree');
-    cy.get('#bp-tree-filter-apply-button').click();
-    cy.wait('@getTree');
   });
+};
+
+const testPubDomain = (testTitle) => {
+  it(testTitle, () => {
+    // This is a minimal example on how to generate a path and then intercept the API request.
+    const currentTime = moment();
+    const past30Minutes = currentTime.clone().subtract(30, 'minutes');
+    // Lock the current time (so the generated API time will be the same with the test time).
+    cy.clock(currentTime.toDate().getTime());
+    inputStartDate(past30Minutes.format('MM/DD/YYYY HH:mm:ss A'));
+    inputEndDate(currentTime.format('MM/DD/YYYY HH:mm:ss A'));
+    selectPubDomain(2).then((selectedDomain) => {
+      interceptTreeAPI({
+        startDate: past30Minutes,
+        endDate: currentTime,
+        pubDomains: selectedDomain,
+      }).as('getTree');
+      cy.get('#bp-tree-filter-apply-button').click();
+      cy.wait('@getTree');
+    });
+  });
+};
+
+describe('DatePicker Integration only', () => {
+  for (let i = 1; i < 6; ++i) {
+    // Randomly generate a number from 1 to 100000.
+    const randomNumber = Math.floor(Math.random() * 100000) + 1;
+    const currentTime = moment().subtract(randomNumber, 'minutes');
+    const past30Minutes = currentTime.clone().subtract(30, 'minutes');
+    it(`DatePicker API Path. Random ${i}.`, () => {
+      testDatePickerIntegration(past30Minutes, currentTime);
+    });
+  }
 });
 
 describe('Tree Filter Integration with EAI Domain fields', () => {
-  it('API Path is fired correctly.', () => {
-    // This is a minimal example on how to generate a path and then intercept the API request.
-    const currentTime = moment();
-    const past30Minutes = currentTime.clone().subtract(30, 'minutes');
-    // Lock the current time (so the generated API time will be the same with the test time).
-    cy.clock(currentTime.toDate().getTime());
-    inputStartDate(past30Minutes.format('MM/DD/YYYY HH:mm:ss'));
-    inputEndDate(currentTime.format('MM/DD/YYYY HH:mm:ss'));
-    selectEAIDomain(2).then((selectedDomain) => {
-      const defaultPath = generatePath('/businessProcessTree', {
-        'startTime': convertToAPIFormat(past30Minutes),
-        'endTime': convertToAPIFormat(currentTime),
-        'eaiDomain': selectedDomain.join(','),
-      });
-      cy.intercept('GET', defaultPath, {
-        statusCode: 200,
-        body: {},
-      }).as('getTree');
-      cy.get('#bp-tree-filter-apply-button').click();
-      cy.wait('@getTree');
-    });
-  });
+  testEAIDomain('EAI Domain API Path. Random 1.');
+  testEAIDomain('EAI Domain API Path. Random 2.');
+  testEAIDomain('EAI Domain API Path. Random 3.');
+  testEAIDomain('EAI Domain API Path. Random 4.');
 });
 
 describe('Tree Filter Integration with Pub Domain fields', () => {
-  it('API Path is fired correctly.', () => {
-    // This is a minimal example on how to generate a path and then intercept the API request.
-    const currentTime = moment();
-    const past30Minutes = currentTime.clone().subtract(30, 'minutes');
-    // Lock the current time (so the generated API time will be the same with the test time).
-    cy.clock(currentTime.toDate().getTime());
-    inputStartDate(past30Minutes.format('MM/DD/YYYY HH:mm:ss'));
-    inputEndDate(currentTime.format('MM/DD/YYYY HH:mm:ss'));
-    selectPubDomain(2).then((selectedDomain) => {
-      const defaultPath = generatePath('/businessProcessTree', {
-        'startTime': convertToAPIFormat(past30Minutes),
-        'endTime': convertToAPIFormat(currentTime),
-        'publishingBusinessDomain': selectedDomain.join(','),
-      });
-      cy.intercept('GET', defaultPath, {
-        statusCode: 200,
-        body: {},
-      }).as('getTree');
-      cy.get('#bp-tree-filter-apply-button').click();
-      cy.wait('@getTree');
-    });
-  });
+  testPubDomain('Pub Domain API Path. Random 1.');
+  testPubDomain('Pub Domain API Path. Random 2.');
+  testPubDomain('Pub Domain API Path. Random 3.');
+  testPubDomain('Pub Domain API Path. Random 4.');
 });
 
 describe('Tree Filter Integration with all filter fields', () => {
@@ -91,17 +99,13 @@ describe('Tree Filter Integration with all filter fields', () => {
     cy.clock(currentTime.toDate().getTime());
     inputStartDate(past30Minutes.format('MM/DD/YYYY HH:mm:ss'));
     inputEndDate(currentTime.format('MM/DD/YYYY HH:mm:ss'));
-    selectEAIDomain(8).then((selectedEAIDomain) => {
-      selectPubDomain(8).then((selectedPubDomain) => {
-        const defaultPath = generatePath('/businessProcessTree', {
-          'startTime': convertToAPIFormat(past30Minutes),
-          'endTime': convertToAPIFormat(currentTime),
-          'eaiDomain': selectedEAIDomain.join(','),
-          'publishingBusinessDomain': selectedPubDomain.join(','),
-        });
-        cy.intercept('GET', defaultPath, {
-          statusCode: 200,
-          body: {},
+    selectEAIDomain(3).then((selectedEAIDomain) => {
+      selectPubDomain(3).then((selectedPubDomain) => {
+        interceptTreeAPI({
+          startDate: past30Minutes,
+          endDate: currentTime,
+          eaiDomains: selectedEAIDomain,
+          pubDomains: selectedPubDomain,
         }).as('getTree');
         cy.get('#bp-tree-filter-apply-button').click();
         cy.wait('@getTree');

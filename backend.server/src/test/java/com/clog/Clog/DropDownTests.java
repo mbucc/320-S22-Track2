@@ -102,6 +102,15 @@ public class DropDownTests {
     }
 
     @Test
+    public void testGetPublishingBusinessDomainsNotEmpty() {
+        List<String> subDomains = Arrays.asList(new String[]{});
+        List<String> response = busTree.findDistinctPublishingBusinessDomains();
+        Assert.assertFalse(subDomains.size() == response.size());
+        Assert.assertFalse(subDomains.containsAll(response));
+        Assert.assertFalse(response.isEmpty());
+    }
+
+    @Test
     public void testGetEAIDomain() {
         List<String> subDomains = Arrays.asList(new String[]{"EAI_DOMAIN_1","EAI_DOMAIN_2"});
         List<String> response = logEventRepo.findDistinctEAI_Domains();

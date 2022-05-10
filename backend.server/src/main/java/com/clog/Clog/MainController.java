@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import com.clog.Clog.BusinessProcess.BusinessGridFilter;
@@ -76,15 +77,26 @@ public class MainController {
         LogEventFilterSpecification logSpec = new LogEventFilterSpecification(filt);
         return logEventRepo.findAll(logSpec);
     }
+<<<<<<< Updated upstream
     //One to one relations are slow. 
+=======
+
+    // TODO One to one relations are slow.
+>>>>>>> Stashed changes
     @GetMapping(path = "/businessProcessTree")
     public @ResponseBody BusinessProcessTreeMap getBusinessTree(
             @RequestParam String startTime,
             @RequestParam String endTime,
             @RequestParam(required = false) String[] eaiDomain,
             @RequestParam(required = false) String[] publishingBusinessDomain,
+<<<<<<< Updated upstream
             @RequestParam(defaultValue = "50") Integer pageLength, @RequestParam(defaultValue = "0") Integer pageNumber) {
         
+=======
+            @RequestParam(defaultValue = "50") Integer pageLength, @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "eai_transaction_create_time") String sortBy) {
+
+>>>>>>> Stashed changes
         businessTreeFilter filt = new businessTreeFilter();
         filt.setStartTime(Timestamp.valueOf(startTime));
         filt.setEndTime(Timestamp.valueOf(endTime));
@@ -93,7 +105,7 @@ public class MainController {
 
         businessTreeSpecification spec = new businessTreeSpecification(filt);
         Pageable limit = PageRequest.of(pageNumber, pageLength);
-        Page<EAIdomain> pageResults = busTree.findAll(spec,limit);
+        Page<EAIdomain> pageResults = busTree.findAll(spec, limit);
 
         BusinessProcessTreeMap returnMap = new BusinessProcessTreeMap();
         returnMap.setSize(pageResults.getTotalElements());
@@ -116,7 +128,7 @@ public class MainController {
         businessFilter.setSeverities(severities);
 
         BusinessGridSpecification businessGridSpec = new BusinessGridSpecification(businessFilter);
-        
+
         return logEventRepo.findAll(businessGridSpec);
     }
 
@@ -124,10 +136,10 @@ public class MainController {
     public @ResponseBody Map<Timestamp, Long> countByType(@RequestParam String severity, @RequestParam Double intervals,
             @RequestParam int timeBack) {
         SortedMap<Timestamp, Long> timeCount = new TreeMap<Timestamp, Long>();
-        //Using millis to attempt to remove issues regarding integer division
+        // Using millis to attempt to remove issues regarding integer division
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(timeBack));
-        
+
         Calendar cal = Calendar.getInstance();
         Double intervalLength = timeBack / intervals;
         cal.setTime(startTime);
@@ -148,19 +160,20 @@ public class MainController {
     public @ResponseBody Map<String, Integer[]> getPieGraph(@RequestParam int timeBack) {
         Map<String, Integer[]> returnMap = new HashMap<String, Integer[]>();
         LogEventsSearchCriteria filt = new LogEventsSearchCriteria();
-        
+
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(timeBack));
         filt.setStartTime(startTime);
         filt.setEndTime(currentTime);
 
-        String[] filtStrings = { "warning", "error"};
+        String[] filtStrings = { "warning", "error" };
         filt.setSeverities(filtStrings);
 
-        //Getting all events and sorting locally is faster than a bunch of mysql calls during testing
+        // Getting all events and sorting locally is faster than a bunch of mysql calls
+        // during testing
         List<LogEvent> toSort = logEventRepo.findAll(new LogEventFilterSpecification(filt));
         for (LogEvent curLog : toSort) {
-            //If not already included in return map
+            // If not already included in return map
             if (!returnMap.containsKey(curLog.getBusiness_domain())) {
                 if (curLog.getSeverity() >= 50) {
                     Integer[] toPut = { 0, 1 };
@@ -169,7 +182,7 @@ public class MainController {
                     Integer[] toPut = { 1, 0 };
                     returnMap.put(curLog.getBusiness_domain(), toPut);
                 }
-                //If In return map
+                // If In return map
             } else {
                 if (curLog.getSeverity() >= 50) {
                     Integer[] toPut = returnMap.get(curLog.getBusiness_domain());
@@ -188,7 +201,7 @@ public class MainController {
 
     @GetMapping(path = "/businessDomains")
     public @ResponseBody List<String> getBusinessDomains(@RequestParam(required = false) String eaiTransactionId) {
-        if(eaiTransactionId != null) {
+        if (eaiTransactionId != null) {
             return logEventRepo.findDistinctBusinessDomains(eaiTransactionId);
         }
         return logEventRepo.findDistinctBusinessDomains();
@@ -219,4 +232,29 @@ public class MainController {
         return logEventRepo.findDistinctEAI_Domains();
     }
 
+    @GetMapping(path = "/authentication")
+    public @ResponseBody String authenticate(@RequestParam String username, @RequestParam String password) {
+        ArrayList<String> usernames = new ArrayList<>();
+        usernames.add("chris");
+        usernames.add("john");
+        ArrayList<String> passwords = new ArrayList<>();
+        passwords.add("isonewengland");
+        boolean usernameOk = false;
+        boolean passwordOk = false;
+        for (String user : usernames) {
+            if (username.equals(user)) {
+                usernameOk = true;
+            }
+        }
+        for (String pass : passwords) {
+            if (password.equals(pass)) {
+                passwordOk = true;
+            }
+        }
+        if ((usernameOk == true) && (passwordOk == true)) {
+            return "OK";
+        } else {
+            return "NO";
+        }
+    }
 }

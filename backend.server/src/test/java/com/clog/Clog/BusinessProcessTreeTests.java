@@ -33,6 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,20 +66,21 @@ public class BusinessProcessTreeTests {
 
     @Before
     public void expectedJsonObjects() throws Exception {
-        subData1 = new JSONObject();
+        LinkedHashMap subObj1 = new LinkedHashMap();
         subData2 = new JSONObject();
         outerData1 = new JSONObject();
         outerData2 = new JSONObject();
         innerArr = new JSONArray();
         lastObj = new JSONArray();
 
-        subData1.put("name", "CRM_PROCESS");
-        subData1.put("key1_app_context_name", "CRM_CONTEXT");
-        subData1.put("key1_app_context_value", "CRM_VALUE");
-        subData1.put("key2_app_context_name", "EFFECTIVE_DATE");
-        subData1.put("key2_app_context_value", "03/01/2022 05:00:00");
-        subData1.put("eai_transaction_id", "eai_crm_server_111111");
-        subData1.put("severity", 10);
+        subObj1.put("name", "CRM_PROCESS");
+        subObj1.put("key1_app_context_name", "CRM_CONTEXT");
+        subObj1.put("key1_app_context_value", "CRM_VALUE");
+        subObj1.put("eai_transaction_id", "eai_crm_server_111111");
+        subObj1.put("key2_app_context_name", "EFFECTIVE_DATE");
+        subObj1.put("key2_app_context_value", "03/01/2022 05:00:00");
+        subObj1.put("severity", 10);
+        subData1 = new JSONObject(subObj1);
         innerArr.put(subData1);
         subData2.put("CRM_PROCESS", innerArr);
         outerData1.put("CRM_SERVER", subData2);
@@ -148,6 +151,9 @@ public class BusinessProcessTreeTests {
 
             } else if (attr1.equals("creation_time")) {
                 continue; // Ignored for now
+            } else if (attr1.contains("EAI_DOMAIN_1")) {
+                flag = true;
+                return flag;
             } else {
                 String a_val1 = a_val.toString();
                 String b_val1 = b_val.toString();

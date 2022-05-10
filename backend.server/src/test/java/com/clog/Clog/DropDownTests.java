@@ -18,6 +18,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import com.clog.Clog.BusinessProcess.BusinessTreeRepository;
 import com.clog.Clog.LogDetailFiles.LogDetail;
 import com.clog.Clog.LogDetailFiles.LogDetailRepository;
 import com.clog.Clog.LogEventFiles.LogEventRepository;
@@ -34,6 +35,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 public class DropDownTests {
     @Autowired
     private LogEventRepository logEventRepo;
+    private BusinessTreeRepository busTree;
 
     @Test
     public void testGetBusinessSubDomains() {
@@ -87,5 +89,15 @@ public class DropDownTests {
         Assert.assertFalse(subDomains.size() == response.size());
         Assert.assertFalse(subDomains.containsAll(response));
         Assert.assertFalse(response.isEmpty());
+    }
+
+    @Test
+    public void testGetPublishingBusinessDomains() {
+        List<String> subDomains = Arrays.asList(new String[]{"Business_Update","Publish_Customer_Update"});
+        List<String> response = busTree.findDistinctPublishingBusinessDomains();
+        Assert.assertTrue(subDomains.size() == response.size());
+        // Assert.assertTrue(response.containsAll(subDomains));
+        // Assert.assertTrue(subDomains.containsAll(response));
+        Assert.assertEquals(subDomains, response);
     }
 }

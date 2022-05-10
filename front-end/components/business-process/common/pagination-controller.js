@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import styled from 'styled-components';
-import {IconArrowRight} from '@tabler/icons';
+import {IconArrowBarToRight, IconArrowRight} from '@tabler/icons';
 
 const PaginationButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   
-  width: 34px;
-  height: 38px;
+  height: 35px;
+  padding: 0 9px;
   
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
   cursor: pointer;
   
@@ -60,18 +60,18 @@ export const BPPaginationController = ({pageState, onChange, pageCount, style}) 
     const distanceBetweenStateAndMinPage = pageState;
     const maxOptionsCount = Math.min(pageCount, paginationButtonCount);
     if (
-      distanceBetweenStateAndMaxPage <= paginationButtonCount / 2 &&
-      distanceBetweenStateAndMinPage <= paginationButtonCount / 2
+      distanceBetweenStateAndMaxPage <= Math.floor(paginationButtonCount / 2) &&
+      distanceBetweenStateAndMinPage <= Math.floor(paginationButtonCount / 2)
     ) {
       setOptions(Array.from(Array(pageCount).keys()));
-    } else if (distanceBetweenStateAndMaxPage <= paginationButtonCount / 2) {
+    } else if (distanceBetweenStateAndMaxPage <= Math.floor(paginationButtonCount / 2)) {
       // It means we are at the end of the list.
       // So we create option list from maxPage to maxPage - paginationButtonCount.
       setOptions(
           Array.from(Array(maxOptionsCount).keys())
-              .map((i) => pageCount - i)
+              .map((i) => pageCount - maxOptionsCount + i)
       );
-    } else if (distanceBetweenStateAndMinPage <= paginationButtonCount / 2) {
+    } else if (distanceBetweenStateAndMinPage <= Math.floor(paginationButtonCount / 2)) {
       // It means we are at the beginning of the list.
       // So we create option list from 0 to paginationButtonCount.
       setOptions(Array.from(Array(maxOptionsCount).keys()));
@@ -80,10 +80,10 @@ export const BPPaginationController = ({pageState, onChange, pageCount, style}) 
       // So we create option list from pageState to pageState +- paginationButtonCount.
       setOptions(
           Array.from(Array(maxOptionsCount).keys())
-              .map((i) => pageState + i - maxOptionsCount / 2)
+              .map((i) => pageState + i - Math.floor(maxOptionsCount / 2))
       );
     }
-  }, [pageState]);
+  }, [pageState, pageCount]);
 
   return (
     <div
@@ -96,6 +96,7 @@ export const BPPaginationController = ({pageState, onChange, pageCount, style}) 
         border: `1px solid ${BPColors.border}`,
         borderRadius: '999px',
         boxShadow: BPStandards.floatShadow,
+        backgroundColor: BPColors.white,
         ...style,
       }}
     >
@@ -112,18 +113,36 @@ export const BPPaginationController = ({pageState, onChange, pageCount, style}) 
           {i + 1}
         </PaginationButton>
       ))}
+      <PaginationButton
+        isActive={false}
+        onClick={() => {
+          if (onChange && pageState !== pageCount - 1) {
+            onChange(pageCount - 1);
+          }
+        }}
+        style={{
+          paddingLeft: '6px',
+          color: BPColors.gray[300],
+        }}
+      >
+        <IconArrowBarToRight
+          width={28}
+          height={28}
+          strokeWidth={2.1}
+        />
+      </PaginationButton>
       <div
         style={{
           borderRadius: '999px',
           border: `1px solid ${BPColors.border}`,
-          width: '100px',
-          height: '40px',
+          width: '95px',
+          height: '38px',
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
           overflow: 'hidden',
-          marginLeft: '10px',
+          marginLeft: '8px',
         }}
       >
         <PaginationInput

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import BPTreeComponent from './tree-view';
 import {BPColors} from '../../../utils/business-process/standards';
 import BPTreeFilterComponent from './tree-filter';
@@ -13,7 +13,7 @@ const BPTreeView = ({
   onChange,
 }) => {
   const {
-    data,
+    data: {treeMap, size},
     setParam,
     isLoading,
   } = useLPSession(BPLaunchpad.tree.getMap());
@@ -25,6 +25,9 @@ const BPTreeView = ({
   const {
     data: publishingBusinessDomainList,
   } = useLPSession(BPLaunchpad.tree.getPublishingBusinessDomainList());
+
+  const [pageState, setPageState] = useState(0);
+  const [filterState, setFilterState] = useState({});
 
   return (
     <div
@@ -40,6 +43,8 @@ const BPTreeView = ({
         eaiDomainList={eaiDomainList}
         publishingBusinessDomainList={publishingBusinessDomainList}
         onChange={(filter) => {
+          setFilterState(filter);
+          setPageState(0);
           setParam(filter);
         }}
       />
@@ -68,12 +73,30 @@ const BPTreeView = ({
         }}
       >
         <BPTreeComponent
-          data={data}
+          data={treeMap}
+          size={size}
           isLoading={isLoading}
           onChange={(log) => {
             if (onChange && log) {
               onChange(log.eai_transaction_id);
             }
+          }}
+        />
+        <BPPaginationController
+          pageState={pageState}
+          pageCount={Math.floor(size / 50) + (size % 50 > 0 ? 1 : 0)}
+          style={{
+            display: size > 50 ? 'flex' : 'none',
+            position: 'absolute',
+            bottom: '22px',
+            right: '23px',
+          }}
+          onChange={(page) => {
+            setPageState(page);
+            setParam({
+              ...filterState,
+              pageNumber: page,
+            });
           }}
         />
         <div
@@ -102,18 +125,9 @@ const BPTreeView = ({
             Loading...
           </div>
         </div>
-        <BPPaginationController
-          pageState={1}
-          pageCount={5}
-          style={{
-            position: 'absolute',
-            bottom: '22px',
-            right: '23px',
-          }}
-        />
         <div
           style={{
-            display: !isLoading && data.length === 0 ? 'flex' : 'none',
+            display: !isLoading && treeMap.length === 0 ? 'flex' : 'none',
             position: 'absolute',
             backgroundColor: BPColors.white,
             top: 0,

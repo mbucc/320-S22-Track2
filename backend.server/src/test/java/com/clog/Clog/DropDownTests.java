@@ -50,6 +50,7 @@ public class DropDownTests {
         List<String> response = logEventRepo.findDistinctBusinessSubDomains();
         Assert.assertFalse(subDomains.size() == response.size());
         Assert.assertFalse(subDomains.containsAll(response));
+        Assert.assertFalse(response.isEmpty());
     }
 
     // @Test

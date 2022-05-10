@@ -35,6 +35,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 public class DropDownTests {
     @Autowired
     private LogEventRepository logEventRepo;
+    @Autowired
     private BusinessTreeRepository busTree;
 
     @Test
@@ -91,15 +92,14 @@ public class DropDownTests {
         Assert.assertFalse(response.isEmpty());
     }
 
-    // @Test
-    // public void testGetPublishingBusinessDomains() {
-    //     List<String> subDomains = Arrays.asList(new String[]{"Business_Update","Publish_Customer_Update"});
-    //     List<String> response = busTree.findDistinctPublishingBusinessDomains();
-    //     //Assert.assertTrue(subDomains.size() == response.size());
-    //     // Assert.assertTrue(response.containsAll(subDomains));
-    //     // Assert.assertTrue(subDomains.containsAll(response));
-    //     Assert.assertEquals(subDomains, response);
-    // }
+    @Test
+    public void testGetPublishingBusinessDomains() {
+        List<String> subDomains = Arrays.asList(new String[]{"CRM_SERVER"});
+        List<String> response = busTree.findDistinctPublishingBusinessDomains();
+        Assert.assertTrue(subDomains.size() == response.size());
+        Assert.assertTrue(response.containsAll(subDomains));
+        Assert.assertTrue(subDomains.containsAll(response));
+    }
 
     @Test
     public void testGetEAIDomain() {

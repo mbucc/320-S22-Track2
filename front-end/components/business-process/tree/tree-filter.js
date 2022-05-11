@@ -5,14 +5,41 @@ import {BPDomainSelector} from '../common/domain-selector';
 
 import {BPButton} from '../common/button';
 
-const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onChange}) => {
+// import {BPSeveritySelector} from '../common/severity-selector';
+
+// NOTE: In this file, we are commenting out a lot of things related to severity.
+// This is because we were trying to integrate with the dashboard filer,
+// but we were not able to populate the data because dashboard team is sending the
+// wrong information and the severity is removed from the API in the last night.
+// We may be able to do that in the future, so I keep them here for now.
+
+const BPTreeFilterComponent = ({
+  eaiDomainList,
+  publishingBusinessDomainList,
+  bpFilters,
+  onChange,
+}) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [eaiDomains, setEAIDomains] = useState([]);
   const [publishingBusinessDomains, setPublishingBusinessDomains] = useState([]);
 
+  // const [selectedSeverity, setSelectedSeverity] = useState(['success', 'info', 'warning', 'error']);
+  // const [selectedSeverityError, setSelectedSeverityError] = useState(null);
+
   const [startDateError, setStartDateError] = useState(null);
   const [endDateError, setEndDateError] = useState(null);
+
+  useEffect(() => {
+    if (bpFilters) {
+      if (bpFilters.start) {
+        setStartDate(bpFilters.start);
+      }
+      if (bpFilters.end) {
+        setEndDate(bpFilters.end);
+      }
+    }
+  }, [bpFilters]);
 
   // Track the common date picker error.
   useEffect(() => {
@@ -32,11 +59,16 @@ const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onC
       return;
     }
 
+    // if (selectedSeverity.length === 0) {
+    //   return;
+    // }
+
     onChange({
       'startTime': startDate,
       'endTime': endDate,
       'eaiDomain': eaiDomains.join(','),
       'publishingBusinessDomain': publishingBusinessDomains.join(','),
+      // 'severity': selectedSeverity.join(','), // TODO: API removed this property.
     });
   };
 
@@ -129,6 +161,20 @@ const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onC
           list={publishingBusinessDomainList}
           onChange={(value) => setPublishingBusinessDomains(value)}
         />
+
+        {/* <BPSeveritySelector*/}
+        {/*  id={'bp-tree-filter-severity-selector'}*/}
+        {/*  label={'Severity'}*/}
+        {/*  onChange={(selected) => {*/}
+        {/*    setSelectedSeverity(selected);*/}
+        {/*    if (selected.length === 0) {*/}
+        {/*      setSelectedSeverityError('Please select at least one severity');*/}
+        {/*    } else {*/}
+        {/*      setSelectedSeverityError(null);*/}
+        {/*    }*/}
+        {/*  }}*/}
+        {/*  error={selectedSeverityError}*/}
+        {/* />*/}
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ import {IconMoodEmpty} from '@tabler/icons';
 import {BPPaginationController} from '../common/pagination-controller';
 
 const BPTreeView = ({
+  bpFilters,
   onChange,
 }) => {
   const {
@@ -40,6 +41,7 @@ const BPTreeView = ({
     >
       {/* Filter Section */}
       <BPTreeFilterComponent
+        bpFilters={bpFilters}
         eaiDomainList={eaiDomainList}
         publishingBusinessDomainList={publishingBusinessDomainList}
         onChange={(filter) => {

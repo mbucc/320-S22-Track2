@@ -77,26 +77,15 @@ public class MainController {
         LogEventFilterSpecification logSpec = new LogEventFilterSpecification(filt);
         return logEventRepo.findAll(logSpec);
     }
-<<<<<<< Updated upstream
     //One to one relations are slow. 
-=======
-
-    // TODO One to one relations are slow.
->>>>>>> Stashed changes
     @GetMapping(path = "/businessProcessTree")
     public @ResponseBody BusinessProcessTreeMap getBusinessTree(
             @RequestParam String startTime,
             @RequestParam String endTime,
             @RequestParam(required = false) String[] eaiDomain,
             @RequestParam(required = false) String[] publishingBusinessDomain,
-<<<<<<< Updated upstream
             @RequestParam(defaultValue = "50") Integer pageLength, @RequestParam(defaultValue = "0") Integer pageNumber) {
         
-=======
-            @RequestParam(defaultValue = "50") Integer pageLength, @RequestParam(defaultValue = "0") Integer pageNumber,
-            @RequestParam(defaultValue = "eai_transaction_create_time") String sortBy) {
-
->>>>>>> Stashed changes
         businessTreeFilter filt = new businessTreeFilter();
         filt.setStartTime(Timestamp.valueOf(startTime));
         filt.setEndTime(Timestamp.valueOf(endTime));

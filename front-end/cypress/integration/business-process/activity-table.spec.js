@@ -63,14 +63,13 @@ const prepare = () => {
     interceptActivityFilter();
   });
 };
-// flag indicates whether to sort in decs or asc order(true-> asc and false-> decs)
 // f is a function that determines
 // cI is the index of column to sort based on that
-const sortArray = (arr, flag, cI, t) => {
+const sortArray = (arr, cI, t) => {
   arr = arr.slice().sort((a, b) => {
     const f = t(a[cI]);
     const s = t(b[cI]);
-    return flag ? s-f : f-s;
+    return f-s;
   });
   return arr;
 };
@@ -113,13 +112,13 @@ describe('Table Sorts correctly based on date', () => {
   });
 
   it('Date sorted in descending order works correctly', () => {
-    const arr = sortArray(originalData, true, 1, (a) => new Date(a));
+    const arr = sortArray(originalData, 1, (a) => new Date(a));
+    arr.reverse();
     arrayAreEqual(arr, sortedDescending);
   });
 
   it('Date sorted in descending order works correctly', () => {
-    const arr = sortArray(originalData, true, 1, (a) => new Date(a));
-    arr.reverse();
+    const arr = sortArray(originalData, 1, (a) => new Date(a));
     arrayAreEqual(arr, sortedAscending);
   });
 
@@ -153,7 +152,7 @@ describe('Table Sorts correctly based on severity', () => {
   });
 
   it('sevirity sorted in descending order works correctly', () => {
-    const arr = sortArray(originalData, false, 0, (a) => {
+    const arr = sortArray(originalData, 0, (a) => {
       if (a == 'Error') {
         return 4;
       }
@@ -167,12 +166,12 @@ describe('Table Sorts correctly based on severity', () => {
         return 1;
       }
     });
-    arr.reverse()
+    arr.reverse();
     arrayAreEqual(arr, sortedDescending);
   });
 
   it('sevirity sorted in ascending order works correctly', () => {
-    const arr = sortArray(originalData, false, 0, (a) => {
+    const arr = sortArray(originalData, 0, (a) => {
       if (a == 'Error') {
         return 4;
       }

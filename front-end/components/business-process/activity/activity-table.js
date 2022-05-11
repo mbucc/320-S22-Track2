@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {IconArrowsSort, IconChevronRight, IconSortAscending, IconSortDescending} from '@tabler/icons';
 import {Tooltip, tooltipClasses} from '@mui/material';
-import {BPPaginationController} from "../common/pagination-controller";
+import {BPPaginationController} from '../common/pagination-controller';
 
 /**
  * The root component for the activity table.

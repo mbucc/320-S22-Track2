@@ -8,7 +8,6 @@ import Navbar from './dashboard/Navbar';
 import Grid from '@mui/material/Grid';
 import Login from './login/Login';
 import {useRouter} from 'next/router';
-
 import {StyledEngineProvider} from '@mui/material';
 
 /**
@@ -19,7 +18,9 @@ import {StyledEngineProvider} from '@mui/material';
  */
 function ClogApp({Component, pageProps}) {
   // eslint-disable-next-line no-unused-vars
-  const [loggedIn, setLogin] = useState(false);
+  const [loggedIn, setLogin] = useState(typeof window === 'undefined' ? false :
+      document.cookie.includes('loggedIn=true')
+  );
   const childToParent = (childdata) => {
     setLogin(childdata);
   };
@@ -31,21 +32,23 @@ function ClogApp({Component, pageProps}) {
   const router = useRouter();
 
   /*
-  * Function to be called by clickable components in Dashboard
-  * Requires relevant filters for business process views
-  * Sets display to business process and passes filters into component view
-  */
+   * Function to be called by clickable components in Dashboard
+   * Requires relevant filters for business process views
+   * Sets display to business process and passes filters into component view
+   */
   const toggleBP = (filters) => {
+    console.log(filters);
     setBPFilters(filters);
     router.push('./business-process/');
   };
 
   /*
-  * Function to be called by clickable components in Dashboard
-  * Requires relevant filters for log events views
-  * Sets display to log events and passes filters into component view
-  */
+   * Function to be called by clickable components in Dashboard
+   * Requires relevant filters for log events views
+   * Sets display to log events and passes filters into component view
+   */
   const toggleLogEvents = (filters) => {
+    console.log('toggling log events: ', filters);
     setLogEventFilters(filters);
     router.push('LogEvent');
   };
@@ -58,27 +61,29 @@ function ClogApp({Component, pageProps}) {
   if (loggedIn) {
     return (
       <StyledEngineProvider injectFirst>
-        <Grid container direction='column'>
+        <Grid container direction="column">
           <Grid item height={'100%'}>
             <Navbar clearFilters={clearFilters} setLogin={childToParent} />
           </Grid>
           <Grid item height={'100%'}>
-            {<Component {...pageProps}
-              bpFilters={bpFilters}
-              logEventFilters={logEventFilters}
-              toggleBP={toggleBP}
-              toggleLogEvents={toggleLogEvents}
-            />}
+            {
+              <Component
+                {...pageProps}
+                bpFilters={bpFilters}
+                logEventFilters={logEventFilters}
+                toggleBP={toggleBP}
+                toggleLogEvents={toggleLogEvents}
+              />
+            }
           </Grid>
         </Grid>
       </StyledEngineProvider>
     );
   } else {
     return (
-      <div className='Login_page'>
+      <div className="Login_page">
         <Login setLogin={childToParent} />
       </div>
-
     );
   }
 }

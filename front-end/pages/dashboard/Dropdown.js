@@ -14,23 +14,23 @@ const dropdownFormat = {
 export default function Dropdown(props) {
   return (
     <div className="Dropdown">
-      <Select defaultValue={props.timeframe} style={dropdownFormat}>
-        <MenuItem value = {15} onClick={function() {
+      <Select id="Dropdown" defaultValue={props.timeframe} style={dropdownFormat}>
+        <MenuItem id="15_Minutes" value={15} onClick={function() {
           props.setTimeframe(15); props.setUpdateTime(props.getTime());
         }}>15 mins</MenuItem>
-        <MenuItem value = {30} onClick={function() {
+        <MenuItem id="30_Minutes" value={30} onClick={function() {
           props.setTimeframe(30); props.setUpdateTime(props.getTime());
         }}>30 mins</MenuItem>
-        <MenuItem value = {60} onClick={function() {
+        <MenuItem id="1_Hour" value={60} onClick={function() {
           props.setTimeframe(60); props.setUpdateTime(props.getTime());
         }}>1 hour</MenuItem>
-        <MenuItem value = {240} onClick={function() {
+        <MenuItem id="4_Hours" value={240} onClick={function() {
           props.setTimeframe(240); props.setUpdateTime(props.getTime());
         }}>4 hours</MenuItem>
-        <MenuItem value = {720} onClick={function() {
+        <MenuItem id="12_Hours" value={720} onClick={function() {
           props.setTimeframe(720); props.setUpdateTime(props.getTime());
         }}>12 hours</MenuItem>
-        <MenuItem value = {1440} onClick={function() {
+        <MenuItem id="1_Day" value={1440} onClick={function() {
           props.setTimeframe(1440); props.setUpdateTime(props.getTime());
         }}>1 day</MenuItem>
       </Select>

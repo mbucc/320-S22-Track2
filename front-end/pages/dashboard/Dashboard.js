@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import DonutCharts from './donutchart';
 import Typography from '@mui/material/Typography';
 import Dropdown from './Dropdown';
-import fakeData from './fake_data.json';
 import moment from 'moment';
 import LinearProgress from '@mui/material/LinearProgress';
 
@@ -20,16 +19,21 @@ export default function Dashboard(props) {
 
   const [data, setData] = useState({
     logEvents: null,
-    data: null,
+  });
+
+  const [bpData, setbpData] = useState({
+    bpData: null,
   });
 
   const getLogEvents = async (tf) => { // yyyy-mm-dd hh24:mm:ss (String) in GMT
     const start = moment().subtract(tf, 'minute').format('YYYY-MM-D HH:mm:SS');
     const end = moment().format('YYYY-MM-D HH:mm:SS');
-    return fetch('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?endTime=' + end + '&startTime=' + start + '&severities=error,warning,info&priority=medium,high')
+    const url = 'http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?endTime=' + end + '&startTime=' + start + '&severities=error,warning,info&priority=high,medium,low';
+    console.log(url);
+    return fetch(url)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          console.log(data.length);
           return data.map((e) => {
             return {
               priority: getPriority(e.priority),
@@ -40,10 +44,18 @@ export default function Dashboard(props) {
         });
   };
 
+  const getBPEvents = async (tf) => { // yyyy-mm-dd hh24:mm:ss (String) in GMT
+    return fetch('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/businessProcessPieGraph?timeBack='+tf)
+        .then((data) => {
+          console.log('BP ', data);
+          return data.json();
+        });
+  };
+
   const getSeverity = (s) => {
     if (s >= 50) {
       return 'Error';
-    } else if (s <= 30) {
+    } else if (s >= 30) {
       return 'Warning';
     } else {
       return 'Info';
@@ -65,9 +77,12 @@ export default function Dashboard(props) {
       console.log('DATA: ', data);
       setData({
         logEvents: data,
-        data: fakeData.filter((e) => e.time <= tf).sort((a, b) => b.time - a.time),
       });
     });
+    getBPEvents(timeframe)
+        .then((data) => {
+          console.log('BP EVENT RETURN IS ', data); setbpData({bpData: data});
+        });
   };
 
   useEffect(() => {
@@ -94,11 +109,11 @@ export default function Dashboard(props) {
 
   const [updateTime, setUpdateTime] = useState(getTime());
 
-  if (data.data) {
+  if (data.logEvents) {
     return (
       <div className='dashboard'>
-        <Box px={6} py={3} sx={{height: '100%', width: '100%'}}>
-          <Grid container direction='row' height={'100%'} spacing={3}>
+        <Box px={6} py={2} sx={{height: '100%', width: '100%'}}>
+          <Grid container direction='row' height={'100%'} spacing={2}>
             <Grid item xs={12}>
               <Grid container style={{alignItems: 'center'}}>
                 <Grid item xs={6}>
@@ -121,16 +136,21 @@ export default function Dashboard(props) {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Counts
-                toggleLogEvents={props.toggleLogEvents}
-                data={data.logEvents}
-                start={moment(timeframeEnd).subtract(timeframe, 'minute').local()}
-                end={moment(timeframeEnd).local()} />
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container item direction='row' spacing={5}>
+              <Grid container item direction='row' spacing={2}>
                 <Grid item xs={7}>
-                  <DonutCharts data={data.data} toggleBP={props.toggleBP} timeframe={timeframe} />
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Counts
+                        toggleLogEvents={props.toggleLogEvents}
+                        data={data.logEvents}
+                        start={moment(timeframeEnd).subtract(timeframe, 'minute').local()}
+                        end={moment(timeframeEnd).local()}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <DonutCharts bp={bpData.bpData} toggleBP={props.toggleBP} timeframe={timeframe} />
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item xs={5}>
                   <Timelines

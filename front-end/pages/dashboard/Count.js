@@ -32,8 +32,8 @@ export default function Count(props) {
         <Typography component="p" variant="h4">
           {props.total}
         </Typography>
-        <Grid container direction='row'>
-          <Grid item xs={6}>
+        <Grid container direction='row' align='center'>
+          <Grid item xs={12}>
             <Button variant="text" onClick={() => seeMore()}>
               <Link href='//LogEvent//' passHref>
                 <a>

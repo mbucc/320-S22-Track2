@@ -45,7 +45,7 @@ export default function Counts(props) {
     return sum;
   };
   return (
-    <Grid container direction='row' spacing={2}>
+    <Grid container direction='row' spacing={2} align='center'>
       <Grid item xs={3}>
         <Count
           icon={<ErrorOutlineRoundedIcon

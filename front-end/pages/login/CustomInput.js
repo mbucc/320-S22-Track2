@@ -81,7 +81,8 @@ export default function CustomInput(props) {
     //   />
     // </FormControl>
     <TextField
-      id="standard-basic"
+      type={props.type}
+      id={props.id}
       label={props.labelText}
       variant="standard"
       error={props.error}

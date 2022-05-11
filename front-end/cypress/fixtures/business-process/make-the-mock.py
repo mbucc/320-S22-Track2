@@ -36,15 +36,15 @@ def main():
     for i in range(eai_size):
         print('Progress: {}%'.format(round(i / eai_size * 100)))
         # Generate a name with random text in it.
-        eai_name = fake.bothify(text='EAI {} ????-####'.format(fake.last_name()))
+        eai_name = fake.bothify(text='EAI {} ####'.format(fake.last_name()))
         # Generate a random number of publishing business domains.
         for _ in range(fake.random_int(min=1, max=4)):
-            pub_name = fake.bothify(text='Publishing ???-####')
+            pub_name = fake.bothify(text='Publishing ####')
             for _ in range(fake.random_int(min=1, max=4)):
-                bp_name = fake.bothify(text='Business Process ???-####')
+                bp_name = fake.bothify(text='Business Process ######')
                 for _ in range(fake.random_int(min=10, max=50)):
                     # Create BP object.
-                    bp_instance_name = fake.bothify(text='BP Instance ????-########')
+                    bp_instance_name = fake.bothify(text='BP Instance ########')
                     bp_instance_creation_time = fake.date_time_between(
                         start_date='-10d', end_date='now',
                         tzinfo=datetime.timezone.utc,
@@ -57,6 +57,9 @@ def main():
                     eai_transaction_id = fake.bothify(text='eai-trans-id-??????-######')
                     bp_instance_object = dict()
                     bp_instance_object['name'] = bp_instance_name
+                    bp_instance_object['eai_domain'] = eai_name
+                    bp_instance_object['pub_domain'] = pub_name
+                    bp_instance_object['business_process'] = bp_name
                     bp_instance_object['eai_transaction_id'] = eai_transaction_id
                     bp_instance_object['eai_transaction_create_time'] =\
                         bp_instance_creation_time.isoformat()
@@ -71,6 +74,7 @@ def main():
                     for _ in range(fake.random_int(min=2, max=10)):
                         log_object = dict()
                         log_object['eai_transaction_id'] = eai_transaction_id
+                        log_object['global_instance_id'] = fake.bothify(text='global-??????-######')
                         log_object['activity'] = fake.sentence(
                             nb_words=fake.random_int(min=3, max=5)
                         )

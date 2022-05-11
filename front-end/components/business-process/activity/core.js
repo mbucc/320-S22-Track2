@@ -22,7 +22,7 @@ const BPSectionNoticeBox = styled.div`
   left: 0;
   width: 100%;
   
-  background-color: ${BPColors.gray[100]}4f;
+  background-color: ${BPColors.gray[30]};
   border-top: 1px solid ${BPColors.gray[100]};
   padding: 20px;
   

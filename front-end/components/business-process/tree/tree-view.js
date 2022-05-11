@@ -82,7 +82,7 @@ const subTreeStyle = {
  * @param {function} props.onChange - The callback function when the tree view is changed.
  * @return {JSX.Element} - The generated tree view component.
  */
-export default function BPTreeComponent({data: dataProp, onChange}) {
+export default function BPTreeComponent({data: dataProp, size, onChange}) {
   const [data, setData] = useState(dataProp);
   const [expanded, setExpanded] = useState([]);
   const [expandable, setExpandable] = useState([]);
@@ -245,6 +245,7 @@ export default function BPTreeComponent({data: dataProp, onChange}) {
         style={{
           width: '100%',
           height: '100%',
+          paddingBottom: size > 50 ? '75px' : '0',
           flexShrink: 1,
           flexGrow: 0,
           display: 'flex',

@@ -38,6 +38,9 @@ const BPTreeFilterComponent = ({
       if (bpFilters.end) {
         setEndDate(bpFilters.end);
       }
+      if (bpFilters.bp) {
+        setPublishingBusinessDomains([bpFilters.bp]);
+      }
     }
   }, [bpFilters]);
 

@@ -55,7 +55,7 @@ describe('Acceptance Test of User 1', () => {
   });
 
   it('Business processes with errors would only be shown after applying severity filter', () => {
-    cy.get('.sc-eCYdqJ').click();
+    cy.get('#bp-activity-filter-severity-checkall-button').click();
 
     // Filter the error activities
     cy.get(`#bp-activity-filter-severity-selector-option-error`).click();

@@ -86,7 +86,7 @@ export default function Login({setLogin}) {
             p: 4,
           }}>
             <Typography id="modal-modal-description">
-              If you've forgotten your password, please file a ticket to retrieve a new set of credentials.
+              If you have forgotten your password, please file a ticket to retrieve a new set of credentials.
             </Typography>
           </Box>
         </Modal>

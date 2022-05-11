@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import DonutCharts from './donutchart';
 import Typography from '@mui/material/Typography';
 import Dropdown from './Dropdown';
-import fakeData from './fake_data.json';
 import moment from 'moment';
 import LinearProgress from '@mui/material/LinearProgress';
 
@@ -19,18 +18,18 @@ export default function Dashboard(props) {
   let timeframeEnd = moment().startOf('minute');
 
   const [data, setData] = useState({
-    logEvents: null
+    logEvents: null,
   });
 
   const [bpData, setbpData] = useState({
-    bpData: null
-  })
+    bpData: null,
+  });
 
   const getLogEvents = async (tf) => { // yyyy-mm-dd hh24:mm:ss (String) in GMT
     const start = moment().subtract(tf, 'minute').format('YYYY-MM-D HH:mm:SS');
     const end = moment().format('YYYY-MM-D HH:mm:SS');
-    let url = 'http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?endTime=' + end + '&startTime=' + start + '&severities=error,warning,info&priority=high,medium,low'
-    console.log(url)
+    const url = 'http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logEvents?endTime=' + end + '&startTime=' + start + '&severities=error,warning,info&priority=high,medium,low';
+    console.log(url);
     return fetch(url)
         .then((response) => response.json())
         .then((data) => {
@@ -48,8 +47,8 @@ export default function Dashboard(props) {
   const getBPEvents = async (tf) => { // yyyy-mm-dd hh24:mm:ss (String) in GMT
     return fetch('http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/businessProcessPieGraph?timeBack='+tf)
         .then((data) => {
-          console.log("BP ", data);
-          return data.json()
+          console.log('BP ', data);
+          return data.json();
         });
   };
 
@@ -77,11 +76,13 @@ export default function Dashboard(props) {
     getLogEvents(timeframe).then((data) => {
       console.log('DATA: ', data);
       setData({
-        logEvents: data
+        logEvents: data,
       });
-    })
+    });
     getBPEvents(timeframe)
-    .then((data) => {console.log("BP EVENT RETURN IS ",data);setbpData({bpData:data})})
+        .then((data) => {
+          console.log('BP EVENT RETURN IS ', data); setbpData({bpData: data});
+        });
   };
 
   useEffect(() => {

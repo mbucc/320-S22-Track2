@@ -38,7 +38,7 @@ describe('log detail', ()=>{
               .then(($a)=>{
                 const url = $a[0].getAttribute('href');
                 cy.visit(url);
-                cy.wait(3000);
+                cy.wait(1000); // for readability while watching test run
                 cy.get('[data-testid="logdetail-creation_time"]')
                     .invoke('text')
                     .then(($item)=>{

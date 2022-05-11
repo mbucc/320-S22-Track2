@@ -216,8 +216,7 @@ export default function Form(props) {
       endDate = `endTime=${toDate.add(1, 'm').utc().format('YYYY-MM-DD HH:mm:ss')}`;
     }
 
-    console.log(startDate);
-    console.log(endDate);
+
     API_PARAMS.push(startDate);
     API_PARAMS.push(endDate);
 

@@ -61,6 +61,7 @@ before(()=>{
 
   cy.get(`[data-testid='logevent-button-apply']`)
       .click();
+  cy.wait(5000); // let the query run
 });
 
 describe('Sorting', ()=>{

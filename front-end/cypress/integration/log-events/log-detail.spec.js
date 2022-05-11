@@ -14,14 +14,14 @@ before(()=>{
       .type('{enter}');
   cy.get(`[id='logevent-datepicker-todate-field']`).type('05/01/2022 9:10 AM')
       .type('{enter}');
-
-  cy.get(`[data-testid='logevent-button-apply']`)
-      .click();
 });
 
 describe('log detail', ()=>{
   it('clicks "detail" button, checks log detail output', ()=>{
     // make sure log detail displays correct creation date
+    cy.get(`[data-testid='logevent-button-apply']`)
+        .click();
+    cy.wait(5000); // let the query run
     cy.get('[data-testid="logevent-table-row"]')
         .first()
         .find('[data-testid="logevent-table-cell-date"]')

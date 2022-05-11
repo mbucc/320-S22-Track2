@@ -172,7 +172,7 @@ export const BPCheckboxGroup = ({id = 'bp-checkbox-group', label, onChange, styl
           }}
         >
           <div style={labelStyle}>{label}</div>
-          <BPSelectAllButton
+          <BPSelectAllButton id={'bp-activity-filter-severity-checkall-button'}
             onClick={() => {
               if (selectedOptions.length === options.length) {
                 if (onChange) {

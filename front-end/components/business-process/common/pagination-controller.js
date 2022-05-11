@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import styled from 'styled-components';
-import {IconArrowBarToRight, IconArrowRight} from '@tabler/icons';
+import {IconArrowBarToLeft, IconArrowBarToRight, IconArrowRight} from '@tabler/icons';
 
 const PaginationButton = styled.div`
   display: flex;
@@ -9,7 +9,7 @@ const PaginationButton = styled.div`
   align-items: center;
   
   height: 35px;
-  padding: 0 9px;
+  padding: 0 8px;
   
   font-size: 20px;
   font-weight: 500;
@@ -17,7 +17,7 @@ const PaginationButton = styled.div`
   
   user-select: none;
   
-  border: ${(props) => props.isActive ? BPStandards.border : '0'};
+  border: ${(props) => props.isActive ? BPStandards.border : '1px solid transparent'};
   border-radius: ${BPDimens.cornerRadius}px;
   overflow: hidden;
   color: ${(props) => props.isActive ? BPColors.black : BPColors.gray[400] + 'af'};
@@ -113,7 +113,7 @@ export const BPPaginationController = ({pageState, onChange, pageCount, style}) 
           {i + 1}
         </PaginationButton>
       ))}
-      {pageState !== pageCount - 1 && (
+      {pageState !== pageCount - 1 ? (
         <PaginationButton
           isActive={false}
           onClick={() => {
@@ -127,6 +127,25 @@ export const BPPaginationController = ({pageState, onChange, pageCount, style}) 
           }}
         >
           <IconArrowBarToRight
+            width={28}
+            height={28}
+            strokeWidth={2.1}
+          />
+        </PaginationButton>
+      ) : (
+        <PaginationButton
+          isActive={false}
+          onClick={() => {
+            if (onChange && pageState !== 0) {
+              onChange(0);
+            }
+          }}
+          style={{
+            paddingLeft: '6px',
+            color: BPColors.gray[300],
+          }}
+        >
+          <IconArrowBarToLeft
             width={28}
             height={28}
             strokeWidth={2.1}
@@ -153,6 +172,14 @@ export const BPPaginationController = ({pageState, onChange, pageCount, style}) 
           onChange={(e) => {
             if (e.target.value === '' || e.target.value.match(/^\d+$/)) {
               setGotoState(e.target.value);
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && gotoState !== '') {
+              if (onChange && gotoState.match(/^\d+$/)) {
+                onChange(parseInt(gotoState) - 1);
+                setGotoState('');
+              }
             }
           }}
           style={{

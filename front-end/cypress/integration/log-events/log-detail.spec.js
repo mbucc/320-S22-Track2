@@ -14,15 +14,12 @@ before(()=>{
       .type('{enter}');
   cy.get(`[id='logevent-datepicker-todate-field']`).type('05/01/2022 9:10 AM')
       .type('{enter}');
+  cy.get(`[data-testid='logevent-button-apply']`)
+      .click();
+  cy.wait(5000); // let the query run
 });
 
 describe('log detail', ()=>{
-  it('clicks apply', ()=>{
-    // make sure log detail displays correct creation date
-    cy.get(`[data-testid='logevent-button-apply']`)
-        .click();
-    cy.wait(5000); // let the query run
-  });
   // SKIPPING TEST - TABLE POPULATES IN CYPRESS TESTING WINDOW, BUT NOT IN JENKINS
   it.skip('clicks "detail" button, checks log detail output', ()=>{
     cy.get('[data-testid="logevent-table-row"]')

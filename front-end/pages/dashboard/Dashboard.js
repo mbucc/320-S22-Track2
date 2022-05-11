@@ -112,8 +112,8 @@ export default function Dashboard(props) {
   if (data.logEvents) {
     return (
       <div className='dashboard'>
-        <Box px={6} py={3} sx={{height: '100%', width: '100%'}}>
-          <Grid container direction='row' height={'100%'} spacing={3}>
+        <Box px={6} py={2} sx={{height: '100%', width: '100%'}}>
+          <Grid container direction='row' height={'100%'} spacing={2}>
             <Grid item xs={12}>
               <Grid container style={{alignItems: 'center'}}>
                 <Grid item xs={6}>
@@ -136,16 +136,21 @@ export default function Dashboard(props) {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Counts
-                toggleLogEvents={props.toggleLogEvents}
-                data={data.logEvents}
-                start={moment(timeframeEnd).subtract(timeframe, 'minute').local()}
-                end={moment(timeframeEnd).local()} />
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container item direction='row' spacing={5}>
+              <Grid container item direction='row' spacing={2}>
                 <Grid item xs={7}>
-                  <DonutCharts bp={bpData.bpData} toggleBP={props.toggleBP} timeframe={timeframe} />
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Counts
+                        toggleLogEvents={props.toggleLogEvents}
+                        data={data.logEvents}
+                        start={moment(timeframeEnd).subtract(timeframe, 'minute').local()}
+                        end={moment(timeframeEnd).local()}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <DonutCharts bp={bpData.bpData} toggleBP={props.toggleBP} timeframe={timeframe} />
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item xs={5}>
                   <Timelines

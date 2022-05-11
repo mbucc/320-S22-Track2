@@ -43,11 +43,21 @@ const BPTreeFilterComponent = ({
       if (bpFilters.end) {
         setOutsideEndDate(bpFilters.end);
       }
-      if (bpFilters.bp) {
+      if (bpFilters.bp && publishingBusinessDomainList.includes(bpFilters.bp)) {
         setOutsideSelectedPubDomains([bpFilters.bp]);
       } else {
         setOutsideSelectedPubDomains(undefined);
       }
+
+      onChange({
+        'startTime': bpFilters.start,
+        'endTime': bpFilters.end,
+        'publishingBusinessDomain': (
+          bpFilters.bp && publishingBusinessDomainList.includes(bpFilters.bp) ?
+            bpFilters.bp :
+            undefined
+        ),
+      });
     }
   }, [bpFilters]);
 

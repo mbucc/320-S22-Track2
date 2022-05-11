@@ -47,17 +47,13 @@ export default function Timeline(props) {
     if (targets) {
       const index = targets[0].point;
       const point = props.data[index];
-      if (index == 0) {
-        props.toggleLogEvents(getFilters(point.time, point.time));
-        return;
-      }
-      const filters = getFilters(props.data[index - 1].time, point.time);
+      const filters = getFilters(point.time, point.time);
       props.toggleLogEvents(filters);
     }
   };
 
   const getFilters = (start, end) => {
-    console.log('Get log events of type ' + props.type + ' from ' + start + ' to ' + end);
+    // console.log('Get log events of type ' + props.type + ' from ' + start.format() + ' to ' + end.format());
 
     return {start: start, end: end, type: 'severity', severity: props.type};
   };
@@ -65,7 +61,7 @@ export default function Timeline(props) {
   const getTotal = () => {
     return props.data.reduce((acc, e) => {
       return acc + e.logs;
-    }, 0) - props.data[0].logs;
+    }, 0);
   };
 
   return (
@@ -85,7 +81,6 @@ export default function Timeline(props) {
           </Typography>
         </Grid>
         <Grid item>
-          {/* Need to change linking to pass filters */}
           <Button
             variant="text"
             onClick={() => props.toggleLogEvents(getFilters(props.data[0].time, props.data[props.data.length - 1].time))}
@@ -109,7 +104,6 @@ export default function Timeline(props) {
           >
           </SplineSeries>
           <ArgumentAxis labelComponent={Label} />
-          {/* <ArgumentAxis /> */}
           <EventTracker onClick={onClickTimeline} />
           <HoverState
             hover={hover}

@@ -1,19 +1,28 @@
 import React from 'react';
 import {Button} from '@mui/material';
 import Link from 'next/link';
+import moment from 'moment';
 
 /**
  * @param {Object} props
-* @return {JSX.Element}
-*/
+ * @return {JSX.Element}
+ */
 function Navbar(props) {
+  const logout = () => {
+    document.cookie =
+      'loggedIn=false; expires=' +
+      moment().subtract(1, 'minute').format('ddd, DD YYYY hh:mm:ss UTC');
+    props.setLogin(false);
+    console.log('logging out');
+  };
+
   return (
     // change the way content is justified
     <div
       style={{
         width: '100%',
         height: '100%',
-        backgroundColor: '#22c55e',
+        backgroundColor: '#0C60A8',
         display: 'flex',
         flexShrink: 1,
         padding: 18,
@@ -25,7 +34,7 @@ function Navbar(props) {
       <div
         style={{
           flexGrow: 0.1,
-          paddingRight: 40,
+          paddingRight: 30,
           font: 'sans',
           fontSize: 25,
           fontWeight: 'bold',
@@ -56,12 +65,10 @@ function Navbar(props) {
                 fontWeight: 'bolder',
               },
             }}
-            onClick={()=>props.clearFilters()}
+            onClick={() => props.clearFilters()}
           >
-            <Link href='/' passHref>
-              <a>
-                Dashboard
-              </a>
+            <Link href="/" passHref>
+              <a>Dashboard</a>
             </Link>
           </Button>
           <Button
@@ -76,10 +83,8 @@ function Navbar(props) {
               },
             }}
           >
-            <Link href='./business-process/' passHref>
-              <a>
-                Business Processes
-              </a>
+            <Link href="./business-process/" passHref>
+              <a>Business Processes</a>
             </Link>
           </Button>
           <Button
@@ -93,10 +98,8 @@ function Navbar(props) {
               },
             }}
           >
-            <Link href='./LogEvent' passHref>
-              <a>
-                Log Events
-              </a>
+            <Link href="/LogEvent" passHref>
+              <a>Log Events</a>
             </Link>
           </Button>
         </div>
@@ -119,18 +122,15 @@ function Navbar(props) {
               fontWeight: 'bolder',
             },
           }}
-          onClick = {() => props.setLogin(false) }
+          onClick={() => logout()}
         >
           <Link
             href={{
               pathname: '/',
-              state: {testVar: 'test'},
             }}
             passHref
           >
-            <a>
-              Log Out
-            </a>
+            <a>Log Out</a>
           </Link>
         </Button>
       </div>

@@ -45,46 +45,52 @@ export default function Counts(props) {
     return sum;
   };
   return (
-    <Grid container direction='row' spacing={2}>
+    <Grid container direction='row' spacing={2} align='center'>
       <Grid item xs={3}>
-        {/* <Paper elevation={3}>
-                    <Box px={2} pt={4}>
-                      <Typography variant="h5" gutterBottom component="div">
-                        Count
-                      </Typography>
-                    </Box>
-                  </Paper> */}
-        <Count icon={<ErrorOutlineRoundedIcon sx={{color: red[500]}}/>} countTitle={'High Priority Logs'} total={sumHighPriority()} onClick={props.setFilters}/>
+        <Count
+          icon={<ErrorOutlineRoundedIcon
+            sx={{color: red[500]}} />}
+          countTitle={'High Priority Logs'}
+          total={sumHighPriority()}
+          onClick={props.toggleLogEvents}
+          type='priority'
+          priority='High'
+          start={props.start}
+          end={props.end}
+        />
       </Grid>
       <Grid item xs={3}>
-        {/* <Paper elevation={3}>
-                    <Box px={2} pt={4}>
-                        <Typography variant="h5" gutterBottom component="div">
-                            Count
-                        </Typography>
-                    </Box>
-                </Paper> */}
-        <Count countTitle={'Medium Priority Logs'} total={sumMediumPriority()} onClick={props.setFilters}/>
+        <Count
+          countTitle={'Medium Priority Logs'}
+          total={sumMediumPriority()}
+          onClick={props.toggleLogEvents}
+          type='priority'
+          priority='Medium'
+          start={props.start}
+          end={props.end}
+        />
       </Grid>
       <Grid item xs={3}>
-        {/* <Paper elevation={3}>
-                    <Box px={2} pt={4}>
-                        <Typography variant="h5" gutterBottom component="div">
-                            Count
-                        </Typography>
-                    </Box>
-                </Paper> */}
-        <Count countTitle={'Errors'} total={sumErrors()} onClick={props.setFilters}/>
+        <Count
+          countTitle={'Error Logs'}
+          total={sumErrors()}
+          onClick={props.toggleLogEvents}
+          type='severity'
+          severity='Error'
+          start={props.start}
+          end={props.end}
+        />
       </Grid >
       <Grid item xs={3}>
-        {/* <Paper elevation={3}>
-                    <Box px={2} pt={4}>
-                        <Typography variant="h5" gutterBottom component="div">
-                            Count
-                        </Typography>
-                    </Box>
-                </Paper> */}
-        <Count countTitle={'Warnings'} total={sumWarnings()} onClick={props.setFilters}/>
+        <Count
+          countTitle={'Warning Logs'}
+          total={sumWarnings()}
+          onClick={props.toggleLogEvents}
+          type='severity'
+          severity='Warning'
+          start={props.start}
+          end={props.end}
+        />
       </Grid>
     </Grid>
   );

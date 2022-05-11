@@ -2,10 +2,9 @@ import React, {useState} from 'react';
 import {BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {BPDomainSelector} from '../common/domain-selector';
 import {BPSeveritySelector} from '../common/severity-selector';
-import {BusinessDomainSample} from '../../../utils/business-process/sample-data';
 import {BPButton} from '../common/button';
 
-const BPActivityFilterComponent = ({onChange}) => {
+const BPActivityFilterComponent = ({businessDomainList, onChange}) => {
   const [selectedBusinessDomain, setSelectedBusinessDomain] = useState([]);
   const [selectedSeverity, setSelectedSeverity] = useState(['success', 'info', 'warning', 'error']);
 
@@ -78,7 +77,7 @@ const BPActivityFilterComponent = ({onChange}) => {
           id={'bp-activity-filter-business-domain-selector'}
           label={'Business Domain'}
           searchPlaceholder={'Search a business domain'}
-          list={BusinessDomainSample}
+          list={businessDomainList}
           onChange={(selected) => {
             setSelectedBusinessDomain(selected);
           }}

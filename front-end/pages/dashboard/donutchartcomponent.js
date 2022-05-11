@@ -20,7 +20,7 @@ function DonutChartComponent(props) {
               'rgba(15, 139, 141, 1)',
               'rgba(236, 167, 44,1)',
               'rgba(153, 102, 255, 1)',
-            ],
+            ].slice(0, Math.min(5, props.data.values.length)),
           },
         ],
       }}

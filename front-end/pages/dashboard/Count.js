@@ -9,32 +9,21 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
 
-// function preventDefault(event) {
-//     event.preventDefault();
-// }
 
 /**
  * @param {Object} props
 * @return {JSX.Element}
 */
 export default function Count(props) {
-  return (
-  // <>
-  // <Title>High Priority Logs</Title>
-  // <Typography component="p" variant="h4">
-  //     586
-  // </Typography>
-  // {/* TODO: make this a dropdown */}
-  // <Typography color="text.secondary" sx={{ flex: 1 }}>
-  // in the past 12 hours
-  // </Typography>
+  const seeMore = () => {
+    if (props.type === 'severity') {
+      props.onClick({start: props.start, end: props.end, type: 'severity', severity: props.severity});
+    } else {
+      props.onClick({start: props.start, end: props.end, type: 'priority', severity: props.priority});
+    }
+  };
 
-    // <div>
-    //     <Link color="primary" href="#" onClick={preventDefault}>
-    //         View logs
-    //     </Link>
-    // </div>
-    // </>
+  return (
     <Card>
       <CardContent>
         <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
@@ -43,14 +32,9 @@ export default function Count(props) {
         <Typography component="p" variant="h4">
           {props.total}
         </Typography>
-        <Grid container direction='row'>
-          {/* <Grid item xs={6}>
-                        <Typography>
-                            in the last {props.timeframe}
-                        </Typography>
-                    </Grid> */}
-          <Grid item xs={6}>
-            <Button variant="text">
+        <Grid container direction='row' align='center'>
+          <Grid item xs={12}>
+            <Button variant="text" onClick={() => seeMore()}>
               <Link href='//LogEvent//' passHref>
                 <a>
                   See More

@@ -1,0 +1,8 @@
+{
+  "extends": ["next/core-web-vitals", "google"],
+  "rules": {
+    "max-len": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "quote-props": "off"
+  }
+}

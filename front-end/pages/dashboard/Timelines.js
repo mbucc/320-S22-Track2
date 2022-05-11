@@ -11,59 +11,46 @@ import moment from 'moment';
 * @return {JSX.Element}
 */
 export default function Timelines(props) {
-  const getPointLabels = () => {
-    const block = props.timeframe / 6;
-    let label = props.timeframe;
-    const labels = [props.timeframe];
-
-    while (label - block > 0) {
-      label -= block;
-      labels.push(label);
+  const getPoints = (data) => {
+    const points = [];
+    let dataIndex = 0;
+    for (let i = props.timeframe; i >= 0; i--) {
+      let numLogs = 0;
+      while (dataIndex < data.length && data[dataIndex].time == i) {
+        numLogs++;
+        dataIndex++;
+      }
+      points.push({time: moment(props.end).subtract(i, 'minute'), logs: numLogs});
     }
-    labels.push(0);
-
-    return labels;
+    return points;
   };
 
   /*
   * Returns array of points for total logs timeline
   */
-  const getPoints = (criteria) => {
-    const labels = getPointLabels();
-    let points = labels.map((e) => ({time: e, logs: 0}));
-    let pointIndex = 0;
-    for (let i = 0; i < props.data.length; i++) {
-      if (props.data[i].time < labels[pointIndex]) {
-        pointIndex += 1;
-      }
-      if (!criteria || props.data[i].type === criteria) {
-        points[pointIndex].logs += 1;
-      }
-    }
-
-    points = points.map((point) => ({time: moment().subtract(point.time, 'minute'), logs: point.logs}));
-    return points;
+  const getAllPoints = () => {
+    return getPoints(props.data);
   };
 
   /*
   * Returns array of points for total errors timeline
   */
   const getErrorPoints = () => {
-    return getPoints('Error');
+    return getPoints(props.data.filter((e) => e.type === 'Error'));
   };
 
   /*
   * Returns array of points for total errors timeline
   */
   const getWarningPoints = () => {
-    return getPoints('Warning');
+    return getPoints(props.data.filter((e) => e.type === 'Warning'));
   };
 
   return (
     <Paper elevation={3} sx={{height: '100%'}}>
-      <Box px={5} pb={5} pt={3}>
+      <Box px={5} pb={5} pt={5}>
         <Grid container direction='column' justifyContent="space-between" spacing={1}>
-          <Grid item xs={3}>
+          <Grid item xs={3} align='center'>
             <Typography variant='h5' gutterBottom component='div'>
               Timelines
             </Typography>
@@ -72,7 +59,7 @@ export default function Timelines(props) {
             <Timeline
               toggleLogEvents={props.toggleLogEvents}
               type="Logs"
-              data={getPoints()}
+              data={getAllPoints()}
             />
           </Grid>
           <Grid item xs={3}>

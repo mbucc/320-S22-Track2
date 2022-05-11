@@ -46,6 +46,7 @@ export default function TreeContextMenu({contextMenu, handleClose, expanded, set
           fontSize: '0.95rem',
         },
       }}
+      onContextMenu={(event) => event.preventDefault()}
     >
       <MenuItem
         onClick={() => {

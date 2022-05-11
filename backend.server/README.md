@@ -29,6 +29,10 @@ https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html
 
 ### 5. To run from the command line
 Navigate to  `320-S22-Track2/backend.server`</br>
+Use this comman to download the dependencies
+```bash
+mvn dependency:resolve
+```
 Use this command to run the server
 
 ```bash

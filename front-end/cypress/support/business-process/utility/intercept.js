@@ -49,8 +49,7 @@ export const interceptGridAPI = ({eaiTransactionId, businessDomains = undefined,
 
 // Used to intercept the EAI Domain selection dropdown.
 export const interceptEAIDomainList = () => {
-  const path = generatePath('/eaiDomains');
-  return cy.intercept('GET', path, {
+  return cy.intercept('GET', 'http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/eaiDomains', {
     statusCode: 200,
     body: BPTreeMockAPI.getEAIDomain(),
   });

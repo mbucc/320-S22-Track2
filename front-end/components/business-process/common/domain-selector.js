@@ -6,7 +6,7 @@ import BPTextInput from './text-input';
 import {ClickAwayListener, Popper} from '@mui/material';
 import {BPDomainSelectorItem} from './domain-selector-item';
 
-export const BPDomainSelector = ({id = 'bp-domain-selector', label, onChange, searchPlaceholder, list = []}) => {
+export const BPDomainSelector = ({id = 'bp-domain-selector', label, onChange, searchPlaceholder, list = [], outsideSelected = undefined}) => {
   const [selectedList, setSelectedList] = useState([]);
   const [searchInputValue, setSearchInputValue] = useState('');
 
@@ -33,6 +33,12 @@ export const BPDomainSelector = ({id = 'bp-domain-selector', label, onChange, se
       setResultList(list);
     }
   }, [searchInputValue, list]);
+
+  useEffect(() => {
+    if (outsideSelected && outsideSelected.length > 0) {
+      setSelectedList(outsideSelected);
+    }
+  }, [outsideSelected]);
 
   useEffect(() => {
     if (onChange) {

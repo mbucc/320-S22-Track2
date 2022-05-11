@@ -24,6 +24,8 @@ const BPTreeFilterComponent = ({
   const [eaiDomains, setEAIDomains] = useState([]);
   const [publishingBusinessDomains, setPublishingBusinessDomains] = useState([]);
 
+  const [outsideSelectedPubDomains, setOutsideSelectedPubDomains] = useState(undefined);
+
   // const [selectedSeverity, setSelectedSeverity] = useState(['success', 'info', 'warning', 'error']);
   // const [selectedSeverityError, setSelectedSeverityError] = useState(null);
 
@@ -39,7 +41,9 @@ const BPTreeFilterComponent = ({
         setEndDate(bpFilters.end);
       }
       if (bpFilters.bp) {
-        setPublishingBusinessDomains([bpFilters.bp]);
+        setOutsideSelectedPubDomains([bpFilters.bp]);
+      } else {
+        setOutsideSelectedPubDomains(undefined);
       }
     }
   }, [bpFilters]);
@@ -159,6 +163,7 @@ const BPTreeFilterComponent = ({
 
         <BPDomainSelector
           id={'bp-tree-filter-publishing-business-domain-selector'}
+          outsideSelected={outsideSelectedPubDomains}
           label={'Publishing Business Domain'}
           searchPlaceholder={'Search a publishing domain'}
           list={publishingBusinessDomainList}

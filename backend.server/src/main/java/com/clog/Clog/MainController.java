@@ -91,7 +91,8 @@ public class MainController {
         filt.setEndTime(Timestamp.valueOf(endTime));
         filt.setEaiDomain(eaiDomain);
         filt.setPublishingBusinessDomain(publishingBusinessDomain);
-
+        System.out.println(filt.getEndTime());
+        System.out.println(filt.getStartTime());
         businessTreeSpecification spec = new businessTreeSpecification(filt);
         Pageable limit = PageRequest.of(pageNumber, pageLength);
         Page<EAIdomain> pageResults = busTree.findAll(spec, limit);
@@ -134,6 +135,7 @@ public class MainController {
         cal.setTime(startTime);
 
         while (cal.getTime().before(currentTime)) {
+            System.out.println(intervalLength);
             DashBoardLineGraphFilter filter = new DashBoardLineGraphFilter(severity,
                     new Timestamp(cal.getTimeInMillis()), currentTime);
             cal.setTimeInMillis(cal.getTimeInMillis() + Math.round(intervalLength * 60 * 1000));
@@ -154,7 +156,6 @@ public class MainController {
         Timestamp startTime = new Timestamp(System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(timeBack));
         filt.setStartTime(startTime);
         filt.setEndTime(currentTime);
-
         String[] filtStrings = { "warning", "error" };
         filt.setSeverities(filtStrings);
 

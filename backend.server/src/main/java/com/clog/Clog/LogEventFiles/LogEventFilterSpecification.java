@@ -47,7 +47,6 @@ public class LogEventFilterSpecification implements Specification<LogEvent> {
                     subPredicate = cb.or(cb.equal(root.get("business_subdomain"),x),subPredicate);
                 }
             }
-            returnVal = cb.and(subPredicate, returnVal);
         }
         if(filter.getApplication() != null) {
             Predicate appPredicate = null;

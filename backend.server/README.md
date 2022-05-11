@@ -1,5 +1,5 @@
 # 320-S22-Track2
-## Geting Started
+## Getting Started
 
 ### 1. Download the code
  The first step is to clone the repository
@@ -8,10 +8,10 @@
 git clone https://github.com/david-fisher/320-S22-Track2.git
 ```
 ### 2. Install Maven
-Use this link to auto install Maven to your maching </br>
+Use this link to auto install Maven to your machine </br>
 https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.8.4/apache-maven-3.8.4-bin.zip
 
-### 3. Make sure you have the right JDk
+### 3. Make sure you have the right JDK
 This project uses Java 11 </br>
 Use this link to install the correct JDK </br>
 https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html
@@ -29,7 +29,7 @@ https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html
 
 ### 5. To run from the command line
 Navigate to  `320-S22-Track2/backend.server`</br>
-Use this comman to download the dependencies
+Use this command to download the dependencies
 ```bash
 mvn dependency:resolve
 ```
@@ -38,9 +38,9 @@ Use this command to run the server
 ```bash
 mvn spring-boot:run
 ```
-This command will download all depdencies, then build and deploy the server
+This command will download all dependencies, then build and deploy the server
 
-<h2>Use these URL's to ensure yout spring boot it running </h2>
+<h2>Use these URL's to ensure your spring boot is running </h2>
 
 http://localhost:8080/clog/logDetail?id=crm_server_000001 
 
@@ -55,3 +55,4 @@ If you get a port 8080 is in use change the value of server.port in the applicat
 ## API Documentation
 
 https://docs.google.com/document/d/1YjxN6EU7HJrZut07Qz17Tm2g8T__OFQ6Nicekf79mHY/edit?usp=sharing
+

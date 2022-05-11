@@ -8,46 +8,20 @@ import org.json.JSONArray;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import net.minidev.json.parser.JSONParser;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import static org.hamcrest.Matchers.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 
 import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.Optional;
-
-import com.clog.Clog.LogDetailFiles.LogDetail;
-import com.clog.Clog.LogDetailFiles.LogDetailRepository;
-import com.clog.Clog.LogEventFiles.LogEvent;
-import com.clog.Clog.LogEventFiles.LogEventFilterSpecification;
-import com.clog.Clog.LogEventFiles.LogEventRepository;
-import com.clog.Clog.LogEventFiles.LogEventsSearchCriteria;
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.jayway.jsonpath.JsonPath;
-import com.mysql.cj.xdevapi.JsonArray;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -131,9 +105,7 @@ public class BusinessProcessTreeTests {
                 int a_val11 = Integer.parseInt(a_val1);
                 int b_val11 = Integer.parseInt(b_val1);
 
-                if (a_val11 == b_val11) {
-                    continue;
-                } else {
+                if (a_val11 != b_val11) {
                     flag = false;
                     break;
                 }
@@ -142,9 +114,7 @@ public class BusinessProcessTreeTests {
                 String b_val1 = b_val.toString();
                 int a_val11 = Integer.parseInt(a_val1);
                 int b_val11 = Integer.parseInt(b_val1);
-                if (a_val11 == b_val11) {
-                    continue;
-                } else {
+                if (a_val11 != b_val11) {
                     flag = false;
                     break;
                 }
@@ -157,9 +127,7 @@ public class BusinessProcessTreeTests {
             } else {
                 String a_val1 = a_val.toString();
                 String b_val1 = b_val.toString();
-                if (a_val1.equals(b_val1)) {
-                    continue;
-                } else {
+                if (!a_val1.equals(b_val1)) {
                     flag = false;
                     break;
                 }

@@ -2,12 +2,19 @@ import React, {useEffect, useMemo, useState} from 'react';
 import Link from 'next/link';
 
 // WebStorm doesn't understand the imports from react-table and throw warnings like "cannot resolve 'useTable'". It works though.
-import {useTable, useBlockLayout, useSortBy, useResizeColumns} from 'react-table';
+import {
+  useTable,
+  useBlockLayout,
+  usePagination,
+  useSortBy,
+  useResizeColumns,
+} from 'react-table';
 
 import styled from 'styled-components';
 import {BPColors, BPDimens, BPStandards} from '../../../utils/business-process/standards';
 import {IconArrowsSort, IconChevronRight, IconSortAscending, IconSortDescending} from '@tabler/icons';
-import {Tooltip, tooltipClasses} from "@mui/material";
+import {Tooltip, tooltipClasses} from '@mui/material';
+import {BPPaginationController} from "../common/pagination-controller";
 
 /**
  * The root component for the activity table.
@@ -17,6 +24,7 @@ const BPTableRootStructure = styled.div`
   height: 100%;
   overflow-x: auto;
   overflow-y: auto;
+  position: relative;
 
   .table {
     width: 100%;
@@ -44,9 +52,9 @@ const BPTableRootStructure = styled.div`
     .table-body {
       display: flex;
       flex-direction: column;
-      padding-bottom: 40px;
+      padding-bottom: 90px;
       
-      &:nth-child(2n-1) {
+      & > .table-line:nth-child(2n) {
         background-color: ${BPColors.gray[70]};
       }
     }
@@ -186,11 +194,14 @@ const LightTooltip = styled(({className, ...props}) => (
  * This is a custom implementation of the react-table `useTable` hook.
  * @param {array} columns
  * @param {array} data
+ * @param {object} style
  * @return {JSX.Element}
- * @constructor
  */
 export default function BPTableComponent({columns, data, style}) {
   const [hasMounted, setHasMounted] = useState(false);
+  // const [pageState, setPageState] = useState(0);
+
+  const [dataState, setDataState] = useState([]);
 
   useEffect(() => {
     setHasMounted(true);
@@ -209,19 +220,34 @@ export default function BPTableComponent({columns, data, style}) {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
+    page,
     prepareRow,
+    gotoPage,
+    pageCount,
+    state: {pageIndex, pageSize},
   } = useTable(
       {
         columns,
-        data,
+        data: dataState,
         defaultColumn: defaultColumnConfiguration,
         autoResetResize: false,
+        // pageSize: 5,
       },
       useBlockLayout,
       useResizeColumns,
       useSortBy,
+      usePagination,
   );
+
+  useEffect(() => {
+    console.log('dataState', dataState);
+    // Set data based on the current page index and page size.
+    if (data) {
+      setDataState(data);
+    } else {
+      setDataState([]);
+    }
+  }, [data, pageIndex, pageSize]);
 
   // Rehydrate the table right when the component mounts.
   if (!hasMounted) {
@@ -301,11 +327,10 @@ export default function BPTableComponent({columns, data, style}) {
         </div>
 
         <div {...getTableBodyProps()} className="table-body">
-          {rows.map((row, i) => {
+          {page.map((row, i) => {
             prepareRow(row);
             return (
-              // eslint-disable-next-line react/jsx-key
-              <div key={row.getRowProps().key} className="table-line">
+              <div key={row.values['global_instance_id'] || i} className="table-line">
                 <div {...row.getRowProps()} className="tr">
                   {row.cells.map((cell) => {
                     return (
@@ -323,12 +348,6 @@ export default function BPTableComponent({columns, data, style}) {
                     );
                   })}
                 </div>
-                <div
-                  className="table-line-divider"
-                  style={{
-                    display: i === rows.length - 1 ? 'none' : 'flex',
-                  }}
-                />
                 <Link
                   href={`/log-detail/${row.original.global_instance_id}`}
                   passHref
@@ -346,6 +365,20 @@ export default function BPTableComponent({columns, data, style}) {
           })}
         </div>
       </div>
+      <BPPaginationController
+        pageState={pageIndex}
+        pageCount={pageCount}
+        style={{
+          display: pageCount > 1 ? 'flex' : 'none',
+          position: 'fixed',
+          bottom: '22px',
+          right: '23px',
+        }}
+        onChange={(newPageIndex) => {
+          console.log(newPageIndex);
+          gotoPage(newPageIndex);
+        }}
+      />
     </BPTableRootStructure>
   );
 }

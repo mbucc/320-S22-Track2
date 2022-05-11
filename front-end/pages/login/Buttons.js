@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 
 // core components
 
-import buttonStyle from './assets/jss/buttonStyle.js';
+import buttonStyle from '../../components/login/buttonStyle.js';
 
 const makeComponentStyles = makeStyles(() => ({
   ...buttonStyle,
@@ -31,6 +31,8 @@ const RegularButton = React.forwardRef((props, ref) => {
     className,
     ...rest
   } = props;
+
+  RegularButton.displayName = 'RegularButton';
 
   const classes = makeComponentStyles();
 

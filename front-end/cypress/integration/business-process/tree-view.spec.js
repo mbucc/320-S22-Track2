@@ -9,12 +9,13 @@ import moment from 'moment';
 import {goThroughLogin} from '../../support/business-process/utility/general';
 import {interceptTreeAPI} from '../../support/business-process/utility/intercept';
 import {clickTreeApplyButton} from '../../support/business-process/input/apply-button';
+import {inputEndDate, inputStartDate} from "../../support/business-process/input/date-picker";
 
 const currentTime = moment();
 const past30Days = currentTime.clone().subtract(30, 'days');
 const MockData = BPTreeMockAPI.getTreeResult({
-  startDate: past30Days,
-  endDate: currentTime,
+  startDate: past30Days.clone(),
+  endDate: currentTime.clone(),
 });
 
 function countLogs(data) {
@@ -30,20 +31,17 @@ function countLogs(data) {
   return count;
 }
 
-before(() => {
-  interceptTreeAPI({
-    startDate: past30Days,
-    endDate: currentTime,
-  }).as('getTree');
-  cy.visit('/business-process');
-  cy.clock(currentTime.toDate().getTime());
-  goThroughLogin();
-});
-
 describe('Populate the tree with test data.', () => {
-  it('Enters mock start and end date', () => {
-    cy.get('#bp-tree-filter-start-date-picker-field').type('-30d').type('{enter}');
-    cy.get('#bp-tree-filter-end-date-picker-field').type('now').type('{enter}');
+  it('Finish page preparation', () => {
+    interceptTreeAPI({
+      startDate: past30Days.clone(),
+      endDate: currentTime.clone(),
+    }).as('getTree');
+    cy.visit('/business-process');
+    cy.clock(currentTime.toDate().getTime());
+    goThroughLogin();
+    inputStartDate(past30Days.format('MM/DD/YYYY HH:mm:ss'));
+    inputEndDate(currentTime.format('MM/DD/YYYY HH:mm:ss'));
     clickTreeApplyButton();
     cy.wait('@getTree');
   });

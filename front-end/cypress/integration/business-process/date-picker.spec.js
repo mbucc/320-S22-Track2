@@ -2,12 +2,11 @@
 import {dateOptions} from '../../../utils/business-process/date-options';
 import {goThroughLogin} from '../../support/business-process/utility/general';
 
-before(() => {
-  cy.visit('/business-process');
-  goThroughLogin();
-});
-
 describe('Magic commands is working properly with shortcut commands.', () => {
+  it('Finish page preparation', () => {
+    cy.visit('/business-process');
+    goThroughLogin();
+  });
   it('Support rough date format.', () => {
     const rough1 = '12/20/2021 9am';
     const rough2 = '12/20/2021 9:00';

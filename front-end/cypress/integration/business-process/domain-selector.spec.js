@@ -2,13 +2,6 @@ import {goThroughLogin} from '../../support/business-process/utility/general';
 import {domainSelection} from '../../support/business-process/input/domain-selection';
 import {generatePath} from '../../support/business-process/utility/path-generator';
 
-// TODO: Write tests for domain selectors.
-before(() => {
-  interceptEAIDomainList();
-  cy.visit('/business-process');
-  goThroughLogin();
-});
-
 const interceptEAIDomainList = () => {
   const path = generatePath('/eaiDomains');
   return cy.intercept('GET', path, {
@@ -30,6 +23,12 @@ const selectActivitiesPubDomain = (count, then) => {
 };
 
 describe('EAI domain field is working properly.', () => {
+  it('Finish page preparation', () => {
+    interceptEAIDomainList();
+    cy.visit('/business-process');
+    goThroughLogin();
+  });
+
   it('Click at (0, 0) to reset pop-ups', () => {
     cy.get('body').click(0, 0);
   });

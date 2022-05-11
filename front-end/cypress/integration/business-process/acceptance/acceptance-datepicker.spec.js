@@ -15,13 +15,6 @@ import {clickTreeApplyButton} from '../../../support/business-process/input/appl
 
 const testingTime = '2022-05-01T06:00:00+00:00';
 
-// Call before every test to prepare the environment.
-before(() => {
-  cy.visit('/business-process');
-  cy.clock(moment(testingTime).utc().toDate().getTime());
-  goThroughLogin();
-});
-
 const getStartDateByPopper = () => {
   cy.get('#bp-tree-filter-start-date-picker-field').clear().click();
   cy.get('.css-i6bazn > :nth-child(1) > :nth-child(1) > .MuiButtonBase-root').click();
@@ -30,6 +23,12 @@ const getStartDateByPopper = () => {
 };
 
 describe('Acceptance Test of User 1', () => {
+  it('Finish page preparation', () => {
+    cy.visit('/business-process');
+    cy.clock(moment(testingTime).utc().toDate().getTime());
+    goThroughLogin();
+  });
+
   const currentTime = moment(testingTime);
   const past1Hour = currentTime.clone().subtract(1, 'hours');
 

@@ -1,11 +1,6 @@
 import {goThroughLogin} from '../../support/business-process/utility/general';
 import {severityOptions} from '../../../utils/business-process/severity';
 
-before(() => {
-  cy.visit('/business-process');
-  goThroughLogin();
-});
-
 const clickSeverity = (option) => {
   cy.get(`#bp-activity-filter-severity-selector-option-${option}`).click();
 };
@@ -15,6 +10,11 @@ const clickCheckAllButton = () => {
 };
 
 describe('Severity checkboxes and check/uncheck all buttons are working properly', () => {
+  it('Finish page preparation', () => {
+    cy.visit('/business-process');
+    goThroughLogin();
+  });
+
   it('Checkboxes can be unchecked and checked.', () => {
     cy.wrap(Array.from(severityOptions)).each((option) => {
       cy.get(`#bp-activity-filter-severity-selector-option-${option} > div > .icon`).should('exist');

@@ -1,10 +1,5 @@
 // This is an example test file that shows how to use the Cypress API for some basic selections.
 
-// Before the test suite starts, we need to navigate to the page we want to test.
-before(() => {
-  cy.visit('/business-process');
-});
-
 // Cypress Test Example: Check if the date picker component is working properly.
 describe.skip('DatePicker component is working properly.', () => {
   // To test if it is working properly, we need to test it from multiple aspects (except the shortcut commands stuff).
@@ -14,6 +9,8 @@ describe.skip('DatePicker component is working properly.', () => {
 
   // First, let us check if the date picker component is loaded successfully.
   it('DatePicker is loaded.', () => {
+    cy.visit('/business-process');
+
     // There will be a few things to consider:
     // 1. The outside div of the date picker component.
     // 2. The inside input field of the date picker component.

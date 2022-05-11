@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import CustomInput from './CustomInput';
 import Button from './Buttons';
 import logo from './iso_newengland.png';
@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 // eslint-disable-next-line require-jsdoc
-export default function Login({ setLogin }) {
+export default function Login({setLogin}) {
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
   const [err, setErr] = useState(false);
@@ -38,7 +38,7 @@ export default function Login({ setLogin }) {
 
   return (
     <div className="App">
-      <Image src={logo} style={{ minWidth: '50%', height: '50%' }} />
+      <Image src={logo} style={{minWidth: '50%', height: '50%'}} />
       <h3>ISO CLOG Monitor</h3>
       <form className="form">
         <CustomInput
@@ -86,7 +86,7 @@ export default function Login({ setLogin }) {
             p: 4,
           }}>
             <Typography id="modal-modal-description">
-              If you've forgotten your password, please file a ticket to retrieve a new set of credentials.
+              If you have forgotten your password, please file a ticket to retrieve a new set of credentials.
             </Typography>
           </Box>
         </Modal>

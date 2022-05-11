@@ -1,14 +1,14 @@
-import "../styles/globals.css";
-import "../styles/Dashboard.css";
-import "../styles/index.css";
-import "../styles/styles.css";
+import '../styles/globals.css';
+import '../styles/Dashboard.css';
+import '../styles/index.css';
+import '../styles/styles.css';
 
-import React, { useState } from "react";
-import Navbar from "./dashboard/Navbar";
-import Grid from "@mui/material/Grid";
-import Login from "./login/Login";
-import { useRouter } from "next/router";
-import { StyledEngineProvider } from "@mui/material";
+import React, {useState} from 'react';
+import Navbar from './dashboard/Navbar';
+import Grid from '@mui/material/Grid';
+import Login from './login/Login';
+import {useRouter} from 'next/router';
+import {StyledEngineProvider} from '@mui/material';
 
 /**
  * The Root App Component.
@@ -16,14 +16,10 @@ import { StyledEngineProvider } from "@mui/material";
  * @param {object} pageProps
  * @return {JSX.Element}
  */
-function ClogApp({ Component, pageProps }) {
-  if (typeof window === "undefined") {
-    return <div></div>;
-  }
-
+function ClogApp({Component, pageProps}) {
   // eslint-disable-next-line no-unused-vars
-  const [loggedIn, setLogin] = useState(
-    document.cookie.includes("loggedIn=true")
+  const [loggedIn, setLogin] = useState(typeof window === 'undefined' ? false :
+      document.cookie.includes('loggedIn=true')
   );
   const childToParent = (childdata) => {
     setLogin(childdata);
@@ -41,9 +37,9 @@ function ClogApp({ Component, pageProps }) {
    * Sets display to business process and passes filters into component view
    */
   const toggleBP = (filters) => {
-    console.log(filters)
+    console.log(filters);
     setBPFilters(filters);
-    router.push("./business-process/");
+    router.push('./business-process/');
   };
 
   /*
@@ -52,9 +48,9 @@ function ClogApp({ Component, pageProps }) {
    * Sets display to log events and passes filters into component view
    */
   const toggleLogEvents = (filters) => {
-    console.log("toggling log events: ", filters);
+    console.log('toggling log events: ', filters);
     setLogEventFilters(filters);
-    router.push("LogEvent");
+    router.push('LogEvent');
   };
 
   const clearFilters = () => {
@@ -66,10 +62,10 @@ function ClogApp({ Component, pageProps }) {
     return (
       <StyledEngineProvider injectFirst>
         <Grid container direction="column">
-          <Grid item height={"100%"}>
+          <Grid item height={'100%'}>
             <Navbar clearFilters={clearFilters} setLogin={childToParent} />
           </Grid>
-          <Grid item height={"100%"}>
+          <Grid item height={'100%'}>
             {
               <Component
                 {...pageProps}

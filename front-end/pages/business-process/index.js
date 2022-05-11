@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import Head from 'next/head';
 import BPTreeView from '../../components/business-process/tree/core';
 import BPActivityView from '../../components/business-process/activity/core';
-// import {BPStandards} from '../../utils/business-process/standards';
 import Split from 'react-split';
 import ReactDOM from 'react-dom';
 
@@ -10,7 +9,7 @@ import {
   BPAdjustableFrameGutter,
 } from '../../components/business-process/root/adjustable-frame-gutter';
 
-const BPIndex = () => {
+const BPIndex = ({bpFilters}) => {
   const [selectedTransactionID, setSelectedTransactionID] = useState(null);
 
   return (
@@ -69,9 +68,12 @@ const BPIndex = () => {
               backgroundColor: '#ffffff',
             }}
           >
-            <BPTreeView onChange={(id) => {
-              setSelectedTransactionID(id);
-            }}/>
+            <BPTreeView
+              bpFilters={bpFilters}
+              onChange={(id) => {
+                setSelectedTransactionID(id);
+              }}
+            />
           </div>
           <div
             style={{

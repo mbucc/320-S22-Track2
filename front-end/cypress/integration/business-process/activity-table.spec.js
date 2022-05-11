@@ -1,14 +1,12 @@
 import {goThroughLogin} from '../../support/business-process/utility/general';
-import {domainSelection} from '../../support/business-process/input/domain-selection';
 import moment from 'moment';
 import {generatePath} from '../../support/business-process/utility/path-generator';
 import {convertToAPIFormat} from '../../../utils/business-process/date-options';
 import {BPTreeMockAPI} from '../../support/business-process/mock-api/tree';
 import {selectTreeItem} from '../../support/business-process/input/tree-selection';
-import {severityOptions, sortSeverityTags} from '../../../utils/business-process/severity';
 import {inputEndDate, inputStartDate} from '../../support/business-process/input/date-picker';
-import {interceptActivityFilter, interceptGridAPI} from '../../support/business-process/utility/intercept';
-import {clickTableApplyButton, clickTreeApplyButton} from '../../support/business-process/input/apply-button';
+import {interceptBusinessDomainList, interceptGridAPI} from '../../support/business-process/utility/intercept';
+import {clickTreeApplyButton} from '../../support/business-process/input/apply-button';
 
 const tableToArray = (arr) => {
   cy.get('.table-body .tr').each(($e, index) => {
@@ -30,7 +28,7 @@ const prepare = () => {
   before(() => {
     // This is a minimal example on how to generate a path and then intercept the API request.
     const currentTime = moment(testingTime);
-    const past30Minutes = currentTime.clone().subtract(30, 'minutes'); 
+    const past30Minutes = currentTime.clone().subtract(30, 'minutes');
     const treePath = generatePath('/businessProcessTree', { //
       'startTime': convertToAPIFormat(past30Minutes.clone()),
       'endTime': convertToAPIFormat(currentTime.clone()),
@@ -60,7 +58,7 @@ const prepare = () => {
     selectTreeItem(testingEAITransactionId);
     cy.wait('@getGrid');
 
-    interceptActivityFilter();
+    interceptBusinessDomainList();
   });
 };
 // f is a function that determines

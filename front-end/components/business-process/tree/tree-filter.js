@@ -24,6 +24,8 @@ const BPTreeFilterComponent = ({
   const [eaiDomains, setEAIDomains] = useState([]);
   const [publishingBusinessDomains, setPublishingBusinessDomains] = useState([]);
 
+  const [outsideStartDate, setOutsideStartDate] = useState(null);
+  const [outsideEndDate, setOutsideEndDate] = useState(null);
   const [outsideSelectedPubDomains, setOutsideSelectedPubDomains] = useState(undefined);
 
   // const [selectedSeverity, setSelectedSeverity] = useState(['success', 'info', 'warning', 'error']);
@@ -34,11 +36,12 @@ const BPTreeFilterComponent = ({
 
   useEffect(() => {
     if (bpFilters) {
+      console.log('bpFilters', bpFilters);
       if (bpFilters.start) {
-        setStartDate(bpFilters.start);
+        setOutsideStartDate(bpFilters.start);
       }
       if (bpFilters.end) {
-        setEndDate(bpFilters.end);
+        setOutsideEndDate(bpFilters.end);
       }
       if (bpFilters.bp) {
         setOutsideSelectedPubDomains([bpFilters.bp]);
@@ -135,6 +138,7 @@ const BPTreeFilterComponent = ({
         <BPDatePicker
           id={'bp-tree-filter-start-date-picker'}
           label={'Start Date'}
+          outsideDate={outsideStartDate}
           onChange={(newDate)=> {
             setStartDateError(null);
             setStartDate(newDate);
@@ -145,6 +149,7 @@ const BPTreeFilterComponent = ({
         <BPDatePicker
           id={'bp-tree-filter-end-date-picker'}
           label={'End Date'}
+          outsideDate={outsideEndDate}
           onChange={(newDate)=> {
             setEndDateError(null);
             setEndDate(newDate);

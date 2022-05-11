@@ -84,7 +84,7 @@ const BPTreeView = ({
         />
         <BPPaginationController
           pageState={pageState}
-          pageCount={Math.floor(size / 50) + (size % 50 > 0 ? 1 : 0)}
+          pageCount={Math.ceil(size / 50)}
           style={{
             display: size > 50 ? 'flex' : 'none',
             position: 'absolute',

@@ -193,7 +193,7 @@ public class BusinessProcessTreeTests {
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
         String jsonResponse = response.getResponse().getContentAsString();
-        Assert.assertEquals(jsonResponse, "{}");
+        Assert.assertEquals(jsonResponse, "{\"eaiMap\":{},\"size\":0}");
     }
 
     @Test
@@ -206,7 +206,7 @@ public class BusinessProcessTreeTests {
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
         String jsonResponse = response.getResponse().getContentAsString();
-        Assert.assertEquals(jsonResponse, "{}");
+        Assert.assertEquals(jsonResponse, "{\"eaiMap\":{},\"size\":0}");
     }
 
     @Test
@@ -285,7 +285,7 @@ public class BusinessProcessTreeTests {
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
         String jsonResponse = response.getResponse().getContentAsString();
-        Assert.assertEquals(jsonResponse, "{}");
+        Assert.assertEquals(jsonResponse, "{\"eaiMap\":{},\"size\":0}");
     }
 
     @Test
@@ -300,7 +300,7 @@ public class BusinessProcessTreeTests {
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
         String jsonResponse = response.getResponse().getContentAsString();
-        Assert.assertEquals(jsonResponse, "{}");
+        Assert.assertEquals(jsonResponse, "{\"eaiMap\":{},\"size\":0}");
     }
 
 }

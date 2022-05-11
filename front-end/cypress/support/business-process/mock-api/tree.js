@@ -19,6 +19,7 @@ function getTreeResult(
     }
 ) {
   const result = {};
+  let sizeCount = 0;
 
   // Make data into readable JSON object.
   const bpTable = BusinessProcessTable;
@@ -36,6 +37,7 @@ function getTreeResult(
       result[bp.eai_domain][bp.pub_domain][bp.business_process] =
           result[bp.eai_domain][bp.pub_domain][bp.business_process] || [];
       result[bp.eai_domain][bp.pub_domain][bp.business_process].push(bp);
+      sizeCount += 1;
     }
   });
 
@@ -57,7 +59,11 @@ function getTreeResult(
   //     });
   //   }
   // });
-  return result;
+
+  return {
+    treeMap: result,
+    size: sizeCount,
+  };
 }
 
 /**

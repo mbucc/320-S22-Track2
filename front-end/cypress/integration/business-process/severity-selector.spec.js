@@ -10,6 +10,10 @@ const clickSeverity = (option) => {
   cy.get(`#bp-activity-filter-severity-selector-option-${option}`).click();
 };
 
+const clickCheckAllButton = () => {
+  cy.get('#bp-activity-filter-severity-checkall-button').click();
+};
+
 describe('Severity checkboxes and check/uncheck all buttons are working properly', () => {
   it('Checkboxes can be unchecked and checked.', () => {
     cy.wrap(Array.from(severityOptions)).each((option) => {
@@ -30,21 +34,21 @@ describe('Severity checkboxes and check/uncheck all buttons are working properly
       cy.get(`#bp-activity-filter-severity-selector-option-${option} > div > .icon`).should('exist');
     });
 
-    cy.get('.sc-eCYdqJ').click();
+    clickCheckAllButton();
 
     cy.wrap(Array.from(severityOptions)).each((option) => {
       cy.get(`#bp-activity-filter-severity-selector-option-${option} > div > .icon`).should('not.exist');
     });
 
-    cy.get('.sc-eCYdqJ').click();
+    clickCheckAllButton();
 
     cy.wrap(Array.from(severityOptions)).each((option) => {
       cy.get(`#bp-activity-filter-severity-selector-option-${option} > div > .icon`).should('exist');
     });
 
-    cy.get('.sc-eCYdqJ').click();
+    clickCheckAllButton();
     clickSeverity(severityOptions[0]);
-    cy.get('.sc-eCYdqJ').click();
+    clickCheckAllButton();
 
     cy.wrap(Array.from(severityOptions)).each((option) => {
       cy.get(`#bp-activity-filter-severity-selector-option-${option} > div > .icon`).should('exist');
@@ -66,7 +70,7 @@ describe('Severity checkboxes and check/uncheck all buttons are working properly
       cy.get(`#bp-activity-filter-severity-selector-option-${option} > div > .icon`).should('exist');
     });
 
-    cy.get('.sc-eCYdqJ').click();
+    clickCheckAllButton();
     cy.wrap(Array.from(severityOptions)).each((option) => {
       cy.get(`#bp-activity-filter-severity-selector-option-${option} > div > .icon`).should('not.exist');
     });
@@ -80,9 +84,9 @@ describe('Severity checkboxes and check/uncheck all buttons are working properly
     cy.get('[style="display: flex; flex-direction: row; align-items: flex-start; justify-content: flex-start; width: 100%; padding-top: 4px; color: rgb(220, 38, 38);"]').should('exist');
     clickSeverity(severityOptions[0]);
     cy.get('[style="display: flex; flex-direction: row; align-items: flex-start; justify-content: flex-start; width: 100%; padding-top: 4px; color: rgb(220, 38, 38);"]').should('not.exist');
-    cy.get('.sc-eCYdqJ').click();
+    clickCheckAllButton();
     cy.get('[style="display: flex; flex-direction: row; align-items: flex-start; justify-content: flex-start; width: 100%; padding-top: 4px; color: rgb(220, 38, 38);"]').should('not.exist');
-    cy.get('.sc-eCYdqJ').click();
+    clickCheckAllButton();
     cy.get('[style="display: flex; flex-direction: row; align-items: flex-start; justify-content: flex-start; width: 100%; padding-top: 4px; color: rgb(220, 38, 38);"]').should('exist');
   });
 });

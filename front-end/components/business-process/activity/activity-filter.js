@@ -11,6 +11,10 @@ const BPActivityFilterComponent = ({businessDomainList, onChange}) => {
   const [selectedSeverityError, setSelectedSeverityError] = useState(null);
 
   const onApplyButtonClick = () => {
+    if (selectedSeverity.length === 0) {
+      return;
+    }
+
     if (onChange) {
       onChange({
         businessDomain: selectedBusinessDomain,

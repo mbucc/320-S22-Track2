@@ -74,7 +74,7 @@ pipeline {
             dir("front-end") {
               script{
                 try{
-                    sh 'npm run build & npx cypress run --config video=false -b chrome'
+                    sh 'npm run start & npx cypress run --config video=false -b chrome'
                     sh 'killall node' //Cleanup so server doesn't run forever
                 }
                 catch(exe){

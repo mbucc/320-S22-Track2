@@ -157,4 +157,3 @@ describe('Other tests in DatePicker component', () => {
     cy.get('#bp-tree-filter-end-date-picker-field').type('3/14/2021 2:30 AM').type('{enter}').should('have.value', '3/14/2021, 3:30:00 AM');
   });
 });
-

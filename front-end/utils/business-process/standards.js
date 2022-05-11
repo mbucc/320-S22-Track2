@@ -14,7 +14,7 @@ const BPColors = {
    */
   brand: '#16a34a', // Temporarily set it to green 600.
 
-  border: '#f2f2f3',
+  border: '#f1f1f2',
   transparent: 'transparent',
 
   gray: {
@@ -156,6 +156,8 @@ const BPStandards = {
    * A variant shadow setting for the context menu (in order to deliver a better visibility of the context menu).
    */
   menuShadow: '0px 16px 40px 0px rgba(0,0,0,0.10)',
+
+  floatShadow: '0px 10px 30px 0px rgba(0,0,0,0.06)',
 };
 
 export {

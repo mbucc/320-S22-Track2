@@ -7,6 +7,9 @@ let currentNodeIdAccumulator = 0;
  * @return {array} - Unwrapped data.
  */
 export function unwrapAPI(data) {
+  if (!data) {
+    return [];
+  }
   const unwrappedData = [];
   // Given data is an object, we want to extract all keys and values.
   Object.keys(data).forEach((key) => {

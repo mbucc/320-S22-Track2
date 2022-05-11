@@ -8,6 +8,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import ErrorIcon from '@mui/icons-material/Error';
 import WarningIcon from '@mui/icons-material/Warning';
 
+
 /**
  *
  * @param {*} props state of data to be displayed by the Table
@@ -19,16 +20,44 @@ export default function LETable(props) {
     width: 'inherit',
   };
 
+  // UNCOMMENT IF USING LOG DETAIL DIALOG COMPONENT
+  /**
+   * modal state for detail dialog
+   */
+  // const [modalState, setModalState] = useState(false);
+  // const [modalData, setModalData] = useState(null);
+
+  /**
+   * loading state for the log detail
+   */
+  // const [detailIsLoading, setDetailIsLoading] = useState(false);
+
+  // const openModal = async (logid)=>{
+  //   setModalState(true);
+  //   // while the data is getting fetched, loading state = true
+  //   setDetailIsLoading(true);
+  //   const res = await axios.get(`http://cafebabebackend-env.eba-hy52pzjp.us-east-1.elasticbeanstalk.com/clog/logDetail?id=${logid}`);
+  //   const data = res.data;
+  //   setModalData(data);
+  //   // once modal receives data, set loading = false
+  //   setDetailIsLoading(false);
+  // };
+
+  // const closeModal = ()=>{
+  //   setModalData(null);
+  //   setModalState(false);
+  // };
+
   /**
    * 0 = default sort
    * 1 = by severity descending
    * 2 = by severity ascending
-   * 3 = by date ascending
-   * 4 = by date descending
-   * 5 = by priority descending
-   * 6 = by priority descending
+   * 3 = by priority descending
+   * 4 = by priority ascending
+   * 5 = by date descending
+   * 6 = by date ascending
    */
-  const [sort, setSort] = useState(6);
+  const [sort, setSort] = useState(5);
 
   /* event handlers for changing number of pages and changing page*/
   const handleChangePage = (event, newPage) => {
@@ -50,27 +79,27 @@ export default function LETable(props) {
     let sortedData = props.data;
     switch (sort) {
       case 1:
-        sortedData = sortedData.sort(severityComparison('lt'));
+        sortedData = sortedData.sort(severityComparison('desc'));
         props.setData(sortedData);
         return 1;
       case 2:
-        sortedData = sortedData.sort(severityComparison('gt'));
+        sortedData = sortedData.sort(severityComparison('asc'));
         props.setData(sortedData);
         return 2;
       case 3:
-        sortedData = sortedData.sort(priorityComparison('lt'));
+        sortedData = sortedData.sort(priorityComparison('desc'));
         props.setData(sortedData);
         return 3;
       case 4:
-        sortedData = sortedData.sort(priorityComparison('gt'));
+        sortedData = sortedData.sort(priorityComparison('asc'));
         props.setData(sortedData);
         return 4;
       case 5:
-        sortedData = sortedData.sort(dateComparison('lt'));
+        sortedData = sortedData.sort(dateComparison('desc'));
         props.setData(sortedData);
         return 5;
       case 6:
-        sortedData = sortedData.sort(dateComparison('gt'));
+        sortedData = sortedData.sort(dateComparison('asc'));
         props.setData(sortedData);
         return 6;
     }
@@ -106,21 +135,21 @@ export default function LETable(props) {
     return (a, b) =>{
       const aNum = a.severity;
       const bNum = b.severity;
-      if (comp === 'gt') {
+      if (comp === 'desc') {
         if (aNum < bNum) {
-          return -1;
+          return 1;
         }
         if (aNum > bNum) {
-          return 1;
+          return -1;
         }
         return 0;
       }
-      if (comp === 'lt') {
+      if (comp === 'asc') {
         if (aNum < bNum) {
-          return 1;
+          return -1;
         }
         if (aNum > bNum) {
-          return -1;
+          return 1;
         }
         return 0;
       }
@@ -131,7 +160,7 @@ export default function LETable(props) {
     return (a, b) =>{
       const aNum = a.priority;
       const bNum = b.priority;
-      if (comp === 'lt') {
+      if (comp === 'desc') {
         if (aNum < bNum) {
           return 1;
         }
@@ -140,7 +169,7 @@ export default function LETable(props) {
         }
         return 0;
       }
-      if (comp === 'gt') {
+      if (comp === 'asc') {
         if (aNum < bNum) {
           return -1;
         }
@@ -154,10 +183,10 @@ export default function LETable(props) {
 
   const dateComparison = (comp)=>{
     return (a, b) =>{
-      if (comp === 'lt') {
+      if (comp === 'asc') {
         return moment(a['creation_time']).format('MMDDYYYYHHmmss') - moment(b['creation_time']).format('MMDDYYYYHHmmss');
       }
-      if (comp === 'gt') {
+      if (comp === 'desc') {
         return moment(b['creation_time']).format('MMDDYYYYHHmmss') - moment(a['creation_time']).format('MMDDYYYYHHmmss');
       }
     };
@@ -202,14 +231,14 @@ export default function LETable(props) {
             <TableCell>
               <TableSortLabel data-testid = "logevent-button-sort-severity"
                 onClick={() => setSort(sortHandler(sort != 1 ? 1 : 2))}
-                direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
+                direction={(sort % 2 === 1 ? 'desc' : 'asc')}>
                     Severity
               </TableSortLabel>
             </TableCell>
             <TableCell>
               <TableSortLabel data-testid = "logevent-button-sort-priority"
                 onClick={() => setSort(sortHandler(sort != 3 ? 3 : 4))}
-                direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
+                direction={(sort % 2 === 1 ? 'desc' : 'asc')}>
                     Priority
               </TableSortLabel>
             </TableCell>
@@ -217,7 +246,7 @@ export default function LETable(props) {
             <TableCell>
               <TableSortLabel data-testid = "logevent-button-sort-date"
                 onClick={() => setSort(sortHandler(sort != 5 ? 5 : 6))}
-                direction={(sort % 2 === 1 ? 'asc' : 'desc')}>
+                direction={(sort % 2 === 1 ? 'desc' : 'asc')}>
                     Created Date
               </TableSortLabel>
             </TableCell>
@@ -236,8 +265,8 @@ export default function LETable(props) {
                 const severityText = rankSeverity(e.severity);
                 const priorityText = rankPriority(e.priority);
                 return (
-                  <TableRow key={i}>
-                    <TableCell
+                  <TableRow key={i} data-testid='logevent-table-row'>
+                    <TableCell data-testid="logevent-table-cell-severity"
                       style={{
                         color: e.severity >= 50 ? BPColors.error :
                             e.severity < 50 && e.severity >= 30 ? BPColors.warning :
@@ -252,17 +281,17 @@ export default function LETable(props) {
                               <CheckCircleIcon style={{color: BPColors.success, paddingTop: '8px'}} />}
                       <div style={{display: 'inline-block', alignSelf: 'center', marginLeft: '2px'}}>{severityText}</div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell data-testid="logevent-table-cell-priority">
                       {priorityText}
                     </TableCell>
-                    <TableCell>{e.category_name}</TableCell>
-                    <TableCell>{moment(e['creation_time']).format('MM/DD/YYYY HH:mm:ss')}</TableCell>
-                    <TableCell>{e['application']}</TableCell>
-                    <TableCell>{e['activity']}</TableCell>
-                    <TableCell>{e['eai_domain']}</TableCell>
-                    <TableCell>{e['business_domain']}</TableCell>
-                    <TableCell>{e['business_subdomain']}</TableCell>
-                    <TableCell>
+                    <TableCell data-testid="logevent-table-cell-category">{e.category_name}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-date">{moment(e['creation_time']).format('MM/DD/YYYY HH:mm:ss')}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-app">{e['application']}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-ps">{e['activity']}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-eai">{e['eai_domain']}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-bd">{e['business_domain']}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-bsd">{e['business_subdomain']}</TableCell>
+                    <TableCell data-testid="logevent-table-cell-detail">
                       <Button hyperlink-testid={i}
                         variant="text"
                         sx={{
@@ -273,6 +302,7 @@ export default function LETable(props) {
                             backgroundColor: '#00000008',
                           },
                         }}
+                        // onClick = {()=>openModal(e.global_instance_id)}
                       >
                         <a
                           href={`/log-detail/${e.global_instance_id}`}
@@ -282,12 +312,19 @@ export default function LETable(props) {
                             Detail
                         </a>
                       </Button>
+                      {/* <LogDetail
+                        data = {modalData}
+                        modalState = {modalState}
+                        closeModal = {closeModal}
+                        isLoading = {detailIsLoading} /> */}
                     </TableCell>
                   </TableRow>
                 );
               })}
         </TableBody>
-      </Table><TablePagination
+      </Table>
+      <TablePagination
+        data-testid={'logevent-table-pagination'}
         count={props.data.length}
         rowsPerPageOptions={[5, 10, 20, 50]}
         page={props.page}

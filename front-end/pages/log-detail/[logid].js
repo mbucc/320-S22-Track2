@@ -25,20 +25,6 @@ export default function LogDetail({data}) {
 
   return (
     <>
-      {/* <Button
-        variant = 'text'
-        href = '/LogEvent'
-        size = {'large'}
-        sx = {{
-          borderRadius: 999,
-          padding: '6px 14px',
-          color: '#000',
-          '&:hover': {
-            backgroundColor: '#00000008',
-          },
-        }}>
-        Back
-      </Button> */}
       <Typography variant = 'h3' style = {titleStyle}>Log Event ID: {logID}</Typography>
       {data === null ? (<Typography variant = 'p'> loading... </Typography>) :
             (<div>
@@ -49,7 +35,7 @@ export default function LogDetail({data}) {
                 <List>
                   {keys.map((key, i)=>{
                     return (
-                      <ListItem key={i} divider>
+                      <ListItem key={i} divider data-testid={`logdetail-${key}`}>
                         <Typography variant='subtitle1' sx={subtitleStyle}>
                           {`${key}:`}
                         </Typography>

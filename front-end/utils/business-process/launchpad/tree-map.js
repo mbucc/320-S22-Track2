@@ -65,6 +65,7 @@ export const getTreeMap = () => {
         treeMap: [],
         size: 0,
       });
+
       setIsLoading(true);
 
       RequestHandler.get({

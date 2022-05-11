@@ -5,29 +5,55 @@ import {BPDomainSelector} from '../common/domain-selector';
 
 import {BPButton} from '../common/button';
 
-const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onChange}) => {
+// import {BPSeveritySelector} from '../common/severity-selector';
+
+// NOTE: In this file, we are commenting out a lot of things related to severity.
+// This is because we were trying to integrate with the dashboard filer,
+// but we were not able to populate the data because dashboard team is sending the
+// wrong information and the severity is removed from the API in the last night.
+// We may be able to do that in the future, so I keep them here for now.
+
+const BPTreeFilterComponent = ({
+  eaiDomainList,
+  publishingBusinessDomainList,
+  bpFilters,
+  onChange,
+}) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [eaiDomains, setEAIDomains] = useState([]);
   const [publishingBusinessDomains, setPublishingBusinessDomains] = useState([]);
 
+  const [outsideSelectedPubDomains, setOutsideSelectedPubDomains] = useState(undefined);
+
+  // const [selectedSeverity, setSelectedSeverity] = useState(['success', 'info', 'warning', 'error']);
+  // const [selectedSeverityError, setSelectedSeverityError] = useState(null);
+
   const [startDateError, setStartDateError] = useState(null);
   const [endDateError, setEndDateError] = useState(null);
 
+  useEffect(() => {
+    if (bpFilters) {
+      if (bpFilters.start) {
+        setStartDate(bpFilters.start);
+      }
+      if (bpFilters.end) {
+        setEndDate(bpFilters.end);
+      }
+      if (bpFilters.bp) {
+        setOutsideSelectedPubDomains([bpFilters.bp]);
+      } else {
+        setOutsideSelectedPubDomains(undefined);
+      }
+    }
+  }, [bpFilters]);
+
   // Track the common date picker error.
   useEffect(() => {
-    if (startDate && startDate > new Date()) {
+    if (startDate && startDate.getTime() > new Date().getTime()) {
       setStartDateError('Start date must be in the past.');
-    } else {
-      setStartDateError(null);
     }
   }, [startDate]);
-
-  useEffect(() => {
-    if (endDate) {
-      setEndDateError(null);
-    }
-  }, [endDate]);
 
   const onApplyClick = () => {
     if (startDate && endDate && startDate > endDate) {
@@ -35,16 +61,21 @@ const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onC
       return;
     }
 
-    if (startDate && startDate > new Date()) {
+    if (startDate && startDate.getTime() > new Date().getTime()) {
       setStartDateError('Start date must be in the past.');
       return;
     }
+
+    // if (selectedSeverity.length === 0) {
+    //   return;
+    // }
 
     onChange({
       'startTime': startDate,
       'endTime': endDate,
       'eaiDomain': eaiDomains.join(','),
       'publishingBusinessDomain': publishingBusinessDomains.join(','),
+      // 'severity': selectedSeverity.join(','), // TODO: API removed this property.
     });
   };
 
@@ -105,6 +136,7 @@ const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onC
           id={'bp-tree-filter-start-date-picker'}
           label={'Start Date'}
           onChange={(newDate)=> {
+            setStartDateError(null);
             setStartDate(newDate);
           }}
           error={startDateError}
@@ -114,6 +146,7 @@ const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onC
           id={'bp-tree-filter-end-date-picker'}
           label={'End Date'}
           onChange={(newDate)=> {
+            setEndDateError(null);
             setEndDate(newDate);
           }}
           baseDate={startDate}
@@ -130,11 +163,26 @@ const BPTreeFilterComponent = ({eaiDomainList, publishingBusinessDomainList, onC
 
         <BPDomainSelector
           id={'bp-tree-filter-publishing-business-domain-selector'}
+          outsideSelected={outsideSelectedPubDomains}
           label={'Publishing Business Domain'}
           searchPlaceholder={'Search a publishing domain'}
           list={publishingBusinessDomainList}
           onChange={(value) => setPublishingBusinessDomains(value)}
         />
+
+        {/* <BPSeveritySelector*/}
+        {/*  id={'bp-tree-filter-severity-selector'}*/}
+        {/*  label={'Severity'}*/}
+        {/*  onChange={(selected) => {*/}
+        {/*    setSelectedSeverity(selected);*/}
+        {/*    if (selected.length === 0) {*/}
+        {/*      setSelectedSeverityError('Please select at least one severity');*/}
+        {/*    } else {*/}
+        {/*      setSelectedSeverityError(null);*/}
+        {/*    }*/}
+        {/*  }}*/}
+        {/*  error={selectedSeverityError}*/}
+        {/* />*/}
       </div>
     </div>
   );

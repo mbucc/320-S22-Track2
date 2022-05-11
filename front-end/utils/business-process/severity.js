@@ -2,6 +2,18 @@ import {BPColors} from './standards';
 import Image from 'next/image';
 import React from 'react';
 
+export const severityOptions = ['success', 'info', 'warning', 'error'];
+export const sortSeverityTags = (severities) => {
+  if (!severities || severities.length === 0) {
+    return undefined;
+  }
+  // In the order of 'success', 'info', 'warning', 'error'.
+  severities.sort((a, b) => {
+    return severityOptions.indexOf(a) - severityOptions.indexOf(b);
+  });
+  return severities;
+};
+
 export const getColorBySeverityAccessor = (severity) => {
   switch (severity) {
     case 'success':
@@ -24,6 +36,34 @@ export const getColorBySeverityValue = (severity) => {
     return BPColors.warning;
   } else {
     return BPColors.error;
+  }
+};
+
+export const getSeverityRangeValueByTag = (tag) => {
+  switch (tag) {
+    case 'success':
+      return [0, 10];
+    case 'info':
+      return [10, 30];
+    case 'warning':
+      return [30, 50];
+    case 'error':
+      return [50, 100];
+  }
+};
+
+export const isValidSeverityValue = (allowedSeverities, givenValue) => {
+  if (!allowedSeverities || allowedSeverities.length === 0) {
+    return true;
+  }
+  if (givenValue < 10) {
+    return allowedSeverities.includes('success');
+  } else if (givenValue < 30) {
+    return allowedSeverities.includes('info');
+  } else if (givenValue < 50) {
+    return allowedSeverities.includes('warning');
+  } else {
+    return allowedSeverities.includes('error');
   }
 };
 

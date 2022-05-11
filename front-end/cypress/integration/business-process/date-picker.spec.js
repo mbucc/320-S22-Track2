@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
 import {dateOptions} from '../../../utils/business-process/date-options';
-before(() => {
-  cy.visit('/business-process');
-  cy.get('.MuiButton-root').first().click();
-});
+import {goThroughLogin} from '../../support/business-process/utility/general';
 
-describe.skip('Magic commands is working properly with shortcut commands.', () => {
+describe('Magic commands is working properly with shortcut commands.', () => {
+  it('Finish page preparation', () => {
+    cy.visit('/business-process');
+    goThroughLogin();
+  });
   it('Support rough date format.', () => {
     const rough1 = '12/20/2021 9am';
     const rough2 = '12/20/2021 9:00';
@@ -69,7 +70,7 @@ describe.skip('Magic commands is working properly with shortcut commands.', () =
   });
 });
 
-describe.skip('Date format is parsed correctly', () => {
+describe('Date format is parsed correctly', () => {
   it('Support seconds input correctly.', () => {
     const baseTime = new Date();
     cy.get('#bp-tree-filter-start-date-picker-field').clear();
@@ -117,7 +118,7 @@ describe.skip('Date format is parsed correctly', () => {
   });
 });
 
-describe.skip('Other tests in DatePicker component', () => {
+describe('Other tests in DatePicker component', () => {
   it('Popper should be dismissed when we click outside.', () => {
     cy.get('body').click(0, 0);
     cy.get('#bp-tree-filter-start-date-picker-popper').should('not.exist');
@@ -127,7 +128,8 @@ describe.skip('Other tests in DatePicker component', () => {
     const second = baseTime.getSeconds();
     cy.clock(baseTime.getTime(), ['Date']);
     cy.visit('/business-process');
-    cy.get('.MuiButton-root').first().click();
+    goThroughLogin();
+    cy.get('#bp-tree-filter-start-date-picker > .MuiInputBase-root').click();
     cy.get('#bp-tree-filter-start-date-picker-field').clear().type('10/28').type('{enter}').clear();
     const test_date = new Date(2021, 9, 20, 15, 15, second);
     cy.get('#bp-tree-filter-start-date-picker-field').clear().click();
@@ -139,17 +141,23 @@ describe.skip('Other tests in DatePicker component', () => {
     cy.get('.css-1umqo6f').click(220, 110, {force: true}).click(220, 110, {force: true});
     cy.get('#bp-tree-filter-start-date-picker-field').should('have.value', test_date.toLocaleDateString('en-US', dateOptions));
   });
+
   it('Support DLS correctly.', () => {
     cy.get('#bp-tree-filter-start-date-picker-field').clear();
     cy.get('#bp-tree-filter-start-date-picker-field').type('11/07/2021 1am').type('{enter}');
+    cy.wait(500);
     cy.get('#bp-date-picker-conflict-option-earlier').should('exist');
     cy.get('#bp-date-picker-conflict-option-later').should('exist');
-    cy.get('#bp-date-picker-conflict-option-later').click();
+    cy.get('#bp-date-picker-conflict-option-later').click({force: true});
+  });
 
+  it('Support DLS correctly. 2', () => {
     cy.get('#bp-tree-filter-end-date-picker-field').clear().type('11/07/2021 1am').type('{enter}');
     cy.get('#bp-tree-filter-apply-button').click();
     cy.get('.icon-tabler-alert-circle').should('exist');
+  });
 
+  it.skip('Support DLS forward correctly.', () => {
     cy.get('#bp-tree-filter-end-date-picker-field').clear();
     cy.get('#bp-tree-filter-end-date-picker-field').type('3/14/2021 2:30 AM').type('{enter}').should('have.value', '3/14/2021, 3:30:00 AM');
   });

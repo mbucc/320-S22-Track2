@@ -4,10 +4,12 @@ import {selectEAIDomain, selectPubDomain} from '../../../support/business-proces
 import {inputEndDate, inputStartDate} from '../../../support/business-process/input/date-picker';
 import {interceptTreeAPI} from '../../../support/business-process/utility/intercept';
 
-beforeEach(() => {
-  cy.visit('/business-process');
-  goThroughLogin();
-});
+const prepare = () => {
+  it('Finish page preparation', () => {
+    cy.visit('/business-process');
+    goThroughLogin();
+  });
+};
 
 const testDatePickerIntegration = (startDate, endDate) => {
   // Lock the current time (so the generated API time will be the same with the test time).
@@ -23,6 +25,7 @@ const testDatePickerIntegration = (startDate, endDate) => {
 };
 
 const testEAIDomain = (testTitle) => {
+  prepare();
   it(testTitle, () => {
     // This is a minimal example on how to generate a path and then intercept the API request.
     const currentTime = moment();
@@ -44,6 +47,7 @@ const testEAIDomain = (testTitle) => {
 };
 
 const testPubDomain = (testTitle) => {
+  prepare();
   it(testTitle, () => {
     // This is a minimal example on how to generate a path and then intercept the API request.
     const currentTime = moment();
@@ -65,6 +69,7 @@ const testPubDomain = (testTitle) => {
 };
 
 describe('DatePicker Integration only', () => {
+  prepare();
   for (let i = 1; i < 6; ++i) {
     // Randomly generate a number from 1 to 100000.
     const randomNumber = Math.floor(Math.random() * 100000) + 1;
@@ -91,6 +96,7 @@ describe('Tree Filter Integration with Pub Domain fields', () => {
 });
 
 describe('Tree Filter Integration with all filter fields', () => {
+  prepare();
   it('API Path is fired correctly.', () => {
     // This is a minimal example on how to generate a path and then intercept the API request.
     const currentTime = moment();

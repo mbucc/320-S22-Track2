@@ -1,41 +1,38 @@
 import {goThroughLogin} from '../../../support/business-process/utility/general';
 import moment from 'moment';
-import {generatePath} from '../../../support/business-process/utility/path-generator';
-import {convertToAPIFormat} from '../../../../utils/business-process/date-options';
-import {BPTreeMockAPI} from '../../../support/business-process/mock-api/tree';
 import {selectTreeItem} from '../../../support/business-process/input/tree-selection';
-import {severityOptions, sortSeverityTags} from '../../../../utils/business-process/severity';
+import {severityOptions} from '../../../../utils/business-process/severity';
+import {interceptGridAPI, interceptTreeAPI} from '../../../support/business-process/utility/intercept';
+import {inputEndDate, inputStartDate} from '../../../support/business-process/input/date-picker';
 
-const testingEAITransactionId = 'eai_acc_server_25781_1';
+const testingEAITransactionId = 'eai-trans-id-mHyeYm-292953';
+const testingTime = '2022-05-08T18:25:00+00:00';
 
-beforeEach(() => {
-  // This is a minimal example on how to generate a path and then intercept the API request.
-  const currentTime = moment();
-  const past30Minutes = currentTime.clone().subtract(30, 'minutes');
-  const defaultPath = generatePath('/businessProcessTree', {
-    'startTime': convertToAPIFormat(past30Minutes),
-    'endTime': convertToAPIFormat(currentTime),
+const prepare = () => {
+  it('Finish page preparation', () => {
+    // This is a minimal example on how to generate a path and then intercept the API request.
+    const currentTime = moment(testingTime);
+    const past = currentTime.clone().subtract(30, 'minutes');
+    interceptTreeAPI({
+      startDate: past,
+      endDate: currentTime,
+    }).as('getTree');
+
+    cy.visit('/business-process');
+    cy.clock(currentTime.toDate().getTime());
+    goThroughLogin();
+
+    inputStartDate(past.format('MM/DD/YYYY HH:mm:ss'));
+    inputEndDate(currentTime.format('MM/DD/YYYY HH:mm:ss'));
   });
-  // IMPORTANT: Intercepting the corresponding API request when there is one.
-  cy.intercept('GET', defaultPath, {
-    statusCode: 200,
-    body: BPTreeMockAPI.getTreeResult({}),
-  }).as('getTree');
-
-  cy.visit('/business-process');
-  cy.clock(currentTime.toDate().getTime());
-  goThroughLogin();
-});
+};
 
 describe('Activity Filter Basic Testing', () => {
+  prepare();
+
   it('Correct API should be request by clicking tree item.', () => {
-    const defaultPath = generatePath('/businessProcessGrid', {
-      'eaiTransactionId': testingEAITransactionId,
-      'severities': sortSeverityTags(severityOptions),
-    });
-    cy.intercept('GET', defaultPath, {
-      statusCode: 200,
-      body: [],
+    interceptGridAPI({
+      eaiTransactionId: testingEAITransactionId,
     }).as('getGrid');
     // Select the corresponding tree item.
     selectTreeItem(testingEAITransactionId);

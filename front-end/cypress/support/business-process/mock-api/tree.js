@@ -8,6 +8,8 @@ import moment from 'moment';
  * @param {moment.Moment} endDate
  * @param {string[]} eaiDomains
  * @param {string[]} pubDomains
+ * @param {number} pageLength
+ * @param {number} pageNumber
  * @return {object}
  */
 function getTreeResult(
@@ -16,9 +18,14 @@ function getTreeResult(
       endDate = moment(),
       eaiDomains = [],
       pubDomains = [],
+      pageLength = 50,
+      pageNumber = 0,
     }
 ) {
   const result = {};
+  let sizeCount = 0;
+  let totalSizeCount = 0;
+  let skipCount = 0;
 
   // Make data into readable JSON object.
   const bpTable = BusinessProcessTable;
@@ -31,11 +38,20 @@ function getTreeResult(
       (pubDomains.length === 0 || pubDomains.includes(bp.pub_domain)) &&
       moment(bp.eai_transaction_create_time).isBetween(startDate, endDate)
     ) {
+      totalSizeCount += 1;
+      if (skipCount < pageNumber * pageLength) {
+        skipCount += 1;
+        return;
+      }
+      if (sizeCount >= pageLength) {
+        return;
+      }
       result[bp.eai_domain] = result[bp.eai_domain] || {};
       result[bp.eai_domain][bp.pub_domain] = result[bp.eai_domain][bp.pub_domain] || {};
       result[bp.eai_domain][bp.pub_domain][bp.business_process] =
           result[bp.eai_domain][bp.pub_domain][bp.business_process] || [];
       result[bp.eai_domain][bp.pub_domain][bp.business_process].push(bp);
+      sizeCount += 1;
     }
   });
 
@@ -57,7 +73,11 @@ function getTreeResult(
   //     });
   //   }
   // });
-  return result;
+
+  return {
+    eaiMap: result,
+    size: totalSizeCount,
+  };
 }
 
 /**

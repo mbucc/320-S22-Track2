@@ -1,7 +1,7 @@
 // input test - testing the dropdown components
 
 
-describe('input test - dropdowns', ()=>{
+describe.skip('input test - dropdowns', ()=>{
   before(()=>{
     cy.visit('http://localhost:3000/log-event/LogEvent');
   });

@@ -9,7 +9,12 @@ import moment from 'moment';
  */
 export const getTreeMap = () => {
   return {
-    onStart: () => [],
+    onStart: () => {
+      return {
+        treeMap: [],
+        size: 0,
+      };
+    },
     onMount: ({setState, setIsLoading}) => {
       setIsLoading(true);
       RequestHandler.get({
@@ -24,11 +29,17 @@ export const getTreeMap = () => {
         handler: {
           200: (data) => {
             setIsLoading(false);
-            setState(unwrapAPI(data));
+            setState({
+              treeMap: unwrapAPI(data.eaiMap),
+              size: data.size,
+            });
           },
           0: () => {
             setIsLoading(false);
-            setState([]);
+            setState({
+              treeMap: [],
+              size: 0,
+            });
           },
         },
       });
@@ -50,7 +61,11 @@ export const getTreeMap = () => {
         return acc;
       }, {});
 
-      setState([]);
+      setState({
+        treeMap: [],
+        size: 0,
+      });
+
       setIsLoading(true);
 
       RequestHandler.get({
@@ -63,11 +78,17 @@ export const getTreeMap = () => {
           200: (data) => {
             setIsLoading(false);
             console.log('API', data);
-            setState(unwrapAPI(data));
+            setState({
+              treeMap: unwrapAPI(data.eaiMap),
+              size: data.size,
+            });
           },
           0: () => {
             setIsLoading(false);
-            setState([]);
+            setState({
+              treeMap: [],
+              size: 0,
+            });
           },
         },
       });

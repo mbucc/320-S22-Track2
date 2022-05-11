@@ -16,7 +16,7 @@ const testingTime = '2022-05-03T21:34:00+00:00';
 
 // Call before every test to prepare the environment.
 const prepare = () => {
-  before(() => {
+  it('Finish page preparation', () => {
     // This is a minimal example on how to generate a path and then intercept the API request.
     const currentTime = moment(testingTime);
     const past30Minutes = currentTime.clone().subtract(30, 'minutes');

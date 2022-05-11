@@ -1,6 +1,6 @@
 // testing the table filtering when the user inputs filters
 
-describe('testing table filters', ()=>{
+describe.skip('testing table filters', ()=>{
   it('inputs filters', ()=>{
     cy.visit('http://localhost:3000/log-event/LogEvent');
 

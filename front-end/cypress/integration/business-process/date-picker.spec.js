@@ -2,12 +2,11 @@
 import {dateOptions} from '../../../utils/business-process/date-options';
 import {goThroughLogin} from '../../support/business-process/utility/general';
 
-before(() => {
-  cy.visit('/business-process');
-  goThroughLogin();
-});
-
 describe('Magic commands is working properly with shortcut commands.', () => {
+  it('Finish page preparation', () => {
+    cy.visit('/business-process');
+    goThroughLogin();
+  });
   it('Support rough date format.', () => {
     const rough1 = '12/20/2021 9am';
     const rough2 = '12/20/2021 9:00';
@@ -142,19 +141,24 @@ describe('Other tests in DatePicker component', () => {
     cy.get('.css-1umqo6f').click(220, 110, {force: true}).click(220, 110, {force: true});
     cy.get('#bp-tree-filter-start-date-picker-field').should('have.value', test_date.toLocaleDateString('en-US', dateOptions));
   });
+
   it('Support DLS correctly.', () => {
     cy.get('#bp-tree-filter-start-date-picker-field').clear();
     cy.get('#bp-tree-filter-start-date-picker-field').type('11/07/2021 1am').type('{enter}');
+    cy.wait(500);
     cy.get('#bp-date-picker-conflict-option-earlier').should('exist');
     cy.get('#bp-date-picker-conflict-option-later').should('exist');
-    cy.get('#bp-date-picker-conflict-option-later').click();
+    cy.get('#bp-date-picker-conflict-option-later').click({force: true});
+  });
 
+  it('Support DLS correctly. 2', () => {
     cy.get('#bp-tree-filter-end-date-picker-field').clear().type('11/07/2021 1am').type('{enter}');
     cy.get('#bp-tree-filter-apply-button').click();
     cy.get('.icon-tabler-alert-circle').should('exist');
+  });
 
+  it.skip('Support DLS forward correctly.', () => {
     cy.get('#bp-tree-filter-end-date-picker-field').clear();
     cy.get('#bp-tree-filter-end-date-picker-field').type('3/14/2021 2:30 AM').type('{enter}').should('have.value', '3/14/2021, 3:30:00 AM');
   });
 });
-

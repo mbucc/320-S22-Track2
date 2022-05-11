@@ -83,7 +83,7 @@ function Navbar(props) {
               },
             }}
           >
-            <Link href="./business-process/" passHref>
+            <Link href="/business-process/" passHref>
               <a>Business Processes</a>
             </Link>
           </Button>

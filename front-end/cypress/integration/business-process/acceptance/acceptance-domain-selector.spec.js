@@ -28,10 +28,10 @@ const testingEAITransactionId = 'eai-trans-id-rgewll-158495';
 const prepare = () => {
   before(() => {
     const currentTime = moment(testingTime);
+    interceptEAIDomainList();
     cy.visit('/business-process');
     cy.clock(moment(testingTime).utc().toDate().getTime());
-    goThroughLogin();
-    interceptEAIDomainList(); //intercept first
+    goThroughLogin(); //intercept first
 });
 };
 

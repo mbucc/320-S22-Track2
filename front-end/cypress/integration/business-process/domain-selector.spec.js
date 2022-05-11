@@ -1,11 +1,21 @@
 import {goThroughLogin} from '../../support/business-process/utility/general';
 import {domainSelection} from '../../support/business-process/input/domain-selection';
+import {generatePath} from '../../support/business-process/utility/path-generator';
 
 // TODO: Write tests for domain selectors.
 before(() => {
+  interceptEAIDomainList();
   cy.visit('/business-process');
   goThroughLogin();
 });
+
+const interceptEAIDomainList = () => {
+  const path = generatePath('/eaiDomains');
+  return cy.intercept('GET', path, {
+    statusCode: 200,
+    body: ['111', '222', '333', '444', '555', '666'],
+  });
+};
 
 const selectEAIDomain = (count) => {
   return domainSelection(count, '#bp-tree-filter-eai-domain');
@@ -139,5 +149,23 @@ describe('Activities Filter\'s Business Domain field is working properly.', () =
         }
       });
     });
+  });
+});
+
+describe('If there are more than 5 items selected at once, the field will acknowledge that without displaying more than 5 items.', () => {
+  it('If more than 5 items are selected, the information indicates that more than 5 items are selected while only showing 5 items.', () => {
+    cy.visit('/business-process');
+    goThroughLogin();
+    cy.get('#bp-tree-filter-eai-domain-selector').click();
+    let i = 0;
+    cy.get('#bp-tree-filter-eai-domain-selector-popper-list').children().each((result) => {
+      i++;
+      result.click();
+    });
+    if (i > 5) {
+      // TODO check to see if the label reads correctly
+    } else {
+      expect(true).to.eq(true); // couldn't test due to there not being enough items
+    }
   });
 });

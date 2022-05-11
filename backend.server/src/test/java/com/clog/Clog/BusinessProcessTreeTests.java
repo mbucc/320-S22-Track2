@@ -146,9 +146,8 @@ public class BusinessProcessTreeTests {
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
         String jsonResponse = response.getResponse().getContentAsString();
-        JSONObject json = new JSONObject(jsonResponse);
-        boolean flag = compareObjects(json, outerData2);
-        Assert.assertTrue(flag);
+        Assert.assertEquals(jsonResponse, "{\"eaiMap\":{\"EAI_DOMAIN_1\":{\"CRM_SERVER\":{\"CRM_PROCESS\":[{\"name\":\"CRM_PROCESS\",\"key1_app_context_name\":\"CRM_CONTEXT\",\"key1_app_context_value\":\"CRM_VALUE\",\"key2_app_context_name\":\"EFFECTIVE_DATE\",\"key2_app_context_value\":\"03/01/2022 05:00:00\",\"eai_transaction_id\":\"eai_crm_server_111111\",\"severity\":10,\"eai_transaction_create_time\":\"2020-12-12T06:24:23.000+00:00\"}]}}},\"size\":1}");
+        
     }
 
     @Test
@@ -187,9 +186,8 @@ public class BusinessProcessTreeTests {
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
         String jsonResponse = response.getResponse().getContentAsString();
-        JSONObject json = new JSONObject(jsonResponse);
-        boolean flag = compareObjects(json, outerData2);
-        Assert.assertTrue(flag);
+        Assert.assertEquals(jsonResponse, "{\"eaiMap\":{\"EAI_DOMAIN_1\":{\"CRM_SERVER\":{\"CRM_PROCESS\":[{\"name\":\"CRM_PROCESS\",\"key1_app_context_name\":\"CRM_CONTEXT\",\"key1_app_context_value\":\"CRM_VALUE\",\"key2_app_context_name\":\"EFFECTIVE_DATE\",\"key2_app_context_value\":\"03/01/2022 05:00:00\",\"eai_transaction_id\":\"eai_crm_server_111111\",\"severity\":10,\"eai_transaction_create_time\":\"2020-12-12T06:24:23.000+00:00\"}]}}},\"size\":1}");
+
     }
 
     @Test
@@ -203,9 +201,8 @@ public class BusinessProcessTreeTests {
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
         String jsonResponse = response.getResponse().getContentAsString();
-        JSONObject json = new JSONObject(jsonResponse);
-        boolean flag = compareObjects(json, outerData2);
-        Assert.assertTrue(flag);
+        Assert.assertEquals(jsonResponse, "{\"eaiMap\":{\"EAI_DOMAIN_1\":{\"CRM_SERVER\":{\"CRM_PROCESS\":[{\"name\":\"CRM_PROCESS\",\"key1_app_context_name\":\"CRM_CONTEXT\",\"key1_app_context_value\":\"CRM_VALUE\",\"key2_app_context_name\":\"EFFECTIVE_DATE\",\"key2_app_context_value\":\"03/01/2022 05:00:00\",\"eai_transaction_id\":\"eai_crm_server_111111\",\"severity\":10,\"eai_transaction_create_time\":\"2020-12-12T06:24:23.000+00:00\"}]}}},\"size\":1}");
+
     }
 
     @Test
@@ -219,9 +216,7 @@ public class BusinessProcessTreeTests {
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
         String jsonResponse = response.getResponse().getContentAsString();
-        JSONObject json = new JSONObject(jsonResponse);
-        boolean flag = compareObjects(json, outerData2);
-        Assert.assertTrue(flag);
+        Assert.assertEquals(jsonResponse, "{\"eaiMap\":{\"EAI_DOMAIN_1\":{\"CRM_SERVER\":{\"CRM_PROCESS\":[{\"name\":\"CRM_PROCESS\",\"key1_app_context_name\":\"CRM_CONTEXT\",\"key1_app_context_value\":\"CRM_VALUE\",\"key2_app_context_name\":\"EFFECTIVE_DATE\",\"key2_app_context_value\":\"03/01/2022 05:00:00\",\"eai_transaction_id\":\"eai_crm_server_111111\",\"severity\":10,\"eai_transaction_create_time\":\"2020-12-12T06:24:23.000+00:00\"}]}}},\"size\":1}");
     }
 
     @Test
@@ -236,9 +231,8 @@ public class BusinessProcessTreeTests {
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
         String jsonResponse = response.getResponse().getContentAsString();
-        JSONObject json = new JSONObject(jsonResponse);
-        boolean flag = compareObjects(json, outerData2);
-        Assert.assertTrue(flag);
+        Assert.assertEquals(jsonResponse, "{\"eaiMap\":{\"EAI_DOMAIN_1\":{\"CRM_SERVER\":{\"CRM_PROCESS\":[{\"name\":\"CRM_PROCESS\",\"key1_app_context_name\":\"CRM_CONTEXT\",\"key1_app_context_value\":\"CRM_VALUE\",\"key2_app_context_name\":\"EFFECTIVE_DATE\",\"key2_app_context_value\":\"03/01/2022 05:00:00\",\"eai_transaction_id\":\"eai_crm_server_111111\",\"severity\":10,\"eai_transaction_create_time\":\"2020-12-12T06:24:23.000+00:00\"}]}}},\"size\":1}");
+
     }
 
     @Test

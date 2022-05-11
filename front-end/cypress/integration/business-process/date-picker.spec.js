@@ -141,17 +141,23 @@ describe('Other tests in DatePicker component', () => {
     cy.get('.css-1umqo6f').click(220, 110, {force: true}).click(220, 110, {force: true});
     cy.get('#bp-tree-filter-start-date-picker-field').should('have.value', test_date.toLocaleDateString('en-US', dateOptions));
   });
+
   it('Support DLS correctly.', () => {
     cy.get('#bp-tree-filter-start-date-picker-field').clear();
     cy.get('#bp-tree-filter-start-date-picker-field').type('11/07/2021 1am').type('{enter}');
+    cy.wait(500);
     cy.get('#bp-date-picker-conflict-option-earlier').should('exist');
     cy.get('#bp-date-picker-conflict-option-later').should('exist');
-    cy.get('#bp-date-picker-conflict-option-later').click();
+    cy.get('#bp-date-picker-conflict-option-later').click({force: true});
+  });
 
+  it('Support DLS correctly. 2', () => {
     cy.get('#bp-tree-filter-end-date-picker-field').clear().type('11/07/2021 1am').type('{enter}');
     cy.get('#bp-tree-filter-apply-button').click();
     cy.get('.icon-tabler-alert-circle').should('exist');
+  });
 
+  it('Support DLS forward correctly.', () => {
     cy.get('#bp-tree-filter-end-date-picker-field').clear();
     cy.get('#bp-tree-filter-end-date-picker-field').type('3/14/2021 2:30 AM').type('{enter}').should('have.value', '3/14/2021, 3:30:00 AM');
   });

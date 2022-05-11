@@ -22,7 +22,7 @@ const getStartDateByPopper = () => {
   cy.get('.css-1umqo6f').click(160, 30, {force: true}).click(110, 5, {force: true});
 };
 
-describe('Acceptance Test of User 1', () => {
+describe.skip('Acceptance Test of User 1', () => {
   it('Finish page preparation', () => {
     cy.visit('/business-process');
     cy.clock(moment(testingTime).utc().toDate().getTime());

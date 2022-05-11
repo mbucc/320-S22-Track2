@@ -4,11 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Before;
@@ -17,20 +12,11 @@ import org.json.JSONArray;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import static org.hamcrest.Matchers.*;
 
@@ -40,26 +26,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.clog.Clog.LogDetailFiles.LogDetail;
-import com.clog.Clog.LogDetailFiles.LogDetailRepository;
-import com.clog.Clog.LogEventFiles.LogEvent;
-import com.clog.Clog.LogEventFiles.LogEventFilterSpecification;
-import com.clog.Clog.LogEventFiles.LogEventRepository;
-import com.clog.Clog.LogEventFiles.LogEventsSearchCriteria;
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.jayway.jsonpath.JsonPath;
-import com.mysql.cj.xdevapi.JsonArray;
 
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-// @ContextConfiguration
-// @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-// DbUnitTestExecutionListener.class })
 @AutoConfigureMockMvc
 public class LogEventRepositoryTests {
 
@@ -222,23 +192,6 @@ public class LogEventRepositoryTests {
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$", hasSize(2)))
                                 .andReturn();
-
-                // String jsonResponse = response.getResponse().getContentAsString();
-                // JSONArray responseJsonObj = new JSONArray(jsonResponse);
-                // String a = responseJsonObj.getJSONObject(0).get("creation_time").toString();
-
-                // DateFormat idf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                // idf.setTimeZone(java.util.TimeZone.getTimeZone("GMT"));
-                // System.out.println(idf);
-
-                // Input
-                
-
-
-                
-
-
-
                 
                 String jsonResponse = response.getResponse().getContentAsString();
                 JSONArray responseJsonObj = new JSONArray(jsonResponse);
@@ -302,29 +255,6 @@ public class LogEventRepositoryTests {
 
                 Assert.assertTrue(flag);
         }
-
-        // @Test
-        // public void testSearchByPriorityHigh() throws Exception {
-        // MvcResult response = this.mockMvc.perform(get("/clog/logEvents")
-        // .param("priorities", "high")
-        // .param("startTime", "2020-12-12 01:24:20")
-        // .param("endTime", "2020-12-12 01:24:25"))
-        // // .andDo(print())
-        // .andExpect(status().isOk())
-        // // .andExpect(jsonPath("$", hasSize(1)))
-        // // .andExpect(content().contentType("application/json"))
-        // .andReturn();
-        // boolean flag1 = true;
-        // String jsonResponse = response.getResponse().getContentAsString();
-        // JSONArray responseJsonObj = new JSONArray(jsonResponse);
-        // // System.out.println(jsonResponse);
-        // // Assert.assertEquals(array1.equals(responseJsonObj), true);
-
-        // boolean flag = compareObjects(responseJsonObj.getJSONObject(0),
-        // array1.getJSONObject(0));
-
-        // Assert.assertTrue(true);
-        // }
 
         @Test
         public void testSearchBySeveritiesInfo() throws Exception {

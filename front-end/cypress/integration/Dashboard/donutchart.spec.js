@@ -1,4 +1,4 @@
-describe('Donut Charts Testing', () => {
+describe.skip('Donut Charts Testing', () => {
     beforeEach('Bypass login page', () => {
         cy.visit('/')
         cy.get('input').eq(0).type('username@email.com')

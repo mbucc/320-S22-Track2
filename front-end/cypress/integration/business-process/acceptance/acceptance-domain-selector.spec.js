@@ -26,13 +26,13 @@ const testingTime = '2022-05-09T02:10:32+00:00';
 const testingEAITransactionId = 'eai-trans-id-rgewll-158495';
 
 const prepare = () => {
-  before(() => {
+  it('Finish page preparation', () => {
     const currentTime = moment(testingTime);
     interceptEAIDomainList();
     cy.visit('/business-process');
+    interceptEAIDomainList();
     cy.clock(moment(testingTime).utc().toDate().getTime());
-    goThroughLogin(); //intercept first
-});
+  });
 };
 
 describe('Acceptance Test of User 2', () => {

@@ -61,8 +61,8 @@ export const selectSpecificDomain = (id, domainName) => {
   cy.get(boxSelector).click();
   cy.then(() => false).as('isSpecificDomainSelected');
   cy.get(listSelector)
-      .children().each((index, element) => {
-        cy.wrap(element).get(' & > span').invoke('text').then((text) => {
+      .children().each((element, index) => {
+        cy.wrap(element).get(`${listSelector} > :nth-child(${index+1}) > span`).invoke('text').then((text) => {
           if (text === domainName) {
             cy.wrap(element).click();
             cy.then(() => true).as('isSpecificDomainSelected');

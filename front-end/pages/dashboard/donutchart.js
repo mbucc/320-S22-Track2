@@ -22,21 +22,21 @@ function DonutCharts(props) {
     const values = [];
     const arr = [];
     let ind = 1;
-    if(type === 'Warning'){
+    if (type === 'Warning') {
       ind = 0;
     }
-    for(let el in props.bp){
+    for (const el in props.bp) {
       if (props.bp.hasOwnProperty(el)) {
         arr.push([el, props.bp[el][ind]]);
       }
     }
-    arr.sort((a, b) => b[1] - a[1])
-    for (let i = 0; i < Math.min(5,arr.length); i++) {
+    arr.sort((a, b) => b[1] - a[1]);
+    for (let i = 0; i < Math.min(5, arr.length); i++) {
       labels.push(arr[i][0]);
       values.push(arr[i][1]);
     }
-    console.log("labels are ",labels)
-    console.log("values are ",values)
+    console.log('labels are ', labels);
+    console.log('values are ', values);
     // return {'labels': labels, 'values': values};
 
     return {'labels': labels, 'values': values};

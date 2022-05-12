@@ -18,6 +18,7 @@ function DonutCharts(props) {
     props.toggleBP(filters);
   };
   const filterData = (type) => {
+    const m = {'ACCOUNT':'accounting_app', 'OPER':'operations_app', 'CRM':'crm_app'}
     const labels = [];
     const values = [];
     const arr = [];
@@ -27,7 +28,13 @@ function DonutCharts(props) {
     }
     for (const el in props.bp) {
       if (props.bp.hasOwnProperty(el)) {
-        arr.push([el, props.bp[el][ind]]);
+        if(m.hasOwnProperty(el)){
+          arr.push([m[el], props.bp[el][ind]]);
+        }
+        else{
+          arr.push([el, props.bp[el][ind]]);
+        }
+          
       }
     }
     arr.sort((a, b) => b[1] - a[1]);
